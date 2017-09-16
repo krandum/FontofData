@@ -1,1 +1,124 @@
-<body>This is the third version</body>
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="wrapper">
+	<table id="map">
+		<tr>
+			<td class="node" id="1"><div class="elem red">
+				<div class="num">1</div></div></td>
+			<td class="node" id="2"><div class="elem green">
+				<div class="num">2</div></div></td>
+			<td class="node" id="3"><div class="elem blue">
+				<div class="num">3</div></div></td>
+			<td class="node" id="4"><div class="elem">
+				<div class="num">4</div></div></td>
+			<td class="node" id="5"><div class="elem">
+				<div class="num">5</div></div></td>
+			<td class="node" id="6"><div class="elem">
+				<div class="num">6</div></div></td>
+			<td class="node" id="7"><div class="elem">
+				<div class="num">7</div></div></td>
+			<td class="node" id="8"><div class="elem">
+				<div class="num">8</div></div></td>
+		</tr>
+		<tr>
+			<td class="node" id="9"><div class="elem">
+				<div class="num">9</div></div></td>
+			<td class="node" id="10"><div class="elem">
+				<div class="num">10</div></div></td>
+			<td class="node" id="11"><div class="elem">
+				<div class="num">11</div></div></td>
+			<td class="node" id="12"><div class="elem">
+				<div class="num">12</div></div></td>
+			<td class="node" id="13"><div class="elem">
+				<div class="num">13</div></div></td>
+			<td class="node" id="14"><div class="elem">
+				<div class="num">14</div></div></td>
+			<td class="node" id="15"><div class="elem">
+				<div class="num">15</div></div></td>
+			<td class="node" id="16"><div class="elem">
+				<div class="num">16</div></div></td>
+		</tr>
+		<tr>
+			<td class="node" id="17"><div class="elem">
+				<div class="num">17</div></div></td>
+			<td class="node" id="18"><div class="elem">
+				<div class="num">18</div></div></td>
+			<td class="node" id="19"><div class="elem">
+				<div class="num">19</div></div></td>
+			<td class="node" id="20"><div class="elem">
+				<div class="num">20</div></div></td>
+			<td class="node" id="21"><div class="elem">
+				<div class="num">21</div></div></td>
+			<td class="node" id="22"><div class="elem">
+				<div class="num">22</div></div></td>
+			<td class="node" id="23"><div class="elem">
+				<div class="num">23</div></div></td>
+			<td class="node" id="24"><div class="elem">
+				<div class="num">24</div></div></td>
+		</tr>
+		<tr>
+			<td class="node" id="25"><div class="elem">
+				<div class="num">25</div></div></td>
+			<td class="node" id="26"><div class="elem">
+				<div class="num">26</div></div></td>
+			<td class="node" id="27"><div class="elem">
+				<div class="num">27</div></div></td>
+			<td class="node" id="28"><div class="elem">
+				<div class="num">28</div></div></td>
+			<td class="node" id="29"><div class="elem">
+				<div class="num">29</div></div></td>
+			<td class="node" id="30"><div class="elem">
+				<div class="num">30</div></div></td>
+			<td class="node" id="31"><div class="elem">
+				<div class="num">31</div></div></td>
+			<td class="node" id="32"><div class="elem">
+				<div class="num">32</div></div></td>
+		</tr>
+	</table>
+	</div>
+	<script>
+
+var selectedNodes = [];
+
+call_event(node1, node2) {
+}
+
+var i = 1;
+while (i <= 32)
+{
+	let name = i.toString();
+	let node = document.getElementById(name);
+	let elem = node.childNodes[0];
+	node.addEventListener("click", function() {
+		if (elem.classList.contains("selected"))
+		{
+			elem.classList.remove("selected");
+			var index = selectedNodes.indexOf(elem);
+			selectedNodes.splice(index, 1);
+		}
+		else
+		{
+			elem.className += " selected";
+			selectedNodes.push(elem);
+			if (selectedNodes.length >= 2)
+			{
+				call_event(selectedNodes[0].parentElement,
+					selectedNodes[1].parentElement);
+				setTimeout(function() {
+					selectedNodes.forEach(function(e) {
+						e.classList.remove("selected");
+					});
+					selectedNodes.splice(0, selectedNodes.length);
+				}, 500);
+			}
+		}
+	});
+	i++;
+}
+
+	</script
+</body></html>
