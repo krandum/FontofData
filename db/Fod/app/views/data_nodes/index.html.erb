@@ -1,0 +1,31 @@
+<h1>DataNodes#index</h1>
+<p>Find me in app/views/data_nodes/index.html.erb</p>
+
+<% if user_signed_in? %>
+	<p>welcome <%= current_user.name %></p>
+	<%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
+<% else %>
+	<p>not signed in</p>
+	<%= link_to "Sign In", new_user_session_path %>
+<% end %>
+
+<p># of nodes: <%= @data_nodes.count %></p><br>
+<table>
+	<thead>
+		<tr>
+			<th>id</th>
+			<th>faction</th>
+			<th>owner</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @data_nodes.each do |data_node| %>
+			<tr>
+				<th><%= data_node.id %></th>
+				<th><%= data_node.faction %></th>
+				<th><%= data_node.user.email %></th>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+<%= link_to 'New node', new_data_node_path %>

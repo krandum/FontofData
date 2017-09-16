@@ -1,0 +1,25 @@
+<%= form_for(@date_node) do |f| %>
+  <% if @date_node.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@date_node.errors.count, "error") %> prohibited this date_node from being saved:</h2>
+
+      <ul>
+      <% @date_node.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

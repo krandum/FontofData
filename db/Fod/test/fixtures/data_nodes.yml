@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: 1
+  faction: 1
+  ownder: 1
+
+two:
+  value: 1
+  faction: 1
+  ownder: 1
