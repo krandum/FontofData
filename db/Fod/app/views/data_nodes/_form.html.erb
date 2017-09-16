@@ -1,10 +1,10 @@
-<%= form_for(@date_node) do |f| %>
-  <% if @date_node.errors.any? %>
+<%= form_for(@data_node) do |f| %>
+  <% if @data_node.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@date_node.errors.count, "error") %> prohibited this date_node from being saved:</h2>
+      <h2><%= pluralize(@data_node.errors.count, "error") %> prohibited this data_node from being saved:</h2>
 
       <ul>
-      <% @date_node.errors.full_messages.each do |message| %>
+      <% @data_node.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -12,12 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    <%= f.label :value %><br>
+    <%= f.number_field :value %>
   </div>
   <div class="field">
-    <%= f.label :body %><br>
-    <%= f.text_area :body %>
+    <%= f.label :faction_id %><br>
+    <%= f.number_field :faction_id %>
   </div>
   <div class="actions">
     <%= f.submit %>

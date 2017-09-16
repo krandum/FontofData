@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
+  resources :factions
   resources :data_nodes
   # get 'data_nodes/index'
   # get 'data_nodes/show'

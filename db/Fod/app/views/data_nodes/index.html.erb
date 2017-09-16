@@ -1,31 +1,29 @@
-<h1>DataNodes#index</h1>
-<p>Find me in app/views/data_nodes/index.html.erb</p>
+<p id="notice"><%= notice %></p>
 
-<% if user_signed_in? %>
-	<p>welcome <%= current_user.name %></p>
-	<%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
-<% else %>
-	<p>not signed in</p>
-	<%= link_to "Sign In", new_user_session_path %>
-<% end %>
+<h1>Listing Data Nodes</h1>
 
-<p># of nodes: <%= @data_nodes.count %></p><br>
 <table>
-	<thead>
-		<tr>
-			<th>id</th>
-			<th>faction</th>
-			<th>owner</th>
-		</tr>
-	</thead>
-	<tbody>
-		<% @data_nodes.each do |data_node| %>
-			<tr>
-				<th><%= data_node.id %></th>
-				<th><%= data_node.faction %></th>
-				<th><%= data_node.user.email %></th>
-			</tr>
-		<% end %>
-	</tbody>
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Faction</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @data_nodes.each do |data_node| %>
+      <tr>
+        <td><%= data_node.value %></td>
+        <td><%= data_node.faction_id %></td>
+        <td><%= link_to 'Show', data_node %></td>
+        <td><%= link_to 'Edit', edit_data_node_path(data_node) %></td>
+        <td><%= link_to 'Destroy', data_node, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-<%= link_to 'New node', new_data_node_path %>
+
+<br>
+
+<%= link_to 'New Data node', new_data_node_path %>

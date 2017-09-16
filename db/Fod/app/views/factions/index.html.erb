@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Factions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Faction name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @factions.each do |faction| %>
+      <tr>
+        <td><%= faction.faction_name %></td>
+        <td><%= link_to 'Show', faction %></td>
+        <td><%= link_to 'Edit', edit_faction_path(faction) %></td>
+        <td><%= link_to 'Destroy', faction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Faction', new_faction_path %>

@@ -11,18 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170916030510) do
+ActiveRecord::Schema.define(version: 20170916084435) do
 
   create_table "data_nodes", force: :cascade do |t|
     t.integer  "value"
-    t.integer  "faction"
-    t.integer  "ownder"
+    t.integer  "faction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "user_id"
+  end
+
+  create_table "factions", force: :cascade do |t|
+    t.string   "faction_name"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "users", force: :cascade do |t|
+    t.string   "username"
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -33,8 +38,7 @@ ActiveRecord::Schema.define(version: 20170916030510) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "name"
-    t.integer  "faction"
+    t.integer  "faction_id"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
   end

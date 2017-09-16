@@ -1,2 +1,14 @@
-<h1>DataNodes#show</h1>
-<p>Find me in app/views/data_nodes/show.html.erb</p>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @data_node.value %>
+</p>
+
+<p>
+  <strong>Faction:</strong>
+  <%= @data_node.faction_id %>
+</p>
+
+<%= link_to 'Edit', edit_data_node_path(@data_node) %> |
+<%= link_to 'Back', data_nodes_path %>
