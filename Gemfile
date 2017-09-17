@@ -46,3 +46,5 @@ group :development do
 end
 
 gem 'devise'
+
+gem 'passenger', '>= 5.0.25', require: 'phusion_passenger/rack_handler'
