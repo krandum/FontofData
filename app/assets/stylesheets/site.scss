@@ -1,3 +1,146 @@
 // Place all the styles related to the site controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+html {
+	height: 90%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	height: 100%;
+	width: 95%;
+	left: 2.5%;
+	background-color: gray;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transform: translateZ(0);
+}
+
+.wrapper {
+	width: 1200px;
+	height: 600px;
+	position: relative;
+}
+
+#map {
+	width: 95%;
+	height: 95%;
+	margin: 2.5%;
+	position: absolute;
+	border-spacing: 12px;
+	padding: 0px;
+	text-align: center;
+}
+
+.node {
+	width: 20px;
+	height: 20%;
+	border-radius: 150px;
+	position: relative;
+}
+
+.elem {
+	border-radius: 150px;
+	border-style: solid;
+	border-color: #2f2f2f;
+	border-width: 6px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	font-size: 2vw;
+	pointer-events: none;
+	cursor: default;
+	transition: all 200ms ease;
+	background-color: rgba(230,230,230, 0.8);
+}
+
+div.small {
+	border-width: 3px;
+	font-size: 1vw;
+	z-index: 4;
+}
+
+div.red {
+	border-color: #5f2f2f;
+	background-color: rgba(255, 80, 70, 0.8);
+}
+
+div.blue {
+	border-color: #2f2f5f;
+	background-color: rgba(70, 80, 255, 0.8);
+}
+
+div.green {
+	border-color: #2f5f2f;
+	background-color: rgba(70, 255, 80, 0.8);
+}
+
+div.selected {
+	border-color: #FFFFFF;
+	transform: scale(1.3, 1.3);
+	z-index: 1;
+}
+
+.option {
+	border-radius: 1em;
+	display: none;
+	position: absolute;
+	width: 25%;
+	height: 25%;
+	z-index: 3;
+}
+
+div.mywrapp {
+	position: relative;
+}
+
+div.first {
+	top: 37.5%;
+	left: 37.5%;
+	transform: rotate(90deg) translate(260%) rotate(-90deg);
+}
+
+div.second {
+	top: 37.5%;
+	left: 37.5%;
+	transform: rotate(135deg) translate(260%) rotate(-135deg);
+}
+
+div.third {
+	top: 37.5%;
+	left: 37.5%;
+	transform: rotate(180deg) translate(260%) rotate(-180deg);
+}
+
+span.mid {
+	line-height: 100%;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.num {
+	position: absolute;
+	top: 35%;
+	left: 0px;
+	right: 0px;
+	margin-top: -4px;
+	font-weight: bold;
+	line-height: 1;
+	font-size: 3vw;
+}
+
+.option:hover .small {
+	border-color: #FFFFFF;
+	transform: scale(1.3, 1.3);
+	z-index: 5;
+}
+
+.node:hover .elem:not(.small) {
+	transform: scale(1.3, 1.3);
+	z-index: 2;
+}

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   Rails.application.routes.draw do
   get 'site/index'
 
-    devise_for :users, 
+    devise_for :users,
      controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
   end
 
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   # delete 'data_nodes/destroy'
 
   get '/', to: 'data_nodes#index'
-  root 'data_nodes#index'
+  root 'site#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
