@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @interaction.user %>
+</p>
+
+<p>
+  <strong>Effect:</strong>
+  <%= @interaction.effect %>
+</p>
+
+<p>
+  <strong>Origin node:</strong>
+  <%= @interaction.origin_node %>
+</p>
+
+<p>
+  <strong>Target node:</strong>
+  <%= @interaction.target_node %>
+</p>
+
+<%= link_to 'Edit', edit_interaction_path(@interaction) %> |
+<%= link_to 'Back', interactions_path %>

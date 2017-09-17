@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :interactions
+  resources :effects
   devise_for :users
   resources :factions
   resources :data_nodes

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  effect: one
+  origin_node: one
+  target_node: one
+
+two:
+  user: two
+  effect: two
+  origin_node: two
+  target_node: two

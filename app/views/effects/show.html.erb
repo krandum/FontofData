@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Effect name:</strong>
+  <%= @effect.effect_name %>
+</p>
+
+<p>
+  <strong>Clearence value:</strong>
+  <%= @effect.clearence_value %>
+</p>
+
+<%= link_to 'Edit', edit_effect_path(@effect) %> |
+<%= link_to 'Back', effects_path %>

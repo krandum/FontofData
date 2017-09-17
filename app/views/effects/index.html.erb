@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Effects</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Effect name</th>
+      <th>Clearence value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @effects.each do |effect| %>
+      <tr>
+        <td><%= effect.effect_name %></td>
+        <td><%= effect.clearence_value %></td>
+        <td><%= link_to 'Show', effect %></td>
+        <td><%= link_to 'Edit', edit_effect_path(effect) %></td>
+        <td><%= link_to 'Destroy', effect, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Effect', new_effect_path %>
