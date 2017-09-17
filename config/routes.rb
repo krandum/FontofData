@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
+  get 'site/index'
+
   resources :interactions
   resources :effects
   resources :factions
   resources :data_nodes
 
   Rails.application.routes.draw do
+  get 'site/index'
+
     devise_for :users, 
      controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
   end

@@ -1,0 +1,381 @@
+D, [2017-09-17T10:44:22.998529 #10306] DEBUG -- :   [1m[35m (8.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+D, [2017-09-17T10:44:23.008165 #10306] DEBUG -- :   [1m[35m (4.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+D, [2017-09-17T10:44:23.028628 #10306] DEBUG -- :   [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+I, [2017-09-17T10:44:23.035889 #10306]  INFO -- : Migrating to DeviseCreateUsers (20170916020434)
+D, [2017-09-17T10:44:23.039011 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:44:23.041727 #10306] DEBUG -- :   [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "faction_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+D, [2017-09-17T10:44:23.043177 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[34mselect sqlite_version(*)[0m
+D, [2017-09-17T10:44:23.044014 #10306] DEBUG -- :   [1m[35m (0.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+D, [2017-09-17T10:44:23.044790 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+D, [2017-09-17T10:44:23.045956 #10306] DEBUG -- :   [1m[35m (0.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+D, [2017-09-17T10:44:23.050418 #10306] DEBUG -- :   [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170916020434"]]
+D, [2017-09-17T10:44:23.054670 #10306] DEBUG -- :   [1m[35m (3.9ms)[0m  [1m[36mcommit transaction[0m
+I, [2017-09-17T10:44:23.054816 #10306]  INFO -- : Migrating to CreateDataNodes (20170916084042)
+D, [2017-09-17T10:44:23.056059 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:44:23.057290 #10306] DEBUG -- :   [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "data_nodes" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "value" integer, "faction_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+D, [2017-09-17T10:44:23.059208 #10306] DEBUG -- :   [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170916084042"]]
+D, [2017-09-17T10:44:23.063150 #10306] DEBUG -- :   [1m[35m (3.6ms)[0m  [1m[36mcommit transaction[0m
+I, [2017-09-17T10:44:23.063342 #10306]  INFO -- : Migrating to CreateFactions (20170916084435)
+D, [2017-09-17T10:44:23.064802 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:44:23.065976 #10306] DEBUG -- :   [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "factions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "faction_name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+D, [2017-09-17T10:44:23.068288 #10306] DEBUG -- :   [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170916084435"]]
+D, [2017-09-17T10:44:23.071259 #10306] DEBUG -- :   [1m[35m (2.7ms)[0m  [1m[36mcommit transaction[0m
+I, [2017-09-17T10:44:23.071369 #10306]  INFO -- : Migrating to CreateEffects (20170917020353)
+D, [2017-09-17T10:44:23.071969 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:44:23.073495 #10306] DEBUG -- :   [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "effects" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "effect_name" varchar, "clearence_value" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+D, [2017-09-17T10:44:23.074442 #10306] DEBUG -- :   [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170917020353"]]
+D, [2017-09-17T10:44:23.077269 #10306] DEBUG -- :   [1m[35m (2.6ms)[0m  [1m[36mcommit transaction[0m
+I, [2017-09-17T10:44:23.077368 #10306]  INFO -- : Migrating to CreateInteractions (20170917050457)
+D, [2017-09-17T10:44:23.078474 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:44:23.080376 #10306] DEBUG -- :   [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "interactions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "effect_id" integer, "origin_node_id" integer, "target_node_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+D, [2017-09-17T10:44:23.081125 #10306] DEBUG -- :   [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_interactions_on_user_id" ON "interactions" ("user_id")[0m
+D, [2017-09-17T10:44:23.081749 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_interactions_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_interactions_on_user_id' AND type='index'
+[0m
+D, [2017-09-17T10:44:23.082874 #10306] DEBUG -- :   [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_interactions_on_effect_id" ON "interactions" ("effect_id")[0m
+D, [2017-09-17T10:44:23.083478 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_interactions_on_effect_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_interactions_on_effect_id' AND type='index'
+[0m
+D, [2017-09-17T10:44:23.083900 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_interactions_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_interactions_on_user_id' AND type='index'
+[0m
+D, [2017-09-17T10:44:23.084408 #10306] DEBUG -- :   [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_interactions_on_origin_node_id" ON "interactions" ("origin_node_id")[0m
+D, [2017-09-17T10:44:23.086291 #10306] DEBUG -- :   [1m[35m (1.4ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_interactions_on_origin_node_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_interactions_on_origin_node_id' AND type='index'
+[0m
+D, [2017-09-17T10:44:23.086714 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_interactions_on_effect_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_interactions_on_effect_id' AND type='index'
+[0m
+D, [2017-09-17T10:44:23.087115 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_interactions_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_interactions_on_user_id' AND type='index'
+[0m
+D, [2017-09-17T10:44:23.087626 #10306] DEBUG -- :   [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_interactions_on_target_node_id" ON "interactions" ("target_node_id")[0m
+D, [2017-09-17T10:44:23.088769 #10306] DEBUG -- :   [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170917050457"]]
+D, [2017-09-17T10:44:23.092640 #10306] DEBUG -- :   [1m[35m (3.6ms)[0m  [1m[36mcommit transaction[0m
+D, [2017-09-17T10:44:23.095789 #10306] DEBUG -- :   [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+D, [2017-09-17T10:44:23.109663 #10306] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:44:23.111724 #10306] DEBUG -- :   [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "production"], ["created_at", "2017-09-17 10:44:23.110161"], ["updated_at", "2017-09-17 10:44:23.110161"]]
+D, [2017-09-17T10:44:23.114618 #10306] DEBUG -- :   [1m[35m (2.6ms)[0m  [1m[36mcommit transaction[0m
+D, [2017-09-17T10:45:52.913935 #10402] DEBUG -- :   [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+D, [2017-09-17T10:45:52.921824 #10402] DEBUG -- :   [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+D, [2017-09-17T10:45:52.926169 #10402] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:45:52.927463 #10402] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+I, [2017-09-17T10:53:28.209179 #10903]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 10:53:28 +0000
+I, [2017-09-17T10:53:28.225282 #10903]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T10:53:28.241800 #10903]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T10:53:28.252170 #10903] DEBUG -- :   [1m[36mDataNode Load (1.2ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T10:53:28.263542 #10903]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (21.5ms)
+I, [2017-09-17T10:53:28.266858 #10903]  INFO -- : Completed 200 OK in 41ms (Views: 29.0ms | ActiveRecord: 1.8ms)
+I, [2017-09-17T10:57:03.608492 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 10:57:03 +0000
+I, [2017-09-17T10:57:03.622874 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T10:57:03.637664 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T10:57:03.645723 #11264] DEBUG -- :   [1m[36mDataNode Load (1.1ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T10:57:03.655454 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (17.6ms)
+I, [2017-09-17T10:57:03.658018 #11264]  INFO -- : Completed 200 OK in 35ms (Views: 22.9ms | ActiveRecord: 1.6ms)
+I, [2017-09-17T10:58:04.339866 #11264]  INFO -- : Started GET "/data_nodes/new" for 64.62.224.29 at 2017-09-17 10:58:04 +0000
+I, [2017-09-17T10:58:04.342663 #11264]  INFO -- : Processing by DataNodesController#new as HTML
+I, [2017-09-17T10:58:04.353700 #11264]  INFO -- :   Rendering data_nodes/new.html.erb within layouts/application
+I, [2017-09-17T10:58:04.369866 #11264]  INFO -- :   Rendered data_nodes/_form.html.erb (14.5ms)
+I, [2017-09-17T10:58:04.370180 #11264]  INFO -- :   Rendered data_nodes/new.html.erb within layouts/application (16.3ms)
+I, [2017-09-17T10:58:04.371455 #11264]  INFO -- : Completed 200 OK in 29ms (Views: 18.1ms | ActiveRecord: 0.8ms)
+I, [2017-09-17T10:58:26.480746 #11264]  INFO -- : Started POST "/data_nodes" for 64.62.224.29 at 2017-09-17 10:58:26 +0000
+I, [2017-09-17T10:58:26.486307 #11264]  INFO -- : Processing by DataNodesController#create as HTML
+I, [2017-09-17T10:58:26.486495 #11264]  INFO -- :   Parameters: {"utf8"=>"✓", "authenticity_token"=>"I5rxhwQwoWtAo1avYHuwvlChz9bfE0MhB2+zVLSGeC3Nq3g/xRhXmRF/LMr2FENa3D4QusGKNYXtKvJPTejimw==", "data_node"=>{"value"=>"3", "faction_id"=>"0"}, "commit"=>"Create Data node"}
+D, [2017-09-17T10:58:26.491556 #11264] DEBUG -- :   [1m[35m (0.3ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:58:26.496296 #11264] DEBUG -- :   [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "data_nodes" ("value", "faction_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 3], ["faction_id", 0], ["created_at", "2017-09-17 10:58:26.492539"], ["updated_at", "2017-09-17 10:58:26.492539"]]
+D, [2017-09-17T10:58:26.504505 #11264] DEBUG -- :   [1m[35m (7.7ms)[0m  [1m[36mcommit transaction[0m
+I, [2017-09-17T10:58:26.506127 #11264]  INFO -- : Redirected to http://fontofdata.com/data_nodes/1
+I, [2017-09-17T10:58:26.506409 #11264]  INFO -- : Completed 302 Found in 20ms (ActiveRecord: 8.6ms)
+I, [2017-09-17T10:58:26.517584 #11264]  INFO -- : Started GET "/data_nodes/1" for 64.62.224.29 at 2017-09-17 10:58:26 +0000
+I, [2017-09-17T10:58:26.518644 #11264]  INFO -- : Processing by DataNodesController#show as HTML
+I, [2017-09-17T10:58:26.518745 #11264]  INFO -- :   Parameters: {"id"=>"1"}
+D, [2017-09-17T10:58:26.525359 #11264] DEBUG -- :   [1m[36mDataNode Load (0.3ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+I, [2017-09-17T10:58:26.527237 #11264]  INFO -- :   Rendering data_nodes/show.html.erb within layouts/application
+I, [2017-09-17T10:58:26.528829 #11264]  INFO -- :   Rendered data_nodes/show.html.erb within layouts/application (1.4ms)
+I, [2017-09-17T10:58:26.529925 #11264]  INFO -- : Completed 200 OK in 11ms (Views: 3.2ms | ActiveRecord: 0.3ms)
+I, [2017-09-17T10:58:30.731059 #11264]  INFO -- : Started GET "/data_nodes/1/edit" for 64.62.224.29 at 2017-09-17 10:58:30 +0000
+I, [2017-09-17T10:58:30.733296 #11264]  INFO -- : Processing by DataNodesController#edit as HTML
+I, [2017-09-17T10:58:30.733446 #11264]  INFO -- :   Parameters: {"id"=>"1"}
+D, [2017-09-17T10:58:30.735501 #11264] DEBUG -- :   [1m[36mDataNode Load (0.3ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+I, [2017-09-17T10:58:30.736853 #11264]  INFO -- :   Rendering data_nodes/edit.html.erb within layouts/application
+I, [2017-09-17T10:58:30.740600 #11264]  INFO -- :   Rendered data_nodes/_form.html.erb (2.9ms)
+I, [2017-09-17T10:58:30.740943 #11264]  INFO -- :   Rendered data_nodes/edit.html.erb within layouts/application (4.0ms)
+I, [2017-09-17T10:58:30.741825 #11264]  INFO -- : Completed 200 OK in 8ms (Views: 5.2ms | ActiveRecord: 0.3ms)
+I, [2017-09-17T10:58:33.245244 #11264]  INFO -- : Started PATCH "/data_nodes/1" for 64.62.224.29 at 2017-09-17 10:58:33 +0000
+I, [2017-09-17T10:58:33.247051 #11264]  INFO -- : Processing by DataNodesController#update as HTML
+I, [2017-09-17T10:58:33.247201 #11264]  INFO -- :   Parameters: {"utf8"=>"✓", "authenticity_token"=>"8WXxDqjuNgtJJgNFgSOMrDg1493fPYrYnGyCX+xgO2YfVHi2acbA+Rj6eSAXTH9ItKo8scGk/Hx2KcNEFQ6h0A==", "data_node"=>{"value"=>"3", "faction_id"=>"1"}, "commit"=>"Update Data node", "id"=>"1"}
+D, [2017-09-17T10:58:33.249068 #11264] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+D, [2017-09-17T10:58:33.250156 #11264] DEBUG -- :   [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:58:33.254059 #11264] DEBUG -- :   [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "data_nodes" SET "faction_id" = ?, "updated_at" = ? WHERE "data_nodes"."id" = ?[0m  [["faction_id", 1], ["updated_at", "2017-09-17 10:58:33.251222"], ["id", 1]]
+D, [2017-09-17T10:58:33.257396 #11264] DEBUG -- :   [1m[35m (2.8ms)[0m  [1m[36mcommit transaction[0m
+I, [2017-09-17T10:58:33.258208 #11264]  INFO -- : Redirected to http://fontofdata.com/data_nodes/1
+I, [2017-09-17T10:58:33.258428 #11264]  INFO -- : Completed 302 Found in 11ms (ActiveRecord: 3.6ms)
+I, [2017-09-17T10:58:33.270361 #11264]  INFO -- : Started GET "/data_nodes/1" for 64.62.224.29 at 2017-09-17 10:58:33 +0000
+I, [2017-09-17T10:58:33.271906 #11264]  INFO -- : Processing by DataNodesController#show as HTML
+I, [2017-09-17T10:58:33.272000 #11264]  INFO -- :   Parameters: {"id"=>"1"}
+D, [2017-09-17T10:58:33.273849 #11264] DEBUG -- :   [1m[36mDataNode Load (0.3ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+I, [2017-09-17T10:58:33.275192 #11264]  INFO -- :   Rendering data_nodes/show.html.erb within layouts/application
+I, [2017-09-17T10:58:33.276282 #11264]  INFO -- :   Rendered data_nodes/show.html.erb within layouts/application (0.7ms)
+I, [2017-09-17T10:58:33.277951 #11264]  INFO -- : Completed 200 OK in 6ms (Views: 3.1ms | ActiveRecord: 0.3ms)
+I, [2017-09-17T10:58:34.865065 #11264]  INFO -- : Started GET "/data_nodes" for 64.62.224.29 at 2017-09-17 10:58:34 +0000
+I, [2017-09-17T10:58:34.866990 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T10:58:34.868841 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T10:58:34.870143 #11264] DEBUG -- :   [1m[36mDataNode Load (0.3ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T10:58:34.871169 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (2.2ms)
+I, [2017-09-17T10:58:34.872166 #11264]  INFO -- : Completed 200 OK in 5ms (Views: 3.4ms | ActiveRecord: 0.3ms)
+I, [2017-09-17T10:58:49.408474 #11264]  INFO -- : Started GET "/data_nodes/new" for 64.62.224.29 at 2017-09-17 10:58:49 +0000
+I, [2017-09-17T10:58:49.410252 #11264]  INFO -- : Processing by DataNodesController#new as HTML
+I, [2017-09-17T10:58:49.412648 #11264]  INFO -- :   Rendering data_nodes/new.html.erb within layouts/application
+I, [2017-09-17T10:58:49.417520 #11264]  INFO -- :   Rendered data_nodes/_form.html.erb (4.3ms)
+I, [2017-09-17T10:58:49.418007 #11264]  INFO -- :   Rendered data_nodes/new.html.erb within layouts/application (5.1ms)
+I, [2017-09-17T10:58:49.419491 #11264]  INFO -- : Completed 200 OK in 9ms (Views: 7.3ms | ActiveRecord: 0.0ms)
+I, [2017-09-17T10:58:54.918618 #11264]  INFO -- : Started POST "/data_nodes" for 64.62.224.29 at 2017-09-17 10:58:54 +0000
+I, [2017-09-17T10:58:54.920244 #11264]  INFO -- : Processing by DataNodesController#create as HTML
+I, [2017-09-17T10:58:54.920432 #11264]  INFO -- :   Parameters: {"utf8"=>"✓", "authenticity_token"=>"v7uGt5dno7s5LunhQescQXgeR+ZMYXHPaGmVq7O4lTlRig8PVk9VSWjyk4TXhO+l9IGYilL4B2uCLNSwStYPjw==", "data_node"=>{"value"=>"11", "faction_id"=>"2"}, "commit"=>"Create Data node"}
+D, [2017-09-17T10:58:54.922255 #11264] DEBUG -- :   [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:58:54.924082 #11264] DEBUG -- :   [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "data_nodes" ("value", "faction_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 11], ["faction_id", 2], ["created_at", "2017-09-17 10:58:54.922585"], ["updated_at", "2017-09-17 10:58:54.922585"]]
+D, [2017-09-17T10:58:54.932389 #11264] DEBUG -- :   [1m[35m (7.7ms)[0m  [1m[36mcommit transaction[0m
+I, [2017-09-17T10:58:54.934069 #11264]  INFO -- : Redirected to http://fontofdata.com/data_nodes/2
+I, [2017-09-17T10:58:54.934476 #11264]  INFO -- : Completed 302 Found in 14ms (ActiveRecord: 8.1ms)
+I, [2017-09-17T10:58:54.946169 #11264]  INFO -- : Started GET "/data_nodes/2" for 64.62.224.29 at 2017-09-17 10:58:54 +0000
+I, [2017-09-17T10:58:54.947274 #11264]  INFO -- : Processing by DataNodesController#show as HTML
+I, [2017-09-17T10:58:54.947409 #11264]  INFO -- :   Parameters: {"id"=>"2"}
+D, [2017-09-17T10:58:54.948732 #11264] DEBUG -- :   [1m[36mDataNode Load (0.3ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+I, [2017-09-17T10:58:54.949506 #11264]  INFO -- :   Rendering data_nodes/show.html.erb within layouts/application
+I, [2017-09-17T10:58:54.950002 #11264]  INFO -- :   Rendered data_nodes/show.html.erb within layouts/application (0.4ms)
+I, [2017-09-17T10:58:54.950801 #11264]  INFO -- : Completed 200 OK in 3ms (Views: 1.5ms | ActiveRecord: 0.3ms)
+I, [2017-09-17T10:58:55.831257 #11264]  INFO -- : Started GET "/data_nodes" for 64.62.224.29 at 2017-09-17 10:58:55 +0000
+I, [2017-09-17T10:58:55.832442 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T10:58:55.833591 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T10:58:55.834378 #11264] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T10:58:55.835540 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (1.8ms)
+I, [2017-09-17T10:58:55.836485 #11264]  INFO -- : Completed 200 OK in 4ms (Views: 2.9ms | ActiveRecord: 0.2ms)
+I, [2017-09-17T10:58:57.408921 #11264]  INFO -- : Started GET "/data_nodes/new" for 64.62.224.29 at 2017-09-17 10:58:57 +0000
+I, [2017-09-17T10:58:57.409991 #11264]  INFO -- : Processing by DataNodesController#new as HTML
+I, [2017-09-17T10:58:57.411234 #11264]  INFO -- :   Rendering data_nodes/new.html.erb within layouts/application
+I, [2017-09-17T10:58:57.413724 #11264]  INFO -- :   Rendered data_nodes/_form.html.erb (2.2ms)
+I, [2017-09-17T10:58:57.413942 #11264]  INFO -- :   Rendered data_nodes/new.html.erb within layouts/application (2.6ms)
+I, [2017-09-17T10:58:57.414813 #11264]  INFO -- : Completed 200 OK in 5ms (Views: 3.8ms | ActiveRecord: 0.0ms)
+I, [2017-09-17T10:59:01.088061 #11264]  INFO -- : Started POST "/data_nodes" for 64.62.224.29 at 2017-09-17 10:59:01 +0000
+I, [2017-09-17T10:59:01.090165 #11264]  INFO -- : Processing by DataNodesController#create as HTML
+I, [2017-09-17T10:59:01.090326 #11264]  INFO -- :   Parameters: {"utf8"=>"✓", "authenticity_token"=>"jEoRxEHol4VbRLBphGp0rYa2WrwpflPNSZ6j6LLCF/pie5h8gMBhdwqYygwSBYdJCimF0DfnJWmj2+LzS6yNTA==", "data_node"=>{"value"=>"17", "faction_id"=>"3"}, "commit"=>"Create Data node"}
+D, [2017-09-17T10:59:01.093209 #11264] DEBUG -- :   [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+D, [2017-09-17T10:59:01.095520 #11264] DEBUG -- :   [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "data_nodes" ("value", "faction_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 17], ["faction_id", 3], ["created_at", "2017-09-17 10:59:01.093614"], ["updated_at", "2017-09-17 10:59:01.093614"]]
+D, [2017-09-17T10:59:01.105013 #11264] DEBUG -- :   [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+I, [2017-09-17T10:59:01.106448 #11264]  INFO -- : Redirected to http://fontofdata.com/data_nodes/3
+I, [2017-09-17T10:59:01.106821 #11264]  INFO -- : Completed 302 Found in 16ms (ActiveRecord: 9.3ms)
+I, [2017-09-17T10:59:01.118652 #11264]  INFO -- : Started GET "/data_nodes/3" for 64.62.224.29 at 2017-09-17 10:59:01 +0000
+I, [2017-09-17T10:59:01.120207 #11264]  INFO -- : Processing by DataNodesController#show as HTML
+I, [2017-09-17T10:59:01.120334 #11264]  INFO -- :   Parameters: {"id"=>"3"}
+D, [2017-09-17T10:59:01.121829 #11264] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+I, [2017-09-17T10:59:01.122942 #11264]  INFO -- :   Rendering data_nodes/show.html.erb within layouts/application
+I, [2017-09-17T10:59:01.123600 #11264]  INFO -- :   Rendered data_nodes/show.html.erb within layouts/application (0.5ms)
+I, [2017-09-17T10:59:01.124848 #11264]  INFO -- : Completed 200 OK in 4ms (Views: 2.3ms | ActiveRecord: 0.2ms)
+I, [2017-09-17T10:59:02.910458 #11264]  INFO -- : Started GET "/data_nodes" for 64.62.224.29 at 2017-09-17 10:59:02 +0000
+I, [2017-09-17T10:59:02.912449 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T10:59:02.914504 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T10:59:02.916064 #11264] DEBUG -- :   [1m[36mDataNode Load (0.4ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T10:59:02.918739 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (4.0ms)
+I, [2017-09-17T10:59:02.919913 #11264]  INFO -- : Completed 200 OK in 7ms (Views: 5.6ms | ActiveRecord: 0.4ms)
+I, [2017-09-17T10:59:08.497798 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 10:59:08 +0000
+I, [2017-09-17T10:59:08.499897 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T10:59:08.501995 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T10:59:08.503389 #11264] DEBUG -- :   [1m[36mDataNode Load (0.4ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T10:59:08.505834 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (3.7ms)
+I, [2017-09-17T10:59:08.507247 #11264]  INFO -- : Completed 200 OK in 7ms (Views: 5.3ms | ActiveRecord: 0.4ms)
+I, [2017-09-17T10:59:59.472667 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 10:59:59 +0000
+I, [2017-09-17T10:59:59.474569 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T10:59:59.475786 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T10:59:59.476874 #11264] DEBUG -- :   [1m[36mDataNode Load (0.4ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T10:59:59.478197 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (2.3ms)
+I, [2017-09-17T10:59:59.479187 #11264]  INFO -- : Completed 200 OK in 4ms (Views: 3.2ms | ActiveRecord: 0.4ms)
+I, [2017-09-17T11:00:25.726814 #11264]  INFO -- : Started GET "/palatorr_reference" for 64.62.224.29 at 2017-09-17 11:00:25 +0000
+F, [2017-09-17T11:00:25.728165 #11264] FATAL -- :   
+F, [2017-09-17T11:00:25.728271 #11264] FATAL -- : ActionController::RoutingError (No route matches [GET] "/palatorr_reference"):
+F, [2017-09-17T11:00:25.728326 #11264] FATAL -- :   
+F, [2017-09-17T11:00:25.728392 #11264] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T11:00:40.180660 #11264]  INFO -- : Started GET "/something" for 64.62.224.29 at 2017-09-17 11:00:40 +0000
+F, [2017-09-17T11:00:40.182098 #11264] FATAL -- :   
+F, [2017-09-17T11:00:40.182246 #11264] FATAL -- : ActionController::RoutingError (No route matches [GET] "/something"):
+F, [2017-09-17T11:00:40.182343 #11264] FATAL -- :   
+F, [2017-09-17T11:00:40.182447 #11264] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T11:02:35.164522 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 11:02:35 +0000
+I, [2017-09-17T11:02:35.167895 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T11:02:35.170548 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T11:02:35.172550 #11264] DEBUG -- :   [1m[36mDataNode Load (0.5ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T11:02:35.174586 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (3.9ms)
+I, [2017-09-17T11:02:35.175908 #11264]  INFO -- : Completed 200 OK in 8ms (Views: 5.4ms | ActiveRecord: 0.5ms)
+I, [2017-09-17T11:06:13.887746 #11264]  INFO -- : Started GET "/" for 66.249.75.134 at 2017-09-17 11:06:13 +0000
+I, [2017-09-17T11:06:13.892016 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T11:06:13.894600 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T11:06:13.897506 #11264] DEBUG -- :   [1m[36mDataNode Load (0.6ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T11:06:13.899886 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (5.1ms)
+I, [2017-09-17T11:06:13.901575 #11264]  INFO -- : Completed 200 OK in 9ms (Views: 6.9ms | ActiveRecord: 0.6ms)
+I, [2017-09-17T11:06:17.164976 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 11:06:17 +0000
+I, [2017-09-17T11:06:17.166597 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T11:06:17.168894 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T11:06:17.170262 #11264] DEBUG -- :   [1m[36mDataNode Load (0.4ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T11:06:17.172801 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (3.7ms)
+I, [2017-09-17T11:06:17.174025 #11264]  INFO -- : Completed 200 OK in 7ms (Views: 5.3ms | ActiveRecord: 0.4ms)
+I, [2017-09-17T11:06:18.249292 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 11:06:18 +0000
+I, [2017-09-17T11:06:18.250306 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T11:06:18.251441 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T11:06:18.252269 #11264] DEBUG -- :   [1m[36mDataNode Load (0.3ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T11:06:18.253594 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (2.0ms)
+I, [2017-09-17T11:06:18.254480 #11264]  INFO -- : Completed 200 OK in 4ms (Views: 3.0ms | ActiveRecord: 0.3ms)
+I, [2017-09-17T11:07:38.194608 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 11:07:38 +0000
+I, [2017-09-17T11:07:38.196426 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T11:07:38.198210 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T11:07:38.199566 #11264] DEBUG -- :   [1m[36mDataNode Load (0.5ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T11:07:38.201357 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (3.0ms)
+I, [2017-09-17T11:07:38.202357 #11264]  INFO -- : Completed 200 OK in 6ms (Views: 4.1ms | ActiveRecord: 0.5ms)
+I, [2017-09-17T11:07:39.329034 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 11:07:39 +0000
+I, [2017-09-17T11:07:39.330489 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T11:07:39.332288 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T11:07:39.333684 #11264] DEBUG -- :   [1m[36mDataNode Load (0.5ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T11:07:39.335771 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (3.3ms)
+I, [2017-09-17T11:07:39.336905 #11264]  INFO -- : Completed 200 OK in 6ms (Views: 4.6ms | ActiveRecord: 0.5ms)
+I, [2017-09-17T11:07:39.852912 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 11:07:39 +0000
+I, [2017-09-17T11:07:39.854533 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T11:07:39.856418 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T11:07:39.857735 #11264] DEBUG -- :   [1m[36mDataNode Load (0.4ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T11:07:39.860621 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (4.0ms)
+I, [2017-09-17T11:07:39.862280 #11264]  INFO -- : Completed 200 OK in 7ms (Views: 5.9ms | ActiveRecord: 0.4ms)
+I, [2017-09-17T11:07:40.379466 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 11:07:40 +0000
+I, [2017-09-17T11:07:40.380526 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T11:07:40.381851 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T11:07:40.382650 #11264] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T11:07:40.384479 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (2.5ms)
+I, [2017-09-17T11:07:40.385854 #11264]  INFO -- : Completed 200 OK in 5ms (Views: 4.2ms | ActiveRecord: 0.2ms)
+I, [2017-09-17T11:07:41.399239 #11264]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 11:07:41 +0000
+I, [2017-09-17T11:07:41.400217 #11264]  INFO -- : Processing by DataNodesController#index as HTML
+I, [2017-09-17T11:07:41.401254 #11264]  INFO -- :   Rendering data_nodes/index.html.erb within layouts/application
+D, [2017-09-17T11:07:41.402044 #11264] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes"[0m
+I, [2017-09-17T11:07:41.406609 #11264]  INFO -- :   Rendered data_nodes/index.html.erb within layouts/application (5.2ms)
+I, [2017-09-17T11:07:41.407426 #11264]  INFO -- : Completed 200 OK in 7ms (Views: 6.2ms | ActiveRecord: 0.2ms)
+I, [2017-09-17T11:08:08.698565 #11264]  INFO -- : Started GET "/data_nodes/3" for 66.249.75.134 at 2017-09-17 11:08:08 +0000
+I, [2017-09-17T11:08:08.700368 #11264]  INFO -- : Processing by DataNodesController#show as HTML
+I, [2017-09-17T11:08:08.700459 #11264]  INFO -- :   Parameters: {"id"=>"3"}
+D, [2017-09-17T11:08:08.702530 #11264] DEBUG -- :   [1m[36mDataNode Load (0.3ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+I, [2017-09-17T11:08:08.703583 #11264]  INFO -- :   Rendering data_nodes/show.html.erb within layouts/application
+I, [2017-09-17T11:08:08.704315 #11264]  INFO -- :   Rendered data_nodes/show.html.erb within layouts/application (0.6ms)
+I, [2017-09-17T11:08:08.705316 #11264]  INFO -- : Completed 200 OK in 5ms (Views: 2.0ms | ActiveRecord: 0.3ms)
+I, [2017-09-17T11:08:45.515753 #11264]  INFO -- : Started GET "/data_nodes/2" for 66.249.75.134 at 2017-09-17 11:08:45 +0000
+I, [2017-09-17T11:08:45.517456 #11264]  INFO -- : Processing by DataNodesController#show as HTML
+I, [2017-09-17T11:08:45.517560 #11264]  INFO -- :   Parameters: {"id"=>"2"}
+D, [2017-09-17T11:08:45.518537 #11264] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+I, [2017-09-17T11:08:45.519404 #11264]  INFO -- :   Rendering data_nodes/show.html.erb within layouts/application
+I, [2017-09-17T11:08:45.519940 #11264]  INFO -- :   Rendered data_nodes/show.html.erb within layouts/application (0.4ms)
+I, [2017-09-17T11:08:45.520940 #11264]  INFO -- : Completed 200 OK in 3ms (Views: 1.8ms | ActiveRecord: 0.2ms)
+I, [2017-09-17T11:09:22.496486 #11264]  INFO -- : Started GET "/data_nodes/1" for 66.249.75.134 at 2017-09-17 11:09:22 +0000
+I, [2017-09-17T11:09:22.501150 #11264]  INFO -- : Processing by DataNodesController#show as HTML
+I, [2017-09-17T11:09:22.501228 #11264]  INFO -- :   Parameters: {"id"=>"1"}
+D, [2017-09-17T11:09:22.503460 #11264] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+I, [2017-09-17T11:09:22.504882 #11264]  INFO -- :   Rendering data_nodes/show.html.erb within layouts/application
+I, [2017-09-17T11:09:22.506211 #11264]  INFO -- :   Rendered data_nodes/show.html.erb within layouts/application (1.2ms)
+I, [2017-09-17T11:09:22.507918 #11264]  INFO -- : Completed 200 OK in 6ms (Views: 3.6ms | ActiveRecord: 0.2ms)
+I, [2017-09-17T11:09:59.727644 #11264]  INFO -- : Started GET "/data_nodes/new" for 66.249.75.132 at 2017-09-17 11:09:59 +0000
+I, [2017-09-17T11:09:59.730524 #11264]  INFO -- : Processing by DataNodesController#new as HTML
+I, [2017-09-17T11:09:59.733465 #11264]  INFO -- :   Rendering data_nodes/new.html.erb within layouts/application
+I, [2017-09-17T11:09:59.739543 #11264]  INFO -- :   Rendered data_nodes/_form.html.erb (5.5ms)
+I, [2017-09-17T11:09:59.739899 #11264]  INFO -- :   Rendered data_nodes/new.html.erb within layouts/application (6.3ms)
+I, [2017-09-17T11:09:59.741365 #11264]  INFO -- : Completed 200 OK in 11ms (Views: 8.4ms | ActiveRecord: 0.0ms)
+I, [2017-09-17T11:10:37.516502 #11264]  INFO -- : Started GET "/data_nodes/3/edit" for 66.249.75.132 at 2017-09-17 11:10:37 +0000
+I, [2017-09-17T11:10:37.518027 #11264]  INFO -- : Processing by DataNodesController#edit as HTML
+I, [2017-09-17T11:10:37.518117 #11264]  INFO -- :   Parameters: {"id"=>"3"}
+D, [2017-09-17T11:10:37.520043 #11264] DEBUG -- :   [1m[36mDataNode Load (0.3ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+I, [2017-09-17T11:10:37.521201 #11264]  INFO -- :   Rendering data_nodes/edit.html.erb within layouts/application
+I, [2017-09-17T11:10:37.523909 #11264]  INFO -- :   Rendered data_nodes/_form.html.erb (2.4ms)
+I, [2017-09-17T11:10:37.524262 #11264]  INFO -- :   Rendered data_nodes/edit.html.erb within layouts/application (3.0ms)
+I, [2017-09-17T11:10:37.525167 #11264]  INFO -- : Completed 200 OK in 7ms (Views: 4.3ms | ActiveRecord: 0.3ms)
+I, [2017-09-17T11:11:16.678662 #11264]  INFO -- : Started GET "/data_nodes/2/edit" for 66.249.75.134 at 2017-09-17 11:11:16 +0000
+I, [2017-09-17T11:11:16.681857 #11264]  INFO -- : Processing by DataNodesController#edit as HTML
+I, [2017-09-17T11:11:16.681960 #11264]  INFO -- :   Parameters: {"id"=>"2"}
+D, [2017-09-17T11:11:16.683956 #11264] DEBUG -- :   [1m[36mDataNode Load (0.4ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+I, [2017-09-17T11:11:16.685135 #11264]  INFO -- :   Rendering data_nodes/edit.html.erb within layouts/application
+I, [2017-09-17T11:11:16.689022 #11264]  INFO -- :   Rendered data_nodes/_form.html.erb (3.4ms)
+I, [2017-09-17T11:11:16.689498 #11264]  INFO -- :   Rendered data_nodes/edit.html.erb within layouts/application (4.2ms)
+I, [2017-09-17T11:11:16.690879 #11264]  INFO -- : Completed 200 OK in 9ms (Views: 6.1ms | ActiveRecord: 0.4ms)
+I, [2017-09-17T11:12:01.413829 #11264]  INFO -- : Started GET "/data_nodes/1/edit" for 66.249.75.134 at 2017-09-17 11:12:01 +0000
+I, [2017-09-17T11:12:01.418347 #11264]  INFO -- : Processing by DataNodesController#edit as HTML
+I, [2017-09-17T11:12:01.418491 #11264]  INFO -- :   Parameters: {"id"=>"1"}
+D, [2017-09-17T11:12:01.421878 #11264] DEBUG -- :   [1m[36mDataNode Load (0.4ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+I, [2017-09-17T11:12:01.424213 #11264]  INFO -- :   Rendering data_nodes/edit.html.erb within layouts/application
+I, [2017-09-17T11:12:01.428793 #11264]  INFO -- :   Rendered data_nodes/_form.html.erb (4.1ms)
+I, [2017-09-17T11:12:01.429374 #11264]  INFO -- :   Rendered data_nodes/edit.html.erb within layouts/application (5.0ms)
+I, [2017-09-17T11:12:01.430469 #11264]  INFO -- : Completed 200 OK in 12ms (Views: 7.2ms | ActiveRecord: 0.4ms)

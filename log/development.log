@@ -3255,3 +3255,4 @@ Processing by DataNodesController#index as HTML
 Completed 200 OK in 31ms (Views: 27.6ms | ActiveRecord: 0.7ms)
 
 
+DEPRECATION WARNING: ActiveRecord::Base.raise_in_transactional_callbacks= is deprecated, has no effect and will be removed without replacement. (called from <top (required)> at /var/www/fontofdata/code/app/models/user.rb:1)

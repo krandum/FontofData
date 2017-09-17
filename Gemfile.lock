@@ -88,6 +88,9 @@ GEM
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
     orm_adapter (0.5.0)
+    passenger (5.1.8)
+      rack
+      rake (>= 0.8.1)
     rack (2.0.3)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -176,6 +179,7 @@ DEPENDENCIES
   devise
   jbuilder (~> 2.0)
   jquery-rails
+  passenger (>= 5.0.25)
   rails (>= 5.0.0.rc2)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
