@@ -1,0 +1,27 @@
+<%= form_for(effect) do |f| %>
+  <% if effect.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(effect.errors.count, "error") %> prohibited this effect from being saved:</h2>
+
+      <ul>
+      <% effect.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :effect_name %>
+    <%= f.text_field :effect_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :clearence_value %>
+    <%= f.number_field :clearence_value %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Interactions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Effect</th>
+      <th>Origin node</th>
+      <th>Target node</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @interactions.each do |interaction| %>
+      <tr>
+        <td><%= interaction.user %></td>
+        <td><%= interaction.effect %></td>
+        <td><%= interaction.origin_node %></td>
+        <td><%= interaction.target_node %></td>
+        <td><%= link_to 'Show', interaction %></td>
+        <td><%= link_to 'Edit', edit_interaction_path(interaction) %></td>
+        <td><%= link_to 'Destroy', interaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Interaction', new_interaction_path %>
