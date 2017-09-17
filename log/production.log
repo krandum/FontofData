@@ -1480,3 +1480,1588 @@ vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
 /usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
 /usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
 /usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:04:31.627372 #16639]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:04:31 +0000
+I, [2017-09-17T12:04:31.644187 #16639]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:04:31.658472 #16639]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:04:31.667207 #16639]  INFO -- :   Rendered site/index.html.erb within layouts/application (8.4ms)
+I, [2017-09-17T12:04:31.669684 #16639]  INFO -- : Completed 200 OK in 25ms (Views: 14.1ms)
+I, [2017-09-17T12:04:31.687838 #16639]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:04:31 +0000
+F, [2017-09-17T12:04:31.689107 #16639] FATAL -- :   
+F, [2017-09-17T12:04:31.689195 #16639] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:04:31.689264 #16639] FATAL -- :   
+F, [2017-09-17T12:04:31.689358 #16639] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:04:31.696533 #16639]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:04:31 +0000
+F, [2017-09-17T12:04:31.697584 #16639] FATAL -- :   
+F, [2017-09-17T12:04:31.697771 #16639] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:04:31.697866 #16639] FATAL -- :   
+F, [2017-09-17T12:04:31.698006 #16639] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:04:31.699944 #16639]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:04:31 +0000
+F, [2017-09-17T12:04:31.701217 #16639] FATAL -- :   
+F, [2017-09-17T12:04:31.701327 #16639] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:04:31.701415 #16639] FATAL -- :   
+F, [2017-09-17T12:04:31.701529 #16639] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:04:31.714044 #16639]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:04:31 +0000
+F, [2017-09-17T12:04:31.714949 #16639] FATAL -- :   
+F, [2017-09-17T12:04:31.715026 #16639] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:04:31.715076 #16639] FATAL -- :   
+F, [2017-09-17T12:04:31.715193 #16639] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:05:04.255438 #16845]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:05:04 +0000
+I, [2017-09-17T12:05:04.269867 #16845]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:05:04.282494 #16845]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:05:04.289770 #16845]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.0ms)
+I, [2017-09-17T12:05:04.291770 #16845]  INFO -- : Completed 200 OK in 22ms (Views: 11.5ms)
+I, [2017-09-17T12:05:04.311341 #16845]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:05:04 +0000
+F, [2017-09-17T12:05:04.312375 #16845] FATAL -- :   
+F, [2017-09-17T12:05:04.312459 #16845] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:05:04.312513 #16845] FATAL -- :   
+F, [2017-09-17T12:05:04.312589 #16845] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:05:04.320647 #16845]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:05:04 +0000
+F, [2017-09-17T12:05:04.321339 #16845] FATAL -- :   
+F, [2017-09-17T12:05:04.321403 #16845] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:05:04.321474 #16845] FATAL -- :   
+F, [2017-09-17T12:05:04.321546 #16845] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:05:04.322554 #16845]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:05:04 +0000
+F, [2017-09-17T12:05:04.323145 #16845] FATAL -- :   
+F, [2017-09-17T12:05:04.323207 #16845] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:05:04.323252 #16845] FATAL -- :   
+F, [2017-09-17T12:05:04.323324 #16845] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:05:04.342256 #16845]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:05:04 +0000
+F, [2017-09-17T12:05:04.342978 #16845] FATAL -- :   
+F, [2017-09-17T12:05:04.343054 #16845] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:05:04.343101 #16845] FATAL -- :   
+F, [2017-09-17T12:05:04.343162 #16845] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:05:04.344384 #16845]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:05:04 +0000
+F, [2017-09-17T12:05:04.345018 #16845] FATAL -- :   
+F, [2017-09-17T12:05:04.345081 #16845] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:05:04.345126 #16845] FATAL -- :   
+F, [2017-09-17T12:05:04.345206 #16845] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:06:09.641948 #17077]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:06:09 +0000
+I, [2017-09-17T12:06:09.655880 #17077]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:06:09.668822 #17077]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:06:09.675996 #17077]  INFO -- :   Rendered site/index.html.erb within layouts/application (6.9ms)
+I, [2017-09-17T12:06:09.678068 #17077]  INFO -- : Completed 200 OK in 22ms (Views: 11.5ms)
+I, [2017-09-17T12:06:09.695013 #17077]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:06:09 +0000
+F, [2017-09-17T12:06:09.696158 #17077] FATAL -- :   
+F, [2017-09-17T12:06:09.696242 #17077] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:06:09.696305 #17077] FATAL -- :   
+F, [2017-09-17T12:06:09.696371 #17077] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:06:09.704375 #17077]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:06:09 +0000
+F, [2017-09-17T12:06:09.705182 #17077] FATAL -- :   
+F, [2017-09-17T12:06:09.705262 #17077] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:06:09.705312 #17077] FATAL -- :   
+F, [2017-09-17T12:06:09.705382 #17077] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:06:09.706786 #17077]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:06:09 +0000
+F, [2017-09-17T12:06:09.707469 #17077] FATAL -- :   
+F, [2017-09-17T12:06:09.707540 #17077] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:06:09.707595 #17077] FATAL -- :   
+F, [2017-09-17T12:06:09.707669 #17077] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:06:09.722783 #17077]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:06:09 +0000
+F, [2017-09-17T12:06:09.723534 #17077] FATAL -- :   
+F, [2017-09-17T12:06:09.723601 #17077] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:06:09.723648 #17077] FATAL -- :   
+F, [2017-09-17T12:06:09.723711 #17077] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:06:26.526284 #17291]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:06:26 +0000
+I, [2017-09-17T12:06:26.540417 #17291]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:06:26.553274 #17291]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:06:26.560463 #17291]  INFO -- :   Rendered site/index.html.erb within layouts/application (6.9ms)
+I, [2017-09-17T12:06:26.562541 #17291]  INFO -- : Completed 200 OK in 22ms (Views: 11.5ms)
+I, [2017-09-17T12:06:26.579326 #17291]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:06:26 +0000
+F, [2017-09-17T12:06:26.580412 #17291] FATAL -- :   
+F, [2017-09-17T12:06:26.580503 #17291] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:06:26.580575 #17291] FATAL -- :   
+F, [2017-09-17T12:06:26.580657 #17291] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:06:26.588290 #17291]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:06:26 +0000
+F, [2017-09-17T12:06:26.589095 #17291] FATAL -- :   
+F, [2017-09-17T12:06:26.589169 #17291] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:06:26.589218 #17291] FATAL -- :   
+F, [2017-09-17T12:06:26.589279 #17291] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:06:26.590479 #17291]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:06:26 +0000
+F, [2017-09-17T12:06:26.591100 #17291] FATAL -- :   
+F, [2017-09-17T12:06:26.591169 #17291] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:06:26.591226 #17291] FATAL -- :   
+F, [2017-09-17T12:06:26.591286 #17291] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:06:26.606746 #17291]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:06:26 +0000
+F, [2017-09-17T12:06:26.607506 #17291] FATAL -- :   
+F, [2017-09-17T12:06:26.607571 #17291] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:06:26.607618 #17291] FATAL -- :   
+F, [2017-09-17T12:06:26.607703 #17291] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:07:35.800152 #17555]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:07:35 +0000
+I, [2017-09-17T12:07:35.815679 #17555]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:07:35.829373 #17555]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:07:35.837792 #17555]  INFO -- :   Rendered site/index.html.erb within layouts/application (8.1ms)
+I, [2017-09-17T12:07:35.840005 #17555]  INFO -- : Completed 200 OK in 24ms (Views: 13.5ms)
+I, [2017-09-17T12:07:35.858819 #17555]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:07:35 +0000
+F, [2017-09-17T12:07:35.859883 #17555] FATAL -- :   
+F, [2017-09-17T12:07:35.859953 #17555] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:07:35.860004 #17555] FATAL -- :   
+F, [2017-09-17T12:07:35.860181 #17555] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:07:35.868658 #17555]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:07:35 +0000
+F, [2017-09-17T12:07:35.869337 #17555] FATAL -- :   
+F, [2017-09-17T12:07:35.869403 #17555] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:07:35.869450 #17555] FATAL -- :   
+F, [2017-09-17T12:07:35.869580 #17555] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:07:35.870808 #17555]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:07:35 +0000
+F, [2017-09-17T12:07:35.871365 #17555] FATAL -- :   
+F, [2017-09-17T12:07:35.871438 #17555] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:07:35.871486 #17555] FATAL -- :   
+F, [2017-09-17T12:07:35.871545 #17555] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:07:35.888770 #17555]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:07:35 +0000
+F, [2017-09-17T12:07:35.889528 #17555] FATAL -- :   
+F, [2017-09-17T12:07:35.889598 #17555] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:07:35.889646 #17555] FATAL -- :   
+F, [2017-09-17T12:07:35.889709 #17555] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:13:02.793549 #17894]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:13:02 +0000
+I, [2017-09-17T12:13:02.808279 #17894]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:13:02.821077 #17894]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:13:02.828368 #17894]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.0ms)
+I, [2017-09-17T12:13:02.830497 #17894]  INFO -- : Completed 200 OK in 22ms (Views: 11.8ms)
+I, [2017-09-17T12:13:02.847994 #17894]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:13:02 +0000
+F, [2017-09-17T12:13:02.849056 #17894] FATAL -- :   
+F, [2017-09-17T12:13:02.849136 #17894] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:13:02.849189 #17894] FATAL -- :   
+F, [2017-09-17T12:13:02.849263 #17894] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:13:02.853628 #17894]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:13:02 +0000
+F, [2017-09-17T12:13:02.854509 #17894] FATAL -- :   
+F, [2017-09-17T12:13:02.854579 #17894] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:13:02.854638 #17894] FATAL -- :   
+F, [2017-09-17T12:13:02.854710 #17894] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:13:02.856316 #17894]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:13:02 +0000
+F, [2017-09-17T12:13:02.857083 #17894] FATAL -- :   
+F, [2017-09-17T12:13:02.857148 #17894] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:13:02.857196 #17894] FATAL -- :   
+F, [2017-09-17T12:13:02.857256 #17894] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:13:02.877564 #17894]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:13:02 +0000
+F, [2017-09-17T12:13:02.878462 #17894] FATAL -- :   
+F, [2017-09-17T12:13:02.878530 #17894] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:13:02.878579 #17894] FATAL -- :   
+F, [2017-09-17T12:13:02.878645 #17894] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:15:12.565838 #17894]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:15:12 +0000
+I, [2017-09-17T12:15:12.570438 #17894]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:15:12.573925 #17894]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:15:12.575244 #17894]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.1ms)
+I, [2017-09-17T12:15:12.576492 #17894]  INFO -- : Completed 200 OK in 6ms (Views: 3.5ms)
+I, [2017-09-17T12:15:12.593458 #17894]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:15:12 +0000
+F, [2017-09-17T12:15:12.594992 #17894] FATAL -- :   
+F, [2017-09-17T12:15:12.595075 #17894] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:15:12.595127 #17894] FATAL -- :   
+F, [2017-09-17T12:15:12.595198 #17894] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:15:12.599252 #17894]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:15:12 +0000
+F, [2017-09-17T12:15:12.600050 #17894] FATAL -- :   
+F, [2017-09-17T12:15:12.600139 #17894] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:15:12.600206 #17894] FATAL -- :   
+F, [2017-09-17T12:15:12.600269 #17894] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:15:12.615441 #17902]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:15:12 +0000
+I, [2017-09-17T12:15:12.619574 #17894]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:15:12 +0000
+F, [2017-09-17T12:15:12.620408 #17894] FATAL -- :   
+F, [2017-09-17T12:15:12.620493 #17894] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:15:12.620546 #17894] FATAL -- :   
+F, [2017-09-17T12:15:12.620608 #17894] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+F, [2017-09-17T12:15:12.633719 #17902] FATAL -- :   
+F, [2017-09-17T12:15:12.633883 #17902] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:15:12.633939 #17902] FATAL -- :   
+F, [2017-09-17T12:15:12.634064 #17902] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:15:21.109886 #18155]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:15:21 +0000
+I, [2017-09-17T12:15:21.124929 #18155]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:15:21.138002 #18155]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:15:21.145586 #18155]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.3ms)
+I, [2017-09-17T12:15:21.147759 #18155]  INFO -- : Completed 200 OK in 23ms (Views: 12.1ms)
+I, [2017-09-17T12:15:21.165273 #18155]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:15:21 +0000
+F, [2017-09-17T12:15:21.166559 #18155] FATAL -- :   
+F, [2017-09-17T12:15:21.166726 #18155] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:15:21.166857 #18155] FATAL -- :   
+F, [2017-09-17T12:15:21.167017 #18155] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:15:21.171271 #18155]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:15:21 +0000
+F, [2017-09-17T12:15:21.172072 #18155] FATAL -- :   
+F, [2017-09-17T12:15:21.172188 #18155] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:15:21.172241 #18155] FATAL -- :   
+F, [2017-09-17T12:15:21.172302 #18155] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:15:21.173631 #18155]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:15:21 +0000
+F, [2017-09-17T12:15:21.174328 #18155] FATAL -- :   
+F, [2017-09-17T12:15:21.174408 #18155] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:15:21.174465 #18155] FATAL -- :   
+F, [2017-09-17T12:15:21.174526 #18155] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:15:21.192636 #18155]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:15:21 +0000
+F, [2017-09-17T12:15:21.193417 #18155] FATAL -- :   
+F, [2017-09-17T12:15:21.193484 #18155] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:15:21.193531 #18155] FATAL -- :   
+F, [2017-09-17T12:15:21.193612 #18155] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:15:21.194902 #18155]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:15:21 +0000
+F, [2017-09-17T12:15:21.195513 #18155] FATAL -- :   
+F, [2017-09-17T12:15:21.195575 #18155] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:15:21.195621 #18155] FATAL -- :   
+F, [2017-09-17T12:15:21.195681 #18155] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:17:23.841813 #18410]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:17:23 +0000
+I, [2017-09-17T12:17:23.856076 #18410]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:17:23.869589 #18410]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:17:23.877056 #18410]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.2ms)
+I, [2017-09-17T12:17:23.879189 #18410]  INFO -- : Completed 200 OK in 23ms (Views: 12.2ms)
+I, [2017-09-17T12:17:23.897229 #18410]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:17:23 +0000
+F, [2017-09-17T12:17:23.899183 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.899337 #18410] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:17:23.899463 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.899596 #18410] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:17:23.903612 #18410]  INFO -- : Started GET "/stylesheets/site.css" for 64.62.224.29 at 2017-09-17 12:17:23 +0000
+F, [2017-09-17T12:17:23.904294 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.904374 #18410] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/site.css"):
+F, [2017-09-17T12:17:23.904421 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.904499 #18410] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:17:23.905858 #18410]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:17:23 +0000
+F, [2017-09-17T12:17:23.906472 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.906532 #18410] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:17:23.906585 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.906657 #18410] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:17:23.907676 #18410]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:17:23 +0000
+F, [2017-09-17T12:17:23.908293 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.908356 #18410] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:17:23.908402 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.908461 #18410] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:17:23.924614 #18410]  INFO -- : Started GET "/stylesheets/site.css" for 64.62.224.29 at 2017-09-17 12:17:23 +0000
+F, [2017-09-17T12:17:23.925621 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.925693 #18410] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/site.css"):
+F, [2017-09-17T12:17:23.925741 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.925842 #18410] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:17:23.926902 #18410]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:17:23 +0000
+F, [2017-09-17T12:17:23.927495 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.927555 #18410] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:17:23.927616 #18410] FATAL -- :   
+F, [2017-09-17T12:17:23.927675 #18410] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:18:02.025221 #18632]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:18:02 +0000
+I, [2017-09-17T12:18:02.043276 #18632]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:18:02.057255 #18632]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:18:02.066821 #18632]  INFO -- :   Rendered site/index.html.erb within layouts/application (9.1ms)
+I, [2017-09-17T12:18:02.069556 #18632]  INFO -- : Completed 200 OK in 26ms (Views: 15.1ms)
+I, [2017-09-17T12:18:02.089889 #18632]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:18:02 +0000
+F, [2017-09-17T12:18:02.091306 #18632] FATAL -- :   
+F, [2017-09-17T12:18:02.091395 #18632] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:18:02.091476 #18632] FATAL -- :   
+F, [2017-09-17T12:18:02.091548 #18632] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:18:02.096207 #18632]  INFO -- : Started GET "/stylesheets/site.css" for 64.62.224.29 at 2017-09-17 12:18:02 +0000
+F, [2017-09-17T12:18:02.097361 #18632] FATAL -- :   
+F, [2017-09-17T12:18:02.097452 #18632] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/site.css"):
+F, [2017-09-17T12:18:02.097519 #18632] FATAL -- :   
+F, [2017-09-17T12:18:02.097608 #18632] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:18:02.099792 #18632]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:18:02 +0000
+F, [2017-09-17T12:18:02.100904 #18632] FATAL -- :   
+F, [2017-09-17T12:18:02.100992 #18632] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:18:02.101071 #18632] FATAL -- :   
+F, [2017-09-17T12:18:02.101162 #18632] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:18:02.103487 #18632]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:18:02 +0000
+F, [2017-09-17T12:18:02.104650 #18632] FATAL -- :   
+F, [2017-09-17T12:18:02.104741 #18632] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:18:02.104816 #18632] FATAL -- :   
+F, [2017-09-17T12:18:02.104917 #18632] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:18:02.119473 #18632]  INFO -- : Started GET "/stylesheets/site.css" for 64.62.224.29 at 2017-09-17 12:18:02 +0000
+F, [2017-09-17T12:18:02.120687 #18632] FATAL -- :   
+F, [2017-09-17T12:18:02.120822 #18632] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/site.css"):
+F, [2017-09-17T12:18:02.120943 #18632] FATAL -- :   
+F, [2017-09-17T12:18:02.121064 #18632] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:19:21.844037 #18632]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:19:21 +0000
+I, [2017-09-17T12:19:21.845507 #18632]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:19:21.846902 #18632]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:19:21.847527 #18632]  INFO -- :   Rendered site/index.html.erb within layouts/application (0.5ms)
+I, [2017-09-17T12:19:21.848460 #18632]  INFO -- : Completed 200 OK in 3ms (Views: 1.9ms)
+I, [2017-09-17T12:19:21.864533 #18632]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:19:21 +0000
+F, [2017-09-17T12:19:21.865439 #18632] FATAL -- :   
+F, [2017-09-17T12:19:21.865513 #18632] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:19:21.865562 #18632] FATAL -- :   
+F, [2017-09-17T12:19:21.865615 #18632] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:19:21.870497 #18632]  INFO -- : Started GET "/stylesheets/site.css" for 64.62.224.29 at 2017-09-17 12:19:21 +0000
+F, [2017-09-17T12:19:21.871786 #18632] FATAL -- :   
+F, [2017-09-17T12:19:21.871881 #18632] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/site.css"):
+F, [2017-09-17T12:19:21.871976 #18632] FATAL -- :   
+F, [2017-09-17T12:19:21.872051 #18632] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:19:21.880203 #18640]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:19:21 +0000
+I, [2017-09-17T12:19:21.880860 #18632]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:19:21 +0000
+F, [2017-09-17T12:19:21.881621 #18632] FATAL -- :   
+F, [2017-09-17T12:19:21.881686 #18632] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:19:21.881733 #18632] FATAL -- :   
+F, [2017-09-17T12:19:21.881785 #18632] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+F, [2017-09-17T12:19:21.892460 #18640] FATAL -- :   
+F, [2017-09-17T12:19:21.892615 #18640] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:19:21.892668 #18640] FATAL -- :   
+F, [2017-09-17T12:19:21.892749 #18640] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:19:21.916862 #18632]  INFO -- : Started GET "/stylesheets/site.css" for 64.62.224.29 at 2017-09-17 12:19:21 +0000
+I, [2017-09-17T12:19:21.917082 #18640]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:19:21 +0000
+F, [2017-09-17T12:19:21.917610 #18632] FATAL -- :   
+F, [2017-09-17T12:19:21.917675 #18632] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/site.css"):
+F, [2017-09-17T12:19:21.917722 #18632] FATAL -- :   
+F, [2017-09-17T12:19:21.917811 #18632] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+F, [2017-09-17T12:19:21.917975 #18640] FATAL -- :   
+F, [2017-09-17T12:19:21.918041 #18640] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:19:21.918098 #18640] FATAL -- :   
+F, [2017-09-17T12:19:21.918164 #18640] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:19:30.730227 #18929]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:19:30 +0000
+I, [2017-09-17T12:19:30.747905 #18929]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:19:30.760734 #18929]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:19:30.768754 #18929]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.8ms)
+I, [2017-09-17T12:19:30.770805 #18929]  INFO -- : Completed 200 OK in 23ms (Views: 12.6ms)
+I, [2017-09-17T12:19:30.789790 #18929]  INFO -- : Started GET "/stylesheets/application.css" for 64.62.224.29 at 2017-09-17 12:19:30 +0000
+F, [2017-09-17T12:19:30.791348 #18929] FATAL -- :   
+F, [2017-09-17T12:19:30.791525 #18929] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/application.css"):
+F, [2017-09-17T12:19:30.791639 #18929] FATAL -- :   
+F, [2017-09-17T12:19:30.791776 #18929] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:19:30.800646 #18929]  INFO -- : Started GET "/stylesheets/site.css" for 64.62.224.29 at 2017-09-17 12:19:30 +0000
+F, [2017-09-17T12:19:30.801663 #18929] FATAL -- :   
+F, [2017-09-17T12:19:30.801769 #18929] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/site.css"):
+F, [2017-09-17T12:19:30.801838 #18929] FATAL -- :   
+F, [2017-09-17T12:19:30.802018 #18929] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:19:30.803577 #18929]  INFO -- : Started GET "/javascripts/application.js" for 64.62.224.29 at 2017-09-17 12:19:30 +0000
+F, [2017-09-17T12:19:30.804401 #18929] FATAL -- :   
+F, [2017-09-17T12:19:30.804465 #18929] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/application.js"):
+F, [2017-09-17T12:19:30.804534 #18929] FATAL -- :   
+F, [2017-09-17T12:19:30.804605 #18929] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:19:30.806062 #18929]  INFO -- : Started GET "/javascripts/site.js" for 64.62.224.29 at 2017-09-17 12:19:30 +0000
+F, [2017-09-17T12:19:30.806619 #18929] FATAL -- :   
+F, [2017-09-17T12:19:30.806678 #18929] FATAL -- : ActionController::RoutingError (No route matches [GET] "/javascripts/site.js"):
+F, [2017-09-17T12:19:30.806722 #18929] FATAL -- :   
+F, [2017-09-17T12:19:30.806781 #18929] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:19:30.833335 #18929]  INFO -- : Started GET "/stylesheets/site.css" for 64.62.224.29 at 2017-09-17 12:19:30 +0000
+F, [2017-09-17T12:19:30.834225 #18929] FATAL -- :   
+F, [2017-09-17T12:19:30.834293 #18929] FATAL -- : ActionController::RoutingError (No route matches [GET] "/stylesheets/site.css"):
+F, [2017-09-17T12:19:30.834341 #18929] FATAL -- :   
+F, [2017-09-17T12:19:30.834441 #18929] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T12:25:50.316873 #19288]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:25:50 +0000
+I, [2017-09-17T12:25:50.331933 #19288]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:25:50.344451 #19288]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:25:56.630296 #19288]  INFO -- :   Rendered site/index.html.erb within layouts/application (6285.5ms)
+I, [2017-09-17T12:25:56.630863 #19288]  INFO -- : Completed 500 Internal Server Error in 6299ms
+F, [2017-09-17T12:25:56.632378 #19288] FATAL -- :   
+F, [2017-09-17T12:25:56.632451 #19288] FATAL -- : ActionView::Template::Error (couldn't find file 'self' with type 'text/css'
+Checked in these paths: 
+  /var/www/fontofdata/code/app/assets/images
+  /var/www/fontofdata/code/app/assets/javascripts
+  /var/www/fontofdata/code/app/assets/stylesheets
+  /var/www/fontofdata/code/vendor/assets/javascripts
+  /var/www/fontofdata/code/vendor/assets/stylesheets
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/jquery-rails-4.3.1/vendor/assets/javascripts
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/coffee-rails-4.1.1/lib/assets/javascripts
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/actioncable-5.0.6/lib/assets/compiled
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/turbolinks-source-5.0.3/lib/assets/javascripts):
+F, [2017-09-17T12:25:56.632700 #19288] FATAL -- :     1: <%= stylesheet_link_tag "site", media: "all" %>
+    2: <%= javascript_include_tag "site" %>
+    3: <body>
+    4: 	<div class="wrapper">
+F, [2017-09-17T12:25:56.632754 #19288] FATAL -- :   
+F, [2017-09-17T12:25:56.632805 #19288] FATAL -- : app/assets/stylesheets/application.css:14
+app/views/site/index.html.erb:1:in `_app_views_site_index_html_erb___928561739909885793_19308600'
+I, [2017-09-17T12:26:05.527258 #19513]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:26:05 +0000
+I, [2017-09-17T12:26:05.541736 #19513]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:26:05.554362 #19513]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:26:05.697962 #19513]  INFO -- :   Rendered site/index.html.erb within layouts/application (143.3ms)
+I, [2017-09-17T12:26:05.698344 #19513]  INFO -- : Completed 500 Internal Server Error in 156ms
+F, [2017-09-17T12:26:05.699670 #19513] FATAL -- :   
+F, [2017-09-17T12:26:05.699743 #19513] FATAL -- : ActionView::Template::Error (couldn't find file 'self' with type 'text/css'
+Checked in these paths: 
+  /var/www/fontofdata/code/app/assets/images
+  /var/www/fontofdata/code/app/assets/javascripts
+  /var/www/fontofdata/code/app/assets/stylesheets
+  /var/www/fontofdata/code/vendor/assets/javascripts
+  /var/www/fontofdata/code/vendor/assets/stylesheets
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/jquery-rails-4.3.1/vendor/assets/javascripts
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/coffee-rails-4.1.1/lib/assets/javascripts
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/actioncable-5.0.6/lib/assets/compiled
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/turbolinks-source-5.0.3/lib/assets/javascripts):
+F, [2017-09-17T12:26:05.699952 #19513] FATAL -- :     1: <%= stylesheet_link_tag "site", media: "all" %>
+    2: <%= javascript_include_tag "site" %>
+    3: <body>
+    4: 	<div class="wrapper">
+F, [2017-09-17T12:26:05.700003 #19513] FATAL -- :   
+F, [2017-09-17T12:26:05.700056 #19513] FATAL -- : app/assets/stylesheets/application.css:14
+app/views/site/index.html.erb:1:in `_app_views_site_index_html_erb___3198476117696163556_25666940'
+I, [2017-09-17T12:26:10.061650 #19513]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:26:10 +0000
+I, [2017-09-17T12:26:10.063541 #19513]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:26:10.065572 #19513]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:26:10.072913 #19513]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.1ms)
+I, [2017-09-17T12:26:10.073088 #19513]  INFO -- : Completed 500 Internal Server Error in 9ms
+F, [2017-09-17T12:26:10.074361 #19513] FATAL -- :   
+F, [2017-09-17T12:26:10.074433 #19513] FATAL -- : ActionView::Template::Error (couldn't find file 'self' with type 'text/css'
+Checked in these paths: 
+  /var/www/fontofdata/code/app/assets/images
+  /var/www/fontofdata/code/app/assets/javascripts
+  /var/www/fontofdata/code/app/assets/stylesheets
+  /var/www/fontofdata/code/vendor/assets/javascripts
+  /var/www/fontofdata/code/vendor/assets/stylesheets
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/jquery-rails-4.3.1/vendor/assets/javascripts
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/coffee-rails-4.1.1/lib/assets/javascripts
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/actioncable-5.0.6/lib/assets/compiled
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/turbolinks-source-5.0.3/lib/assets/javascripts):
+F, [2017-09-17T12:26:10.074646 #19513] FATAL -- :     1: <%= stylesheet_link_tag "site", media: "all" %>
+    2: <%= javascript_include_tag "site" %>
+    3: <body>
+    4: 	<div class="wrapper">
+F, [2017-09-17T12:26:10.074700 #19513] FATAL -- :   
+F, [2017-09-17T12:26:10.074748 #19513] FATAL -- : app/assets/stylesheets/application.css:14
+app/views/site/index.html.erb:1:in `_app_views_site_index_html_erb___3198476117696163556_25666940'
+I, [2017-09-17T12:26:11.470392 #19513]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:26:11 +0000
+I, [2017-09-17T12:26:11.472088 #19513]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:26:11.473860 #19513]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:26:11.479020 #19513]  INFO -- :   Rendered site/index.html.erb within layouts/application (4.9ms)
+I, [2017-09-17T12:26:11.479194 #19513]  INFO -- : Completed 500 Internal Server Error in 7ms
+F, [2017-09-17T12:26:11.480480 #19513] FATAL -- :   
+F, [2017-09-17T12:26:11.480546 #19513] FATAL -- : ActionView::Template::Error (couldn't find file 'self' with type 'text/css'
+Checked in these paths: 
+  /var/www/fontofdata/code/app/assets/images
+  /var/www/fontofdata/code/app/assets/javascripts
+  /var/www/fontofdata/code/app/assets/stylesheets
+  /var/www/fontofdata/code/vendor/assets/javascripts
+  /var/www/fontofdata/code/vendor/assets/stylesheets
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/jquery-rails-4.3.1/vendor/assets/javascripts
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/coffee-rails-4.1.1/lib/assets/javascripts
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/actioncable-5.0.6/lib/assets/compiled
+  /var/www/fontofdata/code/vendor/bundle/ruby/2.4.0/gems/turbolinks-source-5.0.3/lib/assets/javascripts):
+F, [2017-09-17T12:26:11.480775 #19513] FATAL -- :     1: <%= stylesheet_link_tag "site", media: "all" %>
+    2: <%= javascript_include_tag "site" %>
+    3: <body>
+    4: 	<div class="wrapper">
+F, [2017-09-17T12:26:11.480840 #19513] FATAL -- :   
+F, [2017-09-17T12:26:11.480894 #19513] FATAL -- : app/assets/stylesheets/application.css:14
+app/views/site/index.html.erb:1:in `_app_views_site_index_html_erb___3198476117696163556_25666940'
+I, [2017-09-17T12:30:45.029318 #19513]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:30:45 +0000
+I, [2017-09-17T12:30:45.034138 #19513]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:30:45.038717 #19513]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:31:08.385158 #20054]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:31:08 +0000
+I, [2017-09-17T12:31:08.423991 #20054]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:31:08.454028 #20054]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:31:08.480899 #20054]  INFO -- :   Rendered site/index.html.erb within layouts/application (26.4ms)
+I, [2017-09-17T12:31:08.484168 #20054]  INFO -- : Completed 200 OK in 60ms (Views: 33.1ms)
+I, [2017-09-17T12:31:08.494328 #20061]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:31:08 +0000
+I, [2017-09-17T12:31:08.516000 #20061]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:31:08.531981 #20061]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:31:08.540438 #20061]  INFO -- :   Rendered site/index.html.erb within layouts/application (8.0ms)
+I, [2017-09-17T12:31:08.543110 #20061]  INFO -- : Completed 200 OK in 27ms (Views: 14.5ms)
+I, [2017-09-17T12:31:12.995851 #20054]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:31:12 +0000
+I, [2017-09-17T12:31:12.998501 #20054]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:31:13.002194 #20054]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:31:13.003569 #20054]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.0ms)
+I, [2017-09-17T12:31:13.005221 #20054]  INFO -- : Completed 200 OK in 6ms (Views: 3.9ms)
+I, [2017-09-17T12:31:14.080919 #20054]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:31:14 +0000
+I, [2017-09-17T12:31:14.081994 #20054]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:31:14.083044 #20054]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:31:14.083723 #20054]  INFO -- :   Rendered site/index.html.erb within layouts/application (0.5ms)
+I, [2017-09-17T12:31:14.084609 #20054]  INFO -- : Completed 200 OK in 2ms (Views: 1.8ms)
+I, [2017-09-17T12:31:14.274209 #19513]  INFO -- :   Rendered site/index.html.erb within layouts/application (29235.0ms)
+I, [2017-09-17T12:31:14.279281 #19513]  INFO -- : Completed 200 OK in 29245ms (Views: 29241.5ms)
+I, [2017-09-17T12:32:03.240802 #20054]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:32:03 +0000
+I, [2017-09-17T12:32:03.243631 #20054]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:32:03.246147 #20054]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:32:03.247217 #20054]  INFO -- :   Rendered site/index.html.erb within layouts/application (0.9ms)
+I, [2017-09-17T12:32:03.248357 #20054]  INFO -- : Completed 200 OK in 5ms (Views: 2.8ms)
+I, [2017-09-17T12:32:31.492105 #20054]  INFO -- : Started GET "/" for 34.253.76.232 at 2017-09-17 12:32:31 +0000
+I, [2017-09-17T12:32:31.494176 #20054]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:32:31.495839 #20054]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:32:31.497200 #20054]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.1ms)
+I, [2017-09-17T12:32:31.498841 #20054]  INFO -- : Completed 200 OK in 4ms (Views: 3.4ms)
+I, [2017-09-17T12:33:29.834690 #20054]  INFO -- : Started GET "/" for 66.249.75.132 at 2017-09-17 12:33:29 +0000
+I, [2017-09-17T12:33:29.840881 #20054]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:33:29.844437 #20054]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:33:29.846484 #20054]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.7ms)
+I, [2017-09-17T12:33:29.848286 #20054]  INFO -- : Completed 200 OK in 7ms (Views: 4.7ms)
+I, [2017-09-17T12:37:18.552460 #20054]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:37:18 +0000
+I, [2017-09-17T12:37:18.556153 #20054]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:37:18.558399 #20054]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:37:18.560329 #20054]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.6ms)
+I, [2017-09-17T12:37:18.562195 #20054]  INFO -- : Completed 200 OK in 6ms (Views: 4.1ms)
+I, [2017-09-17T12:38:39.415566 #20517]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:38:39 +0000
+I, [2017-09-17T12:38:39.430449 #20517]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:38:39.443667 #20517]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:38:39.452716 #20517]  INFO -- :   Rendered site/index.html.erb within layouts/application (8.7ms)
+I, [2017-09-17T12:38:39.455291 #20517]  INFO -- : Completed 200 OK in 25ms (Views: 13.9ms)
+I, [2017-09-17T12:39:16.993314 #20517]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:39:16 +0000
+I, [2017-09-17T12:39:16.998866 #20517]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:39:17.002417 #20517]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:39:17.004363 #20517]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.7ms)
+I, [2017-09-17T12:39:17.006481 #20517]  INFO -- : Completed 200 OK in 7ms (Views: 5.4ms)
+I, [2017-09-17T12:41:00.631354 #20517]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:41:00 +0000
+I, [2017-09-17T12:41:00.635047 #20517]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:41:00.638738 #20517]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:41:00.640163 #20517]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.1ms)
+I, [2017-09-17T12:41:00.641241 #20517]  INFO -- : Completed 200 OK in 6ms (Views: 3.4ms)
+I, [2017-09-17T12:43:31.863204 #20845]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:43:31 +0000
+I, [2017-09-17T12:43:31.879985 #20845]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:43:31.893822 #20845]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:43:31.901515 #20845]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.4ms)
+I, [2017-09-17T12:43:31.903764 #20845]  INFO -- : Completed 200 OK in 23ms (Views: 12.5ms)
+I, [2017-09-17T12:43:56.026818 #20845]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:43:56 +0000
+I, [2017-09-17T12:43:56.028563 #20845]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:43:56.030369 #20845]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:43:56.031162 #20845]  INFO -- :   Rendered site/index.html.erb within layouts/application (0.6ms)
+I, [2017-09-17T12:43:56.032211 #20845]  INFO -- : Completed 200 OK in 3ms (Views: 2.4ms)
+I, [2017-09-17T12:51:44.831178 #21233]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:51:44 +0000
+I, [2017-09-17T12:51:44.847130 #21233]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:51:44.859793 #21233]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:51:44.867770 #21233]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.7ms)
+I, [2017-09-17T12:51:44.870099 #21233]  INFO -- : Completed 200 OK in 23ms (Views: 12.7ms)
+I, [2017-09-17T12:52:27.213761 #21461]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:52:27 +0000
+I, [2017-09-17T12:52:27.228021 #21461]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:52:27.240977 #21461]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:52:27.248570 #21461]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.3ms)
+I, [2017-09-17T12:52:27.250902 #21461]  INFO -- : Completed 200 OK in 23ms (Views: 12.1ms)
+I, [2017-09-17T12:53:02.050043 #21461]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 12:53:02 +0000
+I, [2017-09-17T12:53:02.054090 #21461]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T12:53:02.057120 #21461]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T12:53:02.058451 #21461]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.1ms)
+I, [2017-09-17T12:53:02.059763 #21461]  INFO -- : Completed 200 OK in 5ms (Views: 3.5ms)
