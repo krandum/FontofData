@@ -1,9 +1,18 @@
 Rails.application.routes.draw do
   resources :interactions
   resources :effects
-  devise_for :users
   resources :factions
   resources :data_nodes
+
+  Rails.application.routes.draw do
+    devise_for :users, 
+     controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
+  end
+
+  devise_scope :user do
+    patch 'registration/faction', :to => 'users/registrations#faction'
+  end
+
   # get 'data_nodes/index'
   # get 'data_nodes/show'
   # get 'data_nodes/new'
