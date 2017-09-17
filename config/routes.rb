@@ -26,7 +26,6 @@ Rails.application.routes.draw do
   # put 'data_nodes/update'
   # delete 'data_nodes/destroy'
 
-  get '/', to: 'data_nodes#index'
   root 'site#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
