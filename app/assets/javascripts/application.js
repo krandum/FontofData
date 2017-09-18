@@ -13,3 +13,15 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+var isFirstLoad = function(namesp, jsFile) {
+	var isFirst = namesp.firstload === undefined;
+	namesp.firstLoad = false;
+
+	if (!isFirst) {
+		console.log("Warning: Javascript file is included twice: " +
+			jsFile);
+	}
+
+	return isFirst;
+};

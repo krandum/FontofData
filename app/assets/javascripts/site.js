@@ -3,6 +3,7 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on('ready page:load', function() {
+
 	var selectedNodes = [];
 	var selectedIndex = -1;
 	var options = [document.getElementById("attack"),
@@ -97,7 +98,7 @@ $(document).on('ready page:load', function() {
 	// 		}
 	// 	});
 	// });
-	$('.node').on("click", function(e) {
+	$('.node').off().on("click", function(e) {
 		if (e.target.className == "node")
 		{
 			var node = e.target;
