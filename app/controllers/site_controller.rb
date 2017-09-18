@@ -1,12 +1,15 @@
 class SiteController < ApplicationController
 	def index
-		@factions = [' ', ' red', ' blue', ' green', ' ']
+		@factions = ['', 'red', 'blue', 'green', ' ']
 		@nodes = []
-		i = 1
-		while i <= 32 do
-			base = 'elem'
-			fid = DataNode.where(value: i).first.faction_id
-			name = base << @factions[fid]
+		iter = 1
+		while iter <= 32 do
+			name = 'elem'
+			node = DataNode.where(:value: iter).first
+			if (node.exists?)
+				index = node.faction_id
+				name += ' ' << @factions[index]
+			end
 			@nodes.push(name)
 			iter += 1
 		end
