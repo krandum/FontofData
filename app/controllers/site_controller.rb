@@ -6,7 +6,7 @@ class SiteController < ApplicationController
 		while iter <= 32 do
 			name = 'elem'
 			elem = DataNode.where(value: iter).first
-			if elem.method_defined?(:faction_id) && !(elem.empty?) && defined? elem
+			if defined? elem && !(elem.empty?) && elem.method_defined?(:faction_id)
 				index = elem.faction.id
 				name += ' ' << factions[index]
 			end
