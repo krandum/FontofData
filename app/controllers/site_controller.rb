@@ -8,7 +8,7 @@ class SiteController < ApplicationController
 			fid = DataNode.where(value: i).first.faction_id
 			name = base << @factions[fid]
 			@nodes.push(name)
-			iter++
+			iter += 1
 		end
 	end
 end
