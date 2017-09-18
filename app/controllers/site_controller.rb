@@ -4,9 +4,9 @@ class SiteController < ApplicationController
 		@nodes = []
 		(1...32).each do |iter|
 			name = "elem"
-			node = DataNode.where(value: iter).first
+			node = DataNode.where(value: iter)
 			if (node.exists?)
-				name += " " + @factions[node.first.faction_id % 4]
+				name += " " + @factions[node.faction_id % 4]
 			end
 			@nodes.push(name)
 		end
