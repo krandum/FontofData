@@ -5,7 +5,7 @@ class SiteController < ApplicationController
 		iter = 1
 		while (iter <= 32)
 			base = "elem"
-			fid = DataNode.first(:conditions => ["value = ?", iter]).faction_id
+			fid = DataNode.find_by(value: iter).first.faction_id
 			@nodes.push(name)
 			iter++
 		end
