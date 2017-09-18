@@ -6,7 +6,7 @@ class SiteController < ApplicationController
 		while iter <= 32 do
 			name = 'elem'
 			node = DataNode.where(:value: iter).first
-			if defined? node
+			if node.respond_to?(:faction_id)
 				index = node.faction_id
 				name += ' ' << @factions[index]
 			end
