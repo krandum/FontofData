@@ -31,7 +31,7 @@ $(document).on('ready page:load', function() {
 	var i = 1;
 	while (i <= 32)
 	{
-		let name = '#' + i.toString();
+		let name = '#' + i.toString() + " td";
 		$(document).on("click", name, function(e) {
 			var node = e.target;
 			var elem = node.childNodes[0];
@@ -78,7 +78,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	options.forEach(function(o) {
-		$('#' + o.id).on("click", function(e) {
+		$(document).on("click", '#' + o.id, function(e) {
 			var option = e.target;
 			var elem = option.firstChild.firstChild;
 			if (elem.classList.contains("selected"))
