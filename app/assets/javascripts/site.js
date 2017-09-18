@@ -32,7 +32,7 @@ $(document).on('ready page:load', function() {
 	while (i <= 32)
 	{
 		let name = '#' + i.toString();
-		$(name).on("click", function(e) {
+		$(document).on("click", name, function(e) {
 			var node = e.target;
 			var elem = node.childNodes[0];
 			// If you already selected it, unselected it with a second click
