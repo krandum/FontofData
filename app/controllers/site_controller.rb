@@ -8,7 +8,7 @@ class SiteController < ApplicationController
 			name = 'elem'
 			elem = DataNode.where(value: iter).first
 			print defined? elem
-			print elen.empty?
+			print elem.empty?
 			print elem.method_defined?(:faction_id)
 			if defined? elem && !(elem.empty?) && elem.method_defined?(:faction_id)
 				index = elem.faction_id
