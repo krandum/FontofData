@@ -3152,3 +3152,905 @@ I, [2017-09-17T13:26:31.385187 #22763]  INFO -- : Processing by SiteController#i
 I, [2017-09-17T13:26:31.387519 #22763]  INFO -- :   Rendering site/index.html.erb within layouts/application
 I, [2017-09-17T13:26:31.388381 #22763]  INFO -- :   Rendered site/index.html.erb within layouts/application (0.7ms)
 I, [2017-09-17T13:26:31.389273 #22763]  INFO -- : Completed 200 OK in 4ms (Views: 2.4ms)
+I, [2017-09-17T13:29:17.570194 #23509]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 13:29:17 +0000
+I, [2017-09-17T13:29:17.585443 #23509]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T13:29:17.598125 #23509]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T13:29:17.606035 #23509]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.6ms)
+I, [2017-09-17T13:29:17.608604 #23509]  INFO -- : Completed 200 OK in 23ms (Views: 12.7ms)
+I, [2017-09-17T13:30:43.177352 #23509]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 13:30:43 +0000
+I, [2017-09-17T13:30:43.182213 #23509]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T13:30:43.185681 #23509]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T13:30:43.187039 #23509]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.1ms)
+I, [2017-09-17T13:30:43.188473 #23509]  INFO -- : Completed 200 OK in 6ms (Views: 4.0ms)
+I, [2017-09-17T13:34:24.216777 #23509]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 13:34:24 +0000
+I, [2017-09-17T13:34:24.220553 #23509]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T13:34:24.223483 #23509]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T13:34:24.224857 #23509]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.1ms)
+I, [2017-09-17T13:34:24.226008 #23509]  INFO -- : Completed 200 OK in 5ms (Views: 3.2ms)
+I, [2017-09-17T13:34:24.244580 #23509]  INFO -- : Started GET "/assets/application-cd04dbfa9cae865e9a6e8b31b2534cb6297968148ecf7b4f830757266ee820d4.js" for 64.62.224.29 at 2017-09-17 13:34:24 +0000
+I, [2017-09-17T13:34:27.243509 #23768]  INFO -- : Started GET "/assets/site-802dc6d92f16ecd0e64a7446fa6b49daf0c902689b8a6d88ccceab7929d17cf2.js" for 64.62.224.29 at 2017-09-17 13:34:27 +0000
+F, [2017-09-17T13:34:27.921044 #23768] FATAL -- :   
+F, [2017-09-17T13:34:27.921204 #23768] FATAL -- : ActionController::RoutingError (No route matches [GET] "/assets/site-802dc6d92f16ecd0e64a7446fa6b49daf0c902689b8a6d88ccceab7929d17cf2.js"):
+F, [2017-09-17T13:34:27.921332 #23768] FATAL -- :   
+F, [2017-09-17T13:34:27.921427 #23768] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+F, [2017-09-17T13:34:29.432528 #23509] FATAL -- :   
+F, [2017-09-17T13:34:29.432660 #23509] FATAL -- : ActionController::RoutingError (No route matches [GET] "/assets/application-cd04dbfa9cae865e9a6e8b31b2534cb6297968148ecf7b4f830757266ee820d4.js"):
+F, [2017-09-17T13:34:29.432718 #23509] FATAL -- :   
+F, [2017-09-17T13:34:29.432778 #23509] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T13:34:29.445063 #23509]  INFO -- : Started GET "/assets/site-802dc6d92f16ecd0e64a7446fa6b49daf0c902689b8a6d88ccceab7929d17cf2.js" for 64.62.224.29 at 2017-09-17 13:34:29 +0000
+F, [2017-09-17T13:34:29.447185 #23509] FATAL -- :   
+F, [2017-09-17T13:34:29.447262 #23509] FATAL -- : ActionController::RoutingError (No route matches [GET] "/assets/site-802dc6d92f16ecd0e64a7446fa6b49daf0c902689b8a6d88ccceab7929d17cf2.js"):
+F, [2017-09-17T13:34:29.447319 #23509] FATAL -- :   
+F, [2017-09-17T13:34:29.447380 #23509] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T13:34:40.854346 #23509]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 13:34:40 +0000
+I, [2017-09-17T13:34:40.855416 #23509]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T13:34:40.856733 #23509]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T13:34:40.857342 #23509]  INFO -- :   Rendered site/index.html.erb within layouts/application (0.5ms)
+I, [2017-09-17T13:34:40.858041 #23509]  INFO -- : Completed 200 OK in 2ms (Views: 1.6ms)
+I, [2017-09-17T13:34:40.875469 #23509]  INFO -- : Started GET "/assets/application-cd04dbfa9cae865e9a6e8b31b2534cb6297968148ecf7b4f830757266ee820d4.js" for 64.62.224.29 at 2017-09-17 13:34:40 +0000
+F, [2017-09-17T13:34:40.876865 #23509] FATAL -- :   
+F, [2017-09-17T13:34:40.876938 #23509] FATAL -- : ActionController::RoutingError (No route matches [GET] "/assets/application-cd04dbfa9cae865e9a6e8b31b2534cb6297968148ecf7b4f830757266ee820d4.js"):
+F, [2017-09-17T13:34:40.877032 #23509] FATAL -- :   
+F, [2017-09-17T13:34:40.877092 #23509] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T13:34:40.880951 #23509]  INFO -- : Started GET "/assets/site-802dc6d92f16ecd0e64a7446fa6b49daf0c902689b8a6d88ccceab7929d17cf2.js" for 64.62.224.29 at 2017-09-17 13:34:40 +0000
+F, [2017-09-17T13:34:40.881902 #23509] FATAL -- :   
+F, [2017-09-17T13:34:40.881971 #23509] FATAL -- : ActionController::RoutingError (No route matches [GET] "/assets/site-802dc6d92f16ecd0e64a7446fa6b49daf0c902689b8a6d88ccceab7929d17cf2.js"):
+F, [2017-09-17T13:34:40.882023 #23509] FATAL -- :   
+F, [2017-09-17T13:34:40.882078 #23509] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T13:35:01.251282 #23979]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 13:35:01 +0000
+I, [2017-09-17T13:35:01.267315 #23979]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T13:35:01.281591 #23979]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T13:35:01.289797 #23979]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.7ms)
+I, [2017-09-17T13:35:01.292357 #23979]  INFO -- : Completed 200 OK in 25ms (Views: 13.3ms)
+I, [2017-09-17T13:35:17.390102 #23979]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 13:35:17 +0000
+I, [2017-09-17T13:35:17.391259 #23979]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T13:35:17.392614 #23979]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T13:35:17.393229 #23979]  INFO -- :   Rendered site/index.html.erb within layouts/application (0.5ms)
+I, [2017-09-17T13:35:17.394053 #23979]  INFO -- : Completed 200 OK in 3ms (Views: 1.8ms)
+I, [2017-09-17T13:41:29.736832 #23979]  INFO -- : Started GET "/" for 104.148.118.51 at 2017-09-17 13:41:29 +0000
+I, [2017-09-17T13:41:29.741942 #23979]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T13:41:29.745069 #23979]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T13:41:29.746720 #23979]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.3ms)
+I, [2017-09-17T13:41:29.748499 #23979]  INFO -- : Completed 200 OK in 6ms (Views: 4.4ms)
+I, [2017-09-17T13:45:16.772756 #23979]  INFO -- : Started GET "/palatorr_reference" for 64.62.224.29 at 2017-09-17 13:45:16 +0000
+F, [2017-09-17T13:45:16.773867 #23979] FATAL -- :   
+F, [2017-09-17T13:45:16.773952 #23979] FATAL -- : ActionController::RoutingError (No route matches [GET] "/palatorr_reference"):
+F, [2017-09-17T13:45:16.774003 #23979] FATAL -- :   
+F, [2017-09-17T13:45:16.774073 #23979] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T13:45:21.935649 #23979]  INFO -- : Started GET "/pablo_reference" for 64.62.224.29 at 2017-09-17 13:45:21 +0000
+F, [2017-09-17T13:45:22.178362 #23979] FATAL -- :   
+F, [2017-09-17T13:45:22.178540 #23979] FATAL -- : ActionController::RoutingError (No route matches [GET] "/pablo_reference"):
+F, [2017-09-17T13:45:22.178600 #23979] FATAL -- :   
+F, [2017-09-17T13:45:22.178673 #23979] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T13:45:35.095926 #23979]  INFO -- : Started GET "/palatorr_reference" for 64.62.224.29 at 2017-09-17 13:45:35 +0000
+F, [2017-09-17T13:45:35.097826 #23979] FATAL -- :   
+F, [2017-09-17T13:45:35.097904 #23979] FATAL -- : ActionController::RoutingError (No route matches [GET] "/palatorr_reference"):
+F, [2017-09-17T13:45:35.097954 #23979] FATAL -- :   
+F, [2017-09-17T13:45:35.098014 #23979] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T13:45:41.805805 #23979]  INFO -- : Started GET "/palatorr_reference" for 64.62.224.29 at 2017-09-17 13:45:41 +0000
+F, [2017-09-17T13:45:41.807045 #23979] FATAL -- :   
+F, [2017-09-17T13:45:41.807169 #23979] FATAL -- : ActionController::RoutingError (No route matches [GET] "/palatorr_reference"):
+F, [2017-09-17T13:45:41.807260 #23979] FATAL -- :   
+F, [2017-09-17T13:45:41.807378 #23979] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T13:45:44.116029 #23979]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-17 13:45:44 +0000
+I, [2017-09-17T13:45:44.119387 #23979]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T13:45:44.122393 #23979]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T13:45:44.123482 #23979]  INFO -- :   Rendered site/index.html.erb within layouts/application (0.9ms)
+I, [2017-09-17T13:45:44.124684 #23979]  INFO -- : Completed 200 OK in 5ms (Views: 3.0ms)
+I, [2017-09-17T13:45:46.846321 #23979]  INFO -- : Started GET "/palatorr_reference" for 64.62.224.29 at 2017-09-17 13:45:46 +0000
+F, [2017-09-17T13:45:46.849791 #23979] FATAL -- :   
+F, [2017-09-17T13:45:46.849962 #23979] FATAL -- : ActionController::RoutingError (No route matches [GET] "/palatorr_reference"):
+F, [2017-09-17T13:45:46.850109 #23979] FATAL -- :   
+F, [2017-09-17T13:45:46.850265 #23979] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T13:45:52.439682 #23979]  INFO -- : Started GET "/palatorr_reference" for 64.62.224.29 at 2017-09-17 13:45:52 +0000
+F, [2017-09-17T13:45:52.440539 #23979] FATAL -- :   
+F, [2017-09-17T13:45:52.440608 #23979] FATAL -- : ActionController::RoutingError (No route matches [GET] "/palatorr_reference"):
+F, [2017-09-17T13:45:52.440654 #23979] FATAL -- :   
+F, [2017-09-17T13:45:52.440706 #23979] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T14:16:57.211168 #24911]  INFO -- : Started GET "/" for 199.217.115.151 at 2017-09-17 14:16:57 +0000
+I, [2017-09-17T14:16:57.234020 #24911]  INFO -- : Processing by SiteController#index as */*
+I, [2017-09-17T14:16:57.249832 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T14:16:57.259599 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (9.4ms)
+I, [2017-09-17T14:16:57.262287 #24911]  INFO -- : Completed 200 OK in 28ms (Views: 15.2ms)
+I, [2017-09-17T14:17:18.449547 #24911]  INFO -- : Started GET "/" for 199.217.115.151 at 2017-09-17 14:17:18 +0000
+I, [2017-09-17T14:17:18.452478 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T14:17:18.454750 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T14:17:18.456558 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.6ms)
+I, [2017-09-17T14:17:18.457623 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.4ms)
+I, [2017-09-17T14:37:01.346654 #24911]  INFO -- : Started GET "/" for 54.76.7.111 at 2017-09-17 14:37:01 +0000
+I, [2017-09-17T14:37:01.350745 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T14:37:01.353284 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T14:37:01.354641 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.1ms)
+I, [2017-09-17T14:37:01.355866 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.4ms)
+I, [2017-09-17T16:46:59.798024 #24911]  INFO -- : Started GET "/" for 34.253.76.232 at 2017-09-17 16:46:59 +0000
+I, [2017-09-17T16:46:59.802503 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T16:46:59.805017 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T16:46:59.806488 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.2ms)
+I, [2017-09-17T16:46:59.807750 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.5ms)
+I, [2017-09-17T16:58:03.706030 #24911]  INFO -- : Started GET "/" for 2607:5300:60:7eb2:2607:60:b300:100 at 2017-09-17 16:58:03 +0000
+I, [2017-09-17T16:58:03.711765 #24911]  INFO -- : Processing by SiteController#index as */*
+I, [2017-09-17T16:58:03.714223 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T16:58:03.715654 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.2ms)
+I, [2017-09-17T16:58:03.716870 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.4ms)
+I, [2017-09-17T17:33:21.087085 #24911]  INFO -- : Started GET "/" for 70.42.131.170 at 2017-09-17 17:33:21 +0000
+I, [2017-09-17T17:33:21.091780 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T17:33:21.094364 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T17:33:21.095960 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.3ms)
+I, [2017-09-17T17:33:21.097330 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.7ms)
+I, [2017-09-17T18:51:40.279037 #24911]  INFO -- : Started GET "/" for 54.72.56.115 at 2017-09-17 18:51:40 +0000
+I, [2017-09-17T18:51:40.284660 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T18:51:40.287163 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T18:51:40.288659 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.2ms)
+I, [2017-09-17T18:51:40.289908 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.5ms)
+I, [2017-09-17T19:34:27.199548 #24911]  INFO -- : Started GET "/" for 66.249.79.29 at 2017-09-17 19:34:27 +0000
+I, [2017-09-17T19:34:27.208483 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T19:34:27.211329 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T19:34:27.213122 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.5ms)
+I, [2017-09-17T19:34:27.214420 #24911]  INFO -- : Completed 200 OK in 6ms (Views: 3.9ms)
+I, [2017-09-17T19:51:14.837137 #24911]  INFO -- : Started GET "/" for 2606:700:9:350::c6ba:c02c at 2017-09-17 19:51:14 +0000
+I, [2017-09-17T19:51:14.841368 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T19:51:14.843866 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T19:51:14.845350 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.2ms)
+I, [2017-09-17T19:51:14.846642 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.5ms)
+I, [2017-09-17T20:34:01.020096 #24911]  INFO -- : Started GET "/" for 54.76.7.111 at 2017-09-17 20:34:01 +0000
+I, [2017-09-17T20:34:01.024488 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T20:34:01.027019 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T20:34:01.028550 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.2ms)
+I, [2017-09-17T20:34:01.029903 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.6ms)
+I, [2017-09-17T20:49:07.932608 #24911]  INFO -- : Started HEAD "/" for 62.109.4.125 at 2017-09-17 20:49:07 +0000
+I, [2017-09-17T20:49:07.937943 #24911]  INFO -- : Processing by SiteController#index as */*
+I, [2017-09-17T20:49:07.940526 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T20:49:07.942080 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.3ms)
+I, [2017-09-17T20:49:07.943379 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.7ms)
+I, [2017-09-17T20:49:08.549053 #24911]  INFO -- : Started GET "/" for 62.109.4.125 at 2017-09-17 20:49:08 +0000
+I, [2017-09-17T20:49:08.550057 #24911]  INFO -- : Processing by SiteController#index as */*
+I, [2017-09-17T20:49:08.551190 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T20:49:08.552292 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (0.9ms)
+I, [2017-09-17T20:49:08.553367 #24911]  INFO -- : Completed 200 OK in 3ms (Views: 2.7ms)
+I, [2017-09-17T20:49:10.956379 #24911]  INFO -- : Started GET "/admin/" for 62.109.4.125 at 2017-09-17 20:49:10 +0000
+F, [2017-09-17T20:49:10.958694 #24911] FATAL -- :   
+F, [2017-09-17T20:49:10.958801 #24911] FATAL -- : ActionController::RoutingError (No route matches [GET] "/admin"):
+F, [2017-09-17T20:49:10.958859 #24911] FATAL -- :   
+F, [2017-09-17T20:49:10.958938 #24911] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T20:49:13.469557 #24911]  INFO -- : Started GET "/manager/" for 62.109.4.125 at 2017-09-17 20:49:13 +0000
+F, [2017-09-17T20:49:13.470952 #24911] FATAL -- :   
+F, [2017-09-17T20:49:13.471070 #24911] FATAL -- : ActionController::RoutingError (No route matches [GET] "/manager"):
+F, [2017-09-17T20:49:13.471183 #24911] FATAL -- :   
+F, [2017-09-17T20:49:13.471277 #24911] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T20:49:15.981097 #24911]  INFO -- : Started GET "/admin/content/sitetree/" for 62.109.4.125 at 2017-09-17 20:49:15 +0000
+F, [2017-09-17T20:49:15.982452 #24911] FATAL -- :   
+F, [2017-09-17T20:49:15.982692 #24911] FATAL -- : ActionController::RoutingError (No route matches [GET] "/admin/content/sitetree"):
+F, [2017-09-17T20:49:15.982803 #24911] FATAL -- :   
+F, [2017-09-17T20:49:15.982909 #24911] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T20:49:18.380448 #24911]  INFO -- : Started GET "/simpla/" for 62.109.4.125 at 2017-09-17 20:49:18 +0000
+F, [2017-09-17T20:49:18.381753 #24911] FATAL -- :   
+F, [2017-09-17T20:49:18.381878 #24911] FATAL -- : ActionController::RoutingError (No route matches [GET] "/simpla"):
+F, [2017-09-17T20:49:18.381991 #24911] FATAL -- :   
+F, [2017-09-17T20:49:18.382120 #24911] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T20:49:18.899014 #24911]  INFO -- : Started GET "/js/mage/cookies.js" for 62.109.4.125 at 2017-09-17 20:49:18 +0000
+F, [2017-09-17T20:49:18.902409 #24911] FATAL -- :   
+F, [2017-09-17T20:49:18.902614 #24911] FATAL -- : ActionController::RoutingError (No route matches [GET] "/js/mage/cookies.js"):
+F, [2017-09-17T20:49:18.902734 #24911] FATAL -- :   
+F, [2017-09-17T20:49:18.902873 #24911] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-17T23:28:55.574673 #24911]  INFO -- : Started GET "/" for 50.117.89.222 at 2017-09-17 23:28:55 +0000
+I, [2017-09-17T23:28:55.578773 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-17T23:28:55.581290 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-17T23:28:55.582791 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.2ms)
+I, [2017-09-17T23:28:55.584045 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.5ms)
+I, [2017-09-18T01:09:57.143045 #24911]  INFO -- : Started GET "/" for 2600:8801:a000:22d:d9e6:b149:789a:bfab at 2017-09-18 01:09:57 +0000
+I, [2017-09-18T01:09:57.147325 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T01:09:57.149937 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T01:09:57.151447 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.2ms)
+I, [2017-09-18T01:09:57.152784 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.7ms)
+I, [2017-09-18T02:13:02.302777 #24911]  INFO -- : Started GET "/" for 27.151.73.129 at 2017-09-18 02:13:02 +0000
+I, [2017-09-18T02:13:02.307614 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T02:13:02.311502 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T02:13:02.314643 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (2.8ms)
+I, [2017-09-18T02:13:02.315945 #24911]  INFO -- : Completed 200 OK in 8ms (Views: 5.2ms)
+I, [2017-09-18T02:27:36.746440 #24911]  INFO -- : Started GET "/palatorr_reference" for 64.62.224.29 at 2017-09-18 02:27:36 +0000
+F, [2017-09-18T02:27:36.748682 #24911] FATAL -- :   
+F, [2017-09-18T02:27:36.748768 #24911] FATAL -- : ActionController::RoutingError (No route matches [GET] "/palatorr_reference"):
+F, [2017-09-18T02:27:36.748824 #24911] FATAL -- :   
+F, [2017-09-18T02:27:36.748906 #24911] FATAL -- : vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:36:in `call_app'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `block in call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `block in tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:26:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/tagged_logging.rb:69:in `tagged'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/rack/logger.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/request_id.rb:24:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/method_override.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/runtime.rb:22:in `call'
+vendor/bundle/ruby/2.4.0/gems/activesupport-5.0.6/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+vendor/bundle/ruby/2.4.0/gems/actionpack-5.0.6/lib/action_dispatch/middleware/executor.rb:12:in `call'
+vendor/bundle/ruby/2.4.0/gems/rack-2.0.3/lib/rack/sendfile.rb:111:in `call'
+vendor/bundle/ruby/2.4.0/gems/railties-5.0.6/lib/rails/engine.rb:522:in `call'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/rack/thread_handler_extension.rb:97:in `process_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:152:in `accept_and_process_next_request'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler/thread_handler.rb:113:in `main_loop'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/request_handler.rb:416:in `block (3 levels) in start_threads'
+/usr/lib/ruby/vendor_ruby/phusion_passenger/utils.rb:113:in `block in create_thread_and_abort_on_exception'
+I, [2017-09-18T02:27:39.524257 #24911]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 02:27:39 +0000
+I, [2017-09-18T02:27:39.526914 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T02:27:39.530011 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T02:27:39.531261 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.0ms)
+I, [2017-09-18T02:27:39.532331 #24911]  INFO -- : Completed 200 OK in 5ms (Views: 3.0ms)
+I, [2017-09-18T02:38:03.289024 #24911]  INFO -- : Started GET "/" for 66.102.6.198 at 2017-09-18 02:38:03 +0000
+I, [2017-09-18T02:38:03.293932 #24911]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T02:38:03.297444 #24911]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T02:38:03.298905 #24911]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.2ms)
+I, [2017-09-18T02:38:03.300146 #24911]  INFO -- : Completed 200 OK in 6ms (Views: 3.8ms)
+I, [2017-09-18T02:42:00.810165 #11725]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 02:42:00 +0000
+I, [2017-09-18T02:42:00.831362 #11725]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T02:42:00.848543 #11725]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T02:42:00.861682 #11725]  INFO -- :   Rendered site/index.html.erb within layouts/application (12.6ms)
+I, [2017-09-18T02:42:00.865506 #11725]  INFO -- : Completed 200 OK in 34ms (Views: 20.1ms)
+I, [2017-09-18T02:42:38.232499 #11725]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 02:42:38 +0000
+I, [2017-09-18T02:42:38.233991 #11725]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T02:42:38.236804 #11725]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T02:42:38.237567 #11725]  INFO -- :   Rendered site/index.html.erb within layouts/application (0.6ms)
+I, [2017-09-18T02:42:38.238431 #11725]  INFO -- : Completed 200 OK in 3ms (Views: 2.0ms)
+I, [2017-09-18T02:42:49.739697 #11933]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 02:42:49 +0000
+I, [2017-09-18T02:42:49.756648 #11933]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T02:42:49.768660 #11933]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T02:42:49.775557 #11933]  INFO -- :   Rendered site/index.html.erb within layouts/application (6.6ms)
+I, [2017-09-18T02:42:49.777680 #11933]  INFO -- : Completed 200 OK in 21ms (Views: 11.2ms)
+I, [2017-09-18T02:48:35.332288 #12275]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 02:48:35 +0000
+I, [2017-09-18T02:48:35.347616 #12275]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T02:48:35.362002 #12275]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T02:48:35.370204 #12275]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.8ms)
+I, [2017-09-18T02:48:35.372812 #12275]  INFO -- : Completed 200 OK in 25ms (Views: 13.3ms)
+I, [2017-09-18T02:51:40.490586 #12551]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 02:51:40 +0000
+I, [2017-09-18T02:51:40.508494 #12551]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T02:51:40.522535 #12551]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T02:51:40.530650 #12551]  INFO -- :   Rendered site/index.html.erb within layouts/application (7.7ms)
+I, [2017-09-18T02:51:40.533399 #12551]  INFO -- : Completed 200 OK in 24ms (Views: 13.4ms)
+I, [2017-09-18T03:35:36.952295 #13848]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 03:35:36 +0000
+I, [2017-09-18T03:35:36.965894 #13848]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T03:35:36.970916 #13848]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T03:35:36.980833 #13848]  INFO -- :   Rendered site/index.html.erb within layouts/application (9.6ms)
+I, [2017-09-18T03:35:36.992340 #13848]  INFO -- : Completed 200 OK in 26ms (Views: 23.8ms)
+I, [2017-09-18T03:42:54.011156 #14239]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 03:42:54 +0000
+I, [2017-09-18T03:42:54.024983 #14239]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T03:42:54.029524 #14239]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T03:42:54.038448 #14239]  INFO -- :   Rendered site/index.html.erb within layouts/application (8.6ms)
+I, [2017-09-18T03:42:54.049086 #14239]  INFO -- : Completed 200 OK in 24ms (Views: 22.0ms)
+I, [2017-09-18T03:52:47.847715 #14686]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 03:52:47 +0000
+I, [2017-09-18T03:52:47.863068 #14686]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T03:52:47.867803 #14686]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T03:52:47.876526 #14686]  INFO -- :   Rendered site/index.html.erb within layouts/application (8.4ms)
+I, [2017-09-18T03:52:47.887222 #14686]  INFO -- : Completed 200 OK in 24ms (Views: 21.8ms)
+I, [2017-09-18T04:01:32.903246 #15101]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:01:32 +0000
+I, [2017-09-18T04:01:32.918891 #15101]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T04:01:32.923481 #15101]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T04:01:49.202176 #15170]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:01:49 +0000
+I, [2017-09-18T04:01:49.220236 #15170]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T04:01:49.225883 #15170]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T04:01:59.431789 #15101]  INFO -- :   Rendered site/index.html.erb within layouts/application (26508.1ms)
+I, [2017-09-18T04:01:59.444268 #15101]  INFO -- : Completed 200 OK in 26525ms (Views: 26523.3ms)
+I, [2017-09-18T04:02:00.537586 #15170]  INFO -- :   Rendered site/index.html.erb within layouts/application (11311.4ms)
+I, [2017-09-18T04:02:00.547732 #15170]  INFO -- : Completed 200 OK in 11327ms (Views: 11325.4ms)
+I, [2017-09-18T04:02:00.573092 #15170]  INFO -- : Started GET "/assets/site-c2b221f41d1508e9a8f12681adaeebd1087d28df2aefd420d1a42ed9e0dd7061.js" for 64.62.224.29 at 2017-09-18 04:02:00 +0000
+I, [2017-09-18T04:02:00.573218 #15101]  INFO -- : Started GET "/assets/site-e4689dddb468d677be7185c4a1a21c0322b6d5a50bd69c3180357e9e7aa00d61.css" for 64.62.224.29 at 2017-09-18 04:02:00 +0000
+I, [2017-09-18T04:06:41.712039 #15729]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:06:41 +0000
+I, [2017-09-18T04:06:41.730473 #15729]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T04:06:41.735466 #15729]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T04:06:46.203198 #15729]  INFO -- :   Rendered site/index.html.erb within layouts/application (4467.4ms)
+I, [2017-09-18T04:06:46.213378 #15729]  INFO -- : Completed 200 OK in 4483ms (Views: 4480.6ms)
+I, [2017-09-18T04:06:46.238550 #15729]  INFO -- : Started GET "/assets/site-c9e7aeeff4d4677e06c6de4789660bf0b1770392fc52205798b8446db0a04c02.js" for 64.62.224.29 at 2017-09-18 04:06:46 +0000
+I, [2017-09-18T04:43:01.425680 #15729]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:43:01 +0000
+I, [2017-09-18T04:43:01.430170 #15729]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T04:43:01.432504 #15729]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T04:43:01.435674 #15729]  INFO -- :   Rendered site/index.html.erb within layouts/application (2.9ms)
+I, [2017-09-18T04:43:01.438099 #15729]  INFO -- : Completed 200 OK in 8ms (Views: 6.6ms)
+I, [2017-09-18T04:43:14.328766 #16879]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:43:14 +0000
+I, [2017-09-18T04:43:14.344936 #16879]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:43:14.365051 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.366135 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 2], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.367097 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 3], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.368002 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 4], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.368842 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 5], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.369575 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 6], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.370356 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 7], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.371124 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 8], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.371907 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 9], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.372678 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 10], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.373430 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 11], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.374239 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 12], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.375075 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 13], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.375953 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 14], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.376861 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 15], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.377696 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 16], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.378560 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 17], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.379436 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 18], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.380331 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 19], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.381145 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 20], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.381968 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 21], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.382945 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 22], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.383707 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 23], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.384578 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 24], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.385383 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 25], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.386217 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 26], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.386975 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 27], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.387804 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 28], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.388848 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 29], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.389919 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 30], ["LIMIT", 1]]
+D, [2017-09-18T04:43:14.390737 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 31], ["LIMIT", 1]]
+I, [2017-09-18T04:43:14.395053 #16879]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T04:43:14.609055 #16879]  INFO -- :   Rendered site/index.html.erb within layouts/application (213.8ms)
+I, [2017-09-18T04:43:14.619688 #16879]  INFO -- : Completed 200 OK in 274ms (Views: 227.3ms | ActiveRecord: 6.2ms)
+I, [2017-09-18T04:48:07.770794 #16879]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:48:07 +0000
+I, [2017-09-18T04:48:07.780094 #16879]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:48:07.785634 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.786486 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 2], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.787278 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 3], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.788144 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 4], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.788905 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 5], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.789605 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 6], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.790354 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 7], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.791133 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 8], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.791770 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 9], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.792574 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 10], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.793267 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 11], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.793916 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 12], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.794623 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 13], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.795301 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 14], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.795986 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 15], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.796641 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 16], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.797363 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 17], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.798136 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 18], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.798754 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 19], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.799424 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 20], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.800097 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 21], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.800815 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 22], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.801426 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 23], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.802085 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 24], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.803184 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 25], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.804353 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 26], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.805411 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 27], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.806454 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 28], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.807428 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 29], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.808575 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 30], ["LIMIT", 1]]
+D, [2017-09-18T04:48:07.809589 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 31], ["LIMIT", 1]]
+I, [2017-09-18T04:48:07.812337 #16879]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T04:48:07.816544 #16879]  INFO -- :   Rendered site/index.html.erb within layouts/application (4.0ms)
+I, [2017-09-18T04:48:07.819921 #16879]  INFO -- : Completed 200 OK in 39ms (Views: 9.1ms | ActiveRecord: 4.8ms)
+I, [2017-09-18T04:48:09.176526 #16879]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:48:09 +0000
+I, [2017-09-18T04:48:09.177795 #16879]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:48:09.179736 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.180920 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 2], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.182057 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 3], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.183198 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 4], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.184299 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 5], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.185437 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 6], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.186556 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 7], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.187607 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 8], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.188753 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 9], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.189909 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 10], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.191036 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 11], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.192075 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 12], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.193195 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 13], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.194329 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 14], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.195450 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 15], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.196627 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 16], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.197694 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 17], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.198830 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 18], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.199958 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 19], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.201100 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 20], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.202164 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 21], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.203270 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 22], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.204446 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 23], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.205562 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 24], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.206610 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 25], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.207715 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 26], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.208883 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 27], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.209993 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 28], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.211030 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 29], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.212243 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 30], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.213349 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 31], ["LIMIT", 1]]
+I, [2017-09-18T04:48:09.214226 #16879]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T04:48:09.216215 #16879]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.8ms)
+I, [2017-09-18T04:48:09.217766 #16879]  INFO -- : Completed 200 OK in 40ms (Views: 3.9ms | ActiveRecord: 6.0ms)
+I, [2017-09-18T04:48:09.958859 #16879]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:48:09 +0000
+I, [2017-09-18T04:48:09.959762 #16879]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:48:09.961146 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.961783 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 2], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.962457 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 3], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.963131 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 4], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.963835 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 5], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.964531 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 6], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.965279 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 7], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.965957 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 8], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.966628 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 9], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.967294 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 10], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.968006 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 11], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.968715 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 12], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.969426 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 13], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.970030 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 14], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.970701 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 15], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.971370 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 16], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.972102 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 17], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.972784 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 18], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.973508 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 19], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.974188 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 20], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.974878 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 21], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.975524 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 22], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.976270 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 23], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.976969 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 24], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.977644 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 25], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.978319 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 26], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.978970 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 27], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.979663 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 28], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.980393 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 29], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.981091 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 30], ["LIMIT", 1]]
+D, [2017-09-18T04:48:09.981743 #16879] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 31], ["LIMIT", 1]]
+I, [2017-09-18T04:48:09.982349 #16879]  INFO -- :   Rendering site/index.html.erb within layouts/application
+I, [2017-09-18T04:48:09.983553 #16879]  INFO -- :   Rendered site/index.html.erb within layouts/application (1.1ms)
+I, [2017-09-18T04:48:09.984764 #16879]  INFO -- : Completed 200 OK in 25ms (Views: 2.7ms | ActiveRecord: 3.9ms)
+I, [2017-09-18T04:48:16.538283 #17203]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:48:16 +0000
+I, [2017-09-18T04:48:16.552192 #17203]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:48:16.566258 #17203] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."value" = ? ORDER BY "data_nodes"."id" ASC LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+I, [2017-09-18T04:48:16.568964 #17203]  INFO -- : Completed 500 Internal Server Error in 16ms (ActiveRecord: 1.8ms)
+F, [2017-09-18T04:48:16.569987 #17203] FATAL -- :   
+F, [2017-09-18T04:48:16.570098 #17203] FATAL -- : NoMethodError (undefined method `exists?' for nil:NilClass):
+F, [2017-09-18T04:48:16.570152 #17203] FATAL -- :   
+F, [2017-09-18T04:48:16.570215 #17203] FATAL -- : app/controllers/site_controller.rb:8:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T04:49:02.283260 #17419]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:49:02 +0000
+I, [2017-09-18T04:49:02.297541 #17419]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:49:02.314282 #17419] DEBUG -- :   [1m[36mDataNode Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+D, [2017-09-18T04:49:02.315467 #17419] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 2], ["LIMIT", 1]]
+D, [2017-09-18T04:49:02.316525 #17419] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 3], ["LIMIT", 1]]
+D, [2017-09-18T04:49:02.317557 #17419] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 4], ["LIMIT", 1]]
+D, [2017-09-18T04:49:02.318914 #17419] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."value" = ?[0m  [["value", 4]]
+I, [2017-09-18T04:49:02.334123 #17419]  INFO -- : Completed 500 Internal Server Error in 36ms (ActiveRecord: 1.9ms)
+F, [2017-09-18T04:49:02.334993 #17419] FATAL -- :   
+F, [2017-09-18T04:49:02.335197 #17419] FATAL -- : NoMethodError (undefined method `faction_id' for #<DataNode::ActiveRecord_Relation:0x00000003975a60>):
+F, [2017-09-18T04:49:02.335267 #17419] FATAL -- :   
+F, [2017-09-18T04:49:02.335348 #17419] FATAL -- : app/controllers/site_controller.rb:9:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T04:49:04.202735 #17419]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:49:04 +0000
+I, [2017-09-18T04:49:04.203778 #17419]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:49:04.205430 #17419] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+D, [2017-09-18T04:49:04.206235 #17419] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 2], ["LIMIT", 1]]
+D, [2017-09-18T04:49:04.207032 #17419] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 3], ["LIMIT", 1]]
+D, [2017-09-18T04:49:04.207835 #17419] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 4], ["LIMIT", 1]]
+D, [2017-09-18T04:49:04.209409 #17419] DEBUG -- :   [1m[36mDataNode Load (0.4ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."value" = ?[0m  [["value", 4]]
+I, [2017-09-18T04:49:04.219177 #17419]  INFO -- : Completed 500 Internal Server Error in 15ms (ActiveRecord: 0.7ms)
+F, [2017-09-18T04:49:04.219844 #17419] FATAL -- :   
+F, [2017-09-18T04:49:04.220075 #17419] FATAL -- : NoMethodError (undefined method `faction_id' for #<DataNode::ActiveRecord_Relation:0x00000004314030>):
+F, [2017-09-18T04:49:04.220168 #17419] FATAL -- :   
+F, [2017-09-18T04:49:04.220226 #17419] FATAL -- : app/controllers/site_controller.rb:9:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T04:52:31.277742 #17737]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:52:31 +0000
+I, [2017-09-18T04:52:31.294560 #17737]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:52:31.312097 #17737] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+D, [2017-09-18T04:52:31.313139 #17737] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 2], ["LIMIT", 1]]
+D, [2017-09-18T04:52:31.313983 #17737] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 3], ["LIMIT", 1]]
+D, [2017-09-18T04:52:31.314867 #17737] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 4], ["LIMIT", 1]]
+D, [2017-09-18T04:52:31.316036 #17737] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."value" = ?[0m  [["value", 4]]
+I, [2017-09-18T04:52:31.331700 #17737]  INFO -- : Completed 500 Internal Server Error in 37ms (ActiveRecord: 2.0ms)
+F, [2017-09-18T04:52:31.332684 #17737] FATAL -- :   
+F, [2017-09-18T04:52:31.332869 #17737] FATAL -- : NoMethodError (undefined method `faction_id' for #<DataNode::ActiveRecord_Relation:0x0000000269d528>):
+F, [2017-09-18T04:52:31.332937 #17737] FATAL -- :   
+F, [2017-09-18T04:52:31.333005 #17737] FATAL -- : app/controllers/site_controller.rb:9:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T04:52:49.756488 #17930]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:52:49 +0000
+I, [2017-09-18T04:52:49.770197 #17930]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:52:49.786446 #17930] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+D, [2017-09-18T04:52:49.787654 #17930] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 2], ["LIMIT", 1]]
+D, [2017-09-18T04:52:49.788454 #17930] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 3], ["LIMIT", 1]]
+D, [2017-09-18T04:52:49.789208 #17930] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 4], ["LIMIT", 1]]
+D, [2017-09-18T04:52:49.790280 #17930] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."value" = ?[0m  [["value", 4]]
+I, [2017-09-18T04:52:49.804703 #17930]  INFO -- : Completed 500 Internal Server Error in 34ms (ActiveRecord: 1.8ms)
+F, [2017-09-18T04:52:49.805453 #17930] FATAL -- :   
+F, [2017-09-18T04:52:49.805618 #17930] FATAL -- : NoMethodError (undefined method `faction_id' for #<DataNode::ActiveRecord_Relation:0x00000003243e90>):
+F, [2017-09-18T04:52:49.805673 #17930] FATAL -- :   
+F, [2017-09-18T04:52:49.805737 #17930] FATAL -- : app/controllers/site_controller.rb:9:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T04:54:59.260261 #18181]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:54:59 +0000
+I, [2017-09-18T04:54:59.275717 #18181]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:54:59.294003 #18181] DEBUG -- :   [1m[36mDataNode Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+D, [2017-09-18T04:54:59.295179 #18181] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 2], ["LIMIT", 1]]
+D, [2017-09-18T04:54:59.296259 #18181] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 3], ["LIMIT", 1]]
+D, [2017-09-18T04:54:59.297248 #18181] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 4], ["LIMIT", 1]]
+D, [2017-09-18T04:54:59.298451 #18181] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."value" = ?[0m  [["value", 4]]
+I, [2017-09-18T04:54:59.312205 #18181]  INFO -- : Completed 500 Internal Server Error in 36ms (ActiveRecord: 2.2ms)
+F, [2017-09-18T04:54:59.313242 #18181] FATAL -- :   
+F, [2017-09-18T04:54:59.313513 #18181] FATAL -- : NoMethodError (undefined method `object' for #<DataNode::ActiveRecord_Relation:0x000000027a9ac0>
+Did you mean?  object_id):
+F, [2017-09-18T04:54:59.313576 #18181] FATAL -- :   
+F, [2017-09-18T04:54:59.313645 #18181] FATAL -- : app/controllers/site_controller.rb:9:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T04:59:50.353249 #18502]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 04:59:50 +0000
+I, [2017-09-18T04:59:50.368903 #18502]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T04:59:50.385223 #18502] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+D, [2017-09-18T04:59:50.386240 #18502] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 2], ["LIMIT", 1]]
+D, [2017-09-18T04:59:50.387101 #18502] DEBUG -- :   [1m[36mDataNode Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 3], ["LIMIT", 1]]
+D, [2017-09-18T04:59:50.387964 #18502] DEBUG -- :   [1m[36mDataNode Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "data_nodes" WHERE "data_nodes"."value" = ? LIMIT ?[0m  [["value", 4], ["LIMIT", 1]]
+D, [2017-09-18T04:59:50.389087 #18502] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."value" = ?[0m  [["value", 4]]
+I, [2017-09-18T04:59:50.404922 #18502]  INFO -- : Completed 500 Internal Server Error in 36ms (ActiveRecord: 2.0ms)
+F, [2017-09-18T04:59:50.405756 #18502] FATAL -- :   
+F, [2017-09-18T04:59:50.406004 #18502] FATAL -- : NoMethodError (undefined method `faction_id' for #<DataNode::ActiveRecord_Relation:0x000000026e8578>):
+F, [2017-09-18T04:59:50.406064 #18502] FATAL -- :   
+F, [2017-09-18T04:59:50.406119 #18502] FATAL -- : app/controllers/site_controller.rb:9:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T05:01:24.800672 #18745]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 05:01:24 +0000
+I, [2017-09-18T05:01:24.819092 #18745]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T05:01:24.833218 #18745] DEBUG -- :   [1m[36mDataNode Load (0.2ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."value" = ? ORDER BY "data_nodes"."id" ASC LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+I, [2017-09-18T05:01:24.835814 #18745]  INFO -- : Completed 500 Internal Server Error in 16ms (ActiveRecord: 1.9ms)
+F, [2017-09-18T05:01:24.836743 #18745] FATAL -- :   
+F, [2017-09-18T05:01:24.836865 #18745] FATAL -- : NoMethodError (undefined method `exists?' for nil:NilClass):
+F, [2017-09-18T05:01:24.836922 #18745] FATAL -- :   
+F, [2017-09-18T05:01:24.836978 #18745] FATAL -- : app/controllers/site_controller.rb:8:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T05:05:50.004619 #19054]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 05:05:50 +0000
+I, [2017-09-18T05:05:50.023056 #19054]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T05:05:50.024780 #19054]  INFO -- : Completed 500 Internal Server Error in 1ms
+F, [2017-09-18T05:05:50.025893 #19054] FATAL -- :   
+F, [2017-09-18T05:05:50.025959 #19054] FATAL -- : TypeError (no implicit conversion of Integer into String):
+F, [2017-09-18T05:05:50.026007 #19054] FATAL -- :   
+F, [2017-09-18T05:05:50.026062 #19054] FATAL -- : app/controllers/site_controller.rb:7:in `+'
+app/controllers/site_controller.rb:7:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T05:07:49.105208 #19300]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 05:07:49 +0000
+I, [2017-09-18T05:07:49.120913 #19300]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T05:07:49.131436 #19300]  INFO -- : Completed 500 Internal Server Error in 10ms (ActiveRecord: 1.5ms)
+F, [2017-09-18T05:07:49.132491 #19300] FATAL -- :   
+F, [2017-09-18T05:07:49.132566 #19300] FATAL -- : TypeError (can't convert Hash into Integer):
+F, [2017-09-18T05:07:49.132624 #19300] FATAL -- :   
+F, [2017-09-18T05:07:49.132689 #19300] FATAL -- : app/controllers/site_controller.rb:8:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T05:09:30.499015 #19537]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 05:09:30 +0000
+I, [2017-09-18T05:09:30.513960 #19537]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T05:09:30.523906 #19537]  INFO -- : Completed 500 Internal Server Error in 10ms (ActiveRecord: 1.5ms)
+F, [2017-09-18T05:09:30.525098 #19537] FATAL -- :   
+F, [2017-09-18T05:09:30.525195 #19537] FATAL -- : TypeError (can't convert Hash into Integer):
+F, [2017-09-18T05:09:30.525249 #19537] FATAL -- :   
+F, [2017-09-18T05:09:30.525305 #19537] FATAL -- : app/controllers/site_controller.rb:7:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T05:13:02.015388 #19818]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 05:13:02 +0000
+I, [2017-09-18T05:13:02.031431 #19818]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T05:13:02.043163 #19818]  INFO -- : Completed 500 Internal Server Error in 11ms (ActiveRecord: 1.6ms)
+F, [2017-09-18T05:13:02.044365 #19818] FATAL -- :   
+F, [2017-09-18T05:13:02.044434 #19818] FATAL -- : TypeError (can't convert Hash into Integer):
+F, [2017-09-18T05:13:02.044482 #19818] FATAL -- :   
+F, [2017-09-18T05:13:02.044533 #19818] FATAL -- : app/controllers/site_controller.rb:7:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T05:14:59.839269 #20070]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 05:14:59 +0000
+I, [2017-09-18T05:14:59.856029 #20070]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T05:14:59.866016 #20070]  INFO -- : Completed 500 Internal Server Error in 9ms (ActiveRecord: 1.4ms)
+F, [2017-09-18T05:14:59.866987 #20070] FATAL -- :   
+F, [2017-09-18T05:14:59.867091 #20070] FATAL -- : TypeError (can't convert Hash into Integer):
+F, [2017-09-18T05:14:59.867185 #20070] FATAL -- :   
+F, [2017-09-18T05:14:59.867264 #20070] FATAL -- : app/controllers/site_controller.rb:7:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T05:16:44.709351 #20313]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 05:16:44 +0000
+I, [2017-09-18T05:16:44.725095 #20313]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T05:16:44.735340 #20313]  INFO -- : Completed 500 Internal Server Error in 10ms (ActiveRecord: 1.5ms)
+F, [2017-09-18T05:16:44.736348 #20313] FATAL -- :   
+F, [2017-09-18T05:16:44.736416 #20313] FATAL -- : ArgumentError (invalid value for Integer(): "{:conditions=>[\"value = ?\""):
+F, [2017-09-18T05:16:44.736481 #20313] FATAL -- :   
+F, [2017-09-18T05:16:44.736544 #20313] FATAL -- : app/controllers/site_controller.rb:7:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T05:17:24.620700 #20530]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 05:17:24 +0000
+I, [2017-09-18T05:17:24.635153 #20530]  INFO -- : Processing by SiteController#index as HTML
+I, [2017-09-18T05:17:24.644520 #20530]  INFO -- : Completed 500 Internal Server Error in 9ms (ActiveRecord: 1.2ms)
+F, [2017-09-18T05:17:24.645785 #20530] FATAL -- :   
+F, [2017-09-18T05:17:24.645877 #20530] FATAL -- : ArgumentError (invalid value for Integer(): "{:conditions=>[\"value = ?\""):
+F, [2017-09-18T05:17:24.645952 #20530] FATAL -- :   
+F, [2017-09-18T05:17:24.646018 #20530] FATAL -- : app/controllers/site_controller.rb:7:in `block in index'
+app/controllers/site_controller.rb:5:in `index'
+I, [2017-09-18T05:40:41.687705 #22081]  INFO -- : Started GET "/" for 64.62.224.29 at 2017-09-18 05:40:41 +0000
+I, [2017-09-18T05:40:41.718266 #22081]  INFO -- : Processing by SiteController#index as HTML
+D, [2017-09-18T05:40:41.743207 #22081] DEBUG -- :   [1m[36mDataNode Load (0.3ms)[0m  [1m[34mSELECT  "data_nodes".* FROM "data_nodes" WHERE "data_nodes"."value" = ? ORDER BY "data_nodes"."id" ASC LIMIT ?[0m  [["value", 1], ["LIMIT", 1]]
+I, [2017-09-18T05:40:41.746459 #22081]  INFO -- : Completed 500 Internal Server Error in 28ms (ActiveRecord: 3.3ms)
+F, [2017-09-18T05:40:41.747653 #22081] FATAL -- :   
+F, [2017-09-18T05:40:41.747761 #22081] FATAL -- : NoMethodError (undefined method `faction_id' for nil:NilClass):
+F, [2017-09-18T05:40:41.747833 #22081] FATAL -- :   
+F, [2017-09-18T05:40:41.747937 #22081] FATAL -- : app/controllers/site_controller.rb:8:in `index'
