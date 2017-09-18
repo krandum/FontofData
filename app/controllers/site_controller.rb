@@ -6,7 +6,7 @@ class SiteController < ApplicationController
 			name = "elem"
 			node = DataNode.where(value: iter)
 			if (node.exists?)
-				index = node.object.faction_id % 4
+				index = node.faction_id
 				name += " " + @factions[index]
 			end
 			@nodes.push(name)
