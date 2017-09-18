@@ -1,7 +1,7 @@
 class SiteController < ApplicationController
 	def index
 		factions = ['', 'red', 'blue', 'green', ' ']
-		@nodes = []
+		@classes = []
 		iter = 1
 		while iter <= 32 do
 			print iter.to_s
@@ -11,7 +11,7 @@ class SiteController < ApplicationController
 				index = elem.faction_id
 				name += ' ' << factions[index]
 			end
-			@nodes.push(name)
+			@classes.push(name)
 			iter += 1
 		end
 	end
