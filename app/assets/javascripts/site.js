@@ -12,6 +12,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function add_options(elem) {
+		alert("adding options to " + elem.id);
 		options.forEach(function(e) {
 			elem.parentElement.appendChild(e);
 			e.style.display = "block";
@@ -19,6 +20,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function remove_options(elem) {
+		alert("removing options from " + elem.id);
 		options.forEach(function(e) {
 			elem = e.firstChild.firstChild;
 			if (elem.classList.contains("selected"))
@@ -100,18 +102,21 @@ $(document).on('ready page:load', function() {
 		{
 			var node = e.target;
 			var elem = node.childNodes[0];
+			alert("clicking node " + node.id + " with elem " + elem.className)
 			if (elem.classList.contains("selected"))
 			{
 				elem.classList.remove("selected");
 				var index = selectedNodes.indexOf(elem);
 				selectedNodes.splice(index, 1);
 				remove_options(elem);
+				alert("unselecting node");
 			}
 			else
 			{
 				elem.className += " selected";
 				if (selectedNodes.length >= 1 && selectedIndex != -1)
 				{
+					alert("successfully called event");
 					selectedNodes.push(elem);
 					remove_options(selectedNodes[0]);
 					call_event(selectedNodes[0].parentElement,
@@ -125,6 +130,7 @@ $(document).on('ready page:load', function() {
 				}
 				else if (selectedNodes.length >= 1)
 				{
+					alert("switching selected");
 					remove_options(selectedNodes[0]);
 					selectedNodes[0].classList.remove("selected");
 					selectedNodes[0] = elem;
@@ -132,6 +138,7 @@ $(document).on('ready page:load', function() {
 				}
 				else
 				{
+					alert("selecting first node");
 					selectedNodes.push(elem);
 					add_options(elem);
 				}
@@ -139,10 +146,12 @@ $(document).on('ready page:load', function() {
 		}
 		else
 		{
+			alert("Selecting option");
 			var option = e.target;
 			var elem = option.firstChild.firstChild;
 			if (elem.classList.contains("selected"))
 			{
+				alert("removing option selection");
 				selectedIndex = -1;
 				elem.classList.remove("selected");
 			}
@@ -152,6 +161,7 @@ $(document).on('ready page:load', function() {
 					options[selectedIndex].firstChild.firstChild.classList.remove("selected");
 				elem.className += " selected";
 				selectedIndex = options.indexOf(option);
+				alert("successfully selected node");
 			}
 		}
 	});
