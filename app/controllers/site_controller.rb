@@ -7,10 +7,7 @@ class SiteController < ApplicationController
 			print iter.to_s
 			name = 'elem'
 			elem = DataNode.where(value: iter).first
-			print defined? elem
-			print elem.empty?
-			print elem.method_defined?(:faction_id)
-			if defined? elem && !(elem.empty?) && elem.method_defined?(:faction_id)
+			unless elem.nil? || elem == 0
 				index = elem.faction_id
 				name += ' ' << factions[index]
 			end
