@@ -4,8 +4,7 @@ class SiteController < ApplicationController
 		@nodes = []
 		(1...32).each do |iter|
 			name = "elem"
-			str = iter.to_s
-			node = DataNode.first(:conditions => ["value = #{str}"])
+			node = DataNode.first(:conditions => {:value => iter})
 			if (node.exists?)
 				index = node.faction_id
 				name += " " + @factions[index]
