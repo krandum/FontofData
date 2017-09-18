@@ -4,10 +4,12 @@ class SiteController < ApplicationController
 		@nodes = []
 		iter = 1
 		while iter <= 32 do
-			puts iter.to_s
+			print iter.to_s
 			name = 'elem'
 			elem = DataNode.where(value: iter).first
-			puts defined? elem
+			print defined? elem
+			print elen.empty?
+			print elem.method_defined?(:faction_id)
 			if defined? elem && !(elem.empty?) && elem.method_defined?(:faction_id)
 				index = elem.faction_id
 				name += ' ' << factions[index]
