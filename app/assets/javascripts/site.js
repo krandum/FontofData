@@ -31,7 +31,7 @@ $(document).on('ready page:load', function() {
 	var i = 1;
 	while (i <= 32)
 	{
-		let name = '#' + i.toString() + " td";
+		let name = '#' + i.toString();
 		$(document).on("click", name, function(e) {
 			var node = e.target;
 			var elem = node.childNodes[0];
