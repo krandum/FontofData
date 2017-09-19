@@ -1,0 +1,178 @@
+/* line 5, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+html {
+  height: 90%;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 11, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+body {
+  height: 100%;
+  width: 95%;
+  left: 2.5%;
+  background-color: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateZ(0);
+}
+
+/* line 22, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+.wrapper {
+  width: 1200px;
+  height: 600px;
+  position: relative;
+}
+
+/* line 28, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+#map {
+  width: 95%;
+  height: 95%;
+  margin: 2.5%;
+  position: absolute;
+  border-spacing: 12px;
+  padding: 0px;
+  text-align: center;
+}
+
+/* line 38, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+.node {
+  width: 20px;
+  height: 20%;
+  border-radius: 150px;
+  position: relative;
+}
+
+/* line 45, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+.elem {
+  border-radius: 150px;
+  border-style: solid;
+  border-color: #2f2f2f;
+  border-width: 6px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 2vw;
+  pointer-events: none;
+  cursor: default;
+  transition: all 200ms ease;
+  background-color: rgba(230, 230, 230, 0.8);
+}
+
+/* line 63, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+div.small {
+  border-width: 3px;
+  font-size: 1vw;
+  z-index: 4;
+}
+
+/* line 69, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+div.red {
+  border-color: #5f2f2f;
+  background-color: rgba(255, 80, 70, 0.8);
+}
+
+/* line 74, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+div.blue {
+  border-color: #2f2f5f;
+  background-color: rgba(70, 80, 255, 0.8);
+}
+
+/* line 79, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+div.green {
+  border-color: #2f5f2f;
+  background-color: rgba(70, 255, 80, 0.8);
+}
+
+/* line 84, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+div.selected {
+  border-color: #FFFFFF;
+  transform: scale(1.3, 1.3);
+  z-index: 1;
+}
+
+/* line 90, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+.option {
+  border-radius: 1em;
+  display: none;
+  position: absolute;
+  width: 25%;
+  height: 25%;
+  z-index: 3;
+}
+
+/* line 99, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+div.mywrapp {
+  position: relative;
+}
+
+/* line 103, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+div.first {
+  top: 37.5%;
+  left: 37.5%;
+  transform: rotate(90deg) translate(260%) rotate(-90deg);
+}
+
+/* line 109, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+div.second {
+  top: 37.5%;
+  left: 37.5%;
+  transform: rotate(135deg) translate(260%) rotate(-135deg);
+}
+
+/* line 115, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+div.third {
+  top: 37.5%;
+  left: 37.5%;
+  transform: rotate(180deg) translate(260%) rotate(-180deg);
+}
+
+/* line 121, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+span.mid {
+  line-height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* line 127, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+.num {
+  position: absolute;
+  top: 35%;
+  left: 0px;
+  right: 0px;
+  margin-top: -4px;
+  font-weight: bold;
+  line-height: 1;
+  font-size: 3vw;
+}
+
+/* line 138, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+.option:hover .small {
+  border-color: #FFFFFF;
+  transform: scale(1.3, 1.3);
+  z-index: 5;
+}
+
+/* line 144, /var/www/fontofdata/code/app/assets/stylesheets/site.scss */
+.node:hover .elem:not(.small) {
+  transform: scale(1.3, 1.3);
+  z-index: 2;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+ */
+
