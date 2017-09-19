@@ -1,20 +1,20 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
-  belongs_to :faction
+	# Include default devise modules. Others available are:
+	# :confirmable, :lockable, :timeoutable and :omniauthable
+	# Pablo removed: :recoverable, :trackable
+	devise :database_authenticatable, :registerable, :rememberable, :validatable
+	belongs_to :faction
 
-  before_create :default_faction
+	before_create :default_faction
 
-  def change_faction(f)
-    self.faction_id = f
-  end
+	def change_faction(f)
+		self.faction_id = f
+	end
 
 
-  private
+	private
 
-  def default_faction
-    self.faction_id = 1
-  end
+	def default_faction
+		self.faction_id = 1
+	end
 end
