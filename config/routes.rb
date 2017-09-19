@@ -17,14 +17,14 @@ Rails.application.routes.draw do
     patch 'registration/faction', :to => 'users/registrations#faction'
   end
 
-  # get 'data_nodes/index'
-  # get 'data_nodes/show'
-  # get 'data_nodes/new'
-  # get 'data_nodes/edit'
-  # post 'data_nodes/create'
-  # patch 'data_nodes/update'
-  # put 'data_nodes/update'
-  # delete 'data_nodes/destroy'
+  get 'data_nodes/index'
+  get 'data_nodes/show'
+  get 'data_nodes/new'
+  get 'data_nodes/edit'
+  post 'data_nodes/create'
+  patch 'data_nodes/update'
+  put 'data_nodes/update'
+  delete 'data_nodes/destroy'
 
   root 'site#index'
 
