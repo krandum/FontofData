@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
 	belongs_to :faction
 
 	before_create :default_faction
-	@faction = Faction.find( faction_id )
 
 	def change_faction(f)
 		self.faction_id = f
