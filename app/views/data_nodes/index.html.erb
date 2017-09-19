@@ -2,7 +2,7 @@
 
 <p>
 <% if user_signed_in? %>
-  Welcome, <%= current_user.username %>! You are a part of the <%= Faction.find(current_user.faction_id).faction_name %> faction.<br>
+  Welcome, <%= current_user.username %>! You are a part of the <%= current_user.faction.faction_name %> faction.<br>
   <br>
   Change factions:
   <br>
