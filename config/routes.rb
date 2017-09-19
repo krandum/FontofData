@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'home/index'
+
   get 'site/index'
 
   resources :interactions
@@ -7,6 +9,8 @@ Rails.application.routes.draw do
   resources :data_nodes
 
   Rails.application.routes.draw do
+  get 'home/index'
+
   get 'site/index'
 
     devise_for :users,
