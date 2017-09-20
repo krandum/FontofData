@@ -61,8 +61,8 @@ class InteractionsController < ApplicationController
 		end
 	end
 
-	def take_action
-		p params
+	def take_action (data)
+		p data
 		respond_to do |format|
 			format.html { status :success }
 		end
