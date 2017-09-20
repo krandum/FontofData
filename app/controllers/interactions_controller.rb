@@ -1,5 +1,5 @@
 class InteractionsController < ApplicationController
-	before_action :set_interaction, only: [:show, :edit, :update, :destroy, :take_action]
+	before_action :set_interaction, only: [:show, :edit, :update, :destroy]
 
 	# GET /interactions
 	# GET /interactions.json
@@ -63,10 +63,6 @@ class InteractionsController < ApplicationController
 
 	def take_action
 		p params
-		respond_to do |format|
-			format.html { redirect_to :back, notice: 'Action taken! Check log' }
-			format.json { status :success }
-		end
 	end
 
 	private
