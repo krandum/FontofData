@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
   get 'data_nodes/index'
   get 'data_nodes/show'
-  get '/new', to: 'data_nodes#new'
+  get 'data_nodes/new'
   get 'data_nodes/edit'
   post 'data_nodes/create'
   patch 'data_nodes/update'
@@ -33,6 +33,10 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
+  get 'interactions/index'
+  get 'interactions/show'
+  get 'interactions/new'
+  get 'interactions/edit'
   get '/take_action', to: 'interactions#take_action'
 
   # The priority is based upon order of creation: first created -> highest priority.
