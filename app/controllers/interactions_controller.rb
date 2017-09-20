@@ -64,8 +64,8 @@ class InteractionsController < ApplicationController
 	def take_action
 		valid = check_valid(params)
 		if valid == 0
-			origin = DataNode.where(value: args['origin']).first
-			target = DataNode.where(value: args['target']).first
+			origin = DataNode.where(value: params['origin']).first
+			target = DataNode.where(value: params['target']).first
 			effect = Effect.find(params['effect'])
 			case effect.name
 			when 'attack'
@@ -167,7 +167,7 @@ class InteractionsController < ApplicationController
 		# Owner and target not implemented for MVP, Admin still TODO
 		or_m, ta_m, ow_m, re_m, ra_m = get_masks(effect)
 		if (or_m != 0 && o_val & or_m == 0) || (ta_m != 0 && t_val & ta_m == 0)
-			return 5
+			return 2
 		end
 		0
 	end
