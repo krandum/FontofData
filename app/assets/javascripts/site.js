@@ -15,11 +15,11 @@ $(document).on('ready page:load', function() {
 		$.ajax({
 			type: "GET",
 			url: "take_action",
-			data: {
+			data: { data: {
 				origin: origin_node_id,
 				target: target_node_id,
 				effect: selectedIndex + 1
-			},
+			}},
 			datatype: "html",
 			success: function (data) {
 				alert(data['status']);
