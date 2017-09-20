@@ -81,9 +81,20 @@ class InteractionsController < ApplicationController
 					'target' => 'same'
 				}
 			when 'swap'
-				tmp = origin.faction_id
-				origin.faction_id = target.faction_id
-				target.faction_id = tmp
+				tmp_o = 1
+				unless origin.nil? || origin == 0
+					tmp_o = origin.faction_id
+				end
+				tmp_t = 1
+				unless target.nil? || target == 0
+					tmp_t = target.faction_id
+				end
+				if !(origin.nil?) && origin != 0
+					origin.faction_id = tmp_o
+				end
+				if !(target.nil?) && target != 0
+					target.faction_id = tmp_t
+				end
 				out = {'status' => 'success',
 					'origin' => 'to_target',
 					'target' => 'to_origin'
@@ -131,14 +142,12 @@ class InteractionsController < ApplicationController
 		@user = User.find(current_user.id)
 		effect = Effect.find(args['effect'])
 		origin = DataNode.where(value: args['origin']).first
-		if effect.nil? || effect == 0 || @user.nil? || origin.nil? || origin == 0
+		if effect.nil? || effect == 0 || @user.nil?
 			return 1
 		end
-		origin = origin.faction_id
-		if origin.nil? || origin == 0
-			return 2
-		end
-		if origin == @user.faction_id
+		if origin.nil? || origin == 0 || origin.faction_id.nil? || origin.faction_id == 0
+			o_val = 4
+		elsif origin.faction_id == @user.faction_id
 			o_val = 2
 		elsif origin == 4
 			o_val = 1
@@ -146,14 +155,9 @@ class InteractionsController < ApplicationController
 			o_val = 4
 		end
 		target = DataNode.where(value: args['target']).first
-		if target.nil? || target == 0
-			return 3
-		end
-		target = target.faction_id
-		if target.nil? || target == 0
-			return 4
-		end
-		if target == @user.faction_id
+		if target.nil? || target == 0 || target.faction_id.nil? || target.faction_id == 0
+			t_val = 4
+		elsif target.faction_id == @user.faction_id
 			t_val = 2
 		elsif origin == 4
 			t_val = 1
