@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
   get 'data_nodes/index'
   get 'data_nodes/show'
-  get 'data_nodes/new', to: 'data_nodes#new'
+  get '/new', to: 'data_nodes#new'
   get 'data_nodes/edit'
   post 'data_nodes/create'
   patch 'data_nodes/update'
