@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :effects
   resources :factions
   resources :data_nodes
+  resources :site
 
   Rails.application.routes.draw do
   get 'home/index'
