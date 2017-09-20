@@ -67,7 +67,7 @@ class InteractionsController < ApplicationController
 			origin = DataNode.where(value: params['origin']).first
 			target = DataNode.where(value: params['target']).first
 			effect = Effect.find(params['effect'])
-			case effect.faction_name
+			case effect.effect_name
 			when 'attack'
 				target.faction_id = origin.faction_id
 				out = {'status' => 'success',
