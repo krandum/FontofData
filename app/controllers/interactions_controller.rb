@@ -64,8 +64,8 @@ class InteractionsController < ApplicationController
 	def take_action
 		valid = check_valid(params)
 		if valid
-			origin = DataNode.find(params['origin'])
-			target = DataNode.find(params['target'])
+			origin = DataNode.where(value: args['origin']).first
+			target = DataNode.where(value: args['target']).first
 			effect = Effect.find(params['effect'])
 			case effect.name
 			when 'attack'
@@ -130,8 +130,12 @@ class InteractionsController < ApplicationController
 	def check_valid(args)
 		@user = User.find(current_user.id)
 		effect = Effect.find(args['effect'])
-		origin = DataNode.find(args['origin']).faction_id
+		origin = DataNode.where(value: args['origin']).first
 		if effect.nil? || effect == 0 || @user.nil? || origin.nil? || origin == 0
+			return false
+		end
+		origin = origin.faction_id
+		if origin.nil? || origin == 0
 			return false
 		end
 		if origin == @user.faction_id
@@ -141,7 +145,14 @@ class InteractionsController < ApplicationController
 		else
 			o_val = 4
 		end
-		target = DataNode.find(args['target']).faction_id
+		target = DataNode.where(value: args['target']).first
+		if target.nil? || target == 0
+			return false
+		end
+		target = target.faction_id
+		if target.nil? || target == 0
+			return false
+		end
 		if target == @user.faction_id
 			t_val = 2
 		elsif origin == 4
