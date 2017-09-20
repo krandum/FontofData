@@ -24,16 +24,17 @@ class InteractionsController < ApplicationController
   # POST /interactions
   # POST /interactions.json
   def create
-    @interaction = Interaction.new(interaction_params)
+	p interaction_params
+    # @interaction = Interaction.new(interaction_params)
 
     respond_to do |format|
-      if @interaction.save
-        format.html { redirect_to @interaction, notice: 'Interaction was successfully created.' }
-        format.json { render :show, status: :created, location: @interaction }
-      else
+    #   if @interaction.save
+    #     format.html { redirect_to @interaction, notice: 'Interaction was successfully created.' }
+    #     format.json { render :show, status: :created, location: @interaction }
+    #   else
         format.html { render :new }
         format.json { render json: @interaction.errors, status: :unprocessable_entity }
-      end
+      # end
     end
   end
 
