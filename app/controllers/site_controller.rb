@@ -7,7 +7,6 @@ class SiteController < ApplicationController
 		@classes = []
 		iter = 1
 		while iter <= 32 do
-			print iter.to_s
 			name = "elem"
 			elem = DataNode.where(value: iter).first
 			unless elem.nil? || elem == 0
