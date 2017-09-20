@@ -17,5 +17,6 @@ class SiteController < ApplicationController
 			@classes.push(name)
 			iter += 1
 		end
+		@user = User.find(current_user.id)
 	end
 end
