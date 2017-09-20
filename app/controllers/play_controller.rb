@@ -3,7 +3,7 @@ class PlayController < ApplicationController
 	before_action :authenticate_user!
 
 	def index
-		factions = ["", "red", "blue", "green", ""]
+		factions = ["", "", "red", "blue", "green"]
 		@classes = []
 		iter = 1
 		while iter <= 32 do

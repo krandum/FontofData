@@ -99,12 +99,12 @@ class InteractionsController < ApplicationController
 					tmp_t = target.faction_id
 				end
 				if !(origin.nil?) && origin != 0
-					origin.faction_id = tmp_o
+					origin.faction_id = tmp_t
 					origin.save
 				end
 				# TODO add else
 				if !(target.nil?) && target != 0
-					target.faction_id = tmp_t
+					target.faction_id = tmp_o
 					origin.save
 				end
 				# TODO add else
