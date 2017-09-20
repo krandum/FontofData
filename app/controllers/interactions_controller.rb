@@ -63,7 +63,7 @@ class InteractionsController < ApplicationController
 
 	def take_action
 		p params
-		respond_to do |format|
+		response_to do |format|
 			render :html 'interaction.html'
 		end
 	end
