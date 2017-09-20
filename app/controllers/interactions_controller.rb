@@ -105,7 +105,7 @@ class InteractionsController < ApplicationController
 				# TODO add else
 				if !(target.nil?) && target != 0
 					target.faction_id = tmp_o
-					origin.save
+					target.save
 				end
 				# TODO add else
 				out = {'status' => 'success',

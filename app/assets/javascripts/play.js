@@ -2,10 +2,7 @@
 // # All this logic will automatically be available in application.js.
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
-// TODO make faction numbers correct
-
 $(document).on('ready page:load', function() {
-
 	var selectedNodes = [];
 	var selectedIndex = -1;
 	var options = [document.getElementById("attack"),
