@@ -64,8 +64,8 @@ class InteractionsController < ApplicationController
 	def take_action
 		p params
 		respond_to do |format|
-			format.html { redirect_to :back }
-			format.json { render :show, status: 'success' }
+			format.html { render :show, status: 'success', redirect_to :back }
+			format.json
 		end
 	end
 
