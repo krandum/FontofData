@@ -22,7 +22,7 @@ $(document).on('ready page:load', function() {
 			},
 			datatype: "html",
 			success: function (data) {
-				alert(data['status']);
+				alert(data);
 			},
 			async: true
 		});

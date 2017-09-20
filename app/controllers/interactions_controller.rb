@@ -65,7 +65,7 @@ class InteractionsController < ApplicationController
 		p params
 		respond_to do |format|
 			format.html { redirect_to :back }
-			format.js
+			format.js { status :success }
 		end
 	end
 
