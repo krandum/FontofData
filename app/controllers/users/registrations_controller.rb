@@ -26,7 +26,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def faction
     @user = User.find(current_user.id)
     @user.update(params.permit(:faction_id))
-    redirect_to '/site/index'
+    redirect_to '/site'
   end
 
   # DELETE /resource
