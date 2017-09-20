@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Fod</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => "reload" %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => "reload" %>
-  <%= csrf_meta_tags %>
+	<title>Font of Data</title>
+	<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => "reload" %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => "reload" %>
+	<%= csrf_meta_tags %>
 </head>
 <body>
 
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
 <%= yield %>
+
+<nav class="navbar navbar-expand fixed-top navbar-light" style="background-color: darkgray;">
+	<a class="navbar-brand" href="/">Font of Data</a>
+		<ul class="navbar-nav mr-auto">
+			<li class="active"><a class="nav-link" href="/">Home</a></li>
+			<li><a class="nav-link" href="/play">Play</a></li>
+			<li><a class="nav-link" href="/story">Story</a></li>
+			<li><a class="nav-link" href="/about">About</a></li>
+			<li><a class="nav-link" href="/faq">FAQ</a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="accountMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
+				<div class="dropdown-menu" aria-labelledby="accountMenu">
+					<a class="dropdown-item" href="/user/profile">Profile</a>
+					<a class="dropdown-item" href="/user/settings">User settings</a>
+					<a class="dropdown-item" href="/logout">Logout</a>
+				</div>
+			</li>
+		</ul>
+</nav>
 
 </body>
 </html>
