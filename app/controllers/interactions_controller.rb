@@ -63,8 +63,9 @@ class InteractionsController < ApplicationController
 
 	def take_action
 		p params
+		out = { 'status' => 'success' }
 		respond_to do |format|
-			format.html { status: 'success' }
+			format.html { render json: out }
 			format.json
 		end
 	end
