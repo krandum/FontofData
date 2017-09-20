@@ -1,18 +1,18 @@
 Rails.application.routes.draw do
   get 'home/index'
 
-  get 'site/index'
+  get 'play/index'
 
   resources :interactions
   resources :effects
   resources :factions
   resources :data_nodes
-  resources :site
+  resources :play
 
   Rails.application.routes.draw do
   get 'home/index'
 
-  get 'site/index'
+  get 'play/index'
 
     devise_for :users,
      controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
