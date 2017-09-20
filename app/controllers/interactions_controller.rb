@@ -119,12 +119,12 @@ class InteractionsController < ApplicationController
 
 	def get_masks(effect)
 		base = effect.clearence_value
-		or = (base - (base % 10000)) / 10000
+		o = (base - (base % 10000)) / 10000
 		ta = ((base % 10000) - (base % 1000)) / 1000
 		ow = ((base % 1000) - (base % 100)) / 100
 		re = ((base % 100) - (base % 10)) / 10
 		ra = base % 10
-		[or, ta, ow, re, ra]
+		[o, ta, ow, re, ra]
 	end
 
 	def check_valid(args)
