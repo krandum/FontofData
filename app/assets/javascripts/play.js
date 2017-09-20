@@ -42,7 +42,6 @@ $(document).on('ready page:load', function() {
 				elem.classList.remove("selected");
 			e.style.display = "none";
 		});
-		selectedIndex = -1;
 	}
 
 	$('.node').off().on("click", function(e) {
@@ -56,6 +55,7 @@ $(document).on('ready page:load', function() {
 				var index = selectedNodes.indexOf(elem);
 				selectedNodes.splice(index, 1);
 				remove_options(elem);
+				selectedIndex = -1;
 			}
 			else
 			{
@@ -71,6 +71,7 @@ $(document).on('ready page:load', function() {
 							e.classList.remove("selected");
 						});
 						selectedNodes.splice(0, selectedNodes.length);
+						selectedIndex = -1;
 					}, 300);
 				}
 				else if (selectedNodes.length >= 1)
