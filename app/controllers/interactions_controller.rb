@@ -61,10 +61,11 @@ class InteractionsController < ApplicationController
 		end
 	end
 
-	def take_action (origin, target, effect)
-		p data
+	def take_action
+		p params
 		respond_to do |format|
-			format.html { status :success }
+			format.html { redirect_to holders_path }
+			format.js
 		end
 	end
 
