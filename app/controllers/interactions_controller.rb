@@ -62,7 +62,7 @@ class InteractionsController < ApplicationController
 	end
 
 	def take_action
-		p interaction_params
+		p params
 		respond_to do |format|
 			format.html { redirect_to :back, notice: 'Action taken! Check log' }
 			format.json { status :success }
