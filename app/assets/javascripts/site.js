@@ -14,7 +14,7 @@ $(document).on('ready page:load', function() {
 		var target_node_id = parseInt(node1.id)
 		$.ajax({
 			type: "GET",
-			url: "/take_action",
+			url: "/show",
 			data: {
 				origin: origin_node_id,
 				target: target_node_id,
