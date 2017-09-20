@@ -11,7 +11,7 @@ $(document).on('ready page:load', function() {
 
 	function call_event(node1, node2) {
 		var origin_node_id = parseInt(node1.id)
-		var target_node_id = parseInt(node1.id)
+		var target_node_id = parseInt(node2.id)
 		$.ajax({
 			type: "GET",
 			url: "take_action",

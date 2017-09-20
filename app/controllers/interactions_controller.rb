@@ -1,5 +1,5 @@
 class InteractionsController < ApplicationController
-	before_action :set_interaction, only: [:show, :edit, :update, :destroy]
+	before_action :set_interaction, only: [:show, :edit, :update, :destroy, :take_action]
 
 	# GET /interactions
 	# GET /interactions.json
@@ -64,7 +64,7 @@ class InteractionsController < ApplicationController
 	def take_action
 		p params
 		respond_to do |format|
-			format.html { render :show, status: 'success' }
+			format.html { status: 'success' }
 			format.json
 		end
 	end
