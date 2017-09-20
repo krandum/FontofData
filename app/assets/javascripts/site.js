@@ -13,7 +13,7 @@ $(document).on('ready page:load', function() {
 		var origin_node_id = parseInt(node1.id)
 		var target_node_id = parseInt(node1.id)
 		$.ajax({
-			type: "POST",
+			type: "GET",
 			url: "/take_action",
 			data: {
 				origin: origin_node_id,
