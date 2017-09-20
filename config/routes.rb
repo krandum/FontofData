@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  patch 'take_action', :to => 'interactions#take_action'
+  patch 'take_action', :to => 'interaction#take_action'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
