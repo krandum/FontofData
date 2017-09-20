@@ -19,7 +19,12 @@ $(document).on('ready page:load', function() {
 				origin: origin_node_id,
 				target: target_node_id,
 				effect: selectedIndex + 1
-			}
+			},
+			datatype: "html",
+			success: function (data) {
+				alert(data['status']);
+			},
+			async: true
 		});
 	}
 
