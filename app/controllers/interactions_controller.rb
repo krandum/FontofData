@@ -64,7 +64,7 @@ class InteractionsController < ApplicationController
 	def take_action
 		p params
 		respond_to do |format|
-			format.html { redirect_to holders_path }
+			format.html { redirect_to :back }
 			format.js
 		end
 	end
