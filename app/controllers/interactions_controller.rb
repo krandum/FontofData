@@ -69,13 +69,22 @@ class InteractionsController < ApplicationController
 			effect = Effect.find(params['effect'])
 			case effect.effect_name
 			when 'attack'
-				target.faction_id = origin.faction_id
+				unless target.nil? || target == 0
+					target.faction_id = origin.faction_id
+					target.save
+				else
+					@n = DataNode.new
+					@n.value = params['target']
+					@n.faction_id = origin.faction_id
+					@n.save
+				end
 				out = {'status' => 'success',
 					'origin' => 'same',
 					'target' => 'to_origin'
 				}
 			when 'give'
 				origin.faction_id = 1
+				origin.save
 				out = {'status' => 'success',
 					'origin' => 'neutral',
 					'target' => 'same'
@@ -91,10 +100,14 @@ class InteractionsController < ApplicationController
 				end
 				if !(origin.nil?) && origin != 0
 					origin.faction_id = tmp_o
+					origin.save
 				end
+				# TODO add else
 				if !(target.nil?) && target != 0
 					target.faction_id = tmp_t
+					origin.save
 				end
+				# TODO add else
 				out = {'status' => 'success',
 					'origin' => 'to_target',
 					'target' => 'to_origin'
