@@ -63,7 +63,7 @@ class InteractionsController < ApplicationController
 
 	def take_action
 		valid = check_valid(params)
-		if valid
+		if valid == 0
 			origin = DataNode.where(value: args['origin']).first
 			target = DataNode.where(value: args['target']).first
 			effect = Effect.find(params['effect'])
@@ -89,13 +89,13 @@ class InteractionsController < ApplicationController
 					'target' => 'to_origin'
 				}
 			else
-				out = { 'status' => 'failure',
+				out = { 'status' => 'failure_effect',
 					'origin' => 'same',
 					'target' => 'same'
 				}
 			end
 		else
-			out = { 'status' => 'failure',
+			out = { 'status' => 'failure_global' << valid,
 				'origin' => 'same',
 				'target' => 'same'
 			}
@@ -132,11 +132,11 @@ class InteractionsController < ApplicationController
 		effect = Effect.find(args['effect'])
 		origin = DataNode.where(value: args['origin']).first
 		if effect.nil? || effect == 0 || @user.nil? || origin.nil? || origin == 0
-			return false
+			return 1
 		end
 		origin = origin.faction_id
 		if origin.nil? || origin == 0
-			return false
+			return 2
 		end
 		if origin == @user.faction_id
 			o_val = 2
@@ -147,11 +147,11 @@ class InteractionsController < ApplicationController
 		end
 		target = DataNode.where(value: args['target']).first
 		if target.nil? || target == 0
-			return false
+			return 3
 		end
 		target = target.faction_id
 		if target.nil? || target == 0
-			return false
+			return 4
 		end
 		if target == @user.faction_id
 			t_val = 2
@@ -163,8 +163,8 @@ class InteractionsController < ApplicationController
 		# Owner and target not implemented for MVP, Admin still TODO
 		or_m, ta_m, ow_m, re_m, ra_m = get_masks(effect)
 		if (or_m != 0 && o_val & or_m == 0) || (ta_m != 0 && t_val & ta_m == 0)
-			return false
+			return 5
 		end
-		true
+		0
 	end
 end
