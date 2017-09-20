@@ -63,6 +63,9 @@ class InteractionsController < ApplicationController
 
 	def take_action
 		p params
+		response_to do |format|
+			format.html { status :success }
+		end
 	end
 
 	private
