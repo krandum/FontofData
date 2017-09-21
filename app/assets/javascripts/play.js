@@ -194,8 +194,6 @@ $(document).on('ready page:load', function() {
 		return out_node;
 	}
 
-	var g_center = view.center;
-
 	function build_nodes(num_layers, width, height) {
 		var nodes = [];
 		var layer_height = height / 3;
