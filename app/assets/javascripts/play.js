@@ -143,7 +143,7 @@ $(document).on('ready page:load', function() {
 				['#343434', 0.9]
 			];
 			from = p7;
-			to = p7 + [-quarter_size, -quarter_size];
+			to = new paper.Point(p7.x - quarter_size, p7.y - quarter_size);
 		}
 		else
 		{
@@ -165,7 +165,7 @@ $(document).on('ready page:load', function() {
 				['#343434', 0.9]
 			];
 			from = p7;
-			to = p7 + [quarter_size, quarter_size];
+			to = new paper.Point(p7.x + quarter_size, p7.y + quarter_size);
 		}
 		console.log('initial colors');
 		gradient = new paper.Gradient(stops, true);
