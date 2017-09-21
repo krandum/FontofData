@@ -18,6 +18,11 @@ body.play {
     transform: translateZ(0);
 }
 
+canvas.myCanvas {
+	height: 100%;
+	width: 100%;
+}
+
 .wrapper {
     width: 1200px;
     height: 600px;
