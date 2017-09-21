@@ -19,6 +19,8 @@
 //= require bootstrap
 //= require_tree .
 
+paperScope.install(scope)
+
 var isFirstLoad = function(namesp, jsFile) {
 	var isFirst = namesp.firstload === undefined;
 	namesp.firstLoad = false;
