@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require gulp/app
 //= require popper
 //= require bootstrap
 //= require_tree .
