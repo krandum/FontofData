@@ -1,24 +1,19 @@
-var gulp = require('gulp')
-var concat = require('gulp-concat')
+/*
+ * Paper.js - The Swiss Army Knife of Vector Graphics Scripting.
+ * http://paperjs.org/
+ *
+ * Copyright (c) 2011 - 2016, Juerg Lehni & Jonathan Puckey
+ * http://scratchdisk.com/ & http://jonathanpuckey.com/
+ *
+ * Distributed under the MIT license. See LICENSE file for details.
+ *
+ * All rights reserved.
+ */
 
-gulp.task('build:js', function () {
-  return gulp.src('app/gulp/js/**/*.js')
-    .pipe(concat('app.js'))
-    .pipe(gulp.dest('vendor/assets/javascripts/gulp/'))
-})
+var gulp = require('gulp'),
+    requireDir = require('require-dir');
 
-gulp.task('build:css', function () {
-  return gulp.src('app/gulp/css/**/*.css')
-    .pipe(gulp.dest('vendor/assets/stylesheets/gulp/'))
-})
+requireDir('./gulp/utils');
+requireDir('./gulp/tasks');
 
-gulp.task('watch:js', function () {
-  gulp.watch('app/gulp/js/**/*.js', ['build:js'])
-})
-
-gulp.task('watch:css', function () {
-  gulp.watch('app/gulp/css/**/*.css', ['build:css'])
-})
-
-gulp.task('watch', ['watch:js', 'watch:css'])
-gulp.task('build', ['build:js', 'build:css'])
+gulp.task('default', ['dist']);
