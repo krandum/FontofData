@@ -111,6 +111,9 @@ $(document).on('ready page:load', function() {
 	paper.setup(canvas);
 
 	function get_node(elem, center, size) {
+		console.log(elem);
+		console.log(center);
+		console.log(size);
 		var num_digits = elem.toString().length;
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
@@ -225,8 +228,6 @@ $(document).on('ready page:load', function() {
 		return nodes;
 	}
 
-	console.log(paper.view);
-
-	var myNodes = build_nodes(5, canvas.width, canvas.height);
+	var myNodes = build_nodes(5, paper.view.size.width, paper.view.size.height);
 
 });
