@@ -106,6 +106,8 @@ $(document).on('ready page:load', function() {
 	// 		}
 	// 	}
 	// });
+	var canvas = document.getElementById('myCanvas')
+
 	function node(elem, center, size) {
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
