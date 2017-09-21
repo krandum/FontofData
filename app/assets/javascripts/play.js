@@ -225,6 +225,8 @@ $(document).on('ready page:load', function() {
 		return nodes;
 	}
 
+	console.log(paper.view);
+
 	var myNodes = build_nodes(5, canvas.width, canvas.height);
 
 });
