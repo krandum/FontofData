@@ -143,7 +143,7 @@ $(document).on('ready page:load', function() {
 				['#343434', 0.9]
 			];
 			from = p7;
-			to = p7 - [quarter_size, quarter_size];
+			to = p7 + [-quarter_size, -quarter_size];
 		}
 		else
 		{
@@ -211,24 +211,24 @@ $(document).on('ready page:load', function() {
 		var index = 1;
 		var i = 0;
 		while (i < num_layers) {
-		let layer = [];
-		var num_sub = Math.pow(2, i);
-		var j = 0;
-		point.y = y;
-		point.x = (width / num_sub) / 2;
-		while (j < num_sub) {
-			let new_node = get_node(index, point, node_height);
-			layer.push(new_node);
-			point.x += width / num_sub;
-			j++;
-			index++;
-		}
-		node_height /= 1.5;
-		y -= layer_height / 2;
-		layer_height /= 1.5;
-		y -= layer_height / 2;
-		i++;
-		nodes.push(layer);
+			let layer = [];
+			var num_sub = Math.pow(2, i);
+			var j = 0;
+			point.y = y;
+			point.x = (width / num_sub) / 2;
+			while (j < num_sub) {
+				let new_node = get_node(index, point, node_height);
+				layer.push(new_node);
+				point.x += width / num_sub;
+				j++;
+				index++;
+			}
+			node_height /= 1.5;
+			y -= layer_height / 2;
+			layer_height /= 1.5;
+			y -= layer_height / 2;
+			i++;
+			nodes.push(layer);
 		}
 		return nodes;
 	}
