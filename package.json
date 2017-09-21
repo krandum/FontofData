@@ -1,11 +1,14 @@
 {
-  "name": "something",
+  "name": "fontofdata",
   "dependencies" : {
-    "browserify": "^14.0.0",
-    "browserify-incremental": "^3.1.0"
+    "browserify": "~> 13.0.0",
+    "browserify-incremental": "~> 3.0.1",
+    "<required_package>": "<version>",
+     ...
   },
   "license": "MIT",
   "engines": {
-    "node": ">= 0.10"
-  }
+    "node": "~> 5.0.0"
+  },
+  "private": true
 }
