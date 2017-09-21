@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
+  get 'faq/index'
+
   get 'home/index'
 
   get 'play/index'
+
+  get 'about/index'
+
+  get 'story/index'
 
   resources :interactions
   resources :effects
@@ -10,6 +16,8 @@ Rails.application.routes.draw do
   resources :play
 
   Rails.application.routes.draw do
+  get 'faq/index'
+
   get 'home/index'
 
   get 'play/index'

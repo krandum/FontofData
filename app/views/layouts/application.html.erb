@@ -6,20 +6,19 @@
 	<%= javascript_include_tag 'application', 'data-turbolinks-track' => "reload" %>
 	<%= csrf_meta_tags %>
 </head>
-<body class="site">
+<body>
 
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
 <%= yield %>
 
-<nav class="navbar navbar-expand fixed-top navbar-light" style="background-color: darkgray;">
+<nav class="navbar fod_nav navbar-expand fixed-top navbar-light">
 	<a class="navbar-brand" href="/">Font of Data</a>
 		<ul class="navbar-nav mr-auto">
-			<li class="active"><a class="nav-link" href="/">Home</a></li>
-			<li class="active"><a class="nav-link" href="/play">Play</a></li>
-			<li class="active"><a class="nav-link" href="/story">Story</a></li>
-			<li class="active"><a class="nav-link" href="/about">About</a></li>
-			<li class="active"><a class="nav-link" href="/faq">FAQ</a></li>
+			<li class="active"><a class="nav-link" href="/play/">Play</a></li>
+			<li class="active"><a class="nav-link" href="/story/index">Story</a></li>
+			<li class="active"><a class="nav-link" href="/about/index">About</a></li>
+			<li class="active"><a class="nav-link" href="/faq/index">FAQ</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li class="nav-item dropdown">
@@ -32,6 +31,11 @@
 			</li>
 		</ul>
 </nav>
+
+
+<footer class="fod_foot container-fluid text-left">
+	<span class="fod_footspan"></span><p class="fod_foottext">Developed by a team of students at 42 - Silicon Valley</p>
+</footer>
 
 </body>
 </html>
