@@ -30,7 +30,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem'bootstrap', '~> 4.0.0.alpha6'
 
-gem 'npm-pipeline-rails'
+gem 'browserify-rails'
 
 gem 'devise'
 
