@@ -28,5 +28,6 @@ module Fod
 		config.browserify_rails.force = ->(file) { File.extname(file) == ".ts" }
 		config.browserify_rails.node_env = "production"
 		config.assets.paths << Rails.root.join('node_modules', 'paper', 'dist')
+		config.assets.paths << Rails.root.join('node_modules', 'acorn')
 	end
 end
