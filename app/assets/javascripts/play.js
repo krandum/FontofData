@@ -137,7 +137,7 @@ $(document).on('ready page:load', function() {
 			partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
 			stops = [
 				['#1F3BFF', 0],
-				['#343434', 0.9]
+				['#E4E4E4', 0.9]
 			];
 			from = p7;
 			to = new paper.Point(p7.x - quarter_size, p7.y - quarter_size);
@@ -159,7 +159,7 @@ $(document).on('ready page:load', function() {
 			partial2 = new paper.Segment(p6, new paper.Point(-size/16.7, -size/25), new paper.Point(size/12.5, size/20));
 			stops = [
 				['#FF1F3B', 0],
-				['#343434', 0.9]
+				['#E4E4E4', 0.9]
 			];
 			from = p7;
 			to = new paper.Point(p7.x + quarter_size, p7.y + quarter_size);
@@ -177,12 +177,12 @@ $(document).on('ready page:load', function() {
 		var gradient_color = new paper.Color(gradient, from, to);
 		basis.strokeWidth = thickness;
 		basis.strokeColor = gradient_color;
-		basis.fillColor = '#B3B3B3';
+		basis.fillColor = '#737373';
 
 		var num_w = sine_size * Math.pow(1.3, num_digits);
 		var num_h = (num_w / num_digits) * 1.3;
 		num = new paper.PointText(center);
-		num.fillColor = '#343434';
+		num.fillColor = '#E4E4E4';
 		num.content = elem.toString();
 		num.bounds = new paper.Rectangle({
 			point: [center.x - num_w / 2, center.y - num_h / 2],
