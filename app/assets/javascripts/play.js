@@ -183,7 +183,7 @@ $(document).on('ready page:load', function() {
 		return out_node;
 	}
 
-	var g_center = view.center;
+	var g_center = paper.view.center;
 
 	var node_one = node(1, g_center, 150);
 	var node_one = node(2, new Point(g_center.x - 120, g_center.y - 100), 100);
