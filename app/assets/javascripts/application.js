@@ -12,6 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require paper-full.js
+//= require acorn.js
+//= require palette.js
 //= require popper
 //= require bootstrap
 //= require_tree .
