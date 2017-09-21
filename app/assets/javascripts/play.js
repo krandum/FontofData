@@ -119,7 +119,7 @@ $(document).on('ready page:load', function() {
 		var basis = new paper.Path();
 		var p1, p2, p3, p4, p5, p6, p7;
 		var proper1, proper2, proper3, proper4;
-		var partial1, partial2, from, to, gradient;
+		var partial1, partial2;
 		if (elem % 2 == 0)
 		{
 			p1 = new paper.Point(center.x, center.y + half_size);
@@ -135,12 +135,6 @@ $(document).on('ready page:load', function() {
 			proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size/10));
 			partial1 = new paper.Segment(p5, new paper.Point(size/20, -size/12.5), new paper.Point(-size/25, size/16.7));
 			partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
-			stops = [
-				['#1F3BFF', 0],
-				['#E4E4E4', 0.9]
-			];
-			from = p7;
-			to = new paper.Point(p7.x - quarter_size, p7.y - quarter_size);
 		}
 		else
 		{
@@ -157,14 +151,7 @@ $(document).on('ready page:load', function() {
 			proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size / 10));
 			partial1 = new paper.Segment(p5, new paper.Point(-size/20, -size/12.5), new paper.Point(size/25, size/16.7));
 			partial2 = new paper.Segment(p6, new paper.Point(-size/16.7, -size/25), new paper.Point(size/12.5, size/20));
-			stops = [
-				['#FF1F3B', 0],
-				['#E4E4E4', 0.9]
-			];
-			from = p7;
-			to = new paper.Point(p7.x + quarter_size, p7.y + quarter_size);
 		}
-		gradient = new paper.Gradient(stops, true);
 		basis.add(proper1);
 		basis.add(proper2);
 		basis.add(proper3);
@@ -174,13 +161,13 @@ $(document).on('ready page:load', function() {
 		basis.add(partial2);
 		basis.closed = true;
 
-		var gradient_color = new paper.Color(gradient, from, to);
+		var gradient_color = '#E4E4E4'
 		basis.strokeWidth = thickness;
 		basis.strokeColor = gradient_color;
 		basis.fillColor = '#737373';
 
-		var num_w = sine_size * Math.pow(1.3, num_digits);
-		var num_h = (num_w / num_digits) * 1.3;
+		var num_w = sine_size * Math.pow(1.2, num_digits);
+		var num_h = (num_w / num_digits) * 1.4;
 		num = new paper.PointText(center);
 		num.fillColor = '#E4E4E4';
 		num.content = elem.toString();

@@ -8,7 +8,7 @@ html {
 body.play {
 	height: 100%;
 	left: 2.5%;
-	background-color: gray;
+	background-color: black;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -22,8 +22,6 @@ canvas.myCanvas {
 	display: block;
 	position: absolute;
 	z-index: 1;
-	background: url(https://wallpapercave.com/wp/j8eMFrM.jpg) no-repeat center center fixed;
-	background-size: cover;
 }
 
 .wrapper {
