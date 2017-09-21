@@ -3,6 +3,7 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on('ready page:load', function() {
+	paper = require('paperjs');
 	// var selectedNodes = [];
 	// var selectedIndex = -1;
 	// var options = [document.getElementById("attack"),
