@@ -3,8 +3,7 @@
   "dependencies" : {
     "browserify": "~> 13.0.0",
     "browserify-incremental": "~> 3.0.1",
-    "<required_package>": "<version>",
-     ...
+    "<required_package>": "<version>"
   },
   "license": "MIT",
   "engines": {
