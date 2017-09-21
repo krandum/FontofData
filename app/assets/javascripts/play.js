@@ -106,14 +106,18 @@ $(document).on('ready page:load', function() {
 	// 		}
 	// 	}
 	// });
-	var canvas = document.getElementById('myCanvas')
+	var canvas = document.getElementById('myCanvas');
+
+	paper.setup(canvas);
+
+	var g_center = paper.view.center;
 
 	function node(elem, center, size) {
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
 		var tan_size = size / 3.7;
 		var quarter_size = size / 4;
-		var basis = new Path();
+		var basis = new paper.Path();
 		if (elem % 2 == 0)
 		{
 			var p1 = new Point(center.x, center.y + half_size);
@@ -184,8 +188,6 @@ $(document).on('ready page:load', function() {
 		out_node = new Group(basis, num);
 		return out_node;
 	}
-
-	var g_center = view.center;
 
 	var node_one = node(1, g_center, 150);
 	var node_one = node(2, new Point(g_center.x - 120, g_center.y - 100), 100);
