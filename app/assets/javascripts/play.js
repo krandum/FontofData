@@ -161,7 +161,7 @@ $(document).on('ready page:load', function() {
 		basis.add(partial2);
 		basis.closed = true;
 
-		var gradient_color = '#E4E4E4'
+		var gradient_color = '#343434'
 		basis.strokeWidth = thickness;
 		basis.strokeColor = gradient_color;
 		basis.fillColor = '#737373';
@@ -169,7 +169,7 @@ $(document).on('ready page:load', function() {
 		var num_w = sine_size * Math.pow(1.2, num_digits);
 		var num_h = (num_w / num_digits) * 1.4;
 		num = new paper.PointText(center);
-		num.fillColor = '#E4E4E4';
+		num.fillColor = '#343434';
 		num.content = elem.toString();
 		num.bounds = new paper.Rectangle({
 			point: [center.x - num_w / 2, center.y - num_h / 2],
