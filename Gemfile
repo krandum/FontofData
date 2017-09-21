@@ -30,6 +30,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem'bootstrap', '~> 4.0.0.alpha6'
 
+gem 'npm-pipeline-rails'
+
 gem 'devise'
 
 gem 'passenger', '>= 5.0.25', require: 'phusion_passenger/rack_handler'
