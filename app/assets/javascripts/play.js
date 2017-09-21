@@ -214,16 +214,16 @@ $(document).on('ready page:load', function() {
 				point.x += width / num_sub;
 				j++;
 				index++;
-				if (thickness > 2)
-				{
-					thickness--;
-				}
 			}
 			node_height /= 1.5;
 			y -= layer_height / 2;
 			layer_height /= 1.5;
 			y -= layer_height / 2;
 			i++;
+			if (thickness > 1)
+			{
+				thickness--;
+			}
 			nodes.push(layer);
 		}
 		return nodes;
