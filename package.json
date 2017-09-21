@@ -1,0 +1,32 @@
+{
+  "scripts": {
+    "start": "gulp watch",
+    "build": "gulp build"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-cli": "^1.4.0",
+    "gulp-concat": "^2.6.1"
+  },
+  "name": "code",
+  "description": "== README",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "paper": "^0.11.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krandum/FontofData.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krandum/FontofData/issues"
+  },
+  "homepage": "https://github.com/krandum/FontofData#readme"
+}
