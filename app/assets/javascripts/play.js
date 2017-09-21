@@ -119,7 +119,23 @@ $(document).on('ready page:load', function() {
 		var basis = new paper.Path();
 		var p1, p2, p3, p4, p5, p6, p7;
 		var proper1, proper2, proper3, proper4;
-		var partial1, partial2;
+		var partial1, partial2, from, to, gradient, stops;
+		// if (elem == 1)
+		// {
+		// 	p1 = new paper.Point(center.x, center.y + half_size);
+		// 	p2 = new paper.Point(center.x - half_size, center.y);
+		// 	p3 = new paper.Point(center.x, center.y - half_size);
+		// 	p4 = new paper.Point(center.x + half_size, center.y);
+		// 	p5 = new paper.Point(center.x + sine_size, center.y + quarter_size);
+		// 	p6 = new paper.Point(center.x + quarter_size, center.y + sine_size);
+		// 	p7 = new paper.Point(center.x + sine_size, center.y + sine_size);
+		// 	proper1 = new paper.Segment(p1, new paper.Point(size / 10, 0), new paper.Point(-tan_size, 0));
+		// 	proper2 = new paper.Segment(p2, new paper.Point(0, tan_size), new paper.Point(0, -tan_size));
+		// 	proper3 = new paper.Segment(p3, new paper.Point(-tan_size, 0), new paper.Point(tan_size, 0));
+		// 	proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size/10));
+		// 	partial1 = new paper.Segment(p5, new paper.Point(size/20, -size/12.5), new paper.Point(-size/25, size/16.7));
+		// 	partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
+		// }
 		if (elem % 2 == 0)
 		{
 			p1 = new paper.Point(center.x, center.y + half_size);
@@ -135,6 +151,12 @@ $(document).on('ready page:load', function() {
 			proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size/10));
 			partial1 = new paper.Segment(p5, new paper.Point(size/20, -size/12.5), new paper.Point(-size/25, size/16.7));
 			partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
+			stops = [
+				['#1F3BFF', 0],
+				['#E4E4E4', 0.9]
+			];
+			from = p7;
+			to = new paper.Point(p7.x - quarter_size, p7.y - quarter_size);
 		}
 		else
 		{
@@ -151,7 +173,14 @@ $(document).on('ready page:load', function() {
 			proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size / 10));
 			partial1 = new paper.Segment(p5, new paper.Point(-size/20, -size/12.5), new paper.Point(size/25, size/16.7));
 			partial2 = new paper.Segment(p6, new paper.Point(-size/16.7, -size/25), new paper.Point(size/12.5, size/20));
+			stops = [
+				['#FF1F3B', 0],
+				['#E4E4E4', 0.9]
+			];
+			from = p7;
+			to = new paper.Point(p7.x + quarter_size, p7.y + quarter_size);
 		}
+		gradient = new paper.Gradient(stops, true);
 		basis.add(proper1);
 		basis.add(proper2);
 		basis.add(proper3);
@@ -161,10 +190,10 @@ $(document).on('ready page:load', function() {
 		basis.add(partial2);
 		basis.closed = true;
 
-		var gradient_color = '#343434'
+		var gradient_color = new paper.Color(gradient, from, to);
 		basis.strokeWidth = thickness;
 		basis.strokeColor = gradient_color;
-		basis.fillColor = '#737373';
+		basis.fillColor = '#B3B3B3';
 
 		var num_w = sine_size * Math.pow(1.2, num_digits);
 		var num_h = (num_w / num_digits) * 1.4;
