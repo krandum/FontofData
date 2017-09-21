@@ -110,10 +110,7 @@ $(document).on('ready page:load', function() {
 
 	paper.setup(canvas);
 
-	function get_node(elem, center, size) {
-		console.log(elem);
-		console.log(center);
-		console.log(size);
+	function get_node(elem, center, size, thickness) {
 		var num_digits = elem.toString().length;
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
@@ -167,7 +164,6 @@ $(document).on('ready page:load', function() {
 			from = p7;
 			to = new paper.Point(p7.x + quarter_size, p7.y + quarter_size);
 		}
-		console.log('initial colors');
 		gradient = new paper.Gradient(stops, true);
 		basis.add(proper1);
 		basis.add(proper2);
@@ -177,13 +173,9 @@ $(document).on('ready page:load', function() {
 		basis.add(p7);
 		basis.add(partial2);
 		basis.closed = true;
-		console.log('building gradient');
-		console.log(gradient);
-		console.log(from);
-		console.log(to);
 
 		var gradient_color = new paper.Color(gradient, from, to);
-		basis.strokeWidth = 4;
+		basis.strokeWidth = thickness;
 		basis.strokeColor = gradient_color;
 		basis.fillColor = '#B3B3B3';
 
@@ -198,7 +190,6 @@ $(document).on('ready page:load', function() {
 		});
 
 		out_node = new paper.Group(basis, num);
-		console.log('built');
 		return out_node;
 	}
 
@@ -210,6 +201,7 @@ $(document).on('ready page:load', function() {
 		var point = new paper.Point();
 		var index = 1;
 		var i = 0;
+		var thickness = 5;
 		while (i < num_layers) {
 			let layer = [];
 			var num_sub = Math.pow(2, i);
@@ -217,11 +209,15 @@ $(document).on('ready page:load', function() {
 			point.y = y;
 			point.x = (width / num_sub) / 2;
 			while (j < num_sub) {
-				let new_node = get_node(index, point, node_height);
+				let new_node = get_node(index, point, node_height, thickness);
 				layer.push(new_node);
 				point.x += width / num_sub;
 				j++;
 				index++;
+				if (thickness > 2)
+				{
+					thickness--;
+				}
 			}
 			node_height /= 1.5;
 			y -= layer_height / 2;
