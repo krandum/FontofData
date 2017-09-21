@@ -153,7 +153,7 @@ $(document).on('ready page:load', function() {
 			partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
 			stops = [
 				['#1F3BFF', 0],
-				['#E4E4E4', 0.9]
+				['#343434', 0.9]
 			];
 			from = p7;
 			to = new paper.Point(p7.x - quarter_size, p7.y - quarter_size);
@@ -175,7 +175,7 @@ $(document).on('ready page:load', function() {
 			partial2 = new paper.Segment(p6, new paper.Point(-size/16.7, -size/25), new paper.Point(size/12.5, size/20));
 			stops = [
 				['#FF1F3B', 0],
-				['#E4E4E4', 0.9]
+				['#343434', 0.9]
 			];
 			from = p7;
 			to = new paper.Point(p7.x + quarter_size, p7.y + quarter_size);
