@@ -144,7 +144,6 @@ $(document).on('ready page:load', function() {
 			];
 			from = p7;
 			to = p7 - [quarter_size, quarter_size];
-			gradient = new paper.Gradient(stops, true);
 		}
 		else
 		{
@@ -167,8 +166,9 @@ $(document).on('ready page:load', function() {
 			];
 			from = p7;
 			to = p7 + [quarter_size, quarter_size];
-			gradient = new paper.Gradient(stops, true);
 		}
+		console.log('initial colors');
+		gradient = new paper.Gradient(stops, true);
 		basis.add(proper1);
 		basis.add(proper2);
 		basis.add(proper3);
@@ -177,6 +177,10 @@ $(document).on('ready page:load', function() {
 		basis.add(p7);
 		basis.add(partial2);
 		basis.closed = true;
+		console.log('building gradient');
+		console.log(gradient);
+		console.log(from);
+		console.log(to);
 
 		var gradient_color = new paper.Color(gradient, from, to);
 		basis.strokeWidth = 4;
@@ -194,6 +198,7 @@ $(document).on('ready page:load', function() {
 		});
 
 		out_node = new paper.Group(basis, num);
+		console.log('built');
 		return out_node;
 	}
 
