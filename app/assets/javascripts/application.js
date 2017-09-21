@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require paperjs
 //= require popper
 //= require bootstrap
 //= require_tree .

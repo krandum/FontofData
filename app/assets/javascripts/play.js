@@ -3,7 +3,7 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on('ready page:load', function() {
-	paper = require('paper');
+	//paper = require('paper');
 	// var selectedNodes = [];
 	// var selectedIndex = -1;
 	// var options = [document.getElementById("attack"),
@@ -183,7 +183,7 @@ $(document).on('ready page:load', function() {
 		return out_node;
 	}
 
-	var g_center = paper.view.center;
+	var g_center = view.center;
 
 	var node_one = node(1, g_center, 150);
 	var node_one = node(2, new Point(g_center.x - 120, g_center.y - 100), 100);
