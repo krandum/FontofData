@@ -168,10 +168,10 @@ $(document).on('ready page:load', function() {
 		basis.add(p7);
 		basis.add(partial2);
 
-		var gradient = new paper.Gradient(stops, true);
-		var from = p7;
-		var to = p7 + mod;
-		var gradient_color = new paper.Color(gradient, from, to);
+		// var gradient = new paper.Gradient(stops, true);
+		// var from = p7;
+		// var to = p7 + mod;
+		var gradient_color = new paper.Color('#343434');
 		basis.strokeColor = gradient_color;
 		basis.strokeWidth = 4;
 		basis.fillColor = '#B3B3B3';
