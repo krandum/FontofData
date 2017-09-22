@@ -117,7 +117,7 @@ $(document).on('ready page:load', function() {
 		1: {
 			line: '#ffffff',
 			num: '#ffffff',
-			fill: '#818F8E',
+			fill: '#8E8E8E',
 			selected: '#ffffff',
 			glow: '#ffffff'
 		},
@@ -129,16 +129,16 @@ $(document).on('ready page:load', function() {
 			glow: '#e52d00'
 		},
 		3: {
-			line: '#5eb22e',
-			num: '#5eb22e',
-			fill: '#edeec0',
-			selected: '#5eb22e',
-			glow: '#5eb22e'
+			line: '#edeec0',
+			num: '#edeec0',
+			fill: '#5eb22e',
+			selected: '#97FC9C',
+			glow: '#97FC9C'
 		},
 		4: {
-			line: '#2188dd',
-			num: '#2188dd',
-			fill: '#C9f0ff',
+			line: '#C9f0ff',
+			num: '#C9f0ff',
+			fill: '#2188dd',
 			selected: '#ae45c7',
 			glow: '#ae45c7'
 		}
@@ -254,12 +254,14 @@ $(document).on('ready page:load', function() {
 				out_node.shadowColor = ncol['glow'];
 				out_node.shadowBlur = quarter_size;
 				out_node.firstChild.strokeColor = ncol['selected'];
+				out_node.lastChild.fillColor = ncol['selected'];
 				selected = true;
 			}
 			else {
 				out_node.shadowColor = 0;
 				out_node.shadowBlur = 0;
 				out_node.firstChild.strokeColor = ncol['line'];
+				out_node.lastChild.fillColor = ncol['num'];
 				selected = false;
 			}
 		}
