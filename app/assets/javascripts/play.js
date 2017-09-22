@@ -110,56 +110,114 @@ $(document).on('ready page:load', function() {
 
 	paper.setup(canvas);
 
-	var g_center = paper.view.center;
+	var nodes = [];
+	var myNodes;
 
-	function node(elem, center, size) {
+	var colors = {
+		1: {
+			line: '#3E5C76',
+			num: '#3E5C76',
+			fill: '#B9D6F2'
+		},
+		2: {
+			line: '#040303',
+			num: '#d3d3d3',
+			fill: '#E54219'
+		},
+		3: {
+			line: '#5c573e',
+			num: '#b6f9b9',
+			fill: '#5eb22e'
+		},
+		4: {
+			line: '#094074',
+			num: '#AE45C7',
+			fill: '#2F8BD6'
+		}
+	}
+
+	function get_initial_node_data() {
+		$.ajax({
+			type: "GET",
+			url: "request_nodes",
+			data: {
+				ranges: [{
+					from: 1,
+					to: 31
+				}]
+			},
+			datatype: "html",
+			success: function (raw) {
+				var data = JSON.parse(raw);
+				in_nodes = data['nodes']
+				var i = 1;
+				while (i < 32)
+				{
+					nodes[i] = in_nodes[i]['faction_id'];
+					i++;
+				}
+				myNodes = build_nodes(5, paper.view.size.width, paper.view.size.height)
+			},
+			async: true
+		});
+	}
+
+	function get_node(elem, center, size, thickness) {
+		var num_digits = elem.toString().length;
+		var ncol = colors[nodes[elem].toString()];
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
 		var tan_size = size / 3.7;
 		var quarter_size = size / 4;
 		var basis = new paper.Path();
+		var p1, p2, p3, p4, p5, p6, p7;
+		var proper1, proper2, proper3, proper4;
+		var partial1, partial2, from, to, gradient, stops;
 		if (elem % 2 == 0)
 		{
-			var p1 = new paper.Point(center.x, center.y + half_size);
-			var p2 = new paper.Point(center.x - half_size, center.y);
-			var p3 = new paper.Point(center.x, center.y - half_size);
-			var p4 = new paper.Point(center.x + half_size, center.y);
-			var p5 = new paper.Point(center.x + sine_size, center.y + quarter_size);
-			var p6 = new paper.Point(center.x + quarter_size, center.y + sine_size);
-			var stops = [
+			p1 = new paper.Point(center.x, center.y + half_size);
+			p2 = new paper.Point(center.x - half_size, center.y);
+			p3 = new paper.Point(center.x, center.y - half_size);
+			p4 = new paper.Point(center.x + half_size, center.y);
+			p5 = new paper.Point(center.x + sine_size, center.y + quarter_size);
+			p6 = new paper.Point(center.x + quarter_size, center.y + sine_size);
+			p7 = new paper.Point(center.x + sine_size, center.y + sine_size);
+			proper1 = new paper.Segment(p1, new paper.Point(size / 10, 0), new paper.Point(-tan_size, 0));
+			proper2 = new paper.Segment(p2, new paper.Point(0, tan_size), new paper.Point(0, -tan_size));
+			proper3 = new paper.Segment(p3, new paper.Point(-tan_size, 0), new paper.Point(tan_size, 0));
+			proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size/10));
+			partial1 = new paper.Segment(p5, new paper.Point(size/20, -size/12.5), new paper.Point(-size/25, size/16.7));
+			partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
+			stops = [
 				['#1F3BFF', 0],
-				['#343434', 0.9]
+				[ncol['line'], 0.9]
 			];
-			var mod = [-quarter_size, -quarter_size];
-			var p7 = new paper.Point(center.x + sine_size, center.y + sine_size);
-			var proper1 = new paper.Segment(p1, new paper.Point(size / 10, 0), new paper.Point(-tan_size, 0));
-			var proper2 = new paper.Segment(p2, new paper.Point(0, tan_size), new paper.Point(0, -tan_size));
-			var proper3 = new paper.Segment(p3, new paper.Point(-tan_size, 0), new paper.Point(tan_size, 0));
-			var proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size/10));
-			var partial1 = new paper.Segment(p5, new paper.Point(size/20, -size/12.5), new paper.Point(-size/25, size/16.7));
-			var partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
+			from = p7;
+			to = new paper.Point(p7.x - quarter_size, p7.y - quarter_size);
 		}
 		else
 		{
-			var p1 = new paper.Point(center.x, center.y + half_size);
-			var p2 = new paper.Point(center.x + half_size, center.y);
-			var p3 = new paper.Point(center.x, center.y - half_size);
-			var p4 = new paper.Point(center.x - half_size, center.y);
-			var p5 = new paper.Point(center.x - sine_size, center.y + quarter_size);
-			var p6 = new paper.Point(center.x - quarter_size, center.y + sine_size);
-			var stops = [
+			p1 = new paper.Point(center.x, center.y + half_size);
+			p2 = new paper.Point(center.x + half_size, center.y);
+			p3 = new paper.Point(center.x, center.y - half_size);
+			p4 = new paper.Point(center.x - half_size, center.y);
+			p5 = new paper.Point(center.x - sine_size, center.y + quarter_size);
+			p6 = new paper.Point(center.x - quarter_size, center.y + sine_size);
+			p7 = new paper.Point(center.x - sine_size, center.y + sine_size);
+			proper1 = new paper.Segment(p1, new paper.Point(-size / 10, 0), new paper.Point(tan_size, 0));
+			proper2 = new paper.Segment(p2, new paper.Point(0, tan_size), new paper.Point(0, -tan_size));
+			proper3 = new paper.Segment(p3, new paper.Point(tan_size, 0), new paper.Point(-tan_size, 0));
+			proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size / 10));
+			partial1 = new paper.Segment(p5, new paper.Point(-size/20, -size/12.5), new paper.Point(size/25, size/16.7));
+			partial2 = new paper.Segment(p6, new paper.Point(-size/16.7, -size/25), new paper.Point(size/12.5, size/20));
+			stops = [
 				['#FF1F3B', 0],
-				['#343434', 0.9]
+				[ncol['line'], 0.9]
 			];
-			var mod = [quarter_size, quarter_size];
-			var p7 = new paper.Point(center.x - sine_size, center.y + sine_size);
-			var proper1 = new paper.Segment(p1, new paper.Point(-size / 10, 0), new paper.Point(tan_size, 0));
-			var proper2 = new paper.Segment(p2, new paper.Point(0, tan_size), new paper.Point(0, -tan_size));
-			var proper3 = new paper.Segment(p3, new paper.Point(tan_size, 0), new paper.Point(-tan_size, 0));
-			var proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size / 10));
-			var partial1 = new paper.Segment(p5, new paper.Point(-size/20, -size/12.5), new paper.Point(size/25, size/16.7));
-			var partial2 = new paper.Segment(p6, new paper.Point(-size/16.7, -size/25), new paper.Point(size/12.5, size/20));
+			from = p7;
+			to = new paper.Point(p7.x + quarter_size, p7.y + quarter_size);
 		}
+		gradient = new paper.Gradient(stops, true);
 		basis.add(proper1);
 		basis.add(proper2);
 		basis.add(proper3);
@@ -167,29 +225,63 @@ $(document).on('ready page:load', function() {
 		basis.add(partial1);
 		basis.add(p7);
 		basis.add(partial2);
-
-		// var gradient = new paper.Gradient(stops, true);
-		// var from = p7;
-		// var to = p7 + mod;
-		var gradient_color = new paper.Color('#343434');
-		basis.strokeColor = gradient_color;
-		basis.strokeWidth = 4;
-		basis.fillColor = '#B3B3B3';
 		basis.closed = true;
 
+		var gradient_color = new paper.Color(gradient, from, to);
+		basis.strokeWidth = thickness;
+		basis.strokeColor = gradient_color;
+		basis.fillColor = ncol['fill'];
+
+		var num_w = sine_size * Math.pow(1.2, num_digits);
+		var num_h = (num_w / num_digits) * 1.4;
 		num = new paper.PointText(center);
-		num.fillColor = '#343434';
+		num.fillColor = ncol['num'];
 		num.content = elem.toString();
 		num.bounds = new paper.Rectangle({
-			point: [center.x - 15, center.y - 24],
-			size: [30, 48]
+			point: [center.x - num_w / 2, center.y - num_h / 2],
+			size: [num_w, num_h]
 		});
 
 		out_node = new paper.Group(basis, num);
 		return out_node;
 	}
 
-	var node_one = node(1, g_center, 150);
-	var node_one = node(2, new paper.Point(g_center.x - 120, g_center.y - 100), 100);
-	var node_one = node(3, new paper.Point(g_center.x + 120, g_center.y - 100), 100);
+	function build_nodes(num_layers, width, height) {
+		var nodes = [];
+		var layer_height = height / 3;
+		var node_height = height / 4;
+		var y = height - (layer_height / 2);
+		var point = new paper.Point();
+		var index = 1;
+		var i = 0;
+		var thickness = 5;
+		while (i < num_layers) {
+			let layer = [];
+			var num_sub = Math.pow(2, i);
+			var j = 0;
+			point.y = y;
+			point.x = (width / num_sub) / 2;
+			while (j < num_sub) {
+				let new_node = get_node(index, point, node_height, thickness);
+				layer.push(new_node);
+				point.x += width / num_sub;
+				j++;
+				index++;
+			}
+			node_height /= 1.5;
+			y -= layer_height / 2;
+			layer_height /= 1.5;
+			y -= layer_height / 2;
+			i++;
+			if (thickness > 1)
+			{
+				thickness--;
+			}
+			nodes.push(layer);
+		}
+		return nodes;
+	}
+
+	get_initial_node_data();
+
 });

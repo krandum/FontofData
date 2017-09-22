@@ -98,4 +98,5 @@ get '/take_action', :to => 'interactions#take_action'
 #   # (app/controllers/admin/products_controller.rb)
 #   resources :products
 #  end
+
 end
