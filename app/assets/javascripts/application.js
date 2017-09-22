@@ -12,11 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require paper-full.js
 //= require acorn.js
+//= require paper-full.js
 //= require palette.js
-//= require popper
-//= require bootstrap
+//= require popper.js
+//= require bootstrap.js
 //= require_tree .
 
 var isFirstLoad = function(namesp, jsFile) {

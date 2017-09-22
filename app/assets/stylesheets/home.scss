@@ -4,6 +4,21 @@
 	border-radius: 0;
 }
 
+.nav_hover:hover {
+	border-color: #1B5299;
+}
+.nav_hover {
+	border-color: #090446;
+	border-radius: 3px;
+	transition: border-color 150ms ease-in-out;
+}
+
+.show.fod_drop {
+	background-color: #1B5299;
+	border-color: #090446;
+	border-radius: 3px;
+}
+
 .row.content {
 	height: 530px
 }
@@ -47,7 +62,8 @@
 
 .fod_nav{
 	width: 100%;
-	background-color: darkgray;
+	background-color: #090446;
+	color: #B9D6F2;
 }
 
 .fod_site {

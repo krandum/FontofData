@@ -7,26 +7,22 @@
 	<%= csrf_meta_tags %>
 </head>
 <body>
-
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
 <%= yield %>
-
 <nav class="navbar fod_nav navbar-expand fixed-top navbar-light">
-	<a class="navbar-brand" href="/">Font of Data</a>
+	<a class="navbar-brand nav_hover" style="color: #B9D6F2" href="/">Font of Data</a>
 		<ul class="navbar-nav mr-auto">
-			<li class="active"><a class="nav-link" href="/play/">Play</a></li>
-			<li class="active"><a class="nav-link" href="/story/index">Story</a></li>
-			<li class="active"><a class="nav-link" href="/about/index">About</a></li>
-			<li class="active"><a class="nav-link" href="/faq/index">FAQ</a></li>
+			<li class="active nav_hover"><a class="nav-link" style="color: #B9D6F2" href="/play/">Play</a></li>
+			<li class="active nav_hover"><a class="nav-link" style="color: #B9D6F2" href="/story/index">Story</a></li>
+			<li class="active nav_hover"><a class="nav-link" style="color: #B9D6F2" href="/about/index">About</a></li>
+			<li class="active nav_hover"><a class="nav-link" style="color: #B9D6F2" href="/faq/index">FAQ</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="accountMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
-				<div class="dropdown-menu" aria-labelledby="accountMenu">
-					<a class="dropdown-item" href="/user/profile">Profile</a>
-					<a class="dropdown-item" href="/user/settings">User settings</a>
-					<a class="dropdown-item" href="/logout">Logout</a>
+			<li class="nav-item dropdown fod_drop">
+				<a class="nav-link dropdown-toggle" style="color: #B9D6F2" id="accountMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
+				<div class="dropdown-menu fod_drop" aria-labelledby="accountMenu">
+					<a class="dropdown-item" style="color: #B9D6F2" href="/user/profile">Profile</a>
+					<a class="dropdown-item" style="color: #B9D6F2" href="/user/settings">User settings</a>
+					<a class="dropdown-item" style="color: #B9D6F2" href="/logout">Logout</a>
 				</div>
 			</li>
 		</ul>
