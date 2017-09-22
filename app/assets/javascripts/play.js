@@ -159,7 +159,7 @@ $(document).on('ready page:load', function() {
 
 	function get_node(elem, center, size, thickness) {
 		var num_digits = elem.toString().length;
-		var ncol = colors[nodes[elem]];
+		var ncol = colors[nodes[elem.toString()]];
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
 		var tan_size = size / 3.7;
