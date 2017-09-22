@@ -247,11 +247,11 @@ $(document).on('ready page:load', function() {
 		let myBounds = out_node.bounds;
 
 		out_node.onMouseEnter = function(event) {
-			out_node.scale(1.3);
+			out_node.scale(1.1);
 		}
 
 		out_node.onMouseLeave = function(event) {
-			out_node.scale(0.76923);
+			out_node.scale(0.9090909);
 		}
 		return out_node;
 	}
