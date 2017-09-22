@@ -64,7 +64,7 @@ class DataNodesController < ApplicationController
 	def request_nodes
 		out = {'nodes' => {}}
 		ranges = params['ranges']
-		p params
+		p ranges
 		ranges.each do |range|
 			p range
 			cur = range[0].to_i
