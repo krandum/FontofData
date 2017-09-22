@@ -115,9 +115,9 @@ $(document).on('ready page:load', function() {
 
 	var colors = {
 		1: {
-			line: '#2D3435',
-			num: '#2D3435',
-			fill: '#D1DFDE',
+			line: '#ffffff',
+			num: '#ffffff',
+			fill: '#818F8E',
 			selected: '#ffffff',
 			glow: '#ffffff'
 		},
