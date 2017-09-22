@@ -117,7 +117,7 @@ $(document).on('ready page:load', function() {
 		1: {
 			line: '#2D3435',
 			num: '#2D3435',
-			fill: '#C1CFCE',
+			fill: '#D1DFDE',
 			selected: '#ffffff',
 			glow: '#ffffff'
 		},
@@ -181,7 +181,6 @@ $(document).on('ready page:load', function() {
 		var p1, p2, p3, p4, p5, p6, p7;
 		var proper1, proper2, proper3, proper4;
 		var partial1, partial2;
-		let from, to, gradient, stops;
 		if (elem % 2 == 0)
 		{
 			p1 = new paper.Point(center.x, center.y + half_size);
@@ -197,12 +196,6 @@ $(document).on('ready page:load', function() {
 			proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size/10));
 			partial1 = new paper.Segment(p5, new paper.Point(size/20, -size/12.5), new paper.Point(-size/25, size/16.7));
 			partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
-			stops = [
-				['#1F3BFF', 0],
-				[ncol['line'], 0.9]
-			];
-			from = p7;
-			to = new paper.Point(p7.x - quarter_size, p7.y - quarter_size);
 		}
 		else
 		{
@@ -219,14 +212,7 @@ $(document).on('ready page:load', function() {
 			proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size / 10));
 			partial1 = new paper.Segment(p5, new paper.Point(-size/20, -size/12.5), new paper.Point(size/25, size/16.7));
 			partial2 = new paper.Segment(p6, new paper.Point(-size/16.7, -size/25), new paper.Point(size/12.5, size/20));
-			stops = [
-				['#FF1F3B', 0],
-				[ncol['line'], 0.9]
-			];
-			from = p7;
-			to = new paper.Point(p7.x + quarter_size, p7.y + quarter_size);
 		}
-		gradient = new paper.Gradient(stops, true);
 		basis.add(proper1);
 		basis.add(proper2);
 		basis.add(proper3);
@@ -236,9 +222,8 @@ $(document).on('ready page:load', function() {
 		basis.add(partial2);
 		basis.closed = true;
 
-		var gradient_color = new paper.Color(gradient, from, to);
 		basis.strokeWidth = thickness;
-		basis.strokeColor = gradient_color;
+		basis.strokeColor = ncol['line'];
 		basis.fillColor = ncol['fill'];
 
 		var num_w = sine_size * Math.pow(1.2, num_digits);
@@ -265,22 +250,18 @@ $(document).on('ready page:load', function() {
 
 		out_node.onClick = function(event) {
 			var ncol = colors[nodes[elem].toString()];
-
 			if (!selected) {
-				stops[1][0] = ncol['selected'];
 				out_node.shadowColor = ncol['glow'];
 				out_node.shadowBlur = quarter_size;
+				out_node.firstChild.strokeColor = ncol['selected'];
 				selected = true;
 			}
 			else {
-				stops[1][0] = ncol['line'];
 				out_node.shadowColor = 0;
 				out_node.shadowBlur = 0;
+				out_node.firstChild.strokeColor = ncol['selected'];
 				selected = false;
 			}
-			gradient = new paper.Gradient(stops, true);
-			var gradientColor;
-			out_node.firstChild.strokeColor = new paper.Color(gradient, from, to);
 		}
 		return out_node;
 	}
