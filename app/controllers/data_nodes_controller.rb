@@ -66,6 +66,7 @@ class DataNodesController < ApplicationController
 		out = {'nodes' => {}}
 		ranges = params['ranges']
 		num = ranges.count
+		print num
 		i = 0
 		while (i <= num)
 			range = ranges[i.to_s]
