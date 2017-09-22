@@ -21,7 +21,7 @@ canvas.myCanvas {
 	top: 5%;
 	display: block;
 	position: absolute;
-	background-image: asset-path("kyle-gregory-devaras-241280.jpg") no-repeat center center fixed;
+	background-image: url(asset-path("kyle-gregory-devaras-241280.jpg")) no-repeat center center fixed;
 	background-size: cover;
 	z-index: 1;
 }
