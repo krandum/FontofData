@@ -151,7 +151,7 @@ $(document).on('ready page:load', function() {
 			data: {
 				ranges: [{
 					from: 1,
-					to: 31
+					to: 63
 				}]
 			},
 			datatype: "html",
@@ -159,7 +159,7 @@ $(document).on('ready page:load', function() {
 				var data = JSON.parse(raw);
 				in_nodes = data['nodes']
 				var i = 1;
-				while (i < 32)
+				while (i < 64)
 				{
 					nodes[i] = in_nodes[i]['faction_id'];
 					i++;
