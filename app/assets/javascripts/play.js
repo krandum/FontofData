@@ -243,6 +243,11 @@ $(document).on('ready page:load', function() {
 		});
 
 		out_node = new paper.Group(basis, num);
+
+		out_node.onMouseEnter = function(event) {
+			this.size.width *= 1.3;
+			this.size.height *= 1.3;
+		}
 		return out_node;
 	}
 
