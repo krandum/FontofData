@@ -122,11 +122,11 @@ $(document).on('ready page:load', function() {
 			glow: '#1b5299'
 		},
 		2: {
-			line: '#771119',
-			num: '#e54219',
-			fill: '#f9b8c5',
-			selected: '#e95a15',
-			glow: '#e54219'
+			line: '#87111b',
+			num: '#e52d00',
+			fill: '#ccc5c7',
+			selected: '#e52d00',
+			glow: '#e98a15'
 		},
 		3: {
 			line: '#352e09',
@@ -140,7 +140,7 @@ $(document).on('ready page:load', function() {
 			num: '#2188dd',
 			fill: '#C9f0ff',
 			selected: '#2188dd',
-			glow: '#e2e544'
+			glow: '#ae45c7'
 		}
 	}
 
