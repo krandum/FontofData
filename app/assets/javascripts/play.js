@@ -118,7 +118,7 @@ $(document).on('ready page:load', function() {
 			line: '#343434',
 			num: '#343434',
 			fill: '#737373'
-		}
+		},
 		2: {
 			line: '#040303',
 			num: '#d3d3d3',
