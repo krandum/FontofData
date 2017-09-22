@@ -117,7 +117,10 @@ $(document).on('ready page:load', function() {
 			type: "GET",
 			url: "request_nodes",
 			data: {
-				ranges: new Array(new Array(1, 31))
+				ranges: [{
+					from: 1,
+					to: 31
+				}]
 			},
 			datatype: "html",
 			success: function (data) {
