@@ -115,31 +115,31 @@ $(document).on('ready page:load', function() {
 
 	var colors = {
 		1: {
-			line: '#3E5C76',
-			num: '#3E5C76',
+			line: '#2D3435',
+			num: '#2D3435',
 			fill: '#B9D6F2',
-			selected: '#1b5299',
-			glow: '#1b5299'
+			selected: '#ffffff',
+			glow: '#ffffff'
 		},
 		2: {
-			line: '#87111b',
+			line: '#e52d00',
 			num: '#e52d00',
-			fill: '#ccc5c7',
+			fill: '#C1CFCE',
 			selected: '#e52d00',
-			glow: '#e98a15'
+			glow: '#e52d00'
 		},
 		3: {
-			line: '#352e09',
+			line: '#5eb22e',
 			num: '#5eb22e',
-			fill: '#b6f9b9',
+			fill: '#edeec0',
 			selected: '#5eb22e',
 			glow: '#5eb22e'
 		},
 		4: {
-			line: '#094074',
+			line: '#2188dd',
 			num: '#2188dd',
 			fill: '#C9f0ff',
-			selected: '#2188dd',
+			selected: '#ae45c7',
 			glow: '#ae45c7'
 		}
 	}
