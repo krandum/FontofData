@@ -111,6 +111,7 @@ $(document).on('ready page:load', function() {
 	paper.setup(canvas);
 
 	var nodes = [];
+	var myNodes;
 
 	var colors = {
 		2: {
@@ -150,6 +151,7 @@ $(document).on('ready page:load', function() {
 					nodes[i] = in_nodes[i]['faction_id'];
 					i++;
 				}
+				myNodes = build_nodes(5, paper.view.size.width, paper.view.size.height)
 			},
 			async: false
 		});
@@ -276,6 +278,5 @@ $(document).on('ready page:load', function() {
 	}
 
 	get_initial_node_data();
-	var myNodes = build_nodes(5, paper.view.size.width, paper.view.size.height);
 
 });
