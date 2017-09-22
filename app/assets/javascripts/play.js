@@ -247,19 +247,11 @@ $(document).on('ready page:load', function() {
 		let myBounds = out_node.bounds;
 
 		out_node.onMouseEnter = function(event) {
-			var my_w = myBounds.size.width;
-			var my_h = myBounds.size.height;
-			out_node.bounds = new paper.Rectangle({
-				point: [myBounds.point.x - my_w * 0.15, myBounds.point.y - my_h * 0.15],
-				size: [myBounds.size.width * 1.3, myBounds.size.height * 1.3]
-			});
+			out_node.scale(1.3);
 		}
 
 		out_node.onMouseLeave = function(event) {
-			out_node.bounds = new paper.Rectangle({
-				point: myBounds.point,
-				size: myBounds.size
-			});
+			out_node.scale(0.9090909);
 		}
 		return out_node;
 	}
