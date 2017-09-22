@@ -125,13 +125,13 @@ $(document).on('ready page:load', function() {
 			fill: '#E54219'
 		},
 		3: {
-			line: '#7f9622',
-			num: '#5c573e',
+			line: '#5c573e',
+			num: '#7f9622',
 			fill: '#5eb22e'
 		},
 		4: {
 			line: '#094074',
-			num: '#ff595e',
+			num: '#9000b3',
 			fill: '#1c77c3'
 		}
 	}
