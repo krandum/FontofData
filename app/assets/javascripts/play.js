@@ -126,7 +126,7 @@ $(document).on('ready page:load', function() {
 		},
 		3: {
 			line: '#5c573e',
-			num: '#7f9622',
+			num: '#b6f9b9',
 			fill: '#5eb22e'
 		},
 		4: {
