@@ -242,7 +242,7 @@ $(document).on('ready page:load', function() {
 			size: [num_w, num_h]
 		});
 
-		out_node = new paper.Group(basis, num);
+		let out_node = new paper.Group(basis, num);
 
 		let myBounds = out_node.bounds;
 
