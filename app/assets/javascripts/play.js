@@ -176,7 +176,7 @@ $(document).on('ready page:load', function() {
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
 		var tan_size = size / 3.7;
-		var quarter_size = size / 4;
+		let quarter_size = size / 4;
 		var basis = new paper.Path();
 		var p1, p2, p3, p4, p5, p6, p7;
 		var proper1, proper2, proper3, proper4;
@@ -268,10 +268,14 @@ $(document).on('ready page:load', function() {
 
 			if (!selected) {
 				stops[1][0] = ncol['selected'];
+				out_node.shadowColor = ncol['glow'];
+				out_node.shadowBlur = quarter_size;
 				selected = true;
 			}
 			else {
 				stops[1][0] = ncol['line'];
+				out_node.shadowColor = 0;
+				out_node.shadowBlur = 0;
 				selected = false;
 			}
 			gradient = new paper.Gradient(stops, true);
