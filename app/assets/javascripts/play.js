@@ -259,7 +259,7 @@ $(document).on('ready page:load', function() {
 			else {
 				out_node.shadowColor = 0;
 				out_node.shadowBlur = 0;
-				out_node.firstChild.strokeColor = ncol['selected'];
+				out_node.firstChild.strokeColor = ncol['line'];
 				selected = false;
 			}
 		}
