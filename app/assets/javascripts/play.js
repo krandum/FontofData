@@ -243,6 +243,22 @@ $(document).on('ready page:load', function() {
 		});
 
 		out_node = new paper.Group(basis, num);
+
+		let myBounds = out_node.bounds;
+
+		out_node.onMouseEnter = function(event) {
+			out_node.bounds = new paper.Rectangle({
+				point: myBounds.point,
+				size: [myBounds.size.width * 1.3, myBounds.size.height * 1.3]
+			});
+		}
+
+		out_node.onMouseLeave = function(event) {
+			out_node.bounds = new paper.Rectangle({
+				point: myBounds.point,
+				size: myBounds.size
+			});
+		}
 		return out_node;
 	}
 
