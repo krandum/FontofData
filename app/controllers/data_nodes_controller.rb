@@ -69,6 +69,7 @@ class DataNodesController < ApplicationController
 		i = 0
 		while (i < num)
 			range = ranges[i.to_s]
+			p range
 			cur = range[0].to_i
 			while (cur < range[1].to_i)
 				curNode = DataNode.where(value: cur).first
