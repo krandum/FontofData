@@ -124,7 +124,7 @@ $(document).on('ready page:load', function() {
 		2: {
 			line: '#e52d00',
 			num: '#e52d00',
-			fill: '#040303',
+			fill: '#CCC5C7',
 			selected: '#e52d00',
 			glow: '#e52d00'
 		},
@@ -139,8 +139,8 @@ $(document).on('ready page:load', function() {
 			line: '#C9f0ff',
 			num: '#C9f0ff',
 			fill: '#2188dd',
-			selected: '#ae45c7',
-			glow: '#ae45c7'
+			selected: '#E2E544',
+			glow: '#E2E544'
 		}
 	}
 
