@@ -17,5 +17,6 @@ class PlayController < ApplicationController
 			iter += 1
 		end
 		@user = User.find(current_user.id)
+		asset_path("kyle-gregory-devaras-241280.jpg")
 	end
 end
