@@ -117,14 +117,14 @@ $(document).on('ready page:load', function() {
 		1: {
 			line: '#2D3435',
 			num: '#2D3435',
-			fill: '#B9D6F2',
+			fill: '#C1CFCE',
 			selected: '#ffffff',
 			glow: '#ffffff'
 		},
 		2: {
 			line: '#e52d00',
 			num: '#e52d00',
-			fill: '#C1CFCE',
+			fill: '#040303',
 			selected: '#e52d00',
 			glow: '#e52d00'
 		},
