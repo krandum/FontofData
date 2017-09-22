@@ -117,22 +117,30 @@ $(document).on('ready page:load', function() {
 		1: {
 			line: '#3E5C76',
 			num: '#3E5C76',
-			fill: '#B9D6F2'
+			fill: '#B9D6F2',
+			selected: '#1b5299',
+			glow: '#1b5299'
 		},
 		2: {
-			line: '#040303',
-			num: '#d3d3d3',
-			fill: '#E54219'
+			line: '#771119',
+			num: '#e54219',
+			fill: '#f9b8c5',
+			selected: '#e95a15',
+			glow: '#e54219'
 		},
 		3: {
-			line: '#5c573e',
-			num: '#b6f9b9',
-			fill: '#5eb22e'
+			line: '#352e09',
+			num: '#5eb22e',
+			fill: '#b6f9b9',
+			selected: '#5eb22e',
+			glow: '#5eb22e'
 		},
 		4: {
 			line: '#094074',
-			num: '#ffca3a',
-			fill: '#2F8BD6'
+			num: '#2188dd',
+			fill: '#C9f0ff',
+			selected: '#2188dd',
+			glow: '#e2e544'
 		}
 	}
 
@@ -243,7 +251,7 @@ $(document).on('ready page:load', function() {
 		});
 
 		let out_node = new paper.Group(basis, num);
-
+		let selected = false;
 		let myBounds = out_node.bounds;
 
 		out_node.onMouseEnter = function(event) {
@@ -252,6 +260,18 @@ $(document).on('ready page:load', function() {
 
 		out_node.onMouseLeave = function(event) {
 			out_node.scale(0.9090909);
+		}
+
+		out_node.onClick = function(event) {
+			var ncol = colors[nodes[elem].toString()];
+			if (!selected) {
+				out_node.firstChild.strokeColor = ncol['selected'];
+				selected = true;
+			}
+			else {
+				out_node.firstChild.strokeColor = ncol['line'];
+				selected = false;
+			}
 		}
 		return out_node;
 	}
