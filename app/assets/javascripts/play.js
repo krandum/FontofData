@@ -125,10 +125,8 @@ $(document).on('ready page:load', function() {
 			datatype: "html",
 			success: function (data) {
 				console.log(data);
-				in_nodes = data["nodes"];
-				for (test in data) {
-					console.log(test);
-				}
+				in_nodes = data[0]["nodes"];
+				console.log(in_nodes);
 				in_nodes.forEach(function(node) {
 					nodes[node['value']] = node['faction_id'];
 				console.log(nodes);
