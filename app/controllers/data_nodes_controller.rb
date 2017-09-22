@@ -86,6 +86,7 @@ class DataNodesController < ApplicationController
 				end
 				cur += 1
 			end
+			i += 1
 		end
 		respond_to do |format|
 			format.html { render json: out }
