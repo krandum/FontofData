@@ -44,6 +44,8 @@ root 'home#index'
 
 get '/take_action', :to => 'interactions#take_action'
 
+get '/request_nodes', :to => 'data_nodes#request_nodes'
+
 # The priority is based upon order of creation: first created -> highest priority.
 # See how all your routes lay out with "rake routes".
 
