@@ -71,6 +71,7 @@ class DataNodesController < ApplicationController
 			range = ranges[i.to_s]
 			p range
 			p range[:from]
+			p range[:from]
 			p range[0]
 			cur = range[:from].to_i
 			while (cur < range[:to].to_i)
