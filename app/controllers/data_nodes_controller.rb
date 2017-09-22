@@ -98,7 +98,7 @@ class DataNodesController < ApplicationController
 	end
 
 	def range_parameter
-		params.require(:ranges).permit
+		params.require(:ranges).permit!
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.
