@@ -160,6 +160,9 @@ $(document).on('ready page:load', function() {
 	function get_node(elem, center, size, thickness) {
 		var num_digits = elem.toString().length;
 		console.log(colors);
+		console.log(nodes);
+		console.log(elem);
+		console.log(nodes[elem]);
 		console.log(colors[nodes[elem]]);
 		var ncol = colors[nodes[elem].toString()];
 		var half_size = size / 2;
