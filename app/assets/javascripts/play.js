@@ -251,7 +251,7 @@ $(document).on('ready page:load', function() {
 		}
 
 		out_node.onMouseLeave = function(event) {
-			out_node.scale(0.9090909);
+			out_node.scale(0.76923);
 		}
 		return out_node;
 	}
