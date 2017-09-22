@@ -67,7 +67,7 @@ class DataNodesController < ApplicationController
 		ranges = params['ranges']
 		num = ranges.count
 		i = 0
-		while (i < num)
+		while (i <= num)
 			range = ranges[i.to_s]
 			p range
 			cur = range['from'].to_i
