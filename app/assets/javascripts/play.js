@@ -164,7 +164,7 @@ $(document).on('ready page:load', function() {
 					nodes[i] = in_nodes[i]['faction_id'];
 					i++;
 				}
-				myNodes = build_nodes(5, paper.view.size.width, paper.view.size.height)
+				myNodes = build_nodes(6, paper.view.size.width, paper.view.size.height)
 			},
 			async: true
 		});
