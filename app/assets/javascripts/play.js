@@ -127,10 +127,13 @@ $(document).on('ready page:load', function() {
 				var data = JSON.parse(raw);
 				in_nodes = data['nodes']
 				console.log(in_nodes);
-				in_nodes.forEach(function(node) {
-					nodes[node['value']] = node['faction_id'];
+				var i = 1;
+				while (i < 32)
+				{
+					nodes[i] = in_nodes[i]['faction_id'];
+					i++;
+				}
 				console.log(nodes);
-				});
 			},
 			async: true
 		});
