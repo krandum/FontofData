@@ -114,6 +114,11 @@ $(document).on('ready page:load', function() {
 	var myNodes;
 
 	var colors = {
+		1: {
+			line: '#343434',
+			num: '#343434',
+			fill: '#737373'
+		}
 		2: {
 			line: '#040303',
 			num: '#d3d3d3',
@@ -159,11 +164,6 @@ $(document).on('ready page:load', function() {
 
 	function get_node(elem, center, size, thickness) {
 		var num_digits = elem.toString().length;
-		console.log(colors);
-		console.log(nodes);
-		console.log(elem);
-		console.log(nodes[elem]);
-		console.log(colors[nodes[elem]]);
 		var ncol = colors[nodes[elem].toString()];
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
