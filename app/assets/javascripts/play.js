@@ -131,7 +131,7 @@ $(document).on('ready page:load', function() {
 		},
 		4: {
 			line: '#094074',
-			num: '#AE45C7',
+			num: '#ffca3a',
 			fill: '#2F8BD6'
 		}
 	}
