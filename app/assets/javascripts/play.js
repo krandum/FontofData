@@ -235,6 +235,8 @@ $(document).on('ready page:load', function() {
 		var num_w = sine_size * Math.pow(1.2, num_digits);
 		var num_h = (num_w / num_digits) * 1.4;
 		num = new paper.PointText(center);
+		num.strokeColor = 'black';
+		num.strokeWidth = 1;
 		num.fillColor = ncol['num'];
 		num.content = elem.toString();
 		num.bounds = new paper.Rectangle({
