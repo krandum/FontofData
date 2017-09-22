@@ -140,7 +140,7 @@ $(document).on('ready page:load', function() {
 			num: '#2188dd',
 			fill: '#C9f0ff',
 			selected: '#2188dd',
-			glow: '#e2e544'
+			glow: '#ae45c7'
 		}
 	}
 
