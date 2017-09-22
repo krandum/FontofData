@@ -131,8 +131,8 @@ $(document).on('ready page:load', function() {
 		},
 		4: {
 			line: '#094074',
-			num: '#9000b3',
-			fill: '#1c77c3'
+			num: '#AE45C7',
+			fill: '#2F8BD6'
 		}
 	}
 
