@@ -72,8 +72,8 @@ class DataNodesController < ApplicationController
 			p range
 			p range[:from]
 			p range[0]
-			cur = range['from'].to_i
-			while (cur < range['to'].to_i)
+			cur = range[:from].to_i
+			while (cur < range[:to].to_i)
 				curNode = DataNode.where(value: cur).first
 				unless curNode.nil? || curNode == 0
 					out['nodes'][cur] = {
