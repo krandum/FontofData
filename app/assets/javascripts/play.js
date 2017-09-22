@@ -110,6 +110,26 @@ $(document).on('ready page:load', function() {
 
 	paper.setup(canvas);
 
+	var nodes;
+
+	function get_initial_node_data() {
+		$.ajax({
+			type: "GET",
+			url: "request_nodes",
+			data: {
+				ranges: [[1, 31]]
+			},
+			datatype: "html",
+			success: function (data) {
+				in_nodes = data['nodes'];
+				in_nodes.forEach(function(node) {
+					nodes[node['value']] = node['faction_id'];
+				});
+			},
+			async: true
+		});
+	}
+
 	function get_node(elem, center, size, thickness) {
 		var num_digits = elem.toString().length;
 		var half_size = size / 2;
@@ -120,22 +140,6 @@ $(document).on('ready page:load', function() {
 		var p1, p2, p3, p4, p5, p6, p7;
 		var proper1, proper2, proper3, proper4;
 		var partial1, partial2, from, to, gradient, stops;
-		// if (elem == 1)
-		// {
-		// 	p1 = new paper.Point(center.x, center.y + half_size);
-		// 	p2 = new paper.Point(center.x - half_size, center.y);
-		// 	p3 = new paper.Point(center.x, center.y - half_size);
-		// 	p4 = new paper.Point(center.x + half_size, center.y);
-		// 	p5 = new paper.Point(center.x + sine_size, center.y + quarter_size);
-		// 	p6 = new paper.Point(center.x + quarter_size, center.y + sine_size);
-		// 	p7 = new paper.Point(center.x + sine_size, center.y + sine_size);
-		// 	proper1 = new paper.Segment(p1, new paper.Point(size / 10, 0), new paper.Point(-tan_size, 0));
-		// 	proper2 = new paper.Segment(p2, new paper.Point(0, tan_size), new paper.Point(0, -tan_size));
-		// 	proper3 = new paper.Segment(p3, new paper.Point(-tan_size, 0), new paper.Point(tan_size, 0));
-		// 	proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size/10));
-		// 	partial1 = new paper.Segment(p5, new paper.Point(size/20, -size/12.5), new paper.Point(-size/25, size/16.7));
-		// 	partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
-		// }
 		if (elem % 2 == 0)
 		{
 			p1 = new paper.Point(center.x, center.y + half_size);
@@ -245,6 +249,8 @@ $(document).on('ready page:load', function() {
 		return nodes;
 	}
 
+	get_initial_node_data();
+	console.log(nodes);
 	var myNodes = build_nodes(5, paper.view.size.width, paper.view.size.height);
 
 });
