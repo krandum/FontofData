@@ -180,7 +180,8 @@ $(document).on('ready page:load', function() {
 		var basis = new paper.Path();
 		var p1, p2, p3, p4, p5, p6, p7;
 		var proper1, proper2, proper3, proper4;
-		var partial1, partial2, from, to, gradient, stops;
+		var partial1, partial2;
+		let from, to, gradient, stops;
 		if (elem % 2 == 0)
 		{
 			p1 = new paper.Point(center.x, center.y + half_size);
@@ -264,14 +265,18 @@ $(document).on('ready page:load', function() {
 
 		out_node.onClick = function(event) {
 			var ncol = colors[nodes[elem].toString()];
+
 			if (!selected) {
-				out_node.firstChild.strokeColor = ncol['selected'];
+				stops[1][0] = ncol['selected'];
 				selected = true;
 			}
 			else {
-				out_node.firstChild.strokeColor = ncol['line'];
+				stops[1][0] = ncol['line'];
 				selected = false;
 			}
+			gradient = new paper.Gradient(stops, true);
+			var gradientColor;
+			out_node.firstChild.strokeColor = new paper.Color(gradient, from, to);
 		}
 		return out_node;
 	}
