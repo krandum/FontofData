@@ -66,11 +66,10 @@ class DataNodesController < ApplicationController
 		out = {'nodes' => {}}
 		ranges = params['ranges']
 		p ranges
+		print ranges
+		print ranges['0']
+		print ranges[0]
 		ranges.each do |range|
-			print range
-			print range['0']
-			print range[0]
-			print range[0]['0']
 			cur = range[0].to_i
 			while (cur < range[1].to_i)
 				curNode = DataNode.where(value: cur).first
