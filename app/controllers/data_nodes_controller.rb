@@ -1,5 +1,6 @@
 class DataNodesController < ApplicationController
 	before_action :set_data_node, only: [:show, :edit, :update, :destroy]
+	before_action :range_parameter, only: [:request_nodes]
 
 	# GET /data_nodes
 	# GET /data_nodes.json
@@ -94,6 +95,10 @@ class DataNodesController < ApplicationController
 	# Use callbacks to share common setup or constraints between actions.
 	def set_data_node
 		@data_node = DataNode.find(params[:id])
+	end
+
+	def range_parameter
+		params.require(:ranges).permit
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.
