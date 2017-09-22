@@ -128,6 +128,7 @@ $(document).on('ready page:load', function() {
 				in_nodes = data['nodes'];
 				in_nodes.forEach(function(node) {
 					nodes[node['value']] = node['faction_id'];
+				console.log(nodes);
 				});
 			},
 			async: true
@@ -254,7 +255,6 @@ $(document).on('ready page:load', function() {
 	}
 
 	get_initial_node_data();
-	console.log(nodes);
 	var myNodes = build_nodes(5, paper.view.size.width, paper.view.size.height);
 
 });
