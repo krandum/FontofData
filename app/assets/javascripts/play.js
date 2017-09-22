@@ -151,7 +151,7 @@ $(document).on('ready page:load', function() {
 					i++;
 				}
 			},
-			async: true
+			async: false
 		});
 	}
 
