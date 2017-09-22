@@ -112,6 +112,24 @@ $(document).on('ready page:load', function() {
 
 	var nodes = [];
 
+	var colors = {
+		2: {
+			line: '#040303',
+			num: '#d3d3d3',
+			fill: '#E54219'
+		},
+		3: {
+			line: '#7f9622',
+			num: '#5c573e',
+			fill: '#5eb22e'
+		},
+		4: {
+			line: '#094074',
+			num: '#ff595e',
+			fill: '#1c77c3'
+		}
+	}
+
 	function get_initial_node_data() {
 		$.ajax({
 			type: "GET",
@@ -126,14 +144,12 @@ $(document).on('ready page:load', function() {
 			success: function (raw) {
 				var data = JSON.parse(raw);
 				in_nodes = data['nodes']
-				console.log(in_nodes);
 				var i = 1;
 				while (i < 32)
 				{
 					nodes[i] = in_nodes[i]['faction_id'];
 					i++;
 				}
-				console.log(nodes);
 			},
 			async: true
 		});
@@ -141,6 +157,7 @@ $(document).on('ready page:load', function() {
 
 	function get_node(elem, center, size, thickness) {
 		var num_digits = elem.toString().length;
+		var ncol = colors[nodes[elem]];
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
 		var tan_size = size / 3.7;
@@ -166,7 +183,7 @@ $(document).on('ready page:load', function() {
 			partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
 			stops = [
 				['#1F3BFF', 0],
-				['#343434', 0.9]
+				[ncol['line'], 0.9]
 			];
 			from = p7;
 			to = new paper.Point(p7.x - quarter_size, p7.y - quarter_size);
@@ -188,7 +205,7 @@ $(document).on('ready page:load', function() {
 			partial2 = new paper.Segment(p6, new paper.Point(-size/16.7, -size/25), new paper.Point(size/12.5, size/20));
 			stops = [
 				['#FF1F3B', 0],
-				['#343434', 0.9]
+				[ncol['line'], 0.9]
 			];
 			from = p7;
 			to = new paper.Point(p7.x + quarter_size, p7.y + quarter_size);
@@ -206,12 +223,12 @@ $(document).on('ready page:load', function() {
 		var gradient_color = new paper.Color(gradient, from, to);
 		basis.strokeWidth = thickness;
 		basis.strokeColor = gradient_color;
-		basis.fillColor = '#B3B3B3';
+		basis.fillColor = ncol['fill'];
 
 		var num_w = sine_size * Math.pow(1.2, num_digits);
 		var num_h = (num_w / num_digits) * 1.4;
 		num = new paper.PointText(center);
-		num.fillColor = '#343434';
+		num.fillColor = ncol['num'];
 		num.content = elem.toString();
 		num.bounds = new paper.Rectangle({
 			point: [center.x - num_w / 2, center.y - num_h / 2],
