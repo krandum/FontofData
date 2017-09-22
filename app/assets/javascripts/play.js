@@ -110,7 +110,7 @@ $(document).on('ready page:load', function() {
 
 	paper.setup(canvas);
 
-	var nodes;
+	var nodes = [];
 
 	function get_initial_node_data() {
 		$.ajax({
