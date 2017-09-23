@@ -173,8 +173,8 @@ $(document).on('ready page:load', function() {
 				glow: '#E2E544'
 			}
 		},
-		global_root,
-		global_target
+		global_root: null,
+		global_target: null
 	};
 
 	function get_initial_node_data() {
