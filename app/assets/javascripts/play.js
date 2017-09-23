@@ -3,6 +3,9 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on('ready page:load', function() {
+	if ($('.play').length <= 0){
+		return;
+	}
 	//paper = require('paper');
 	// var selectedNodes = [];
 	// var selectedIndex = -1;
@@ -116,10 +119,8 @@ $(document).on('ready page:load', function() {
 			/* For canvas scrolling */
 			if (delta > 0) { // Scroll up
 				console.log("Scrolling up");
-				console.log(evt);
 			} else { // Scroll down
 				console.log("Scrolling down");
-				console.log(evt);
 			}
 		}
 		return true;
@@ -137,38 +138,42 @@ $(document).on('ready page:load', function() {
 	var canvas = document.getElementById("myCanvas");
 	scope.setup(canvas);
 
-	var nodes = [];
-	var myNodes;
-
-	var colors = {
-		1: { // Neutral
-			line: '#ffffff',
-			num: '#ffffff',
-			fill: '#8E8E8E',
-			selected: '#ffffff',
-			glow: '#ffffff'
+	var game_data = {
+		node_factions: [],
+		active_nodes = [],
+		buffer_nodes = [],
+		colors: {
+			1: { // Neutral
+				line: '#ffffff',
+				num: '#ffffff',
+				fill: '#8E8E8E',
+				selected: '#ffffff',
+				glow: '#ffffff'
+			},
+			2: { // Red Rocks
+				line: '#e52d00',
+				num: '#e52d00',
+				fill: '#FAF9F9',
+				selected: '#e52d00',
+				glow: '#e52d00'
+			},
+			3: { // Green Elves
+				line: '#edeec0',
+				num: '#edeec0',
+				fill: '#5eb22e',
+				selected: '#97FC9C',
+				glow: '#97FC9C'
+			},
+			4: { // Blue Jellyfish
+				line: '#C9f0ff',
+				num: '#C9f0ff',
+				fill: '#2188dd',
+				selected: '#E2E544',
+				glow: '#E2E544'
+			}
 		},
-		2: { // Red Rocks
-			line: '#e52d00',
-			num: '#e52d00',
-			fill: '#FAF9F9',
-			selected: '#e52d00',
-			glow: '#e52d00'
-		},
-		3: { // Green Elves
-			line: '#edeec0',
-			num: '#edeec0',
-			fill: '#5eb22e',
-			selected: '#97FC9C',
-			glow: '#97FC9C'
-		},
-		4: { // Blue Jellyfish
-			line: '#C9f0ff',
-			num: '#C9f0ff',
-			fill: '#2188dd',
-			selected: '#E2E544',
-			glow: '#E2E544'
-		}
+		global_root,
+		global_target
 	};
 
 	function get_initial_node_data() {
@@ -188,10 +193,11 @@ $(document).on('ready page:load', function() {
 				var i = 1;
 				while (i < 64)
 				{
-					nodes[i] = in_nodes[i]['faction_id'];
+					game_data.node_factions[i] = in_nodes[i]['faction_id'];
 					i++;
 				}
-				myNodes = build_nodes(6, paper.view.size.width, paper.view.size.height)
+				game_data.active_nodes = build_nodes(6, paper.view.size.width,
+					paper.view.size.height)
 			},
 			async: true
 		});
@@ -199,7 +205,7 @@ $(document).on('ready page:load', function() {
 
 	function get_node(elem, center, size, thickness) {
 		var num_digits = elem.toString().length;
-		var ncol = colors[nodes[elem].toString()];
+		var ncol = colors[game_data.node_factions[elem].toString()];
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
 		var tan_size = size / 3.7;
@@ -276,7 +282,7 @@ $(document).on('ready page:load', function() {
 		}
 
 		out_node.onClick = function(event) {
-			var ncol = colors[nodes[elem].toString()];
+			var ncol = colors[game_data.node_factions[elem].toString()];
 			if (!selected) {
 				out_node.shadowColor = ncol['glow'];
 				out_node.shadowBlur = quarter_size;
@@ -292,7 +298,10 @@ $(document).on('ready page:load', function() {
 				selected = false;
 			}
 		}
-		return out_node;
+		return {
+			value: elem,
+			group: out_node
+		};
 	}
 
 	function build_nodes(num_layers, width, height) {
@@ -331,6 +340,8 @@ $(document).on('ready page:load', function() {
 		return nodes;
 	}
 
-	get_initial_node_data();
+	function init() {
+		get_initial_node_data(); // Sets up the initial map
+	}
 
 });
