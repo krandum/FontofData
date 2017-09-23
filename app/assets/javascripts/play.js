@@ -116,8 +116,10 @@ $(document).on('ready page:load', function() {
 			/* For canvas scrolling */
 			if (delta > 0) { // Scroll up
 				console.log("Scrolling up");
+				console.log(evt);
 			} else { // Scroll down
 				console.log("Scrolling down");
+				console.log(evt);
 			}
 		}
 		return true;
