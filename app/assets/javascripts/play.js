@@ -3,6 +3,9 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on('ready page:load', function() {
+	if ($('#play').length <= 0) {
+		return;
+	}
 	//paper = require('paper');
 	// var selectedNodes = [];
 	// var selectedIndex = -1;
@@ -106,43 +109,41 @@ $(document).on('ready page:load', function() {
 	// 		}
 	// 	}
 	// });
-	var canvas = document.getElementById('myCanvas');
-
-	paper.setup(canvas);
+	paper.setup($('#myCanvas');
 
 	var nodes = [];
 	var myNodes;
 
 	var colors = {
-		1: {
+		1: { // Neutral
 			line: '#ffffff',
 			num: '#ffffff',
 			fill: '#8E8E8E',
 			selected: '#ffffff',
 			glow: '#ffffff'
 		},
-		2: {
+		2: { // Red Rocks
 			line: '#e52d00',
 			num: '#e52d00',
 			fill: '#FAF9F9',
 			selected: '#e52d00',
 			glow: '#e52d00'
 		},
-		3: {
+		3: { // Green Elves
 			line: '#edeec0',
 			num: '#edeec0',
 			fill: '#5eb22e',
 			selected: '#97FC9C',
 			glow: '#97FC9C'
 		},
-		4: {
+		4: { // Blue Jellyfish
 			line: '#C9f0ff',
 			num: '#C9f0ff',
 			fill: '#2188dd',
 			selected: '#E2E544',
 			glow: '#E2E544'
 		}
-	}
+	};
 
 	function get_initial_node_data() {
 		$.ajax({
