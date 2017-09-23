@@ -140,9 +140,9 @@ $(document).on('ready page:load', function() {
 	scope.setup(canvas);
 
 	var game_data = {
-		node_factions: null,
-		active_nodes: null,
-		buffer_nodes: null,
+		node_factions: [],
+		active_nodes: [],
+		buffer_nodes: [],
 		colors: {
 			1: { // Neutral
 				line: '#ffffff',
