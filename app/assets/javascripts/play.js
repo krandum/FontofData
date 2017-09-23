@@ -254,9 +254,12 @@ $(document).on('ready page:load', function() {
 		scope.view.onResize = function(event) {
 			var width = scope.view.size.width;
 			var height = scope.view.size.height;
-			for (cur_node in game_data.active_nodes) {
+			var i = 0;
+			while (i < 63) {
+				cur_node = game_data.active_nodes[i];
 				cur_node.group.position.x = cur_node.relative_pos.x * width;
 				cur_node.group.position.y = cur_node.relative_pos.y * height;
+				i++;
 			}
 		}
 	}
