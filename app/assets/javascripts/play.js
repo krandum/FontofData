@@ -92,7 +92,7 @@ $(document).on('ready page:load', function() {
 			datatype: "html",
 			success: function (raw) {
 				var data = JSON.parse(raw);
-				in_nodes = data['nodes']
+				in_nodes = data['nodes'];
 				var i = 1;
 				while (i < 64)
 				{
@@ -100,7 +100,8 @@ $(document).on('ready page:load', function() {
 					i++;
 				}
 				game_data.active_nodes = build_nodes(6, scope.view.size.width,
-					scope.view.size.height)
+					scope.view.size.height);
+				console.log(game_data.active_nodes);
 			},
 			async: true
 		});
@@ -230,7 +231,7 @@ $(document).on('ready page:load', function() {
 			point.y = y;
 			point.x = (width / num_sub) / 2;
 			while (j < num_sub) {
-				let new_node = get_node(index, point, node_height, thickness);
+				var new_node = get_node(index, point, node_height, thickness);
 				nodes.push(new_node);
 				point.x += width / num_sub;
 				j++;
