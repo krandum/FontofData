@@ -259,8 +259,8 @@ $(document).on('ready page:load', function() {
 				cur_node = game_data.active_nodes[i];
 				cur_node.group.position.x = cur_node.relative_pos.x * width;
 				cur_node.group.position.y = cur_node.relative_pos.y * height;
-				cur_node.group.size.x = cur_node.relative_pos.size_dy * height;
-				cur_node.group.size.y = cur_node.relative_pos.size_dy * height;
+				cur_node.group.bounds.size.x = cur_node.relative_pos.size_dy * height;
+				cur_node.group.bounds.size.y = cur_node.relative_pos.size_dy * height;
 				i++;
 			}
 		}
