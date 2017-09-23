@@ -134,7 +134,8 @@ $(document).on('ready page:load', function() {
 		}
 	}
 
-	paper.setup(canvas);
+	var scope = new paper.PaperScope();
+	scope.setup(canvas);
 
 	var nodes = [];
 	var myNodes;
@@ -203,41 +204,41 @@ $(document).on('ready page:load', function() {
 		var sine_size = size / 2.3;
 		var tan_size = size / 3.7;
 		let quarter_size = size / 4;
-		var basis = new paper.Path();
+		var basis = new scope.Path();
 		var p1, p2, p3, p4, p5, p6, p7;
 		var proper1, proper2, proper3, proper4;
 		var partial1, partial2;
 		if (elem % 2 == 0)
 		{
-			p1 = new paper.Point(center.x, center.y + half_size);
-			p2 = new paper.Point(center.x - half_size, center.y);
-			p3 = new paper.Point(center.x, center.y - half_size);
-			p4 = new paper.Point(center.x + half_size, center.y);
-			p5 = new paper.Point(center.x + sine_size, center.y + quarter_size);
-			p6 = new paper.Point(center.x + quarter_size, center.y + sine_size);
-			p7 = new paper.Point(center.x + sine_size, center.y + sine_size);
-			proper1 = new paper.Segment(p1, new paper.Point(size / 10, 0), new paper.Point(-tan_size, 0));
-			proper2 = new paper.Segment(p2, new paper.Point(0, tan_size), new paper.Point(0, -tan_size));
-			proper3 = new paper.Segment(p3, new paper.Point(-tan_size, 0), new paper.Point(tan_size, 0));
-			proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size/10));
-			partial1 = new paper.Segment(p5, new paper.Point(size/20, -size/12.5), new paper.Point(-size/25, size/16.7));
-			partial2 = new paper.Segment(p6, new paper.Point(size/16.7, -size/25), new paper.Point(-size/12.5, size/20));
+			p1 = new scope.Point(center.x, center.y + half_size);
+			p2 = new scope.Point(center.x - half_size, center.y);
+			p3 = new scope.Point(center.x, center.y - half_size);
+			p4 = new scope.Point(center.x + half_size, center.y);
+			p5 = new scope.Point(center.x + sine_size, center.y + quarter_size);
+			p6 = new scope.Point(center.x + quarter_size, center.y + sine_size);
+			p7 = new scope.Point(center.x + sine_size, center.y + sine_size);
+			proper1 = new scope.Segment(p1, new scope.Point(size / 10, 0), new scope.Point(-tan_size, 0));
+			proper2 = new scope.Segment(p2, new scope.Point(0, tan_size), new scope.Point(0, -tan_size));
+			proper3 = new scope.Segment(p3, new scope.Point(-tan_size, 0), new scope.Point(tan_size, 0));
+			proper4 = new scope.Segment(p4, new scope.Point(0, -tan_size), new scope.Point(0, size/10));
+			partial1 = new scope.Segment(p5, new scope.Point(size/20, -size/12.5), new scope.Point(-size/25, size/16.7));
+			partial2 = new scope.Segment(p6, new scope.Point(size/16.7, -size/25), new scope.Point(-size/12.5, size/20));
 		}
 		else
 		{
-			p1 = new paper.Point(center.x, center.y + half_size);
-			p2 = new paper.Point(center.x + half_size, center.y);
-			p3 = new paper.Point(center.x, center.y - half_size);
-			p4 = new paper.Point(center.x - half_size, center.y);
-			p5 = new paper.Point(center.x - sine_size, center.y + quarter_size);
-			p6 = new paper.Point(center.x - quarter_size, center.y + sine_size);
-			p7 = new paper.Point(center.x - sine_size, center.y + sine_size);
-			proper1 = new paper.Segment(p1, new paper.Point(-size / 10, 0), new paper.Point(tan_size, 0));
-			proper2 = new paper.Segment(p2, new paper.Point(0, tan_size), new paper.Point(0, -tan_size));
-			proper3 = new paper.Segment(p3, new paper.Point(tan_size, 0), new paper.Point(-tan_size, 0));
-			proper4 = new paper.Segment(p4, new paper.Point(0, -tan_size), new paper.Point(0, size / 10));
-			partial1 = new paper.Segment(p5, new paper.Point(-size/20, -size/12.5), new paper.Point(size/25, size/16.7));
-			partial2 = new paper.Segment(p6, new paper.Point(-size/16.7, -size/25), new paper.Point(size/12.5, size/20));
+			p1 = new scope.Point(center.x, center.y + half_size);
+			p2 = new scope.Point(center.x + half_size, center.y);
+			p3 = new scope.Point(center.x, center.y - half_size);
+			p4 = new scope.Point(center.x - half_size, center.y);
+			p5 = new scope.Point(center.x - sine_size, center.y + quarter_size);
+			p6 = new scope.Point(center.x - quarter_size, center.y + sine_size);
+			p7 = new scope.Point(center.x - sine_size, center.y + sine_size);
+			proper1 = new scope.Segment(p1, new scope.Point(-size / 10, 0), new scope.Point(tan_size, 0));
+			proper2 = new scope.Segment(p2, new scope.Point(0, tan_size), new scope.Point(0, -tan_size));
+			proper3 = new scope.Segment(p3, new scope.Point(tan_size, 0), new scope.Point(-tan_size, 0));
+			proper4 = new scope.Segment(p4, new scope.Point(0, -tan_size), new scope.Point(0, size / 10));
+			partial1 = new scope.Segment(p5, new scope.Point(-size/20, -size/12.5), new scope.Point(size/25, size/16.7));
+			partial2 = new scope.Segment(p6, new scope.Point(-size/16.7, -size/25), new scope.Point(size/12.5, size/20));
 		}
 		basis.add(proper1);
 		basis.add(proper2);
@@ -254,15 +255,15 @@ $(document).on('ready page:load', function() {
 
 		var num_w = sine_size * Math.pow(1.2, num_digits);
 		var num_h = (num_w / num_digits) * 1.4;
-		num = new paper.PointText(center);
+		num = new scope.PointText(center);
 		num.fillColor = ncol['num'];
 		num.content = elem.toString();
-		num.bounds = new paper.Rectangle({
+		num.bounds = new scope.Rectangle({
 			point: [center.x - num_w / 2, center.y - num_h / 2],
 			size: [num_w, num_h]
 		});
 
-		let out_node = new paper.Group(basis, num);
+		let out_node = new scope.Group(basis, num);
 		let selected = false;
 		let myBounds = out_node.bounds;
 
@@ -299,7 +300,7 @@ $(document).on('ready page:load', function() {
 		var layer_height = height / 3;
 		var node_height = height / 4;
 		var y = height - (layer_height / 2);
-		var point = new paper.Point();
+		var point = new scope.Point();
 		var index = 1;
 		var i = 0;
 		var thickness = 5;
