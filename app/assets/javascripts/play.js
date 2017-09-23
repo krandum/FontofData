@@ -205,8 +205,8 @@ $(document).on('ready page:load', function() {
 		var relative_pos = {
 			x: center.x / scope.view.size.width,
 			y: center.y / scope.view.size.height,
-			size_dx: out_node.bounds.size.x / scope.view.size.height,
-			size_dy: out_node.bounds.size.y / scope.view.size.height
+			size_dx: out_node.bounds.width / scope.view.size.height,
+			size_dy: out_node.bounds.height / scope.view.size.height
 		};
 		var total_node = {
 			value: elem,
