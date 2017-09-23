@@ -205,8 +205,8 @@ $(document).on('ready page:load', function() {
 		var relative_pos = {
 			x: center.x / scope.view.size.width,
 			y: center.y / scope.view.size.height,
-			size_dx: size / scope.view.size.width,
-			size_dy: size / scope.view.size.height
+			size_dx: out_node.bounds.size.x / scope.view.size.height,
+			size_dy: out_node.bounds.size.y / scope.view.size.height
 		};
 		var total_node = {
 			value: elem,
@@ -259,7 +259,7 @@ $(document).on('ready page:load', function() {
 				cur_node = game_data.active_nodes[i];
 				cur_node.group.position.x = cur_node.relative_pos.x * width;
 				cur_node.group.position.y = cur_node.relative_pos.y * height;
-				cur_node.group.bounds.size.x = cur_node.relative_pos.size_dy * height;
+				cur_node.group.bounds.size.x = cur_node.relative_pos.size_dx * height;
 				cur_node.group.bounds.size.y = cur_node.relative_pos.size_dy * height;
 				i++;
 			}
