@@ -345,4 +345,6 @@ $(document).on('ready page:load', function() {
 		get_initial_node_data(); // Sets up the initial map
 	}
 
+	init();
+
 });
