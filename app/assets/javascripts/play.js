@@ -3,7 +3,9 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on('ready page:load', function() {
-	if ($('.play').length <= 0){
+	var play_check = document.getElementById('play');
+	if (typeof(play_check) == 'undefined' || play_check == null) {
+		console.log('aborting play.js due to no element with id play');
 		return;
 	}
 	//paper = require('paper');
