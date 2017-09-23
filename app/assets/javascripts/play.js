@@ -141,8 +141,8 @@ $(document).on('ready page:load', function() {
 
 	var game_data = {
 		node_factions: [],
-		active_nodes = [],
-		buffer_nodes = [],
+		active_nodes: [],
+		buffer_nodes: [],
 		colors: {
 			1: { // Neutral
 				line: '#ffffff',
