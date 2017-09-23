@@ -115,9 +115,9 @@ $(document).on('ready page:load', function() {
 				: evt.detail ? -evt.detail : 0;
 			/* For canvas scrolling */
 			if (delta > 0) { // Scroll up
-				// Perform action for scroll up
+				console.log("Scrolling up");
 			} else { // Scroll down
-				// Perform action for scroll down
+				console.log("Scrolling down");
 			}
 		}
 		return true;
