@@ -140,9 +140,9 @@ $(document).on('ready page:load', function() {
 	scope.setup(canvas);
 
 	var game_data = {
-		node_factions: [],
-		active_nodes: [],
-		buffer_nodes: [],
+		node_factions: null,
+		active_nodes: null,
+		buffer_nodes: null,
 		colors: {
 			1: { // Neutral
 				line: '#ffffff',
@@ -197,8 +197,8 @@ $(document).on('ready page:load', function() {
 					game_data.node_factions[i] = in_nodes[i]['faction_id'];
 					i++;
 				}
-				game_data.active_nodes = build_nodes(6, paper.view.size.width,
-					paper.view.size.height)
+				game_data.active_nodes = build_nodes(6, scope.view.size.width,
+					scope.view.size.height)
 			},
 			async: true
 		});
@@ -206,7 +206,7 @@ $(document).on('ready page:load', function() {
 
 	function get_node(elem, center, size, thickness) {
 		var num_digits = elem.toString().length;
-		var ncol = colors[game_data.node_factions[elem].toString()];
+		var node_color = colors[game_data.node_factions[elem].toString()];
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
 		var tan_size = size / 3.7;
@@ -257,13 +257,13 @@ $(document).on('ready page:load', function() {
 		basis.closed = true;
 
 		basis.strokeWidth = thickness;
-		basis.strokeColor = ncol['line'];
-		basis.fillColor = ncol['fill'];
+		basis.strokeColor = node_color['line'];
+		basis.fillColor = node_color['fill'];
 
 		var num_w = sine_size * Math.pow(1.2, num_digits);
 		var num_h = (num_w / num_digits) * 1.4;
 		num = new scope.PointText(center);
-		num.fillColor = ncol['num'];
+		num.fillColor = node_color['num'];
 		num.content = elem.toString();
 		num.bounds = new scope.Rectangle({
 			point: [center.x - num_w / 2, center.y - num_h / 2],
@@ -283,19 +283,19 @@ $(document).on('ready page:load', function() {
 		}
 
 		out_node.onClick = function(event) {
-			var ncol = colors[game_data.node_factions[elem].toString()];
+			var node_color = colors[game_data.node_factions[elem].toString()];
 			if (!selected) {
-				out_node.shadowColor = ncol['glow'];
+				out_node.shadowColor = node_color['glow'];
 				out_node.shadowBlur = quarter_size;
-				out_node.firstChild.strokeColor = ncol['selected'];
-				out_node.lastChild.fillColor = ncol['selected'];
+				out_node.firstChild.strokeColor = node_color['selected'];
+				out_node.lastChild.fillColor = node_color['selected'];
 				selected = true;
 			}
 			else {
 				out_node.shadowColor = 0;
 				out_node.shadowBlur = 0;
-				out_node.firstChild.strokeColor = ncol['line'];
-				out_node.lastChild.fillColor = ncol['num'];
+				out_node.firstChild.strokeColor = node_color['line'];
+				out_node.lastChild.fillColor = node_color['num'];
 				selected = false;
 			}
 		}
