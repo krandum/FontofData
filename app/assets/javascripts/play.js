@@ -109,7 +109,32 @@ $(document).on('ready page:load', function() {
 	// 		}
 	// 	}
 	// });
-	paper.setup($('#myCanvas');
+	var canvas = document.getElementById("myCanvas");
+
+	function mouseDown(e) {
+		if (parseInt(navigator.appVersion) > 3) {
+			var evt = e ? e : window.event;
+			var delta = evt.wheelDelta ? evt.wheelDelta / 120
+				: evt.detail ? -evt.detail : 0;
+			/* For canvas scrolling */
+			if (delta > 0) { // Scroll up
+				// Perform action for scroll up
+			} else { // Scroll down
+				// Perform action for scroll down
+			}
+		}
+		return true;
+	}
+
+	if (parseInt(navigator.appVersion) > 3) {
+		canvas.onmousewheel = mouseDown;
+		if (navigator.appName == "Netscape"
+			&& parseInt(navigator.appVersion) == 4) {
+			canvas.captureEvents(Event.MOUSEDOWN);
+		}
+	}
+
+	paper.setup(canvas);
 
 	var nodes = [];
 	var myNodes;
