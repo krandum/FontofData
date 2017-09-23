@@ -8,109 +8,7 @@ $(document).on('ready page:load', function() {
 		console.log('aborting play.js due to no element with id play');
 		return;
 	}
-	//paper = require('paper');
-	// var selectedNodes = [];
-	// var selectedIndex = -1;
-	// var options = [document.getElementById("attack"),
-	// 	document.getElementById("give"), document.getElementById("switch")];
-	//
-	// function call_event(node1, node2) {
-	// 	var origin_node_id = parseInt(node1.id)
-	// 	var target_node_id = parseInt(node2.id)
-	// 	$.ajax({
-	// 		type: "GET",
-	// 		url: "take_action",
-	// 		data: {
-	// 			origin: origin_node_id,
-	// 			target: target_node_id,
-	// 			effect: selectedIndex + 1
-	// 		},
-	// 		datatype: "html",
-	// 		success: function (data) {
-	// 			console.log(data);
-	// 		},
-	// 		async: true
-	// 	});
-	// }
-	//
-	// function add_options(elem) {
-	// 	options.forEach(function(e) {
-	// 		elem.parentElement.appendChild(e);
-	// 		e.style.display = "block";
-	// 	});
-	// }
-	//
-	// function remove_options(elem) {
-	// 	options.forEach(function(e) {
-	// 		elem = e.firstChild.firstChild;
-	// 		if (elem.classList.contains("selected"))
-	// 			elem.classList.remove("selected");
-	// 		e.style.display = "none";
-	// 	});
-	// }
-	//
-	// $('.node').off().on("click", function(e) {
-	// 	if (e.target.className == "node")
-	// 	{
-	// 		var node = e.target;
-	// 		var elem = node.childNodes[0];
-	// 		if (elem.classList.contains("selected"))
-	// 		{
-	// 			elem.classList.remove("selected");
-	// 			var index = selectedNodes.indexOf(elem);
-	// 			selectedNodes.splice(index, 1);
-	// 			remove_options(elem);
-	// 			selectedIndex = -1;
-	// 		}
-	// 		else
-	// 		{
-	// 			elem.className += " selected";
-	// 			if (selectedNodes.length >= 1 && selectedIndex != -1)
-	// 			{
-	// 				selectedNodes.push(elem);
-	// 				remove_options(selectedNodes[0]);
-	// 				call_event(selectedNodes[0].parentElement,
-	// 					selectedNodes[1].parentElement, options[selectedIndex]);
-	// 				setTimeout(function() {
-	// 					selectedNodes.forEach(function(e) {
-	// 						e.classList.remove("selected");
-	// 					});
-	// 					selectedNodes.splice(0, selectedNodes.length);
-	// 					selectedIndex = -1;
-	// 				}, 300);
-	// 			}
-	// 			else if (selectedNodes.length >= 1)
-	// 			{
-	// 				remove_options(selectedNodes[0]);
-	// 				selectedNodes[0].classList.remove("selected");
-	// 				selectedNodes[0] = elem;
-	// 				add_options(elem);
-	// 			}
-	// 			else
-	// 			{
-	// 				selectedNodes.push(elem);
-	// 				add_options(elem);
-	// 			}
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		var option = e.target;
-	// 		var elem = option.firstChild.firstChild;
-	// 		if (elem.classList.contains("selected"))
-	// 		{
-	// 			selectedIndex = -1;
-	// 			elem.classList.remove("selected");
-	// 		}
-	// 		else
-	// 		{
-	// 			if (selectedIndex != -1)
-	// 				options[selectedIndex].firstChild.firstChild.classList.remove("selected");
-	// 			elem.className += " selected";
-	// 			selectedIndex = options.indexOf(option);
-	// 		}
-	// 	}
-	// });
+
 	var canvas = document.getElementById("myCanvas");
 
 	function mouseDown(e) {
@@ -143,6 +41,9 @@ $(document).on('ready page:load', function() {
 		node_factions: [],
 		active_nodes: [],
 		buffer_nodes: [],
+		selected_nodes: [],
+		action_index: -1,
+		actions: [],
 		colors: {
 			1: { // Neutral
 				line: '#ffffff',
@@ -155,8 +56,8 @@ $(document).on('ready page:load', function() {
 				line: '#e52d00',
 				num: '#e52d00',
 				fill: '#FAF9F9',
-				selected: '#e52d00',
-				glow: '#e52d00'
+				selected: '#e98a15',
+				glow: '#e98a15'
 			},
 			3: { // Green Elves
 				line: '#edeec0',
@@ -174,6 +75,7 @@ $(document).on('ready page:load', function() {
 			}
 		},
 		global_root: null,
+		current_target: null,
 		global_target: null
 	};
 
@@ -299,9 +201,16 @@ $(document).on('ready page:load', function() {
 				selected = false;
 			}
 		}
+		var relative_pos = {
+			x: center.x / scope.view.size.width,
+			y: center.y / scope.view.size.height,
+			size_dx: size / scope.view.size.width,
+			size_dy: size / scope.view.size.height
+		};
 		return {
 			value: elem,
-			group: out_node
+			group: out_node,
+			relative_pos: relative_pos
 		};
 	}
 
@@ -341,10 +250,30 @@ $(document).on('ready page:load', function() {
 		return nodes;
 	}
 
-	function init() {
-		get_initial_node_data(); // Sets up the initial map
+	function set_resize() {
+		scope.view.onResize = function(event) {
+			var width = scope.view.size.width;
+			var height = scope.view.size.height;
+			for (cur_node in game_data.active_nodes) {
+				cur_node.group.position.x = cur_node.relative_pos.x * width;
+				cur_node.group.position.y = cur_node.relative_pos.y * height;
+			}
+		}
 	}
 
-	init();
+	function init() {
+		get_initial_node_data();
+		set_resize();
+	}
+
+	function init_debug() {
+		console.log("Starting init...");
+		get_initial_node_data(); // Sets up the initial map
+		console.log("Initial node data loaded");
+		set_resize();
+		console.log("Canvas resize set up");
+	}
+
+	init_debug();
 
 });
