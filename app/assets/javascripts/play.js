@@ -3,9 +3,6 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on('ready page:load', function() {
-	if ($('#play').length <= 0) {
-		return;
-	}
 	//paper = require('paper');
 	// var selectedNodes = [];
 	// var selectedIndex = -1;
@@ -135,6 +132,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	var scope = new paper.PaperScope();
+	var canvas = document.getElementById("myCanvas");
 	scope.setup(canvas);
 
 	var nodes = [];
