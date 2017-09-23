@@ -207,11 +207,12 @@ $(document).on('ready page:load', function() {
 			size_dx: size / scope.view.size.width,
 			size_dy: size / scope.view.size.height
 		};
-		return {
+		var total_node = {
 			value: elem,
 			group: out_node,
 			relative_pos: relative_pos
 		};
+		return total_node;
 	}
 
 	function build_nodes(num_layers, width, height) {
@@ -224,14 +225,13 @@ $(document).on('ready page:load', function() {
 		var i = 0;
 		var thickness = 5;
 		while (i < num_layers) {
-			let layer = [];
 			var num_sub = Math.pow(2, i);
 			var j = 0;
 			point.y = y;
 			point.x = (width / num_sub) / 2;
 			while (j < num_sub) {
 				let new_node = get_node(index, point, node_height, thickness);
-				layer.push(new_node);
+				nodes.push(new_node);
 				point.x += width / num_sub;
 				j++;
 				index++;
@@ -245,7 +245,6 @@ $(document).on('ready page:load', function() {
 			{
 				thickness--;
 			}
-			nodes.push(layer);
 		}
 		return nodes;
 	}
