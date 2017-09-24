@@ -278,7 +278,7 @@ $(document).on('ready page:load', function() {
 		var move_y = (1.5 * move_rad + target.group.bounds.height / 2) / 2;
 		var move_option = new scope.Path.Circle(new scope.Point(ref_x + move_x, ref_y + move_y),
 			move_rad);
-		move_option.strokeWidth = ref_stroke_width * 3 / 14;
+		move_option.strokeWidth = ref_stroke_width * 3 / 7;
 		move_option.strokeColor = colors['line'];
 		move_option.fillColor = colors['fill'];
 	}
