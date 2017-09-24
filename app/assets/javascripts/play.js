@@ -398,6 +398,7 @@ $(document).on('ready page:load', function() {
 			var i = 0;
 			var len = game_data.animations.length;
 			while (i < len) {
+				var anim = game_data.animations[i];
 				var total_timespan = tick_time - anim.start;
 				var current_timespan = tick_time - anim.last;
 				var sigma_frac = total_timespan / anim.length;
