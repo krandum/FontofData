@@ -178,14 +178,6 @@ $(document).on('ready page:load', function() {
 		let selected = false;
 		let myBounds = out_node.bounds;
 
-		out_node.onMouseEnter = function(event) {
-			out_node.scale(1.2);
-		}
-
-		out_node.onMouseLeave = function(event) {
-			out_node.scale(0.83333333);
-		}
-
 		var relative_pos = {
 			x: center.x / scope.view.size.width,
 			y: center.y / scope.view.size.height,
@@ -197,8 +189,20 @@ $(document).on('ready page:load', function() {
 			value: elem,
 			group: out_node,
 			relative_pos: relative_pos,
-			selected: false
+			selected: false,
+			hovered: false,
+			grown: false
 		};
+
+		out_node.onMouseEnter = function(event) {
+			total_node.hovered = true;
+			grow_node(total_node);
+		}
+
+		out_node.onMouseLeave = function(event) {
+			total_node.hovered = false;
+			ungrow_node(total_node);
+		}
 
 		out_node.onClick = function(event) {
 			check_selection(total_node);
@@ -269,15 +273,6 @@ $(document).on('ready page:load', function() {
 		console.log('Calling an event!');
 	}
 
-	function unselect_node(target) {
-		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
-		target.group.shadowColor = 0;
-		target.group.shadowBlur = 0;
-		target.group.firstChild.strokeColor = node_color['line'];
-		target.group.lastChild.fillColor = node_color['num'];
-		target.selected = false;
-	}
-
 	function select_node(target) {
 		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
 		var quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
@@ -286,6 +281,29 @@ $(document).on('ready page:load', function() {
 		target.group.firstChild.strokeColor = node_color['selected'];
 		target.group.lastChild.fillColor = node_color['selected'];
 		target.selected = true;
+		grow_node(target);
+	}
+
+	function unselect_node(target) {
+		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
+		target.group.shadowColor = 0;
+		target.group.shadowBlur = 0;
+		target.group.firstChild.strokeColor = node_color['line'];
+		target.group.lastChild.fillColor = node_color['num'];
+		target.selected = false;
+		ungrow_node(target);
+	}
+
+	function grow_node(target) {
+		if (!target.grown && (target.selected || target.hovered)) {
+			target.group.scale(1.2);
+		}
+	}
+
+	function ungrow_node(target) {
+		if (target.grown && !target.selected && !target.hovered) {
+			target.group.scale(0.833333333);
+		}
 	}
 
 	function check_selection(target) {
