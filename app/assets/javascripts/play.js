@@ -312,10 +312,9 @@ $(document).on('ready page:load', function() {
 
 	var grow_animation = function(target, sigma_frac, delta_frac) {
 		if (target.base == null) {
-			target.base = new scope.Rectangle({
-				point: target.group.point,
-				size: target.group.size
-			});
+			target.base = new scope.Rectangle();
+			target.base.width = target.group.bounds.width;
+			target.base.height = target.group.bounds.height;
 		}
 		target.group.bounds.width = (1 + 0.4 * sigma_frac) * target.base.width;
 		target.group.bounds.height = (1 + 0.4 * sigma_frac) * target.base.height;
@@ -323,10 +322,9 @@ $(document).on('ready page:load', function() {
 
 	var grow_stop = function(target) {
 		if (target.base == null) {
-			target.base = new scope.Rectangle({
-				point: target.group.point,
-				size: target.group.size
-			});
+			target.base = new scope.Rectangle();
+			target.base.width = target.group.bounds.width;
+			target.base.height = target.group.bounds.height;
 		}
 		target.group.bounds.width = 1.4 * target.base.width;
 		target.group.bounds.height = 1.4 * target.base.height;
