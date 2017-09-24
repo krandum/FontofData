@@ -392,6 +392,7 @@ $(document).on('ready page:load', function() {
 		set_resize();
 		console.log("Canvas resize set up");
 		scope.view.onFrame = function(event) {
+			console.log('ttt');
 			var tick_time = game_data.date.getTime();
 			var i = 0;
 			var len = game_data.animations.length;
