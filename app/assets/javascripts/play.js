@@ -259,6 +259,8 @@ $(document).on('ready page:load', function() {
 
 	function select_node(target) {
 		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
+		var quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
+
 		if (!target.selected) {
 			target.group.shadowColor = node_color['glow'];
 			target.group.shadowBlur = quarter_size;
