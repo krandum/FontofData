@@ -265,7 +265,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function remove_options(target) {
-		add_animation(options, unpop_animation, unpop_stop, 150);
+		add_animation(target.options, unpop_animation, unpop_stop, 150);
 		target.options = null;
 	}
 
@@ -286,8 +286,6 @@ $(document).on('ready page:load', function() {
 		});
 		move_base.x = move_circle.position.x;
 		move_base.y = move_circle.position.y;
-		move_circle.bounds.width = 0;
-		move_circle.bounds.height = 0;
 		move_circle.strokeWidth = ref_stroke_width / 2;
 		move_circle.strokeColor = colors['line'];
 		move_circle.fillColor = colors['fill'];
@@ -298,6 +296,8 @@ $(document).on('ready page:load', function() {
 		move_char.bounds.width = move_rad;
 		move_char.bounds.height = move_rad * 4 / 3;
 		var move_option = new scope.Group(move_circle, move_char);
+		move_option.bounds.width = 0;
+		move_option.bounds.height = 0;
 		var attack_rad = move_rad;
 		var attack_x = x_sign * (1.8 * attack_rad + target.group.bounds.width / 2);
 		var attack_y = 0;
@@ -309,8 +309,6 @@ $(document).on('ready page:load', function() {
 		});
 		attack_base.x = attack_circle.position.x;
 		attack_base.y = attack_circle.position.y;
-		attack_circle.bounds.width = 0;
-		attack_circle.bounds.height = 0;
 		attack_circle.strokeWidth = ref_stroke_width / 2;
 		attack_circle.strokeColor = colors['line'];
 		attack_circle.fillColor = colors['fill'];
@@ -321,6 +319,8 @@ $(document).on('ready page:load', function() {
 		attack_char.bounds.width = attack_rad;
 		attack_char.bounds.height = attack_rad * 4 / 3;
 		var attack_option = new scope.Group(attack_circle, attack_char);
+		attack_option.bounds.width = 0;
+		attack_option.bounds.height = 0;
 		var options = {
 			target: target,
 			move: {
