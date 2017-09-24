@@ -295,8 +295,8 @@ $(document).on('ready page:load', function() {
 		move_base.y = move_option.position.y;
 		move_base.width = move_option.bounds.width;
 		move_base.height = move_option.bounds.height;
-		move_option.bounds.width = 0;
-		move_option.bounds.height = 0;
+		move_option.bounds.width = 0.0001;
+		move_option.bounds.height = 0.0001;
 		var attack_rad = move_rad;
 		var attack_x = x_sign * (1.8 * attack_rad + target.group.bounds.width / 2);
 		var attack_y = 0;
@@ -317,8 +317,8 @@ $(document).on('ready page:load', function() {
 		attack_base.y = attack_option.position.y;
 		attack_base.width = attack_option.bounds.width;
 		attack_base.height = attack_option.bounds.height;
-		attack_option.bounds.width = 0;
-		attack_option.bounds.height = 0;
+		attack_option.bounds.width = 0.0001;
+		attack_option.bounds.height = 0.0001;
 		var options = {
 			target: target,
 			move: {
