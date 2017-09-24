@@ -312,7 +312,7 @@ $(document).on('ready page:load', function() {
 				remove_animations(target);
 			}
 			add_animation(target, ungrow_animation, ungrow_stop, 300);
-			target.grown = true;
+			target.grown = false;
 		}
 	}
 
