@@ -297,12 +297,14 @@ $(document).on('ready page:load', function() {
 	function grow_node(target) {
 		if (!target.grown && (target.selected || target.hovered)) {
 			target.group.scale(1.2);
+			target.grown = true;
 		}
 	}
 
 	function ungrow_node(target) {
 		if (target.grown && !target.selected && !target.hovered) {
 			target.group.scale(0.833333333);
+			target.grown = false;
 		}
 	}
 
