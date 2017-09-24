@@ -324,9 +324,9 @@ $(document).on('ready page:load', function() {
 			target.base.x = target.group.position.x;
 			target.base.y = target.group.position.y;
 		}
-		if (target.group.bounds.width < (1 + 0.4 * sigma_frac) * target.base.width) {
-			target.group.bounds.width = (1 + 0.4 * sigma_frac) * target.base.width;
-			target.group.bounds.height = (1 + 0.4 * sigma_frac) * target.base.height;
+		if (target.group.bounds.width < (1 + 0.2 * sigma_frac) * target.base.width) {
+			target.group.bounds.width = (1 + 0.2 * sigma_frac) * target.base.width;
+			target.group.bounds.height = (1 + 0.2 * sigma_frac) * target.base.height;
 		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
@@ -340,9 +340,9 @@ $(document).on('ready page:load', function() {
 			target.base.x = target.group.position.x;
 			target.base.y = target.group.position.y;
 		}
-		if (target.group.bounds.width < (1 + 0.4 * sigma_frac) * target.base.width) {
-			target.group.bounds.width = (1 + 0.4 * sigma_frac) * target.base.width;
-			target.group.bounds.height = (1 + 0.4 * sigma_frac) * target.base.height;
+		if (target.group.bounds.width < 1.2 * target.base.width) {
+			target.group.bounds.width = 1.2 * target.base.width;
+			target.group.bounds.height = 1.2 * target.base.height;
 		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
@@ -359,9 +359,9 @@ $(document).on('ready page:load', function() {
 			target.base.x = target.relative_pos.x * width;
 			target.base.y = target.relative_pos.y * height;
 		}
-		if (target.group.bounds.width > (1.4 - 0.4 * sigma_frac) * target.base.width) {
-			target.group.bounds.width = (1.4 - 0.4 * sigma_frac) * target.base.width;
-			target.group.bounds.height = (1.4 - 0.4 * sigma_frac) * target.base.height;
+		if (target.group.bounds.width > (1.2 - 0.2 * sigma_frac) * target.base.width) {
+			target.group.bounds.width = (1.2 - 0.2 * sigma_frac) * target.base.width;
+			target.group.bounds.height = (1.2 - 0.2 * sigma_frac) * target.base.height;
 		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
@@ -377,8 +377,10 @@ $(document).on('ready page:load', function() {
 			target.base.x = target.relative_pos.x * width;
 			target.base.y = target.relative_pos.y * height;
 		}
-		target.group.bounds.width = target.base.width;
-		target.group.bounds.height = target.base.height;
+		if (target.group.bounds.width > target.base.width) {
+			target.group.bounds.width = target.base.width;
+			target.group.bounds.height = target.base.height;
+		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
 		target.base = null;
