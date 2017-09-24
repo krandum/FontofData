@@ -368,6 +368,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function add_animation(target, fractional_render, last_render, length_ms) {
+		game_data.date = new Date();
 		var now = game_data.date.getTime();
 		let animation = {
 			target: target,
@@ -392,6 +393,7 @@ $(document).on('ready page:load', function() {
 		set_resize();
 		console.log("Canvas resize set up");
 		scope.view.onFrame = function(event) {
+			game_data.date = new Date();
 			var tick_time = game_data.date.getTime();
 			var i = 0;
 			var len = game_data.animations.length;
