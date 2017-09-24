@@ -265,8 +265,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function remove_options(target) {
-		target.options.move.group.remove();
-		target.options.attack.group.remove();
+		add_animation(options, unpop_animation, unpop_stop, 150);
 		target.options = null;
 	}
 
@@ -281,6 +280,14 @@ $(document).on('ready page:load', function() {
 		var move_y = (1.8 * move_rad + target.group.bounds.height / 2) / 2;
 		var move_point = new scope.Point(ref_x + move_x, ref_y + move_y);
 		var move_circle = new scope.Path.Circle(move_point, move_rad);
+		var move_base = new scope.Rectangle({
+			point: move_circle.bounds.point,
+			size: move_circle.bounds.size
+		});
+		move_base.x = move_circle.position.x;
+		move_base.y = move_circle.position.y;
+		move_circle.bounds.width = 0;
+		move_circle.bounds.height = 0;
 		move_circle.strokeWidth = ref_stroke_width / 2;
 		move_circle.strokeColor = colors['line'];
 		move_circle.fillColor = colors['fill'];
@@ -296,6 +303,14 @@ $(document).on('ready page:load', function() {
 		var attack_y = 0;
 		var attack_point = new scope.Point(ref_x + attack_x, ref_y + attack_y);
 		var attack_circle = new scope.Path.Circle(attack_point, attack_rad);
+		var attack_base = new scope.Rectangle({
+			point: attack_circle.bounds.point,
+			size: attack_circle.bounds.size
+		});
+		attack_base.x = attack_circle.position.x;
+		attack_base.y = attack_circle.position.y;
+		attack_circle.bounds.width = 0;
+		attack_circle.bounds.height = 0;
 		attack_circle.strokeWidth = ref_stroke_width / 2;
 		attack_circle.strokeColor = colors['line'];
 		attack_circle.fillColor = colors['fill'];
@@ -310,18 +325,21 @@ $(document).on('ready page:load', function() {
 			target: target,
 			move: {
 				group: move_option,
+				base: move_base,
 				selected: false,
 				hovered: false,
 				grown: false
 			},
 			attack: {
 				group: attack_option,
+				base: attack_base,
 				selected: false,
 				hovered: false,
 				grown: false
 			}
 		};
 		target.options = options;
+		add_animation(options, pop_animation, pop_stop, 150);
 	}
 
 	function take_action() { // TODO
@@ -437,6 +455,47 @@ $(document).on('ready page:load', function() {
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
 		target.base = null;
+		return false;
+	}
+
+	var pop_animation = function(target, sigma_frac, delta_frac) {
+		if (target.group.bounds.width < sigma_frac * target.base.width) {
+			target.group.bounds.width = sigma_frac * target.base.width;
+			target.group.bounds.height = sigma_frac * target.base.height;
+		}
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+	}
+
+	var pop_stop = function(target) {
+		if (target.group.bounds.width < target.base.width) {
+			target.group.bounds.width = target.base.width;
+			target.group.bounds.height = target.base.height;
+		}
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+		return false;
+	}
+
+	var unpop_animation = function(target, sigma_frac, delta_frac) {
+		if (target.group.bounds.width > (1.2 - sigma_frac) * target.base.width) {
+			target.group.bounds.width = (1.2 - sigma_frac) * target.base.width;
+			target.group.bounds.height = (1.2 - sigma_frac) * target.base.height;
+		}
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+	}
+
+	var unpop_stop = function(target) {
+		if (target.group.bounds.width > 0) {
+			target.group.bounds.width = 0;
+			target.group.bounds.height = 0;
+		}
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+		target.base = null;
+		target.move.group.remove();
+		target.attack.group.remove();
 		return false;
 	}
 
