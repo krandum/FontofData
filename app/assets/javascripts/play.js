@@ -459,41 +459,64 @@ $(document).on('ready page:load', function() {
 	}
 
 	var pop_animation = function(target, sigma_frac, delta_frac) {
-		if (target.group.bounds.width < sigma_frac * target.base.width) {
-			target.group.bounds.width = sigma_frac * target.base.width;
-			target.group.bounds.height = sigma_frac * target.base.height;
+		if (target.move.move_group.bounds.width < sigma_frac * target.move.move_base.width) {
+			target.move.move_group.bounds.width = sigma_frac * target.move.move_base.width;
+			target.move.move_group.bounds.height = sigma_frac * target.move.move_base.height;
 		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
+		target.move.move_group.position.x = target.move.move_base.x;
+		target.move.move_group.position.y = target.move.move_base.y;
+		if (target.attack.attack_group.bounds.width < sigma_frac * target.attack.attack_base.width) {
+			target.attack.attack_group.bounds.width = sigma_frac * target.attack.attack_base.width;
+			target.attack.attack_group.bounds.height = sigma_frac * target.attack.attack_base.height;
+		}
+		target.attack.attack_group.position.x = target.attack.attack_base.x;
+		target.attack.attack_group.position.y = target.attack.attack_base.y;
 	}
 
 	var pop_stop = function(target) {
-		if (target.group.bounds.width < target.base.width) {
-			target.group.bounds.width = target.base.width;
-			target.group.bounds.height = target.base.height;
+		if (target.move.move_group.bounds.width < target.move.move_base.width) {
+			target.move.move_group.bounds.width = target.move.move_base.width;
+			target.move.move_group.bounds.height = target.move.move_base.height;
 		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
+		target.move.move_group.position.x = target.move.move_base.x;
+		target.move.move_group.position.y = target.move.move_base.y;
+		if (target.attack.attack_group.bounds.width < target.attack.attack_base.width) {
+			target.attack.attack_group.bounds.width = target.attack.attack_base.width;
+			target.attack.attack_group.bounds.height = target.attack.attack_base.height;
+		}
+		target.attack.attack_group.position.x = target.attack.attack_base.x;
+		target.attack.attack_group.position.y = target.attack.attack_base.y;
 		return false;
 	}
 
 	var unpop_animation = function(target, sigma_frac, delta_frac) {
-		if (target.group.bounds.width > (1.2 - sigma_frac) * target.base.width) {
-			target.group.bounds.width = (1.2 - sigma_frac) * target.base.width;
-			target.group.bounds.height = (1.2 - sigma_frac) * target.base.height;
+		if (target.move.move_group.bounds.width > (1 - sigma_frac) * target.move.move_base.width) {
+			target.move.move_group.bounds.width = (1 - sigma_frac) * target.move.move_base.width;
+			target.move.move_group.bounds.height = (1 - sigma_frac) * target.move.move_base.height;
 		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
+		target.move.move_group.position.x = target.move.move_base.x;
+		target.move.move_group.position.y = target.move.move_base.y;
+		if (target.attack.attack_group.bounds.width > (1 - sigma_frac) * target.attack.attack_base.width) {
+			target.attack.attack_group.bounds.width = (1 - sigma_frac) * target.attack.attack_base.width;
+			target.attack.attack_group.bounds.height = (1 - sigma_frac) * target.attack.attack_base.height;
+		}
+		target.attack.attack_group.position.x = target.attack.attack_base.x;
+		target.attack.attack_group.position.y = target.attack.attack_base.y;
 	}
 
 	var unpop_stop = function(target) {
-		if (target.group.bounds.width > 0) {
-			target.group.bounds.width = 0;
-			target.group.bounds.height = 0;
+		if (target.move.move_group.bounds.width > 0) {
+			target.move.move_group.bounds.width = 0;
+			target.move.move_group.bounds.height = 0;
 		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
-		target.base = null;
+		target.move.move_group.position.x = target.move.move_base.x;
+		target.move.move_group.position.y = target.move.move_base.y;
+		if (target.attack.attack_group.bounds.width > 0) {
+			target.attack.attack_group.bounds.width = 0;
+			target.attack.attack_group.bounds.height = 0;
+		}
+		target.attack.attack_group.position.x = target.attack.attack_base.x;
+		target.attack.attack_group.position.y = target.attack.attack_base.y;
 		target.move.group.remove();
 		target.attack.group.remove();
 		return false;
