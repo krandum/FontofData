@@ -392,11 +392,11 @@ $(document).on('ready page:load', function() {
 		set_resize();
 		console.log("Canvas resize set up");
 		scope.view.onFrame = function(event) {
-			console.log('ttt');
 			var tick_time = game_data.date.getTime();
 			var i = 0;
 			var len = game_data.animations.length;
 			while (i < len) {
+				console.log('anim tick');
 				var anim = game_data.animations[i];
 				var total_timespan = tick_time - anim.start;
 				var current_timespan = tick_time - anim.last;
