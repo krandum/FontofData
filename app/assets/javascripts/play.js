@@ -290,10 +290,7 @@ $(document).on('ready page:load', function() {
 		move_char.bounds.width = move_rad;
 		move_char.bounds.height = move_rad * 4 / 3;
 		var move_option = new scope.Group(move_circle, move_char);
-		var move_base = new scope.Rectangle({
-			from: [0, 0],
-			to: [0, 0]
-		});
+		var move_base = new scope.Rectangle();
 		move_base.x = move_option.position.x;
 		move_base.y = move_option.position.y;
 		move_base.width = move_option.bounds.width;
@@ -315,10 +312,7 @@ $(document).on('ready page:load', function() {
 		attack_char.bounds.width = attack_rad;
 		attack_char.bounds.height = attack_rad * 4 / 3;
 		var attack_option = new scope.Group(attack_circle, attack_char);
-		var attack_base = new scope.Rectangle({
-			from: [0, 0],
-			to: [0, 0]
-		});
+		var attack_base = new scope.Rectangle();
 		attack_base.x = attack_option.position.x;
 		attack_base.y = attack_option.position.y;
 		attack_base.width = attack_option.bounds.width;
