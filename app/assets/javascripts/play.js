@@ -201,7 +201,7 @@ $(document).on('ready page:load', function() {
 		};
 
 		out_node.onClick = function(event) {
-			select_node(total_node);
+			check_selection(total_node);
 		}
 
 		return total_node;
@@ -275,24 +275,28 @@ $(document).on('ready page:load', function() {
 		target.group.shadowBlur = 0;
 		target.group.firstChild.strokeColor = node_color['line'];
 		target.group.lastChild.fillColor = node_color['num'];
+		target.selected = false;
 	}
 
 	function select_node(target) {
 		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
 		var quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
+		target.group.shadowColor = node_color['glow'];
+		target.group.shadowBlur = quarter_size;
+		target.group.firstChild.strokeColor = node_color['selected'];
+		target.group.lastChild.fillColor = node_color['selected'];
+		target.selected = true;
+	}
+
+	function check_selection(target) {
 		if (!target.selected) {
-			target.group.shadowColor = node_color['glow'];
-			target.group.shadowBlur = quarter_size;
-			target.group.firstChild.strokeColor = node_color['selected'];
-			target.group.lastChild.fillColor = node_color['selected'];
-			target.selected = true;
+			select_node(target);
 			if (game_data.selected_nodes.length >= 1 && game_data.action_index != -1) {
 				game_data.selected_nodes.push(target);
 				remove_options(game_data.selected_nodes[0]);
 				call_event();
 				setTimeout(function() {
 					game_data.selected_nodes.forEach(function(e) {
-						e.selected = false;
 						unselect_node(e);
 					});
 					game_data.selected_nodes.splice(0, game_data.selected_nodes.length);
@@ -302,7 +306,6 @@ $(document).on('ready page:load', function() {
 			else if (game_data.selected_nodes.length >= 1) {
 				remove_options(game_data.selected_nodes[0]);
 				unselect_node(game_data.selected_nodes[0]);
-				game_data.selected_nodes[0].selected = false;
 				game_data.selected_nodes[0] = target;
 			}
 			else {
@@ -311,11 +314,7 @@ $(document).on('ready page:load', function() {
 			}
 		}
 		else {
-			target.group.shadowColor = 0;
-			target.group.shadowBlur = 0;
-			target.group.firstChild.strokeColor = node_color['line'];
-			target.group.lastChild.fillColor = node_color['num'];
-			target.selected = false;
+			unselect_node(target);
 			var index = game_data.selected_nodes.indexOf(target);
 			if (typeof(index) != 'undefined' && index != null) {
 				game_data.selected_nodes.splice(index, 1);
