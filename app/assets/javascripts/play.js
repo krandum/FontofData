@@ -315,13 +315,13 @@ $(document).on('ready page:load', function() {
 			target.base = new scope.Rectangle();
 			target.base.width = target.group.bounds.width;
 			target.base.height = target.group.bounds.height;
-			target.base.x = target.group.bounds.x;
-			target.base.y = target.group.bounds.y;
+			target.base.x = target.group.position.x;
+			target.base.y = target.group.position.y;
 		}
 		target.group.bounds.width = (1 + 0.4 * sigma_frac) * target.base.width;
 		target.group.bounds.height = (1 + 0.4 * sigma_frac) * target.base.height;
-		target.group.bounds.x = target.base.x;
-		target.group.bounds.y = target.base.y;
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
 	}
 
 	var grow_stop = function(target) {
@@ -329,13 +329,13 @@ $(document).on('ready page:load', function() {
 			target.base = new scope.Rectangle();
 			target.base.width = target.group.bounds.width;
 			target.base.height = target.group.bounds.height;
-			target.base.x = target.group.bounds.x;
-			target.base.y = target.group.bounds.y;
+			target.base.x = target.group.position.x;
+			target.base.y = target.group.position.y;
 		}
 		target.group.bounds.width = 1.4 * target.base.width;
 		target.group.bounds.height = 1.4 * target.base.height;
-		target.group.bounds.x = target.base.x;
-		target.group.bounds.y = target.base.y;
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
 		return false;
 	}
 
@@ -411,7 +411,6 @@ $(document).on('ready page:load', function() {
 				var current_timespan = tick_time - anim.last;
 				var sigma_frac = total_timespan / anim.length;
 				var delta_frac = current_timespan / anim.length;
-				console.log('anim tick: ' + sigma_frac.toString() + ' ' + total_timespan.toString());
 				var survive = true;
 				if (total_timespan >= anim.length) {
 					survive = anim.last_render(anim.target);
