@@ -507,8 +507,8 @@ $(document).on('ready page:load', function() {
 			target.move.group.bounds.width = 0;
 			target.move.group.bounds.height = 0;
 		}
-		target.move.group.position.x = target.move.move_base.x;
-		target.move.group.position.y = target.move.move_base.y;
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
 		if (target.attack.group.bounds.width > 0) {
 			target.attack.group.bounds.width = 0;
 			target.attack.group.bounds.height = 0;
