@@ -277,8 +277,8 @@ $(document).on('ready page:load', function() {
 		var ref_y = target.group.position.y;
 		var ref_stroke_width = target.group.firstChild.strokeWidth;
 		var move_rad = target.group.bounds.width / 8;
-		var move_x = x_sign * (1.5 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
-		var move_y = (1.5 * move_rad + target.group.bounds.height / 2) / 2;
+		var move_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
+		var move_y = (1.8 * move_rad + target.group.bounds.height / 2) / 2;
 		var move_point = new scope.Point(ref_x + move_x, ref_y + move_y);
 		var move_circle = new scope.Path.Circle(move_point, move_rad);
 		move_circle.strokeWidth = ref_stroke_width / 2;
@@ -292,7 +292,7 @@ $(document).on('ready page:load', function() {
 		move_char.bounds.height = move_rad * 4 / 3;
 		var move_option = new scope.Group(move_circle, move_char);
 		var attack_rad = move_rad;
-		var attack_x = x_sign * (1.5 * attack_rad + target.group.bounds.width / 2);
+		var attack_x = x_sign * (1.8 * attack_rad + target.group.bounds.width / 2);
 		var attack_y = 0;
 		var attack_point = new scope.Point(ref_x + attack_x, ref_y + attack_y);
 		var attack_circle = new scope.Path.Circle(attack_point, attack_rad);
