@@ -267,8 +267,16 @@ $(document).on('ready page:load', function() {
 		console.log('Removing options from:' + parseInt(target.value));
 	}
 
-	function add_options(target) { // TODO
-		console.log('Adding options to:' + parseInt(target.value));
+	function add_options(target) {
+		var colors = game_data.colors[game_data.node_factions[target.value].toString()];
+		var x_sign = target.value % 2 == 0 ? -1 : 1;
+		var ref_x = target.group.position.x;
+		var ref_y = target.group.position.y;
+		var move_rad = target.group.bounds.width * 3 / 28;
+		var move_x = x_sign * (1.5 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
+		var move_y = (1.5 * move_rad + target.group.bounds.height / 2) / 2;
+		var move_option = new scope.Path.Circle(new scope.Point(ref_x + move_x, ref_y + move_y),
+			move_rad);
 	}
 
 	function call_event() { // TODO
@@ -406,6 +414,7 @@ $(document).on('ready page:load', function() {
 				remove_options(game_data.selected_nodes[0]);
 				unselect_node(game_data.selected_nodes[0]);
 				game_data.selected_nodes[0] = target;
+				add_options(game_data.selected_nodes[0]);
 			}
 			else {
 				game_data.selected_nodes.push(target);
