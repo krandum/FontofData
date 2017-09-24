@@ -8,30 +8,23 @@
 </head>
 <body>
 <%= yield %>
-<nav class="navbar fod_nav navbar-expand fixed-top navbar-light">
-	<a class="navbar-brand nav_hover" style="color: #B9D6F2; padding: 3px;" href="/">Font of Data</a>
-		<ul class="navbar-nav mr-auto">
-			<li class="active nav_hover"><a class="nav-link" style="color: #B9D6F2" href="/play">Play</a></li>
-			<li class="active nav_hover"><a class="nav-link" style="color: #B9D6F2" href="/story/index">Story</a></li>
-			<li class="active nav_hover"><a class="nav-link" style="color: #B9D6F2" href="/about/index">About</a></li>
-			<li class="active nav_hover"><a class="nav-link" style="color: #B9D6F2" href="/faq/index">FAQ</a></li>
-		</ul>
-		<ul class="nav navbar-nav navbar-right">
-			<li class="nav-item dropdown fod_drop">
-				<a class="nav-link dropdown-toggle" style="color: #B9D6F2" id="accountMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
-				<div class="dropdown-menu fod_drop" style="margin-right: 4px;" aria-labelledby="accountMenu">
-					<a class="dropdown-item" style="color: #B9D6F2" href="/user/profile">Profile</a>
-					<a class="dropdown-item" style="color: #B9D6F2" href="/user/settings">User settings</a>
-					<a class="dropdown-item" style="color: #B9D6F2" href="/logout">Logout</a>
-				</div>
-			</li>
-		</ul>
-</nav>
 
-
-<footer class="fod_foot container-fluid text-left">
-	<span class="fod_footspan"></span><p class="fod_foottext">Developed by a team of students at 42 - Silicon Valley</p>
-</footer>
-
+<div class="container topnav fod_nav" style="grid-area: topnav">
+	<a class="navbar-brand nav_hover" style="color: #B9D6F2; width: 100%;" href="/">Font of Data</a>
+	<div class="nav_hover" style="grid-column: play"><a class="nav-link noselect" style="color: #B9D6F2" href="/play">Play</a></div>
+	<div class="nav_hover" style="grid-column: world"><a class="nav-link noselect" style="color: #B9D6F2" href="/story/index">World</a></div>
+	<div class="nav_hover" style="grid-column: about"><a class="nav-link noselect" style="color: #B9D6F2" href="/about/index">About</a></div>
+	<div class="nav_hover" style="grid-column: faq"><a class="nav-link noselect" style="color: #B9D6F2" href="/faq/index">FAQ</a></div>
+	<ul class="nav navbar-nav nav_hover" style="grid-column: account">
+		<div class="nav-item dropdown">
+			<a class="nav-link noselect dropdown-toggle" style="color: #B9D6F2" id="accountMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
+			<div class="dropdown-menu fod_drop" style="margin-right: 4px;" aria-labelledby="accountMenu">
+				<a class="dropdown-item" style="color: #B9D6F2" href="/user/profile">Profile</a>
+				<a class="dropdown-item" style="color: #B9D6F2" href="/user/settings">User settings</a>
+				<a class="dropdown-item" style="color: #B9D6F2" href="/logout">Logout</a>
+			</div>
+		</div>
+	</ul>
+</div>
 </body>
 </html>
