@@ -324,8 +324,10 @@ $(document).on('ready page:load', function() {
 			target.base.x = target.group.position.x;
 			target.base.y = target.group.position.y;
 		}
-		target.group.bounds.width = (1 + 0.4 * sigma_frac) * target.base.width;
-		target.group.bounds.height = (1 + 0.4 * sigma_frac) * target.base.height;
+		if (target.group.bounds.width < (1 + 0.4 * sigma_frac) * target.base.width) {
+			target.group.bounds.width = (1 + 0.4 * sigma_frac) * target.base.width;
+			target.group.bounds.height = (1 + 0.4 * sigma_frac) * target.base.height;
+		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
 	}
@@ -338,8 +340,10 @@ $(document).on('ready page:load', function() {
 			target.base.x = target.group.position.x;
 			target.base.y = target.group.position.y;
 		}
-		target.group.bounds.width = 1.4 * target.base.width;
-		target.group.bounds.height = 1.4 * target.base.height;
+		if (target.group.bounds.width < (1 + 0.4 * sigma_frac) * target.base.width) {
+			target.group.bounds.width = (1 + 0.4 * sigma_frac) * target.base.width;
+			target.group.bounds.height = (1 + 0.4 * sigma_frac) * target.base.height;
+		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
 		return false;
@@ -355,8 +359,10 @@ $(document).on('ready page:load', function() {
 			target.base.x = target.relative_pos.x * width;
 			target.base.y = target.relative_pos.y * height;
 		}
-		target.group.bounds.width = (1.4 - 0.4 * sigma_frac) * target.base.width;
-		target.group.bounds.height = (1.4 - 0.4 * sigma_frac) * target.base.height;
+		if (target.group.bounds.width > (1.4 - 0.4 * sigma_frac) * target.base.width) {
+			target.group.bounds.width = (1.4 - 0.4 * sigma_frac) * target.base.width;
+			target.group.bounds.height = (1.4 - 0.4 * sigma_frac) * target.base.height;
+		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
 	}
