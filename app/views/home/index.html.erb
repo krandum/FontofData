@@ -7,6 +7,7 @@
 <body class="fod_site grid_home">
 <div class="sidenav">
 	<p><a href="#">News1</a></p>
+	<%= link_to 'New Data node', data_nodes_path(data_node: { value: 1, faction_id: 3 }), method: :post %>
 	<p class="text-left">Something about the thing that is the news</p>
 	<hr>
 	<p><a href="#">News2</a></p>

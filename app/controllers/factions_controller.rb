@@ -1,4 +1,5 @@
 class FactionsController < ApplicationController
+  before_action :go_to_root, except: [:create, :update, :destroy]
   before_action :set_faction, only: [:show, :edit, :update, :destroy]
 
   # GET /factions

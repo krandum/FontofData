@@ -1,4 +1,5 @@
 class DataNodesController < ApplicationController
+	before_action :go_to_root, except: [:request_nodes, :create, :update, :destroy]
 	before_action :set_data_node, only: [:show, :edit, :update, :destroy]
 	before_action :range_parameter, only: [:request_nodes]
 
@@ -107,5 +108,9 @@ class DataNodesController < ApplicationController
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def data_node_params
 		params.require(:data_node).permit(:value, :faction_id)
+	end
+
+	def go_to_root
+		redirect_to root_path
 	end
 end

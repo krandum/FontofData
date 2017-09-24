@@ -1,4 +1,5 @@
 class EffectsController < ApplicationController
+  before_action :go_to_root, except: [:create, :update, :destroy]
   before_action :set_effect, only: [:show, :edit, :update, :destroy]
 
   # GET /effects

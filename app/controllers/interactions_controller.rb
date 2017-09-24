@@ -1,4 +1,5 @@
 class InteractionsController < ApplicationController
+	before_action :go_to_root, except: [:take_action, :create, :update, :destroy]
 	before_action :set_interaction, only: [:show, :edit, :update, :destroy]
 
 	# GET /interactions

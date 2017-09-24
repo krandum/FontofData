@@ -1,13 +1,9 @@
 Rails.application.routes.draw do
 
 get 'home/index'
-
-get 'play/index'
-
+# get 'play/index'
 get 'about/index'
-
 get 'story/index'
-
 get 'faq/index'
 
 resources :interactions
@@ -16,29 +12,21 @@ resources :factions
 resources :data_nodes
 resources :play
 
-Rails.application.routes.draw do
-get 'faq/index'
-
-get 'home/index'
-
-get 'play/index'
-
-    devise_for :users,
-     controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
-end
+devise_for :users,
+ controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
 
 devise_scope :user do
     patch 'registration/faction', :to => 'users/registrations#faction'
 end
 
-get 'data_nodes/index'
-get 'data_nodes/show'
-get 'data_nodes/new'
-get 'data_nodes/edit'
-post 'data_nodes/create'
-patch 'data_nodes/update'
-put 'data_nodes/update'
-delete 'data_nodes/destroy'
+# get 'data_nodes/index'
+# get 'data_nodes/show'
+# get 'data_nodes/new'
+# get 'data_nodes/edit'
+# post 'data_nodes/create'
+# patch 'data_nodes/update'
+# put 'data_nodes/update'
+# delete 'data_nodes/destroy'
 
 root 'home#index'
 
