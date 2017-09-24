@@ -193,7 +193,8 @@ $(document).on('ready page:load', function() {
 			selected: false,
 			hovered: false,
 			grown: false,
-			base: null
+			base: null,
+			options: null
 		};
 
 		out_node.onMouseEnter = function(event) {
@@ -263,8 +264,10 @@ $(document).on('ready page:load', function() {
 		}
 	}
 
-	function remove_options(target) { // TODO
-		console.log('Removing options from:' + parseInt(target.value));
+	function remove_options(target) {
+		target.options.move.group.remove();
+		target.options.attack.group.remove();
+		target.options = null;
 	}
 
 	function add_options(target) {
@@ -282,11 +285,12 @@ $(document).on('ready page:load', function() {
 		move_circle.strokeColor = colors['line'];
 		move_circle.fillColor = colors['fill'];
 		var move_char = new scope.PointText(move_point);
+		move_char.position.x -= move_rad / 2;
 		move_char.fillColor = colors['num'];
 		move_char.content = 'M';
-		move_char.position = move_point;
 		move_char.bounds.width = move_rad;
 		move_char.bounds.height = move_rad * 4 / 3;
+		var move_option = new scope.Group(move_circle, move_char);
 		var attack_rad = move_rad;
 		var attack_x = x_sign * (1.5 * attack_rad + target.group.bounds.width / 2);
 		var attack_y = 0;
@@ -301,6 +305,23 @@ $(document).on('ready page:load', function() {
 		attack_char.content = 'A';
 		attack_char.bounds.width = attack_rad;
 		attack_char.bounds.height = attack_rad * 4 / 3;
+		var attack_option = new scope.Group(attack_circle, attack_char);
+		var options = {
+			target: target,
+			move: {
+				group: move_option,
+				selected: false,
+				hovered: false,
+				grown: false
+			},
+			attack: {
+				group: attack_option,
+				selected: false,
+				hovered: false,
+				grown: false
+			}
+		};
+		target.options = options;
 	}
 
 	function take_action() { // TODO
