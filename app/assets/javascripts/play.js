@@ -416,7 +416,7 @@ $(document).on('ready page:load', function() {
 					}
 				}
 				else {
-					anim.fractional_render(target, sigma_frac, delta_frac);
+					anim.fractional_render(anim.target, sigma_frac, delta_frac);
 				}
 				anim.last = tick_time;
 				i++;
