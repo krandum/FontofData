@@ -301,7 +301,7 @@ $(document).on('ready page:load', function() {
 			if (has_animation(target)) {
 				remove_animations(target);
 			}
-			add_animation(target, grow_animation, grow_stop, 500);
+			add_animation(target, grow_animation, grow_stop, 300);
 			target.grown = true;
 		}
 	}
@@ -311,7 +311,7 @@ $(document).on('ready page:load', function() {
 			if (has_animation(target)) {
 				remove_animations(target);
 			}
-			add_animation(target, ungrow_animation, ungrow_stop, 300);
+			add_animation(target, ungrow_animation, ungrow_stop, 200);
 			target.grown = false;
 		}
 	}
