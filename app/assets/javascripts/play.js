@@ -257,16 +257,48 @@ $(document).on('ready page:load', function() {
 		}
 	}
 
+	function remove_options(target) { // TODO
+		console.log('Removing options from:' + parseInt(target.value));
+	}
+
+	function add_options(target) { // TODO
+		console.log('Adding options to:' + parseInt(target.value));
+	}
+
+	function call_event() { // TODO
+		console.log('Calling an event!');
+	}
+
 	function select_node(target) {
 		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
 		var quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
-
 		if (!target.selected) {
 			target.group.shadowColor = node_color['glow'];
 			target.group.shadowBlur = quarter_size;
 			target.group.firstChild.strokeColor = node_color['selected'];
 			target.group.lastChild.fillColor = node_color['selected'];
 			target.selected = true;
+			if (game_data.selected_nodes.length >= 1 && game_data.action_index != -1) {
+				game_data.selected_nodes.push(target);
+				remove_options(game_data.selected_nodes[0]);
+				call_event();
+				setTimeout(function() {
+					game_data.selected_nodes.forEach(function(e) {
+						e.selected = false;
+					});
+					game_data.selected_nodes.splice(0, game_data.selected_nodes.length);
+					game_data.action_index = -1;
+				}, 300);
+			}
+			else if (game_data.selected_nodes.length >= 1) {
+				remove_options(game_data.selected_nodes[0]);
+				game_data.selected_nodes[0].selected = false;
+				game_data.selected_nodes[0] = target;
+			}
+			else {
+				game_data.selected_nodes.push(target);
+				add_options(target);
+			}
 		}
 		else {
 			target.group.shadowColor = 0;
@@ -274,6 +306,12 @@ $(document).on('ready page:load', function() {
 			target.group.firstChild.strokeColor = node_color['line'];
 			target.group.lastChild.fillColor = node_color['num'];
 			target.selected = false;
+			var index = game_data.selected_nodes.indexOf(target);
+			if (typeof(index) != 'undefined' && index != null) {
+				game_data.selected_nodes.splice(index, 1);
+			}
+			remove_options(target);
+			game_data.action_index = -1;
 		}
 	}
 
