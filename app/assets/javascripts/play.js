@@ -410,6 +410,7 @@ $(document).on('ready page:load', function() {
 					if (!survive) {
 						var index = game_data.animations.indexOf(anim);
 						game_data.animations.splice(index, 1);
+						len--;
 						continue;
 					}
 					else {
