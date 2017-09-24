@@ -77,7 +77,8 @@ $(document).on('ready page:load', function() {
 		},
 		global_root: null,
 		current_target: null,
-		global_target: null
+		global_target: null,
+		data: new Date()
 	};
 
 	function get_initial_node_data() {
@@ -191,7 +192,8 @@ $(document).on('ready page:load', function() {
 			relative_pos: relative_pos,
 			selected: false,
 			hovered: false,
-			grown: false
+			grown: false,
+			base: null
 		};
 
 		out_node.onMouseEnter = function(event) {
@@ -296,16 +298,39 @@ $(document).on('ready page:load', function() {
 
 	function grow_node(target) {
 		if (!target.grown && (target.selected || target.hovered)) {
-			target.group.scale(1.2);
+			add_animation(target, grow_animation, grow_stop, 1000);
 			target.grown = true;
 		}
 	}
 
 	function ungrow_node(target) {
 		if (target.grown && !target.selected && !target.hovered) {
-			target.group.scale(0.833333333);
+			target.group.scale(0.7142857);
 			target.grown = false;
 		}
+	}
+
+	var grow_animation = function(target, sigma_frac, delta_frac) {
+		if (target.base == null) {
+			target.base = new scope.Rectangle({
+				point: target.group.point,
+				size: target.group.size
+			});
+		}
+		target.group.bounds.width = (1 + 0.4 * sigma_frac) * target.base.width;
+		target.group.bounds.height = (1 + 0.4 * sigma_frac) * target.base.height;
+	}
+
+	var grow_stop = function(target) {
+		if (target.base == null) {
+			target.base = new scope.Rectangle({
+				point: target.group.point,
+				size: target.group.size
+			});
+		}
+		target.group.bounds.width = 1.4 * target.base.width;
+		target.group.bounds.height = 1.4 * target.base.height;
+		return false;
 	}
 
 	function check_selection(target) {
@@ -344,12 +369,17 @@ $(document).on('ready page:load', function() {
 		}
 	}
 
-	function add_animation(target, fractional_render, length_ms) {
-		game_data.animations.push({
+	function add_animation(target, fractional_render, last_render, length_ms) {
+		var now = game_data.date.getTime();
+		let animation = {
 			target: target,
 			fractional_render: fractional_render,
-			length: length_ms
-		});
+			last_render: last_render,
+			length: length_ms,
+			start: now,
+			last: now
+		};
+		game_data.animations.push(animation);
 	}
 
 	function init() {
@@ -363,6 +393,34 @@ $(document).on('ready page:load', function() {
 		console.log("Initial node data loaded");
 		set_resize();
 		console.log("Canvas resize set up");
+		scope.view.onFrame = function(event) {
+			var tick_time = game_data.date.getTime();
+			var i = 0;
+			var len = game_data.animations.length;
+			while (i < len) {
+				var total_timespan = tick_time - anim.start;
+				var current_timespan = tick_time - anim.last;
+				var sigma_frac = total_timespan / anim.length;
+				var delta_frac = current_timespan / anim.length;
+				var survive = true;
+				if (total_timespan >= anim.length) {
+					survive = anim.last_render(anim.target);
+					if (!survive) {
+						var index = game_data.animations.indexOf(anim);
+						game_data.animations.splice(index, 1);
+						continue;
+					}
+					else {
+						anim.start += anim.length;
+					}
+				}
+				else {
+					anim.fractional_render(target, sigma_frac, delta_frac);
+				}
+				anim.last = tick_time;
+				i++;
+			}
+		};
 	}
 
 	init_debug();
