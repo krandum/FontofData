@@ -298,15 +298,21 @@ $(document).on('ready page:load', function() {
 
 	function grow_node(target) {
 		if (!target.grown && (target.selected || target.hovered)) {
-			add_animation(target, grow_animation, grow_stop, 1000);
+			if (has_animation(target)) {
+				remove_animations(target);
+			}
+			add_animation(target, grow_animation, grow_stop, 500);
 			target.grown = true;
 		}
 	}
 
 	function ungrow_node(target) {
 		if (target.grown && !target.selected && !target.hovered) {
-			target.group.scale(0.7142857);
-			target.grown = false;
+			if (has_animation(target)) {
+				remove_animations(target);
+			}
+			add_animation(target, ungrow_animation, ungrow_stop, 300);
+			target.grown = true;
 		}
 	}
 
@@ -336,6 +342,40 @@ $(document).on('ready page:load', function() {
 		target.group.bounds.height = 1.4 * target.base.height;
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
+		return false;
+	}
+
+	var ungrow_animation = function(target, sigma_frac, delta_frac) {
+		var width = scope.view.size.width;
+		var height = scope.view.size.height;
+		if (target.base == null) {
+			target.base = new scope.Rectangle();
+			target.base.width = target.relative_pos.size_dx * height;
+			target.base.height = target.relative_pos.size_dy * height;
+			target.base.x = target.relative_pos.x * width;
+			target.base.y = target.relative_pos.y * height;
+		}
+		target.group.bounds.width = (1.4 - 0.4 * sigma_frac) * target.base.width;
+		target.group.bounds.height = (1.4 - 0.4 * sigma_frac) * target.base.height;
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+	}
+
+	var ungrow_stop = function(target) {
+		var width = scope.view.size.width;
+		var height = scope.view.size.height;
+		if (target.base == null) {
+			target.base = new scope.Rectangle();
+			target.base.width = target.relative_pos.size_dx * height;
+			target.base.height = target.relative_pos.size_dy * height;
+			target.base.x = target.relative_pos.x * width;
+			target.base.y = target.relative_pos.y * height;
+		}
+		target.group.bounds.width = target.base.width;
+		target.group.bounds.height = target.base.height;
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+		target.base = null;
 		return false;
 	}
 
