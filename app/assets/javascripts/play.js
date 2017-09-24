@@ -78,7 +78,7 @@ $(document).on('ready page:load', function() {
 		global_root: null,
 		current_target: null,
 		global_target: null,
-		data: new Date()
+		date: new Date()
 	};
 
 	function get_initial_node_data() {
