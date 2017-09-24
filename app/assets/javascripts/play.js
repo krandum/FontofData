@@ -193,7 +193,8 @@ $(document).on('ready page:load', function() {
 			selected: false,
 			hovered: false,
 			grown: false,
-			base: null
+			base: null,
+			options: null
 		};
 
 		out_node.onMouseEnter = function(event) {
@@ -263,15 +264,67 @@ $(document).on('ready page:load', function() {
 		}
 	}
 
-	function remove_options(target) { // TODO
-		console.log('Removing options from:' + parseInt(target.value));
+	function remove_options(target) {
+		target.options.move.group.remove();
+		target.options.attack.group.remove();
+		target.options = null;
 	}
 
-	function add_options(target) { // TODO
-		console.log('Adding options to:' + parseInt(target.value));
+	function add_options(target) {
+		var colors = game_data.colors[game_data.node_factions[target.value].toString()];
+		var x_sign = target.value % 2 == 0 ? -1 : 1;
+		var ref_x = target.group.position.x;
+		var ref_y = target.group.position.y;
+		var ref_stroke_width = target.group.firstChild.strokeWidth;
+		var move_rad = target.group.bounds.width / 8;
+		var move_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
+		var move_y = (1.8 * move_rad + target.group.bounds.height / 2) / 2;
+		var move_point = new scope.Point(ref_x + move_x, ref_y + move_y);
+		var move_circle = new scope.Path.Circle(move_point, move_rad);
+		move_circle.strokeWidth = ref_stroke_width / 2;
+		move_circle.strokeColor = colors['line'];
+		move_circle.fillColor = colors['fill'];
+		var move_char = new scope.PointText(move_point);
+		move_char.position.x -= move_rad / 2;
+		move_char.fillColor = colors['num'];
+		move_char.content = 'M';
+		move_char.bounds.width = move_rad;
+		move_char.bounds.height = move_rad * 4 / 3;
+		var move_option = new scope.Group(move_circle, move_char);
+		var attack_rad = move_rad;
+		var attack_x = x_sign * (1.8 * attack_rad + target.group.bounds.width / 2);
+		var attack_y = 0;
+		var attack_point = new scope.Point(ref_x + attack_x, ref_y + attack_y);
+		var attack_circle = new scope.Path.Circle(attack_point, attack_rad);
+		attack_circle.strokeWidth = ref_stroke_width / 2;
+		attack_circle.strokeColor = colors['line'];
+		attack_circle.fillColor = colors['fill'];
+		var attack_char = new scope.PointText(attack_point);
+		attack_char.position.x -= attack_rad / 2;
+		attack_char.fillColor = colors['num'];
+		attack_char.content = 'A';
+		attack_char.bounds.width = attack_rad;
+		attack_char.bounds.height = attack_rad * 4 / 3;
+		var attack_option = new scope.Group(attack_circle, attack_char);
+		var options = {
+			target: target,
+			move: {
+				group: move_option,
+				selected: false,
+				hovered: false,
+				grown: false
+			},
+			attack: {
+				group: attack_option,
+				selected: false,
+				hovered: false,
+				grown: false
+			}
+		};
+		target.options = options;
 	}
 
-	function call_event() { // TODO
+	function take_action() { // TODO
 		console.log('Calling an event!');
 	}
 
@@ -298,14 +351,20 @@ $(document).on('ready page:load', function() {
 
 	function grow_node(target) {
 		if (!target.grown && (target.selected || target.hovered)) {
-			add_animation(target, grow_animation, grow_stop, 1000);
+			if (has_animation(target)) {
+				remove_animations(target);
+			}
+			add_animation(target, grow_animation, grow_stop, 100);
 			target.grown = true;
 		}
 	}
 
 	function ungrow_node(target) {
 		if (target.grown && !target.selected && !target.hovered) {
-			target.group.scale(0.7142857);
+			if (has_animation(target)) {
+				remove_animations(target);
+			}
+			add_animation(target, ungrow_animation, ungrow_stop, 100);
 			target.grown = false;
 		}
 	}
@@ -318,8 +377,10 @@ $(document).on('ready page:load', function() {
 			target.base.x = target.group.position.x;
 			target.base.y = target.group.position.y;
 		}
-		target.group.bounds.width = (1 + 0.4 * sigma_frac) * target.base.width;
-		target.group.bounds.height = (1 + 0.4 * sigma_frac) * target.base.height;
+		if (target.group.bounds.width < (1 + 0.2 * sigma_frac) * target.base.width) {
+			target.group.bounds.width = (1 + 0.2 * sigma_frac) * target.base.width;
+			target.group.bounds.height = (1 + 0.2 * sigma_frac) * target.base.height;
+		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
 	}
@@ -332,10 +393,50 @@ $(document).on('ready page:load', function() {
 			target.base.x = target.group.position.x;
 			target.base.y = target.group.position.y;
 		}
-		target.group.bounds.width = 1.4 * target.base.width;
-		target.group.bounds.height = 1.4 * target.base.height;
+		if (target.group.bounds.width < 1.2 * target.base.width) {
+			target.group.bounds.width = 1.2 * target.base.width;
+			target.group.bounds.height = 1.2 * target.base.height;
+		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
+		return false;
+	}
+
+	var ungrow_animation = function(target, sigma_frac, delta_frac) {
+		var width = scope.view.size.width;
+		var height = scope.view.size.height;
+		if (target.base == null) {
+			target.base = new scope.Rectangle();
+			target.base.width = target.relative_pos.size_dx * height;
+			target.base.height = target.relative_pos.size_dy * height;
+			target.base.x = target.relative_pos.x * width;
+			target.base.y = target.relative_pos.y * height;
+		}
+		if (target.group.bounds.width > (1.2 - 0.2 * sigma_frac) * target.base.width) {
+			target.group.bounds.width = (1.2 - 0.2 * sigma_frac) * target.base.width;
+			target.group.bounds.height = (1.2 - 0.2 * sigma_frac) * target.base.height;
+		}
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+	}
+
+	var ungrow_stop = function(target) {
+		var width = scope.view.size.width;
+		var height = scope.view.size.height;
+		if (target.base == null) {
+			target.base = new scope.Rectangle();
+			target.base.width = target.relative_pos.size_dx * height;
+			target.base.height = target.relative_pos.size_dy * height;
+			target.base.x = target.relative_pos.x * width;
+			target.base.y = target.relative_pos.y * height;
+		}
+		if (target.group.bounds.width > target.base.width) {
+			target.group.bounds.width = target.base.width;
+			target.group.bounds.height = target.base.height;
+		}
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+		target.base = null;
 		return false;
 	}
 
@@ -345,7 +446,7 @@ $(document).on('ready page:load', function() {
 			if (game_data.selected_nodes.length >= 1 && game_data.action_index != -1) {
 				game_data.selected_nodes.push(target);
 				remove_options(game_data.selected_nodes[0]);
-				call_event();
+				take_action();
 				setTimeout(function() {
 					game_data.selected_nodes.forEach(function(e) {
 						unselect_node(e);
@@ -358,6 +459,7 @@ $(document).on('ready page:load', function() {
 				remove_options(game_data.selected_nodes[0]);
 				unselect_node(game_data.selected_nodes[0]);
 				game_data.selected_nodes[0] = target;
+				add_options(game_data.selected_nodes[0]);
 			}
 			else {
 				game_data.selected_nodes.push(target);
@@ -372,6 +474,31 @@ $(document).on('ready page:load', function() {
 			}
 			remove_options(target);
 			game_data.action_index = -1;
+		}
+	}
+
+	function has_animation(target) {
+		var i = 0;
+		var len = game_data.animations.length;
+		while (i < len) {
+			if (target == game_data.animations[i].target) {
+				return true;
+			}
+			i++;
+		}
+		return false;
+	}
+
+	function remove_animations(target) {
+		var i = 0;
+		var len = game_data.animations.length;
+		while (i < len) {
+			if (target == game_data.animations[i].target) {
+				game_data.animations.splice(i, 1);
+				len--;
+				continue;
+			}
+			i++;
 		}
 	}
 
