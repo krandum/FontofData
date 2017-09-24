@@ -282,6 +282,7 @@ $(document).on('ready page:load', function() {
 		move_circle.strokeColor = colors['line'];
 		move_circle.fillColor = colors['fill'];
 		var move_char = new scope.PointText(move_point);
+		move_char.position.x -= move_rad / 2;
 		move_char.fillColor = colors['num'];
 		move_char.content = 'M';
 		move_char.bounds.width = move_rad;
@@ -295,8 +296,9 @@ $(document).on('ready page:load', function() {
 		attack_circle.strokeColor = colors['line'];
 		attack_circle.fillColor = colors['fill'];
 		var attack_char = new scope.PointText(attack_point);
+		attack_char.position.x -= attack_rad / 2;
 		attack_char.fillColor = colors['num'];
-		attack_char.content = 'M';
+		attack_char.content = 'A';
 		attack_char.bounds.width = attack_rad;
 		attack_char.bounds.height = attack_rad * 4 / 3;
 	}
