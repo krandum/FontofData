@@ -179,11 +179,11 @@ $(document).on('ready page:load', function() {
 		let myBounds = out_node.bounds;
 
 		out_node.onMouseEnter = function(event) {
-			out_node.scale(1.1);
+			out_node.scale(1.2);
 		}
 
 		out_node.onMouseLeave = function(event) {
-			out_node.scale(0.9090909);
+			out_node.scale(0.83333333);
 		}
 
 		var relative_pos = {
