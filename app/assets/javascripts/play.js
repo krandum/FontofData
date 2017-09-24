@@ -276,14 +276,32 @@ $(document).on('ready page:load', function() {
 		var move_rad = target.group.bounds.width / 8;
 		var move_x = x_sign * (1.5 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
 		var move_y = (1.5 * move_rad + target.group.bounds.height / 2) / 2;
-		var move_option = new scope.Path.Circle(new scope.Point(ref_x + move_x, ref_y + move_y),
-			move_rad);
-		move_option.strokeWidth = ref_stroke_width / 2;
-		move_option.strokeColor = colors['line'];
-		move_option.fillColor = colors['fill'];
+		var move_point = new scope.Point(ref_x + move_x, ref_y + move_y);
+		var move_circle = new scope.Path.Circle(move_point, move_rad);
+		move_circle.strokeWidth = ref_stroke_width / 2;
+		move_circle.strokeColor = colors['line'];
+		move_circle.fillColor = colors['fill'];
+		var move_char = new scope.PointText(move_point);
+		move_char.fillColor = colors['num'];
+		move_char.content = 'M';
+		move_char.bounds.width = move_rad;
+		move_char.bounds.height = move_rad * 4 / 3;
+		var attack_rad = move_rad;
+		var attack_x = x_sign * (1.5 * attack_rad + target.group.bounds.width / 2);
+		var attack_y = 0;
+		var attack_point = new scope.Point(ref_x + attack_x, ref_y + attack_y);
+		var attack_circle = new scope.Path.Circle(attack_point, attack_rad);
+		attack_circle.strokeWidth = ref_stroke_width / 2;
+		attack_circle.strokeColor = colors['line'];
+		attack_circle.fillColor = colors['fill'];
+		var attack_char = new scope.PointText(attack_point);
+		attack_char.fillColor = colors['num'];
+		attack_char.content = 'M';
+		attack_char.bounds.width = attack_rad;
+		attack_char.bounds.height = attack_rad * 4 / 3;
 	}
 
-	function call_event() { // TODO
+	function take_action() { // TODO
 		console.log('Calling an event!');
 	}
 
@@ -405,7 +423,7 @@ $(document).on('ready page:load', function() {
 			if (game_data.selected_nodes.length >= 1 && game_data.action_index != -1) {
 				game_data.selected_nodes.push(target);
 				remove_options(game_data.selected_nodes[0]);
-				call_event();
+				take_action();
 				setTimeout(function() {
 					game_data.selected_nodes.forEach(function(e) {
 						unselect_node(e);
