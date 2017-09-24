@@ -280,12 +280,6 @@ $(document).on('ready page:load', function() {
 		var move_y = (1.8 * move_rad + target.group.bounds.height / 2) / 2;
 		var move_point = new scope.Point(ref_x + move_x, ref_y + move_y);
 		var move_circle = new scope.Path.Circle(move_point, move_rad);
-		var move_base = new scope.Rectangle({
-			point: move_circle.bounds.point,
-			size: move_circle.bounds.size
-		});
-		move_base.x = move_circle.position.x;
-		move_base.y = move_circle.position.y;
 		move_circle.strokeWidth = ref_stroke_width / 2;
 		move_circle.strokeColor = colors['line'];
 		move_circle.fillColor = colors['fill'];
@@ -296,6 +290,14 @@ $(document).on('ready page:load', function() {
 		move_char.bounds.width = move_rad;
 		move_char.bounds.height = move_rad * 4 / 3;
 		var move_option = new scope.Group(move_circle, move_char);
+		var move_base = new scope.Rectangle({
+			from: [0, 0],
+			to: [0, 0]
+		});
+		move_base.x = move_option.position.x;
+		move_base.y = move_option.position.y;
+		move_base.width = move_option.bounds.width;
+		move_base.height = move_option.bounds.height;
 		move_option.bounds.width = 0;
 		move_option.bounds.height = 0;
 		var attack_rad = move_rad;
@@ -303,12 +305,6 @@ $(document).on('ready page:load', function() {
 		var attack_y = 0;
 		var attack_point = new scope.Point(ref_x + attack_x, ref_y + attack_y);
 		var attack_circle = new scope.Path.Circle(attack_point, attack_rad);
-		var attack_base = new scope.Rectangle({
-			point: attack_circle.bounds.point,
-			size: attack_circle.bounds.size
-		});
-		attack_base.x = attack_circle.position.x;
-		attack_base.y = attack_circle.position.y;
 		attack_circle.strokeWidth = ref_stroke_width / 2;
 		attack_circle.strokeColor = colors['line'];
 		attack_circle.fillColor = colors['fill'];
@@ -319,6 +315,14 @@ $(document).on('ready page:load', function() {
 		attack_char.bounds.width = attack_rad;
 		attack_char.bounds.height = attack_rad * 4 / 3;
 		var attack_option = new scope.Group(attack_circle, attack_char);
+		var attack_base = new scope.Rectangle({
+			from: [0, 0],
+			to: [0, 0]
+		});
+		attack_base.x = attack_option.position.x;
+		attack_base.y = attack_option.position.y;
+		attack_base.width = attack_option.bounds.width;
+		attack_base.height = attack_option.bounds.height;
 		attack_option.bounds.width = 0;
 		attack_option.bounds.height = 0;
 		var options = {
