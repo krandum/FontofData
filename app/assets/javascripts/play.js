@@ -415,6 +415,31 @@ $(document).on('ready page:load', function() {
 		}
 	}
 
+	function has_animation(target) {
+		var i = 0;
+		var len = game_data.animations.length;
+		while (i < len) {
+			if (target == game_data.animations[i].target) {
+				return true;
+			}
+			i++;
+		}
+		return false;
+	}
+
+	function remove_animations(target) {
+		var i = 0;
+		var len = game_data.animations.length;
+		while (i < len) {
+			if (target == game_data.animations[i].target) {
+				game_data.animations.splice(i, 1);
+				len--;
+				continue;
+			}
+			i++;
+		}
+	}
+
 	function add_animation(target, fractional_render, last_render, length_ms) {
 		game_data.date = new Date();
 		var now = game_data.date.getTime();
