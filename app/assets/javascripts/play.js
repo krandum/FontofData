@@ -44,6 +44,7 @@ $(document).on('ready page:load', function() {
 		selected_nodes: [],
 		action_index: -1,
 		actions: [],
+		animations: [],
 		colors: {
 			1: { // Neutral
 				line: '#ffffff',
@@ -70,8 +71,8 @@ $(document).on('ready page:load', function() {
 				line: '#C9f0ff',
 				num: '#C9f0ff',
 				fill: '#2188dd',
-				selected: '#E2E544',
-				glow: '#E2E544'
+				selected: '#8c2bbc',
+				glow: '#8c2bbc'
 			}
 		},
 		global_root: null,
@@ -185,34 +186,24 @@ $(document).on('ready page:load', function() {
 			out_node.scale(0.9090909);
 		}
 
-		out_node.onClick = function(event) {
-			var node_color = game_data.colors[game_data.node_factions[elem].toString()];
-			if (!selected) {
-				out_node.shadowColor = node_color['glow'];
-				out_node.shadowBlur = quarter_size;
-				out_node.firstChild.strokeColor = node_color['selected'];
-				out_node.lastChild.fillColor = node_color['selected'];
-				selected = true;
-			}
-			else {
-				out_node.shadowColor = 0;
-				out_node.shadowBlur = 0;
-				out_node.firstChild.strokeColor = node_color['line'];
-				out_node.lastChild.fillColor = node_color['num'];
-				selected = false;
-			}
-		}
 		var relative_pos = {
 			x: center.x / scope.view.size.width,
 			y: center.y / scope.view.size.height,
 			size_dx: out_node.bounds.width / scope.view.size.height,
 			size_dy: out_node.bounds.height / scope.view.size.height
 		};
-		var total_node = {
+
+		let total_node = {
 			value: elem,
 			group: out_node,
-			relative_pos: relative_pos
+			relative_pos: relative_pos,
+			selected: false
 		};
+
+		out_node.onClick = function(event) {
+			select_node(total_node);
+		}
+
 		return total_node;
 	}
 
@@ -264,6 +255,32 @@ $(document).on('ready page:load', function() {
 				i++;
 			}
 		}
+	}
+
+	function select_node(target) {
+		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
+		if (!target.selected) {
+			target.group.shadowColor = node_color['glow'];
+			target.group.shadowBlur = quarter_size;
+			target.group.firstChild.strokeColor = node_color['selected'];
+			target.group.lastChild.fillColor = node_color['selected'];
+			target.selected = true;
+		}
+		else {
+			target.group.shadowColor = 0;
+			target.group.shadowBlur = 0;
+			target.group.firstChild.strokeColor = node_color['line'];
+			target.group.lastChild.fillColor = node_color['num'];
+			target.selected = false;
+		}
+	}
+
+	function add_animation(target, fractional_render, length_ms) {
+		game_data.animations.push({
+			target: target,
+			fractional_render: fractional_render,
+			length: length_ms
+		});
 	}
 
 	function init() {
