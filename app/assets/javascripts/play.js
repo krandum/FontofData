@@ -336,6 +336,25 @@ $(document).on('ready page:load', function() {
 				grown: false
 			}
 		};
+		move_option.onMouseEnter = function(event) {
+			options.move.hovered = true;
+			grow_node(move_option);
+		}
+		move_option.onMouseLeave = function(event) {
+			options.move.hovered = false;
+			ungrow_node(move_option);
+		}
+		attack_option.onMouseEnter = function(event) {
+			options.attack.hovered = true;
+			grow_node(attack_option);
+		}
+		attack_option.onMouseLeave = function(event) {
+			options.attack.hovered = false;
+			ungrow_node(attack_option);
+		}
+		// move_option.onClick = function(event) {
+		// 	check_selection(move_option);
+		// }
 		target.options = options;
 		add_animation(options, pop_animation, pop_stop, 150);
 	}
