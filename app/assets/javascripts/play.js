@@ -469,7 +469,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function remove_options(target) {
-		add_animation(target.options, unpop_animation, unpop_stop, 150);
+		add_animation(target.options, unpop_action_animation, unpop_action_stop, 150);
 		target.options = null;
 	}
 
@@ -597,7 +597,7 @@ $(document).on('ready page:load', function() {
 		// 	check_selection(move_option);
 		// }
 		target.options = options;
-		add_animation(options, pop_animation, pop_stop, 150);
+		add_animation(options, pop_action_animation, pop_action_stop, 150);
 	}
 
 	function take_action() { // TODO
