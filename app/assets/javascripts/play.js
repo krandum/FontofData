@@ -71,8 +71,8 @@ $(document).on('ready page:load', function() {
 				line: '#C9f0ff',
 				num: '#C9f0ff',
 				fill: '#2188dd',
-				selected: '#8c2bbc',
-				glow: '#8c2bbc'
+				selected: '#9428ab',
+				glow: '#9428ab'
 			}
 		},
 		global_root: null,
