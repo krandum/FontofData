@@ -471,7 +471,9 @@ $(document).on('ready page:load', function() {
 		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
-		target.base = null;
+		if (typeof(target.value) != 'undefined' && target.value != null) {
+			target.base = null;
+		}
 		return false;
 	}
 
