@@ -71,8 +71,8 @@ $(document).on('ready page:load', function() {
 				line: '#C9f0ff',
 				num: '#C9f0ff',
 				fill: '#2188dd',
-				selected: '#8c2bbc',
-				glow: '#8c2bbc'
+				selected: '#9428ab',
+				glow: '#9428ab'
 			}
 		},
 		global_root: null,
@@ -265,8 +265,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function remove_options(target) {
-		target.options.move.group.remove();
-		target.options.attack.group.remove();
+		add_animation(target.options, unpop_animation, unpop_stop, 150);
 		target.options = null;
 	}
 
@@ -291,6 +290,13 @@ $(document).on('ready page:load', function() {
 		move_char.bounds.width = move_rad;
 		move_char.bounds.height = move_rad * 4 / 3;
 		var move_option = new scope.Group(move_circle, move_char);
+		var move_base = new scope.Rectangle();
+		move_base.x = move_option.position.x;
+		move_base.y = move_option.position.y;
+		move_base.width = move_option.bounds.width;
+		move_base.height = move_option.bounds.height;
+		move_option.bounds.width = 0.0001;
+		move_option.bounds.height = 0.0001;
 		var attack_rad = move_rad;
 		var attack_x = x_sign * (1.8 * attack_rad + target.group.bounds.width / 2);
 		var attack_y = 0;
@@ -306,22 +312,51 @@ $(document).on('ready page:load', function() {
 		attack_char.bounds.width = attack_rad;
 		attack_char.bounds.height = attack_rad * 4 / 3;
 		var attack_option = new scope.Group(attack_circle, attack_char);
+		var attack_base = new scope.Rectangle();
+		attack_base.x = attack_option.position.x;
+		attack_base.y = attack_option.position.y;
+		attack_base.width = attack_option.bounds.width;
+		attack_base.height = attack_option.bounds.height;
+		attack_option.bounds.width = 0.0001;
+		attack_option.bounds.height = 0.0001;
 		var options = {
 			target: target,
 			move: {
 				group: move_option,
+				base: move_base,
 				selected: false,
 				hovered: false,
 				grown: false
 			},
 			attack: {
 				group: attack_option,
+				base: attack_base,
 				selected: false,
 				hovered: false,
 				grown: false
 			}
 		};
+		move_option.onMouseEnter = function(event) {
+			options.move.hovered = true;
+			grow_node(options.move);
+		}
+		move_option.onMouseLeave = function(event) {
+			options.move.hovered = false;
+			ungrow_node(options.move);
+		}
+		attack_option.onMouseEnter = function(event) {
+			options.attack.hovered = true;
+			grow_node(options.attack);
+		}
+		attack_option.onMouseLeave = function(event) {
+			options.attack.hovered = false;
+			ungrow_node(options.attack);
+		}
+		// move_option.onClick = function(event) {
+		// 	check_selection(move_option);
+		// }
 		target.options = options;
+		add_animation(options, pop_animation, pop_stop, 150);
 	}
 
 	function take_action() { // TODO
@@ -436,7 +471,73 @@ $(document).on('ready page:load', function() {
 		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
-		target.base = null;
+		if (typeof(target.value) != 'undefined' && target.value != null) {
+			target.base = null;
+		}
+		return false;
+	}
+
+	var pop_animation = function(target, sigma_frac, delta_frac) {
+		if (target.move.group.bounds.width < sigma_frac * target.move.base.width) {
+			target.move.group.bounds.width = sigma_frac * target.move.base.width;
+			target.move.group.bounds.height = sigma_frac * target.move.base.height;
+		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width < sigma_frac * target.attack.base.width) {
+			target.attack.group.bounds.width = sigma_frac * target.attack.base.width;
+			target.attack.group.bounds.height = sigma_frac * target.attack.base.height;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+	}
+
+	var pop_stop = function(target) {
+		if (target.move.group.bounds.width < target.move.base.width) {
+			target.move.group.bounds.width = target.move.base.width;
+			target.move.group.bounds.height = target.move.base.height;
+		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width < target.attack.base.width) {
+			target.attack.group.bounds.width = target.attack.base.width;
+			target.attack.group.bounds.height = target.attack.base.height;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+		return false;
+	}
+
+	var unpop_animation = function(target, sigma_frac, delta_frac) {
+		if (target.move.group.bounds.width > (1 - sigma_frac) * target.move.base.width) {
+			target.move.group.bounds.width = (1 - sigma_frac) * target.move.base.width;
+			target.move.group.bounds.height = (1 - sigma_frac) * target.move.base.height;
+		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width > (1 - sigma_frac) * target.attack.base.width) {
+			target.attack.group.bounds.width = (1 - sigma_frac) * target.attack.base.width;
+			target.attack.group.bounds.height = (1 - sigma_frac) * target.attack.base.height;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+	}
+
+	var unpop_stop = function(target) {
+		if (target.move.group.bounds.width > 0) {
+			target.move.group.bounds.width = 0;
+			target.move.group.bounds.height = 0;
+		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width > 0) {
+			target.attack.group.bounds.width = 0;
+			target.attack.group.bounds.height = 0;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+		target.move.group.remove();
+		target.attack.group.remove();
 		return false;
 	}
 
