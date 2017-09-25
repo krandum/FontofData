@@ -11,31 +11,6 @@ $(document).on('ready page:load', function() {
 
 	var canvas = document.getElementById("myCanvas");
 
-	function mouseDown(e) {
-		if (parseInt(navigator.appVersion) > 3) {
-			var evt = e ? e : window.event;
-			var delta = evt.wheelDelta ? evt.wheelDelta / 120
-				: evt.detail ? -evt.detail : 0;
-			/* For canvas scrolling */
-			if (delta > 0) { // Scroll up
-				console.log("Scrolling up");
-			} else { // Scroll down
-				console.log("Scrolling down");
-			}
-		}
-		return true;
-	}
-
-	if (parseInt(navigator.appVersion) > 3) {
-		canvas.onmousewheel = mouseDown;
-		if (navigator.appName == "Netscape"
-			&& parseInt(navigator.appVersion) == 4) {
-			canvas.captureEvents(Event.MOUSEDOWN);
-		}
-	}
-
-	var scope = new paper.PaperScope();
-	scope.setup(canvas);
 
 	var game_data = {
 		node_factions: [],
@@ -80,6 +55,235 @@ $(document).on('ready page:load', function() {
 		global_target: null,
 		date: new Date()
 	};
+
+	function mouseDown(e) {
+		if (parseInt(navigator.appVersion) > 3) {
+			var evt = e ? e : window.event;
+			var delta = evt.wheelDelta ? evt.wheelDelta / 120
+				: evt.detail ? -evt.detail : 0;
+			/* For canvas scrolling */
+			if (delta > 0) { // Scroll up
+				console.log("Scrolling up");
+			} else { // Scroll down
+				console.log("Scrolling down");
+			}
+		}
+		return true;
+	}
+
+	function select_node(target) {
+		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
+		var quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
+		target.group.shadowColor = node_color['glow'];
+		target.group.shadowBlur = quarter_size;
+		target.group.firstChild.strokeColor = node_color['selected'];
+		target.group.lastChild.fillColor = node_color['selected'];
+		target.selected = true;
+		grow_node(target);
+	}
+
+	function unselect_node(target) {
+		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
+		target.group.shadowColor = 0;
+		target.group.shadowBlur = 0;
+		target.group.firstChild.strokeColor = node_color['line'];
+		target.group.lastChild.fillColor = node_color['num'];
+		target.selected = false;
+		ungrow_node(target);
+	}
+
+	function grow_node(target) {
+		if (!target.grown && (target.selected || target.hovered)) {
+			if (has_animation(target)) {
+				remove_animations(target);
+			}
+			add_animation(target, grow_animation, grow_stop, 100);
+			target.grown = true;
+		}
+	}
+
+	function ungrow_node(target) {
+		if (target.grown && !target.selected && !target.hovered) {
+			if (has_animation(target)) {
+				remove_animations(target);
+			}
+			add_animation(target, ungrow_animation, ungrow_stop, 100);
+			target.grown = false;
+		}
+	}
+
+	var grow_animation = function(target, sigma_frac, delta_frac) {
+		if (target.base == null) {
+			target.base = new scope.Rectangle();
+			target.base.width = target.group.bounds.width;
+			target.base.height = target.group.bounds.height;
+			target.base.x = target.group.position.x;
+			target.base.y = target.group.position.y;
+		}
+		if (target.group.bounds.width < (1 + 0.2 * sigma_frac) * target.base.width) {
+			target.group.bounds.width = (1 + 0.2 * sigma_frac) * target.base.width;
+			target.group.bounds.height = (1 + 0.2 * sigma_frac) * target.base.height;
+		}
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+	}
+
+	var grow_stop = function(target) {
+		if (target.base == null) {
+			target.base = new scope.Rectangle();
+			target.base.width = target.group.bounds.width;
+			target.base.height = target.group.bounds.height;
+			target.base.x = target.group.position.x;
+			target.base.y = target.group.position.y;
+		}
+		if (target.group.bounds.width < 1.2 * target.base.width) {
+			target.group.bounds.width = 1.2 * target.base.width;
+			target.group.bounds.height = 1.2 * target.base.height;
+		}
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+		return false;
+	}
+
+	var ungrow_animation = function(target, sigma_frac, delta_frac) {
+		var width = scope.view.size.width;
+		var height = scope.view.size.height;
+		if (target.base == null) {
+			target.base = new scope.Rectangle();
+			target.base.width = target.relative_pos.size_dx * height;
+			target.base.height = target.relative_pos.size_dy * height;
+			target.base.x = target.relative_pos.x * width;
+			target.base.y = target.relative_pos.y * height;
+		}
+		if (target.group.bounds.width > (1.2 - 0.2 * sigma_frac) * target.base.width) {
+			target.group.bounds.width = (1.2 - 0.2 * sigma_frac) * target.base.width;
+			target.group.bounds.height = (1.2 - 0.2 * sigma_frac) * target.base.height;
+		}
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+	}
+
+	var ungrow_stop = function(target) {
+		var width = scope.view.size.width;
+		var height = scope.view.size.height;
+		if (target.base == null) {
+			target.base = new scope.Rectangle();
+			target.base.width = target.relative_pos.size_dx * height;
+			target.base.height = target.relative_pos.size_dy * height;
+			target.base.x = target.relative_pos.x * width;
+			target.base.y = target.relative_pos.y * height;
+		}
+		if (target.group.bounds.width > target.base.width) {
+			target.group.bounds.width = target.base.width;
+			target.group.bounds.height = target.base.height;
+		}
+		target.group.position.x = target.base.x;
+		target.group.position.y = target.base.y;
+		if (typeof(target.value) != 'undefined' && target.value != null) {
+			target.base = null;
+		}
+		return false;
+	}
+
+	var pop_action_animation = function(target, sigma_frac, delta_frac) {
+		if (target.move.group.bounds.width < sigma_frac * target.move.base.width) {
+			target.move.group.bounds.width = sigma_frac * target.move.base.width;
+			target.move.group.bounds.height = sigma_frac * target.move.base.height;
+		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width < sigma_frac * target.attack.base.width) {
+			target.attack.group.bounds.width = sigma_frac * target.attack.base.width;
+			target.attack.group.bounds.height = sigma_frac * target.attack.base.height;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+		if (target.give.group.bounds.width < sigma_frac * target.give.base.width) {
+			target.give.group.bounds.width = sigma_frac * target.give.base.width;
+			target.give.group.bounds.height = sigma_frac * target.give.base.height;
+		}
+		target.give.group.position.x = target.give.base.x;
+		target.give.group.position.y = target.give.base.y;
+	}
+
+	var pop_action_stop = function(target) {
+		if (target.move.group.bounds.width < target.move.base.width) {
+			target.move.group.bounds.width = target.move.base.width;
+			target.move.group.bounds.height = target.move.base.height;
+		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width < target.attack.base.width) {
+			target.attack.group.bounds.width = target.attack.base.width;
+			target.attack.group.bounds.height = target.attack.base.height;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+		if (target.give.group.bounds.width < target.give.base.width) {
+			target.give.group.bounds.width = target.give.base.width;
+			target.give.group.bounds.height = target.give.base.height;
+		}
+		target.give.group.position.x = target.give.base.x;
+		target.give.group.position.y = target.give.base.y;
+		return false;
+	}
+
+	var unpop_action_animation = function(target, sigma_frac, delta_frac) {
+		if (target.move.group.bounds.width > (1 - sigma_frac) * target.move.base.width) {
+			target.move.group.bounds.width = (1 - sigma_frac) * target.move.base.width;
+			target.move.group.bounds.height = (1 - sigma_frac) * target.move.base.height;
+		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width > (1 - sigma_frac) * target.attack.base.width) {
+			target.attack.group.bounds.width = (1 - sigma_frac) * target.attack.base.width;
+			target.attack.group.bounds.height = (1 - sigma_frac) * target.attack.base.height;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+		if (target.give.group.bounds.width > (1 - sigma_frac) * target.give.base.width) {
+			target.give.group.bounds.width = (1 - sigma_frac) * target.give.base.width;
+			target.give.group.bounds.height = (1 - sigma_frac) * target.give.base.height;
+		}
+		target.give.group.position.x = target.give.base.x;
+		target.give.group.position.y = target.give.base.y;
+	}
+
+	var unpop_action_stop = function(target) {
+		if (target.move.group.bounds.width > 0) {
+			target.move.group.bounds.width = 0;
+			target.move.group.bounds.height = 0;
+		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width > 0) {
+			target.attack.group.bounds.width = 0;
+			target.attack.group.bounds.height = 0;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+		if (target.give.group.bounds.width > 0) {
+			target.give.group.bounds.width = 0;
+			target.give.group.bounds.height = 0;
+		}
+		target.give.group.position.x = target.give.base.x;
+		target.give.group.position.y = target.give.base.y;
+		target.move.group.remove();
+		target.attack.group.remove();
+		target.give.group.remove();
+		return false;
+	}
+
+	if (parseInt(navigator.appVersion) > 3) {
+		canvas.onmousewheel = mouseDown;
+		if (navigator.appName == "Netscape"
+			&& parseInt(navigator.appVersion) == 4) {
+			canvas.captureEvents(Event.MOUSEDOWN);
+		}
+	}
+
+	var scope = new paper.PaperScope();
+	scope.setup(canvas);
 
 	function get_initial_node_data() {
 		$.ajax({
@@ -319,6 +523,28 @@ $(document).on('ready page:load', function() {
 		attack_base.height = attack_option.bounds.height;
 		attack_option.bounds.width = 0.0001;
 		attack_option.bounds.height = 0.0001;
+		var give_rad = move_rad;
+		var give_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
+		var give_y = (1.8 * move_rad + target.group.bounds.height / 2) / -2;
+		var give_point = new scope.Point(ref_x + give_x, ref_y + give_y);
+		var give_circle = new scope.Path.Circle(give_point, give_rad);
+		give_circle.strokeWidth = ref_stroke_width / 2;
+		give_circle.strokeColor = colors['line'];
+		give_circle.fillColor = colors['fill'];
+		var give_char = new scope.PointText(give_point);
+		give_char.position.x -= give_rad / 2;
+		give_char.fillColor = colors['num'];
+		give_char.content = 'G';
+		give_char.bounds.width = give_rad;
+		give_char.bounds.height = give_rad * 4 / 3;
+		var give_option = new scope.Group(give_circle, give_char);
+		var give_base = new scope.Rectangle();
+		give_base.x = give_option.position.x;
+		give_base.y = give_option.position.y;
+		give_base.width = give_option.bounds.width;
+		give_base.height = give_option.bounds.height;
+		give_option.bounds.width = 0.0001;
+		give_option.bounds.height = 0.0001;
 		var options = {
 			target: target,
 			move: {
@@ -331,6 +557,13 @@ $(document).on('ready page:load', function() {
 			attack: {
 				group: attack_option,
 				base: attack_base,
+				selected: false,
+				hovered: false,
+				grown: false
+			},
+			give: {
+				group: give_option,
+				base: give_base,
 				selected: false,
 				hovered: false,
 				grown: false
@@ -352,6 +585,14 @@ $(document).on('ready page:load', function() {
 			options.attack.hovered = false;
 			ungrow_node(options.attack);
 		}
+		give_option.onMouseEnter = function(event) {
+			options.give.hovered = true;
+			grow_node(options.give);
+		}
+		give_option.onMouseLeave = function(event) {
+			options.give.hovered = false;
+			ungrow_node(options.give);
+		}
 		// move_option.onClick = function(event) {
 		// 	check_selection(move_option);
 		// }
@@ -361,184 +602,6 @@ $(document).on('ready page:load', function() {
 
 	function take_action() { // TODO
 		console.log('Calling an event!');
-	}
-
-	function select_node(target) {
-		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
-		var quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
-		target.group.shadowColor = node_color['glow'];
-		target.group.shadowBlur = quarter_size;
-		target.group.firstChild.strokeColor = node_color['selected'];
-		target.group.lastChild.fillColor = node_color['selected'];
-		target.selected = true;
-		grow_node(target);
-	}
-
-	function unselect_node(target) {
-		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
-		target.group.shadowColor = 0;
-		target.group.shadowBlur = 0;
-		target.group.firstChild.strokeColor = node_color['line'];
-		target.group.lastChild.fillColor = node_color['num'];
-		target.selected = false;
-		ungrow_node(target);
-	}
-
-	function grow_node(target) {
-		if (!target.grown && (target.selected || target.hovered)) {
-			if (has_animation(target)) {
-				remove_animations(target);
-			}
-			add_animation(target, grow_animation, grow_stop, 100);
-			target.grown = true;
-		}
-	}
-
-	function ungrow_node(target) {
-		if (target.grown && !target.selected && !target.hovered) {
-			if (has_animation(target)) {
-				remove_animations(target);
-			}
-			add_animation(target, ungrow_animation, ungrow_stop, 100);
-			target.grown = false;
-		}
-	}
-
-	var grow_animation = function(target, sigma_frac, delta_frac) {
-		if (target.base == null) {
-			target.base = new scope.Rectangle();
-			target.base.width = target.group.bounds.width;
-			target.base.height = target.group.bounds.height;
-			target.base.x = target.group.position.x;
-			target.base.y = target.group.position.y;
-		}
-		if (target.group.bounds.width < (1 + 0.2 * sigma_frac) * target.base.width) {
-			target.group.bounds.width = (1 + 0.2 * sigma_frac) * target.base.width;
-			target.group.bounds.height = (1 + 0.2 * sigma_frac) * target.base.height;
-		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
-	}
-
-	var grow_stop = function(target) {
-		if (target.base == null) {
-			target.base = new scope.Rectangle();
-			target.base.width = target.group.bounds.width;
-			target.base.height = target.group.bounds.height;
-			target.base.x = target.group.position.x;
-			target.base.y = target.group.position.y;
-		}
-		if (target.group.bounds.width < 1.2 * target.base.width) {
-			target.group.bounds.width = 1.2 * target.base.width;
-			target.group.bounds.height = 1.2 * target.base.height;
-		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
-		return false;
-	}
-
-	var ungrow_animation = function(target, sigma_frac, delta_frac) {
-		var width = scope.view.size.width;
-		var height = scope.view.size.height;
-		if (target.base == null) {
-			target.base = new scope.Rectangle();
-			target.base.width = target.relative_pos.size_dx * height;
-			target.base.height = target.relative_pos.size_dy * height;
-			target.base.x = target.relative_pos.x * width;
-			target.base.y = target.relative_pos.y * height;
-		}
-		if (target.group.bounds.width > (1.2 - 0.2 * sigma_frac) * target.base.width) {
-			target.group.bounds.width = (1.2 - 0.2 * sigma_frac) * target.base.width;
-			target.group.bounds.height = (1.2 - 0.2 * sigma_frac) * target.base.height;
-		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
-	}
-
-	var ungrow_stop = function(target) {
-		var width = scope.view.size.width;
-		var height = scope.view.size.height;
-		if (target.base == null) {
-			target.base = new scope.Rectangle();
-			target.base.width = target.relative_pos.size_dx * height;
-			target.base.height = target.relative_pos.size_dy * height;
-			target.base.x = target.relative_pos.x * width;
-			target.base.y = target.relative_pos.y * height;
-		}
-		if (target.group.bounds.width > target.base.width) {
-			target.group.bounds.width = target.base.width;
-			target.group.bounds.height = target.base.height;
-		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
-		if (typeof(target.value) != 'undefined' && target.value != null) {
-			target.base = null;
-		}
-		return false;
-	}
-
-	var pop_animation = function(target, sigma_frac, delta_frac) {
-		if (target.move.group.bounds.width < sigma_frac * target.move.base.width) {
-			target.move.group.bounds.width = sigma_frac * target.move.base.width;
-			target.move.group.bounds.height = sigma_frac * target.move.base.height;
-		}
-		target.move.group.position.x = target.move.base.x;
-		target.move.group.position.y = target.move.base.y;
-		if (target.attack.group.bounds.width < sigma_frac * target.attack.base.width) {
-			target.attack.group.bounds.width = sigma_frac * target.attack.base.width;
-			target.attack.group.bounds.height = sigma_frac * target.attack.base.height;
-		}
-		target.attack.group.position.x = target.attack.base.x;
-		target.attack.group.position.y = target.attack.base.y;
-	}
-
-	var pop_stop = function(target) {
-		if (target.move.group.bounds.width < target.move.base.width) {
-			target.move.group.bounds.width = target.move.base.width;
-			target.move.group.bounds.height = target.move.base.height;
-		}
-		target.move.group.position.x = target.move.base.x;
-		target.move.group.position.y = target.move.base.y;
-		if (target.attack.group.bounds.width < target.attack.base.width) {
-			target.attack.group.bounds.width = target.attack.base.width;
-			target.attack.group.bounds.height = target.attack.base.height;
-		}
-		target.attack.group.position.x = target.attack.base.x;
-		target.attack.group.position.y = target.attack.base.y;
-		return false;
-	}
-
-	var unpop_animation = function(target, sigma_frac, delta_frac) {
-		if (target.move.group.bounds.width > (1 - sigma_frac) * target.move.base.width) {
-			target.move.group.bounds.width = (1 - sigma_frac) * target.move.base.width;
-			target.move.group.bounds.height = (1 - sigma_frac) * target.move.base.height;
-		}
-		target.move.group.position.x = target.move.base.x;
-		target.move.group.position.y = target.move.base.y;
-		if (target.attack.group.bounds.width > (1 - sigma_frac) * target.attack.base.width) {
-			target.attack.group.bounds.width = (1 - sigma_frac) * target.attack.base.width;
-			target.attack.group.bounds.height = (1 - sigma_frac) * target.attack.base.height;
-		}
-		target.attack.group.position.x = target.attack.base.x;
-		target.attack.group.position.y = target.attack.base.y;
-	}
-
-	var unpop_stop = function(target) {
-		if (target.move.group.bounds.width > 0) {
-			target.move.group.bounds.width = 0;
-			target.move.group.bounds.height = 0;
-		}
-		target.move.group.position.x = target.move.base.x;
-		target.move.group.position.y = target.move.base.y;
-		if (target.attack.group.bounds.width > 0) {
-			target.attack.group.bounds.width = 0;
-			target.attack.group.bounds.height = 0;
-		}
-		target.attack.group.position.x = target.attack.base.x;
-		target.attack.group.position.y = target.attack.base.y;
-		target.move.group.remove();
-		target.attack.group.remove();
-		return false;
 	}
 
 	function check_selection(target) {
@@ -617,9 +680,44 @@ $(document).on('ready page:load', function() {
 		game_data.animations.push(animation);
 	}
 
+	function tick(event) {
+		game_data.date = new Date();
+		var tick_time = game_data.date.getTime();
+		var i = 0;
+		var len = game_data.animations.length;
+		while (i < len) {
+			var anim = game_data.animations[i];
+			var total_timespan = tick_time - anim.start;
+			var current_timespan = tick_time - anim.last;
+			var sigma_frac = total_timespan / anim.length;
+			var delta_frac = current_timespan / anim.length;
+			var survive = true;
+			if (total_timespan >= anim.length) {
+				survive = anim.last_render(anim.target);
+				if (!survive) {
+					var index = game_data.animations.indexOf(anim);
+					game_data.animations.splice(index, 1);
+					len--;
+					continue;
+				}
+				else {
+					anim.start += anim.length;
+				}
+			}
+			else {
+				anim.fractional_render(anim.target, sigma_frac, delta_frac);
+			}
+			anim.last = tick_time;
+			i++;
+		}
+	}
+
 	function init() {
 		get_initial_node_data();
 		set_resize();
+		scope.view.onFrame = function(event) {
+			tick(event);
+		};
 	}
 
 	function init_debug() {
@@ -629,36 +727,9 @@ $(document).on('ready page:load', function() {
 		set_resize();
 		console.log("Canvas resize set up");
 		scope.view.onFrame = function(event) {
-			game_data.date = new Date();
-			var tick_time = game_data.date.getTime();
-			var i = 0;
-			var len = game_data.animations.length;
-			while (i < len) {
-				var anim = game_data.animations[i];
-				var total_timespan = tick_time - anim.start;
-				var current_timespan = tick_time - anim.last;
-				var sigma_frac = total_timespan / anim.length;
-				var delta_frac = current_timespan / anim.length;
-				var survive = true;
-				if (total_timespan >= anim.length) {
-					survive = anim.last_render(anim.target);
-					if (!survive) {
-						var index = game_data.animations.indexOf(anim);
-						game_data.animations.splice(index, 1);
-						len--;
-						continue;
-					}
-					else {
-						anim.start += anim.length;
-					}
-				}
-				else {
-					anim.fractional_render(anim.target, sigma_frac, delta_frac);
-				}
-				anim.last = tick_time;
-				i++;
-			}
+			tick(event);
 		};
+		console.log("Ticking now...");
 	}
 
 	init_debug();
