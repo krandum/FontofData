@@ -1,5 +1,5 @@
 class FactionsController < ApplicationController
-  before_action :go_to_root, except: [:create, :update, :destroy]
+  before_action :can_access, except: [:create, :update, :destroy]
   before_action :set_faction, only: [:show, :edit, :update, :destroy]
 
   # GET /factions
@@ -72,4 +72,12 @@ class FactionsController < ApplicationController
     def faction_params
       params.require(:faction).permit(:faction_name)
     end
+
+    def can_access
+    unless current_user.try(:admin?)
+      flash[:notice] = "You are not authorized."
+      redirect_to root_path
+    end
+  end
+  
 end

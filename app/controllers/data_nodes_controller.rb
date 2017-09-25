@@ -1,5 +1,5 @@
 class DataNodesController < ApplicationController
-	before_action :go_to_root, except: [:request_nodes, :create, :update, :destroy]
+	before_action :can_access, except: [:request_nodes, :create, :update, :destroy]
 	before_action :set_data_node, only: [:show, :edit, :update, :destroy]
 	before_action :range_parameter, only: [:request_nodes]
 
@@ -110,7 +110,11 @@ class DataNodesController < ApplicationController
 		params.require(:data_node).permit(:value, :faction_id)
 	end
 
-	def go_to_root
-		redirect_to root_path
+	def can_access
+		unless current_user.try(:admin?)
+			flash[:notice] = "You are not authorized."
+			redirect_to root_path
+		end
 	end
+
 end
