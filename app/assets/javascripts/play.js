@@ -392,6 +392,7 @@ $(document).on('ready page:load', function() {
 
 		let total_node = {
 			value: elem,
+			position: elem, // Change this if you change starting base
 			group: out_node,
 			relative_pos: relative_pos,
 			selected: false,
@@ -475,7 +476,7 @@ $(document).on('ready page:load', function() {
 
 	function add_options(target) {
 		var colors = game_data.colors[game_data.node_factions[target.value].toString()];
-		var x_sign = target.value % 2 == 0 ? -1 : 1;
+		var x_sign = target.value % 2 != 0 ? -1 : 1;
 		var ref_x = target.group.position.x;
 		var ref_y = target.group.position.y;
 		var ref_stroke_width = target.group.firstChild.strokeWidth;
