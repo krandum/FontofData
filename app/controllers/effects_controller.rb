@@ -1,5 +1,5 @@
 class EffectsController < ApplicationController
-  before_action :go_to_root, except: [:create, :update, :destroy]
+  before_action :can_access, except: [:create, :update, :destroy]
   before_action :set_effect, only: [:show, :edit, :update, :destroy]
 
   # GET /effects
@@ -72,4 +72,12 @@ class EffectsController < ApplicationController
     def effect_params
       params.require(:effect).permit(:effect_name, :clearence_value)
     end
+
+    def can_access
+      unless current_user.try(:admin?)
+        flash[:notice] = "You are not authorized."
+        redirect_to root_path
+      end
+    end
+
 end

@@ -1,5 +1,5 @@
 class InteractionsController < ApplicationController
-	before_action :go_to_root, except: [:take_action, :create, :update, :destroy]
+	before_action :can_access, except: [:take_action, :create, :update, :destroy]
 	before_action :set_interaction, only: [:show, :edit, :update, :destroy]
 
 	# GET /interactions
@@ -185,4 +185,12 @@ class InteractionsController < ApplicationController
 		end
 		0
 	end
+
+	def can_access
+		unless current_user.try(:admin?)
+			flash[:notice] = "You are not authorized."
+			redirect_to root_path
+		end
+	end
+	
 end
