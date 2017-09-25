@@ -338,19 +338,19 @@ $(document).on('ready page:load', function() {
 		};
 		move_option.onMouseEnter = function(event) {
 			options.move.hovered = true;
-			grow_node(move_option);
+			grow_node(options.move);
 		}
 		move_option.onMouseLeave = function(event) {
 			options.move.hovered = false;
-			ungrow_node(move_option);
+			ungrow_node(options.move);
 		}
 		attack_option.onMouseEnter = function(event) {
 			options.attack.hovered = true;
-			grow_node(attack_option);
+			grow_node(options.attack);
 		}
 		attack_option.onMouseLeave = function(event) {
 			options.attack.hovered = false;
-			ungrow_node(attack_option);
+			ungrow_node(options.attack);
 		}
 		// move_option.onClick = function(event) {
 		// 	check_selection(move_option);
