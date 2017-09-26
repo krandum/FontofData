@@ -58,20 +58,20 @@ $(document).on('ready page:load', function() {
 	var scope = new paper.PaperScope();
 	scope.setup(canvas);
 
-	function mouseDown(e) {
-		if (parseInt(navigator.appVersion) > 3) {
-			var evt = e ? e : window.event;
-			var delta = evt.wheelDelta ? evt.wheelDelta / 120
-				: evt.detail ? -evt.detail : 0;
-			/* For canvas scrolling */
-			if (delta > 0) { // Scroll up
-				console.log("Scrolling up");
-			} else { // Scroll down
-				console.log("Scrolling down");
-			}
-		}
-		return true;
-	}
+	// function mouseDown(e) {
+	// 	if (parseInt(navigator.appVersion) > 3) {
+	// 		var evt = e ? e : window.event;
+	// 		var delta = evt.wheelDelta ? evt.wheelDelta / 120
+	// 			: evt.detail ? -evt.detail : 0;
+	// 		/* For canvas scrolling */
+	// 		if (delta > 0) { // Scroll up
+	// 			console.log("Scrolling up");
+	// 		} else { // Scroll down
+	// 			console.log("Scrolling down");
+	// 		}
+	// 	}
+	// 	return true;
+	// }
 
 	function select_node(target) {
 		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
