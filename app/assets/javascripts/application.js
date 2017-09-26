@@ -16,7 +16,7 @@
 //= require paper-full.js
 //= require palette.js
 //= require popper.js
-//= require bootstrap.js
+//= require bootstrap-sprockets
 //= require_tree .
 
 var isFirstLoad = function(namesp, jsFile) {
