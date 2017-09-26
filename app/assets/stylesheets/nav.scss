@@ -7,9 +7,11 @@ html {
 }
 
 .container.topnav {
+	position: absolute;
 	justify-items: center;
 	align-items: center;
 	max-width: 100%;
+	height: 100%;
 	margin: 0;
 	padding-top: 2px;
 	padding-bottom: 2px;
@@ -25,6 +27,8 @@ html {
 }
 
 .nav_hover {
+	position: absolute;
+	background-color: rgba(9, 4, 70, .75);
 	text-align: center;
 	justify-self: center;
 	align-self: center;
@@ -35,20 +39,25 @@ html {
 	transition: all 150ms ease-in-out;
 }
 
-.dropmenu {
+.fod_drop {
 	position: relative;
+	top: 100%;
+	display: none;
+	background-color: rgba(27, 82, 153, .75);
+	border-color: #090446;
 }
 
-.dropmenu-toggle::after {
-	display: inline-block;
-	width: 0;
-	height: 0;
-	margin-left: 0.255em;
-	vertical-align: 0.255em;
-	content: "";
-	border-top: 0.3em solid;
-	border-right: 0.3em solid transparent;
-	border-left: 0.3em solid transparent;
+.show.fod_drop {
+	display: block;
+}
+
+button.nav_hover:focus {
+	outline: none;
+}
+
+button {
+	padding: 0px;
+	border-style: none;
 }
 
 .nav_button {
@@ -89,9 +98,4 @@ html {
 	padding-left: 0;
 	margin-bottom: 0;
 	list-style: none;
-}
-
-.show.fod_drop {
-	background-color: rgba(27, 82, 153, .75);
-	border-color: #090446;
 }
