@@ -28,6 +28,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'popper_js', '~> 1.11.1'
+
 gem 'bootstrap', '~> 4.0.0.alpha6'
 
 gem 'browserify-rails'
