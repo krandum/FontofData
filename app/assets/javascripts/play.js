@@ -271,6 +271,15 @@ $(document).on('ready page:load', function() {
 		target.move.group.remove();
 		target.attack.group.remove();
 		target.give.group.remove();
+		var index = game_data.actions.indexOf(target.move);
+		if (typeof(index) != 'undefined' && index != null)
+			game_data.actions.splice(index, 1);
+		index = game_data.actions.indexOf(target.attack);
+		if (typeof(index) != 'undefined' && index != null)
+			game_data.actions.splice(index, 1);
+		index = game_data.actions.indexOf(target.give);
+		if (typeof(index) != 'undefined' && index != null)
+			game_data.actions.splice(index, 1);
 		return false;
 	}
 
@@ -502,6 +511,12 @@ $(document).on('ready page:load', function() {
 		move_base.height = move_option.bounds.height;
 		move_option.bounds.width = 0.0001;
 		move_option.bounds.height = 0.0001;
+		var move_relative_pos = {
+			x: move_base.x / scope.view.size.width,
+			y: move_base.y / scope.view.size.height,
+			size_dx: move_base.width / scope.view.size.height,
+			size_dy: move_base.height / scope.view.size.height
+		};
 		var attack_rad = move_rad;
 		var attack_x = x_sign * (1.8 * attack_rad + target.group.bounds.width / 2);
 		var attack_y = 0;
@@ -524,6 +539,12 @@ $(document).on('ready page:load', function() {
 		attack_base.height = attack_option.bounds.height;
 		attack_option.bounds.width = 0.0001;
 		attack_option.bounds.height = 0.0001;
+		var attack_relative_pos = {
+			x: attack_base.x / scope.view.size.width,
+			y: attack_base.y / scope.view.size.height,
+			size_dx: attack_base.width / scope.view.size.height,
+			size_dy: attack_base.height / scope.view.size.height
+		};
 		var give_rad = move_rad;
 		var give_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
 		var give_y = (1.8 * move_rad + target.group.bounds.height / 2) / -2;
@@ -546,10 +567,17 @@ $(document).on('ready page:load', function() {
 		give_base.height = give_option.bounds.height;
 		give_option.bounds.width = 0.0001;
 		give_option.bounds.height = 0.0001;
+		var give_relative_pos = {
+			x: give_base.x / scope.view.size.width,
+			y: give_base.y / scope.view.size.height,
+			size_dx: give_base.width / scope.view.size.height,
+			size_dy: give_base.height / scope.view.size.height
+		};
 		var options = {
 			target: target,
 			move: {
 				group: move_option,
+				relative_pos: move_relative_pos,
 				base: move_base,
 				selected: false,
 				hovered: false,
@@ -557,6 +585,7 @@ $(document).on('ready page:load', function() {
 			},
 			attack: {
 				group: attack_option,
+				relative_pos: attack_relative_pos,
 				base: attack_base,
 				selected: false,
 				hovered: false,
@@ -564,12 +593,16 @@ $(document).on('ready page:load', function() {
 			},
 			give: {
 				group: give_option,
+				relative_pos: give_relative_pos,
 				base: give_base,
 				selected: false,
 				hovered: false,
 				grown: false
 			}
 		};
+		game_data.actions.push(options.move);
+		game_data.actions.push(options.attack);
+		game_data.actions.push(options.give);
 		move_option.onMouseEnter = function(event) {
 			options.move.hovered = true;
 			grow_node(options.move);
@@ -577,6 +610,9 @@ $(document).on('ready page:load', function() {
 		move_option.onMouseLeave = function(event) {
 			options.move.hovered = false;
 			ungrow_node(options.move);
+		}
+		move_option.onClick = function(event) {
+			select_action(options.move);
 		}
 		attack_option.onMouseEnter = function(event) {
 			options.attack.hovered = true;
@@ -586,6 +622,9 @@ $(document).on('ready page:load', function() {
 			options.attack.hovered = false;
 			ungrow_node(options.attack);
 		}
+		attack_option.onClick = function(event) {
+			select_action(options.attack);
+		}
 		give_option.onMouseEnter = function(event) {
 			options.give.hovered = true;
 			grow_node(options.give);
@@ -593,6 +632,9 @@ $(document).on('ready page:load', function() {
 		give_option.onMouseLeave = function(event) {
 			options.give.hovered = false;
 			ungrow_node(options.give);
+		}
+		give_option.onClick = function(event) {
+			select_action(options.give);
 		}
 		// move_option.onClick = function(event) {
 		// 	check_selection(move_option);
@@ -634,11 +676,23 @@ $(document).on('ready page:load', function() {
 		else {
 			unselect_node(target);
 			var index = game_data.selected_nodes.indexOf(target);
-			if (typeof(index) != 'undefined' && index != null) {
+			if (typeof(index) != 'undefined' && index != null)
 				game_data.selected_nodes.splice(index, 1);
-			}
 			remove_options(target);
 			game_data.action_index = -1;
+		}
+	}
+
+	function select_action(target) {
+		if (target.selected) {
+			if (action_index != -1)
+				unselect_node(game_data.actions[action_index]);
+			select_node(target);
+			action_index = game_data.actions.indexOf(target);
+		}
+		else {
+			action_index = -1;
+			unselect_node(target);
 		}
 	}
 
