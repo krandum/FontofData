@@ -35,16 +35,16 @@ $(document).on('ready page:load', function() {
 				glow: '#e98a15'
 			},
 			3: { // Green Elves
-				line: '#edeec0',
-				num: '#edeec0',
-				fill: '#5eb22e',
+				line: '#5eb22e',
+				num: '#5eb22e',
+				fill: '#edeec0',
 				selected: '#97FC9C',
 				glow: '#97FC9C'
 			},
 			4: { // Blue Jellyfish
-				line: '#C9f0ff',
-				num: '#C9f0ff',
-				fill: '#2188dd',
+				line: '#2188dd',
+				num: '#2188dd',
+				fill: '#C9f0ff',
 				selected: '#9428ab',
 				glow: '#9428ab'
 			}
