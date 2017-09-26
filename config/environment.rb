@@ -3,5 +3,3 @@ require File.expand_path('../application', __FILE__)
 
 # Initialize the Rails application.
 Rails.application.initialize!
-RAILS_ENV="production"
-RAILS_ENV.freeze
