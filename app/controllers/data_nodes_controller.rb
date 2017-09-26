@@ -65,13 +65,8 @@ class DataNodesController < ApplicationController
 
 	def request_nodes
 		out = {'nodes' => {}}
-		p params
-		p params['ranges']
 		ranges = params['ranges']
-		p ranges
-		p ranges.count
 		num = ranges.values.count
-		print num
 		i = 0
 		while (i < num)
 			range = ranges[i.to_s]
