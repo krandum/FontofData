@@ -1,0 +1,1739 @@
+diff --git a/.bundle/config b/.bundle/config
+index c7303796..397ccabc 100644
+--- a/.bundle/config
++++ b/.bundle/config
+@@ -1,5 +1,3 @@
+ ---
+ BUNDLE_DISABLE_SHARED_GEMS: "true"
+-BUNDLE_FROZEN: "true"
+-BUNDLE_PATH: "vendor/bundle"
+ BUNDLE_WITHOUT: "development:test"
+diff --git a/Gemfile b/Gemfile
+index 8707779c..d75866c0 100644
+--- a/Gemfile
++++ b/Gemfile
+@@ -1,6 +1,5 @@
+ source 'https://rubygems.org'
+ 
+-
+ # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+ gem 'rails', '>= 5.0.0.rc2'
+ # Use sqlite3 as the database for Active Record
+@@ -28,6 +27,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
+ # Use Capistrano for deployment
+ # gem 'capistrano-rails', group: :development
+ 
++gem 'popper_js', '~> 1.11.1'
++
+ gem 'bootstrap', '~> 4.0.0.alpha6'
+ 
+ gem 'browserify-rails'
+diff --git a/Gemfile.lock b/Gemfile.lock
+index 4191355c..bd9b4e2a 100644
+--- a/Gemfile.lock
++++ b/Gemfile.lock
+@@ -38,6 +38,8 @@ GEM
+       i18n (~> 0.7)
+       minitest (~> 5.1)
+       tzinfo (~> 1.1)
++    addressable (2.5.2)
++      public_suffix (>= 2.0.2, < 4.0)
+     arel (7.1.4)
+     autoprefixer-rails (7.1.4)
+       execjs
+@@ -48,6 +50,10 @@ GEM
+       autoprefixer-rails (>= 6.0.3)
+       popper_js (~> 1.11.1)
+       sass (>= 3.4.19)
++    browserify-rails (4.2.0)
++      addressable (>= 2.4.0)
++      railties (>= 4.0.0, < 5.2)
++      sprockets (>= 3.6.0)
+     builder (3.2.3)
+     byebug (9.1.0)
+     concurrent-ruby (1.0.5)
+@@ -86,14 +92,12 @@ GEM
+     nio4r (2.1.0)
+     nokogiri (1.8.0)
+       mini_portile2 (~> 2.2.0)
+-    npm-pipeline-rails (1.8.1)
+-      railties (>= 4.0.0, < 6.0.0)
+-      sprockets (~> 3.5)
+     orm_adapter (0.5.0)
+     passenger (5.1.8)
+       rack
+       rake (>= 0.8.1)
+     popper_js (1.11.1)
++    public_suffix (3.0.0)
+     rack (2.0.3)
+     rack-test (0.6.3)
+       rack (>= 1.0)
+@@ -175,12 +179,13 @@ PLATFORMS
+ 
+ DEPENDENCIES
+   bootstrap (~> 4.0.0.alpha6)
++  browserify-rails
+   byebug
+   devise
+   jbuilder (~> 2.0)
+   jquery-rails
+-  npm-pipeline-rails
+   passenger (>= 5.0.25)
++  popper_js (~> 1.11.1)
+   rails (>= 5.0.0.rc2)
+   sass-rails (~> 5.0)
+   sdoc (~> 0.4.0)
+diff --git a/app/assets/stylesheets/home.scss b/app/assets/stylesheets/home.scss
+index deb47638..5e4cc522 100644
+--- a/app/assets/stylesheets/home.scss
++++ b/app/assets/stylesheets/home.scss
+@@ -56,34 +56,30 @@
+ 	} 
+ }
+ .fod_foot {
++	height:100%;
++	width: 100%;
+ 	grid-area: foot;
+-	padding-left: 3%;
+-	align-items: center;
+-	justify-items: center;
++	align-self: center;
++	justify-self: center;
+ 	text-align: center;
+-	line-height: 100%;
+ 	background-color: rgba(185, 214, 242, .75);
+ }
+ 
+ .fod_site {
+ 	height: 100%;
+-	background-size: 100%;
+-	transform: translateZ(0);
+-}
+-
+-.bgimg {
+ 	width: 100%;
+-	min-width: 1137x;
+ 	background: image_url("background_img.jpg") no-repeat center center fixed;
++	background-size: 100%;
++	transform: translateZ(0);
+ }
+ 
+ /* unhighlightable text */
+ .noselect {
+-  -webkit-touch-callout: none; /* iOS Safari */
+-	-webkit-user-select: none; /* Safari */
+-	 -khtml-user-select: none; /* Konqueror HTML */
+-	   -moz-user-select: none; /* Firefox */
+-		-ms-user-select: none; /* Internet Explorer/Edge */
+-			user-select: none; /* Non-prefixed version, currently
+-								  supported by Chrome and Opera */
++	-webkit-touch-callout: none; /* iOS Safari */
++	  -webkit-user-select: none; /* Safari */
++	   -khtml-user-select: none; /* Konqueror HTML */
++		 -moz-user-select: none; /* Firefox */
++		  -ms-user-select: none; /* Internet Explorer/Edge */
++			  user-select: none; /* Non-prefixed version, currently
++									supported by Chrome and Opera */
+ }
+diff --git a/app/assets/stylesheets/play.css.scss b/app/assets/stylesheets/play.css.scss
+index 3a08527a..d13828a1 100755
+--- a/app/assets/stylesheets/play.css.scss
++++ b/app/assets/stylesheets/play.css.scss
+@@ -1,13 +1,10 @@
+ 
+-html {
+-	height: 100%;
+-	margin: 0;
+-	padding: 0;
++.bg_play {
++	width: 100%;
++	background: url("kyle-gregory-devaras-241280.jpg") no-repeat center center fixed;
++	background-size: cover;
+ }
+ 
+-.body {
+-	height: 100%;
+-}
+ .grid_play {
+ 	width: 100%;
+ 	height: 100%;
+@@ -34,8 +31,6 @@ canvas.myCanvas {
+ 	width: 100%;
+ 	grid-area: main;
+ 	display: block;
+-	background: url("kyle-gregory-devaras-241280.jpg") no-repeat center center fixed;
+-	background-size: cover;
+ 	z-index: 1;
+ }
+ 
+diff --git a/app/views/about/index.html.erb b/app/views/about/index.html.erb
+index 67136248..80561629 100644
+--- a/app/views/about/index.html.erb
++++ b/app/views/about/index.html.erb
+@@ -1,4 +1,4 @@
+-<body class="bgimg fod_site grid_home">
++<body class="fod_site grid_home">
+ 	<div class="sidenav">
+ 		<div class="follow_link link_fb"><p>Facebook</p></div>
+ 		<div class="follow_link link_tw"><p>Twitter</p></div>
+@@ -14,6 +14,6 @@
+ 		<p>Lorem ipsum...</p>
+ 	</div>	
+ 	<div class="fod_foot">
+-		<p style="height: inherit; margin: 0;">Footer text here.</p>
++		<p style="margin-top: 1rem;">Footer text here.</p>
+ 	</div>
+ </body>
+\ No newline at end of file
+diff --git a/app/views/layouts/application.html.erb b/app/views/layouts/application.html.erb
+index 5bb5d8c7..e4a137fa 100644
+--- a/app/views/layouts/application.html.erb
++++ b/app/views/layouts/application.html.erb
+@@ -8,14 +8,14 @@
+ </head>
+ <body>
+ <div class="container topnav fod_nav" style="grid-area: topnav">
+-	<a class="nav_hover navbar-brand" style="color: #B9D6F2; width: 100%; display: flex;" href="/">Font of Data</a>
+-	<div class="nav_hover" style="grid-column: play"><a class="nav-link noselect" style="color: #B9D6F2" href="/play">Play</a></div>
+-	<div class="nav_hover" style="grid-column: world"><a class="nav-link noselect" style="color: #B9D6F2" href="/story/index">World</a></div>
+-	<div class="nav_hover" style="grid-column: about"><a class="nav-link noselect" style="color: #B9D6F2" href="/about/index">About</a></div>
+-	<div class="nav_hover" style="grid-column: faq"><a class="nav-link noselect" style="color: #B9D6F2" href="/faq/index">FAQ</a></div>
+-	<ul class="nav navbar-nav nav_hover" style="grid-column: account; display: flex;">
+-		<div class="nav-item dropdown">
+-			<a class="nav-link noselect dropdown-toggle" style="color: #B9D6F2" id="accountMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
++	<div class="nav_hover" style="grid-column: brand"><a class="nav_brand noselect" style="color: #B9D6F2;" href="/">Font of Data</a></div>
++	<div class="nav_hover" style="grid-column: play"><a class="nav_link noselect" style="color: #B9D6F2" href="/play">Play</a></div>
++	<div class="nav_hover" style="grid-column: world"><a class="nav_link noselect" style="color: #B9D6F2" href="/story/index">World</a></div>
++	<div class="nav_hover" style="grid-column: about"><a class="nav_link noselect" style="color: #B9D6F2" href="/about/index">About</a></div>
++	<div class="nav_hover" style="grid-column: faq"><a class="nav_link noselect" style="color: #B9D6F2" href="/faq/index">FAQ</a></div>
++	<ul class="nav_button nav_hover" style="grid-column: account; display: flex;">
++		<div class="nav_button dropmenu">
++			<a class="nav_link noselect dropdown-toggle" style="color: #B9D6F2" id="accountMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
+ 			<div class="dropdown-menu fod_drop" style="margin-right: 4px;" aria-labelledby="accountMenu">
+ 				<% if user_signed_in? %>
+ 					
+diff --git a/db/development.sqlite3 b/db/development.sqlite3
+index 1e0b413b..ad25ff64 100644
+Binary files a/db/development.sqlite3 and b/db/development.sqlite3 differ
+diff --git a/db/schema.rb b/db/schema.rb
+index f969d2b4..690108e3 100644
+--- a/db/schema.rb
++++ b/db/schema.rb
+@@ -10,7 +10,7 @@
+ #
+ # It's strongly recommended that you check this file into your version control system.
+ 
+-ActiveRecord::Schema.define(version: 20170917050457) do
++ActiveRecord::Schema.define(version: 20170924222054) do
+ 
+   create_table "data_nodes", force: :cascade do |t|
+     t.integer  "value"
+@@ -47,19 +47,20 @@ ActiveRecord::Schema.define(version: 20170917050457) do
+ 
+   create_table "users", force: :cascade do |t|
+     t.string   "username"
+-    t.string   "email",                  default: "", null: false
+-    t.string   "encrypted_password",     default: "", null: false
++    t.string   "email",                  default: "",    null: false
++    t.string   "encrypted_password",     default: "",    null: false
+     t.string   "reset_password_token"
+     t.datetime "reset_password_sent_at"
+     t.datetime "remember_created_at"
+-    t.integer  "sign_in_count",          default: 0,  null: false
++    t.integer  "sign_in_count",          default: 0,     null: false
+     t.datetime "current_sign_in_at"
+     t.datetime "last_sign_in_at"
+     t.string   "current_sign_in_ip"
+     t.string   "last_sign_in_ip"
+     t.integer  "faction_id"
+-    t.datetime "created_at",                          null: false
+-    t.datetime "updated_at",                          null: false
++    t.datetime "created_at",                             null: false
++    t.datetime "updated_at",                             null: false
++    t.boolean  "admin",                  default: false
+     t.index ["email"], name: "index_users_on_email", unique: true
+     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+   end
+diff --git a/node_modules/browserify-incremental/README.md b/node_modules/browserify-incremental/README.md
+index d037e352..237dfc20 100644
+--- a/node_modules/browserify-incremental/README.md
++++ b/node_modules/browserify-incremental/README.md
+@@ -2,22 +2,22 @@
+ 
+ Incremental rebuild for browserify
+ 
+-Update any source file and re-bundle, and only changed files will be parsed, 
++Update any source file and re-bundle, and only changed files will be parsed,
+ so it will build super fast (even with big dependencies like React!).
+ 
+ 
+ ## How is this different from [watchify](https://github.com/substack/watchify)?
+ 
+-browserify-incremental can detect changes which occured in between runs, which 
+-means it can be used as part of build systems which are invoked on demand, 
+-without requiring a long lived process. Whereas watchify is slow for the first 
+-run upon each startup, browserify-incremental is fast every time after the very 
++browserify-incremental can detect changes which occured in between runs, which
++means it can be used as part of build systems which are invoked on demand,
++without requiring a long lived process. Whereas watchify is slow for the first
++run upon each startup, browserify-incremental is fast every time after the very
+ first.
+ 
+ 
+ # example
+ 
+-Use `browserifyinc` with all the same arguments as `browserify`, with the added 
++Use `browserifyinc` with all the same arguments as `browserify`, with the added
+ `--cachefile` argument specifying where to put the cache file:
+ 
+ ```
+@@ -30,7 +30,7 @@ $ browserifyinc -r react -o output/bundle.js  -v
+ Now if you change some files and rebuild, only the changed files will be parsed
+ and the rest will reuse the previous build's cached output.
+ 
+-You can use `-v`/`--verbose` to get more verbose output to show which files have 
++You can use `-v`/`--verbose` to get more verbose output to show which files have
+ changed and how long the bundling took:
+ 
+ ```
+@@ -40,7 +40,7 @@ changed files:
+ 1000423 bytes written to output/bundle.js (0.18 seconds)
+ ```
+ 
+-If you don't specify `--cachefile`, a `browserify-cache.json` file will be 
++If you don't specify `--cachefile`, a `browserify-cache.json` file will be
+ created in the current working directory.
+ 
+ # usage
+@@ -51,7 +51,7 @@ created in the current working directory.
+ browserifyinc --cachefile tmp/browserify-cache.json main.js > output.js
+ ```
+ 
+-All the bundle options are the same as the browserify command except for `-v` 
++All the bundle options are the same as the browserify command except for `-v`
+ and `--cachefile`.
+ 
+ # API
+@@ -65,22 +65,22 @@ var browserifyInc = require('browserify-incremental')
+ Create a browserify bundle `b` from `opts`.
+ 
+ `b` is exactly like a browserify bundle except that it caches file contents and
+-calling `b.bundle()` extra times past the first time will be much faster 
++calling `b.bundle()` extra times past the first time will be much faster
+ due to that caching.
+ 
+-By default, when used via API, browserify-incremental will only use in-memory 
++By default, when used via API, browserify-incremental will only use in-memory
+ caching, however you can pass a `cacheFile` option which will use an on disk
+ cache instead (useful for build scripts which run once and exit).
+ 
+ You can also pass in a browserify instance of your own, and that will be used
+-instead of creating a new one, however when you create your browserify instance 
++instead of creating a new one, however when you create your browserify instance
+ you must include the following options:
+ 
+ ```js
+ {cache: {}, packageCache: {}, fullPaths: true}
+ ```
+ 
+-For convenience, these options are available as `browserifyInc.args`, so you can 
++For convenience, these options are available as `browserifyInc.args`, so you can
+ use them like:
+ 
+ ```js
+@@ -103,7 +103,7 @@ constructor.
+ 
+ ## b.on('bytes', function (bytes) {})
+ 
+-When a bundle is generated, this event fires with the number of bytes.
++When a bundle is generated, this event fires with the number of bytes written.
+ 
+ ## b.on('time', function (time) {})
+ 
+@@ -125,7 +125,7 @@ with the number of bytes in the bundle X and the time in seconds Y.
+ With [npm](https://npmjs.org) do:
+ 
+ ```
+-$ npm install -g browserify-incremental
++$ npm install -g browserify-incremental browserify
+ ```
+ 
+ to get the browserifyinc command and:
+@@ -136,12 +136,9 @@ $ npm install --save browserify-incremental browserify
+ 
+ to get just the library.
+ 
+-## IMPORTANT
++## Contributing
+ 
+-You should install a specific version of browserify alongside 
+-browserify-incremental (eg. with `--save`) to ensure that your browserify version 
+-is locked by package.json, because browserify-incremental doesn't specify an 
+-exact browserify version.
++Please see the [Contributor Guidelines](CONTRIBUTING.md).
+ 
+ # license
+ 
+diff --git a/node_modules/browserify-incremental/bin/cmd.js b/node_modules/browserify-incremental/bin/cmd.js
+index ba0556a0..19a1a3a2 100755
+--- a/node_modules/browserify-incremental/bin/cmd.js
++++ b/node_modules/browserify-incremental/bin/cmd.js
+@@ -2,108 +2,86 @@
+ 
+ var browserifyIncremental = require('../');
+ var fs = require('fs');
+-var path = require('path');
+ var fromArgs = require('browserify/bin/args');
+-var xtend = require('xtend');
+ var JSONStream = require('JSONStream');
+ var through = require('through2');
+ 
+-process.stdout.on('error', process.exit);
++function run() {
++  process.stdout.on('error', process.exit);
+ 
+-var b, outfile, verbose, cachefile;
++  var b, outfile, verbose, cachefile;
+ 
+-var b_ = fromArgs(process.argv.slice(2), browserifyIncremental.args)
+-cachefile = b_.argv.cachefile || './browserify-cache.json'
+-outfile = b_.argv.o || b_.argv.outfile;
+-verbose = (b_.argv.v || b_.argv.verbose);
+-b = browserifyIncremental(b_, {cacheFile: cachefile});
++  var b_ = fromArgs(process.argv.slice(2), browserifyIncremental.args);
++  cachefile = b_.argv.cachefile || './browserify-cache.json';
++  outfile = b_.argv.o || b_.argv.outfile;
++  verbose = (b_.argv.v || b_.argv.verbose);
++  b = browserifyIncremental(b_, {cacheFile: cachefile});
+ 
+-b.on('update', function(changes) { 
+-    if (verbose && changes.length) console.error('changed files:\n'+changes.join('\n'));
+-});
++  b.on('update', function(changes) {
++    if (verbose && changes.length) console.error('changed files:\n' + changes.join('\n'));
++  });
+ 
+-if ((b.argv._[0] === 'help' && b.argv._[1]) === 'advanced'
+-|| (b.argv.h || b.argv.help) === 'advanced') {
+-    return fs.createReadStream(__dirname + '/advanced.txt')
+-        .pipe(process.stdout)
+-        .on('close', function () { process.exit(1) })
+-    ;
+-}
+-if (b.argv._[0] === 'help' || b.argv.h || b.argv.help
+-|| (process.argv.length <= 2 && process.stdin.isTTY)) {
+-    return fs.createReadStream(__dirname + '/usage.txt')
+-        .pipe(process.stdout)
+-        .on('close', function () { process.exit(1) })
+-    ;
+-}
+-if (b.argv.version) {
++  if (b.argv.version) {
+     return console.log(require('../package.json').version);
+-}
++  }
+ 
+-b.on('error', errorExit);
++  b.on('error', errorExit);
+ 
+-if (b.argv.pack) {
++  if (b.argv.pack) {
+     process.stdin.pipe(b.pack()).pipe(process.stdout);
+     process.stdin.resume();
+     return;
+-}
++  }
+ 
+-if (b.argv.deps) {
++  if (b.argv.deps) {
+     var stringify = JSONStream.stringify();
+     stringify.pipe(process.stdout);
+     b.pipeline.get('deps').push(through.obj(
+-        function (row, enc, next) { stringify.write(row); next() },
+-        function () { stringify.end() }
++      function(row, enc, next) { stringify.write(row); next(); },
++      function() { stringify.end(); }
+     ));
+     return b.bundle();
+-}
++  }
+ 
+-if (b.argv.list) {
+-    b.pipeline.get('deps').push(through.obj(
+-        function (row, enc, next) {
+-            console.log(row.file || row.id);
+-            next()
+-        }
+-    ));
++  if (b.argv.list) {
++    b.pipeline.get('deps').push(through.obj(function(row, enc, next) {
++      console.log(row.file || row.id);
++      next();
++    }));
+     return b.bundle();
+-}
++  }
+ 
+-var bytes, time;
+-b.on('bytes', function (b) { bytes = b });
+-b.on('time', function (t) { time = t });
++  var bytes, time;
++  b.on('bytes', function(b) { bytes = b; });
++  b.on('time', function(t) { time = t; });
+ 
+-var bundle = b.bundle();
+-bundle.on('error', errorExit);
++  var bundle = b.bundle();
++  bundle.on('error', errorExit);
+ 
+-bundle.on('end', function () {
++  bundle.on('end', function() {
+     if (verbose) {
+-        console.error(bytes + ' bytes written to ' + (outfile || "stdout")
+-            + ' (' + (time / 1000).toFixed(2) + ' seconds)'
+-        );
++      console.error(bytes + ' bytes written to ' + (outfile || 'stdout')
++        + ' (' + (time / 1000).toFixed(2) + ' seconds)'
++      );
+     }
+-});
++  });
+ 
+-if (outfile) {
++  if (outfile) {
+     bundle.pipe(fs.createWriteStream(outfile));
+-}
+-else {
++  }
++  else {
+     bundle.pipe(process.stdout);
+-}
+-
+-function packageFilter (info) {
+-    if (info && typeof info.browserify === 'string' && !info.browser) {
+-        info.browser = info.browserify;
+-        delete info.browserify;
+-    }
+-    return info || {};
++  }
+ }
+ 
+ function errorExit(err) {
+-    if (err.stack) {
+-        console.error(err.stack);
+-    }
+-    else {
+-        console.error(String(err));
+-    }
+-    process.exit(1);
++  if (err.stack) {
++    console.error(err.stack);
++  }
++  else {
++    console.error(String(err));
++  }
++  process.exit(1);
+ }
++
++run();
+diff --git a/node_modules/browserify-incremental/index.js b/node_modules/browserify-incremental/index.js
+index 88eed1ec..4791ab27 100644
+--- a/node_modules/browserify-incremental/index.js
++++ b/node_modules/browserify-incremental/index.js
+@@ -1,8 +1,3 @@
+-var fs = require('fs');
+-var path = require('path');
+-var util = require('util');
+-var assert = require('assert');
+-
+ var xtend = require('xtend');
+ var through = require('through2');
+ var browserify = require('browserify');
+@@ -25,11 +20,11 @@ function browserifyIncremental(files, opts) {
+       // opts as first arg (or no args)
+       opts = files || {};
+       files = undefined;
+-      b =  browserify(xtend(browserifyCache.args, opts));
++      b = browserify(xtend(browserifyCache.args, opts));
+     } else {
+       // files as first arg, opts as second arg
+       b = browserify(files, xtend(browserifyCache.args, opts));
+-    }    
++    }
+   }
+ 
+   browserifyCache(b, opts);
+@@ -44,17 +39,17 @@ function browserifyIncremental(files, opts) {
+ function attachMetrics(b) {
+   var time = null;
+   var bytes = 0;
+-  b.pipeline.get('record').on('end', function () {
+-      time = Date.now();
++  b.pipeline.get('record').on('end', function() {
++    time = Date.now();
+   });
+-  
++
+   b.pipeline.get('wrap').push(through(write, end));
+-  function write (buf, enc, next) {
++  function write(buf, enc, next) {
+     bytes += buf.length;
+     this.push(buf);
+     next();
+   }
+-  function end () {
++  function end() {
+     var delta = Date.now() - time;
+     b.emit('time', delta);
+     b.emit('bytes', bytes);
+@@ -63,4 +58,4 @@ function attachMetrics(b) {
+     );
+     this.push(null);
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/node_modules/browserify-incremental/node_modules/JSONStream/package.json b/node_modules/browserify-incremental/node_modules/JSONStream/package.json
+index 31cbe98c..93d48a23 100644
+--- a/node_modules/browserify-incremental/node_modules/JSONStream/package.json
++++ b/node_modules/browserify-incremental/node_modules/JSONStream/package.json
+@@ -1,70 +1,73 @@
+ {
+-  "name": "JSONStream",
+-  "version": "0.10.0",
+-  "description": "rawStream.pipe(JSONStream.parse()).pipe(streamOfObjects)",
+-  "homepage": "http://github.com/dominictarr/JSONStream",
+-  "repository": {
+-    "type": "git",
+-    "url": "git://github.com/dominictarr/JSONStream.git"
++  "_from": "JSONStream@^0.10.0",
++  "_id": "JSONStream@0.10.0",
++  "_inBundle": false,
++  "_integrity": "sha1-dDSdDYlSK3HzDwoD/5vSDKbxKsA=",
++  "_location": "/browserify-incremental/JSONStream",
++  "_phantomChildren": {},
++  "_requested": {
++    "type": "range",
++    "registry": true,
++    "raw": "JSONStream@^0.10.0",
++    "name": "JSONStream",
++    "escapedName": "JSONStream",
++    "rawSpec": "^0.10.0",
++    "saveSpec": null,
++    "fetchSpec": "^0.10.0"
+   },
+-  "keywords": [
+-    "json",
+-    "stream",
+-    "streaming",
+-    "parser",
+-    "async",
+-    "parsing"
++  "_requiredBy": [
++    "/browserify-incremental"
+   ],
++  "_resolved": "https://registry.npmjs.org/JSONStream/-/JSONStream-0.10.0.tgz",
++  "_shasum": "74349d0d89522b71f30f0a03ff9bd20ca6f12ac0",
++  "_spec": "JSONStream@^0.10.0",
++  "_where": "/Users/mitchellwooden/Desktop/FoD_test/node_modules/browserify-incremental",
++  "author": {
++    "name": "Dominic Tarr",
++    "email": "dominic.tarr@gmail.com",
++    "url": "http://bit.ly/dominictarr"
++  },
++  "bin": {
++    "JSONStream": "./index.js"
++  },
++  "bugs": {
++    "url": "https://github.com/dominictarr/JSONStream/issues"
++  },
++  "bundleDependencies": false,
+   "dependencies": {
+     "jsonparse": "0.0.5",
+     "through": ">=2.2.7 <3"
+   },
++  "deprecated": false,
++  "description": "rawStream.pipe(JSONStream.parse()).pipe(streamOfObjects)",
+   "devDependencies": {
+-    "it-is": "~1",
+     "assertions": "~2.2.2",
+-    "render": "~0.1.1",
+-    "trees": "~0.0.3",
+     "event-stream": "~0.7.0",
+-    "tape": "~2.12.3"
+-  },
+-  "bin": {
+-    "JSONStream": "./index.js"
+-  },
+-  "author": {
+-    "name": "Dominic Tarr",
+-    "email": "dominic.tarr@gmail.com",
+-    "url": "http://bit.ly/dominictarr"
+-  },
+-  "scripts": {
+-    "test": "set -e; for t in test/*.js; do echo '***' $t '***'; node $t; done"
++    "it-is": "~1",
++    "render": "~0.1.1",
++    "tape": "~2.12.3",
++    "trees": "~0.0.3"
+   },
+-  "optionalDependencies": {},
+   "engines": {
+     "node": "*"
+   },
+-  "gitHead": "d4335321d9e2ab8a1ed94184daf71d5c0f3f90f2",
+-  "bugs": {
+-    "url": "https://github.com/dominictarr/JSONStream/issues"
+-  },
+-  "_id": "JSONStream@0.10.0",
+-  "_shasum": "74349d0d89522b71f30f0a03ff9bd20ca6f12ac0",
+-  "_from": "JSONStream@>=0.10.0 <0.11.0",
+-  "_npmVersion": "1.4.26",
+-  "_npmUser": {
+-    "name": "dominictarr",
+-    "email": "dominic.tarr@gmail.com"
+-  },
+-  "maintainers": [
+-    {
+-      "name": "dominictarr",
+-      "email": "dominic.tarr@gmail.com"
+-    }
++  "homepage": "http://github.com/dominictarr/JSONStream",
++  "keywords": [
++    "json",
++    "stream",
++    "streaming",
++    "parser",
++    "async",
++    "parsing"
+   ],
+-  "dist": {
+-    "shasum": "74349d0d89522b71f30f0a03ff9bd20ca6f12ac0",
+-    "tarball": "https://registry.npmjs.org/JSONStream/-/JSONStream-0.10.0.tgz"
++  "name": "JSONStream",
++  "optionalDependencies": {},
++  "repository": {
++    "type": "git",
++    "url": "git://github.com/dominictarr/JSONStream.git"
+   },
+-  "directories": {},
+-  "_resolved": "https://registry.npmjs.org/JSONStream/-/JSONStream-0.10.0.tgz",
+-  "readme": "ERROR: No README data found!"
++  "scripts": {
++    "test": "set -e; for t in test/*.js; do echo '***' $t '***'; node $t; done"
++  },
++  "version": "0.10.0"
+ }
+diff --git a/node_modules/browserify-incremental/package.json b/node_modules/browserify-incremental/package.json
+index 8f41db7d..1ae38812 100644
+--- a/node_modules/browserify-incremental/package.json
++++ b/node_modules/browserify-incremental/package.json
+@@ -1,60 +1,70 @@
+ {
+-  "name": "browserify-incremental",
+-  "version": "3.0.1",
+-  "description": "Fast incremental rebuilds for browserify",
+-  "main": "index.js",
+-  "bin": {
+-    "browserifyinc": "./bin/cmd.js"
++  "_from": "browserify-incremental@3.1.1",
++  "_id": "browserify-incremental@3.1.1",
++  "_inBundle": false,
++  "_integrity": "sha1-BxPLdYckemMqnwjPG9FpuHi2Koo=",
++  "_location": "/browserify-incremental",
++  "_phantomChildren": {
++    "through": "2.3.8"
+   },
+-  "scripts": {
+-    "test": "tap test"
++  "_requested": {
++    "type": "version",
++    "registry": true,
++    "raw": "browserify-incremental@3.1.1",
++    "name": "browserify-incremental",
++    "escapedName": "browserify-incremental",
++    "rawSpec": "3.1.1",
++    "saveSpec": null,
++    "fetchSpec": "3.1.1"
+   },
++  "_requiredBy": [
++    "#USER",
++    "/"
++  ],
++  "_resolved": "https://registry.npmjs.org/browserify-incremental/-/browserify-incremental-3.1.1.tgz",
++  "_shasum": "0713cb7587247a632a9f08cf1bd169b878b62a8a",
++  "_spec": "browserify-incremental@3.1.1",
++  "_where": "/Users/mitchellwooden/Desktop/FoD_test",
+   "author": {
+     "name": "James Friend",
+     "email": "james@jsdf.co",
+     "url": "http://jsdf.co/"
+   },
+-  "license": "MIT",
+-  "homepage": "https://github.com/jsdf/browserify-incremental",
++  "bin": {
++    "browserifyinc": "./bin/cmd.js"
++  },
+   "bugs": {
+     "url": "https://github.com/jsdf/browserify-incremental/issues"
+   },
+-  "repository": {
+-    "type": "git",
+-    "url": "git://github.com/jsdf/browserify-incremental.git"
+-  },
++  "bundleDependencies": false,
+   "dependencies": {
+     "JSONStream": "^0.10.0",
+-    "browserify-cache-api": "^2.0.0",
+-    "through2": "^0.6.2",
++    "browserify-cache-api": "^3.0.0",
++    "through2": "^2.0.0",
+     "xtend": "^4.0.0"
+   },
++  "deprecated": false,
++  "description": "Fast incremental rebuilds for browserify",
++  "devDependencies": {
++    "browserify": "^13.0.0",
++    "eslint": "2.4.0",
++    "tap": "^5.7.0"
++  },
++  "homepage": "https://github.com/jsdf/browserify-incremental",
++  "license": "MIT",
++  "main": "index.js",
++  "name": "browserify-incremental",
+   "peerDependencies": {
+     "browserify": "*"
+   },
+-  "devDependencies": {
+-    "tap": "^0.4.12"
+-  },
+-  "gitHead": "fd7facb0270538f2629b7c75c9bd27108b33d383",
+-  "_id": "browserify-incremental@3.0.1",
+-  "_shasum": "a2a65cf8e1278e3e4753da2a430e26162b373f41",
+-  "_from": "browserify-incremental@3.0.1",
+-  "_npmVersion": "2.4.1",
+-  "_nodeVersion": "0.10.26",
+-  "_npmUser": {
+-    "name": "jsdf",
+-    "email": "james@jsdf.co"
+-  },
+-  "maintainers": [
+-    {
+-      "name": "jsdf",
+-      "email": "james@jsdf.co"
+-    }
+-  ],
+-  "dist": {
+-    "shasum": "a2a65cf8e1278e3e4753da2a430e26162b373f41",
+-    "tarball": "https://registry.npmjs.org/browserify-incremental/-/browserify-incremental-3.0.1.tgz"
++  "repository": {
++    "type": "git",
++    "url": "git://github.com/jsdf/browserify-incremental.git"
++  },
++  "scripts": {
++    "lint": "eslint .",
++    "lint-fix": "eslint . --fix",
++    "test": "npm run lint && tap test"
+   },
+-  "directories": {},
+-  "_resolved": "https://registry.npmjs.org/browserify-incremental/-/browserify-incremental-3.0.1.tgz"
++  "version": "3.1.1"
+ }
+diff --git a/node_modules/browserify/bin/advanced.txt b/node_modules/browserify/bin/advanced.txt
+index c0efe122..6d7c08bd 100644
+--- a/node_modules/browserify/bin/advanced.txt
++++ b/node_modules/browserify/bin/advanced.txt
+@@ -56,6 +56,15 @@ Advanced Options:
+     Turn off package.json browser field resolution. This is also handy if you
+     need to run a bundle in node.
+ 
++  --transform-key
++
++    Instead of the default package.json#browserify#transform field to list
++    all transforms to apply when running browserify, a custom field, like, e.g.
++    package.json#browserify#production or package.json#browserify#staging
++    can be used, by for example running:
++    * `browserify index.js --transform-key=production > bundle.js`
++    * `browserify index.js --transform-key=staging > bundle.js`
++
+   --node
+ 
+     Alias for --bare and --no-browser-field.
+@@ -70,6 +79,10 @@ Advanced Options:
+     Instead of standard bundle output, print the dependency array generated by
+     module-deps.
+ 
++  --no-dedupe
++
++    Turn off deduping.
++
+   --list
+  
+     Print each file in the dependency graph. Useful for makefiles.
+diff --git a/node_modules/browserify/bin/args.js b/node_modules/browserify/bin/args.js
+index 1365acd3..6a4166af 100644
+--- a/node_modules/browserify/bin/args.js
++++ b/node_modules/browserify/bin/args.js
+@@ -47,6 +47,7 @@ module.exports = function (args, opts) {
+             commondir: true,
+             'bundle-external': true,
+             bf: true,
++            dedupe: true,
+             node: false
+         }
+     });
+@@ -104,7 +105,9 @@ module.exports = function (args, opts) {
+         bundleExternal: argv['bundle-external'],
+         basedir: argv.basedir,
+         browserField: argv.browserField,
+-        
++        transformKey: argv['transform-key'] ? ['browserify', argv['transform-key']] : undefined,
++        dedupe: argv['dedupe'],
++
+         detectGlobals: argv.detectGlobals,
+         insertGlobals: argv['insert-globals'] || argv.ig,
+         insertGlobalVars: insertGlobalVars,
+diff --git a/node_modules/browserify/bin/cmd.js b/node_modules/browserify/bin/cmd.js
+index 5b838bb4..85005bbd 100755
+--- a/node_modules/browserify/bin/cmd.js
++++ b/node_modules/browserify/bin/cmd.js
+@@ -54,16 +54,23 @@ if (b.argv.list) {
+ 
+ var bundle = b.bundle();
+ bundle.on('error', errorExit);
++bundle.on('end', successExit);
+ 
++var tmpfile;
+ var outfile = b.argv.o || b.argv.outfile;
+ if (outfile) {
+-    bundle.pipe(fs.createWriteStream(outfile));
++    // we'll output to a temp file within same filesystem, then atomically overwrite outfile once successful
++    tmpfile = outfile + ".tmp-browserify-" + Math.random().toFixed(20).slice(2)
++    bundle.pipe(fs.createWriteStream(tmpfile));
+ }
+ else {
+     bundle.pipe(process.stdout);
+ }
+ 
+ function errorExit(err) {
++    if (tmpfile) fs.unlink(tmpfile, function (err) {
++      if (err) /* no-op, we're already exiting unhappily… */;
++    });
+     if (err.stack) {
+         console.error(err.stack);
+     }
+@@ -72,3 +79,9 @@ function errorExit(err) {
+     }
+     process.exit(1);
+ }
++
++function successExit() {
++  if (tmpfile && outfile) fs.rename(tmpfile, outfile, function (err) {
++    if (err) errorExit(err);
++  });
++}
+diff --git a/node_modules/browserify/changelog.markdown b/node_modules/browserify/changelog.markdown
+index fea8ff2f..4068ef88 100644
+--- a/node_modules/browserify/changelog.markdown
++++ b/node_modules/browserify/changelog.markdown
+@@ -1,8 +1,73 @@
++# 14.4.0
++
++update `string_decoder` to 1.0.0, which matches the latest node.js behavior more closely.
++
++https://github.com/substack/node-browserify/pull/1714
++
++# 14.3.0
++
++update `https-browserify` to 1.0.0, which matches node.js behavior more closely.
++
++- throw exception if non-https URL is passed to `https.request` or `https.get`
++- support passing string URL as first argument to `https.request` and `https.get`
++
++https://github.com/substack/node-browserify/pull/1710
++
++# 14.2.0
++
++adds a --transform-key flag to the command-line tool
++
++https://github.com/substack/node-browserify/pull/1709
++
++# 14.1.0
++
++writes to a temp outfile until success
++
++Previously, browserify would overwrite output files when an error occurs.
++
++https://github.com/substack/node-browserify/pull/1673
++https://github.com/substack/node-browserify/issues/899
++
++# 14.0.0
++
++Updates the version of the buffer package, which drops support for IE8-10.
++
++buffer v5 removes the `Object` implementation and relies on a single,
++fast Typed Array (`Uint8Array`) implementation, greatly simplifying the
++maintanence of the buffer package.
++
++If IE8-10 support is critical to your web app, you can continue to rely on
++browserify v13, or see the PR for other workarounds.
++
++https://github.com/substack/node-browserify/pull/1678
++
++# 13.3.0
++
++updates the version for the assert package
++
++https://github.com/substack/node-browserify/pull/1611
++
++# 13.2.0
++
++allow configuring transformKey from module-deps
++https://github.com/substack/node-browserify/pull/1670
++
++# 13.1.1
++
++boost performance by memoizing calls to path.relative()
++
++https://github.com/substack/node-browserify/pull/1544
++
++# 13.1.0
++
++exposes `opts.dedupe` and `--no-deupe` to optionally turn off deduping behavior:
++[#1581](https://github.com/substack/node-browserify/pull/1581)
++
+ # 13.0.1
+ 
+ ## Internal
+ 
+-Use native `Array.isArray` and drop `isarray` dep.
++[#1552](https://github.com/substack/node-browserify/pull/1552), [#1555](https://github.com/substack/node-browserify/pull/1555): Use native `Array.isArray` and drop `isarray` dep. ([@kt3k](https://github.com/kt3k))
+ 
+ # 13.0.0
+ 
+@@ -660,7 +725,7 @@ adds an untracked test
+ At a glance:
+ 
+ * extensible internal labeled-stream-splicer pipeline
+-* bundle() - no longer accepts `opts`, callback gets a buffer 
++* bundle() - no longer accepts `opts`, callback gets a buffer
+ * b.deps(), b.pack(), opts.pack, opts.deps are gone
+ * can call bundle() multiple times on the same instance
+ * a better --noparse matcher
+@@ -855,7 +920,7 @@ renders complete stack traces where before they were getting truncated https://g
+ 
+ # 3.44.2
+ 
+-slims down the dependency payload by 20M https://github.com/substack/node-browserify/pull/736 
++slims down the dependency payload by 20M https://github.com/substack/node-browserify/pull/736
+ 
+ # 3.44.1
+ 
+@@ -871,39 +936,39 @@ lets b.transform(opts, t) args to be swapped around since opts is more common as
+ 
+ # 3.42.0
+ 
+-passes through the dir parameter in opts.packageFilter from module-deps 1.10.0 https://github.com/substack/node-browserify/pull/731 
++passes through the dir parameter in opts.packageFilter from module-deps 1.10.0 https://github.com/substack/node-browserify/pull/731
+ 
+ # 3.41.0
+ 
+-has an option to disable external files, making it easier to run bundles in node for code coverage https://github.com/substack/node-browserify/pull/672 
++has an option to disable external files, making it easier to run bundles in node for code coverage https://github.com/substack/node-browserify/pull/672
+ 
+ # 3.40.4
+ 
+-makes --list work again https://github.com/substack/node-browserify/pull/727 
++makes --list work again https://github.com/substack/node-browserify/pull/727
+ 
+ # 3.40.3
+ 
+-merges a patch for piping via stdin and --require at the same time https://github.com/substack/node-browserify/pull/728 
++merges a patch for piping via stdin and --require at the same time https://github.com/substack/node-browserify/pull/728
+ 
+ # 3.40.2
+ 
+-upgrades module-deps to fix --list for $NODE_PATH https://github.com/substack/node-browserify/issues/726 
++upgrades module-deps to fix --list for $NODE_PATH https://github.com/substack/node-browserify/issues/726
+ 
+ # 3.40.1
+ 
+-upgrades module-deps to get this packageTransform bugfix https://github.com/substack/module-deps/pull/32 
++upgrades module-deps to get this packageTransform bugfix https://github.com/substack/module-deps/pull/32
+ 
+ # 3.40.0
+ 
+-modifies the behavior of opts.builtins to be more useful and intuitive https://github.com/substack/node-browserify/pull/717 
++modifies the behavior of opts.builtins to be more useful and intuitive https://github.com/substack/node-browserify/pull/717
+ 
+ # 3.39.0
+ 
+-adds a zlib that has parity with node https://github.com/substack/node-browserify/pull/721 
++adds a zlib that has parity with node https://github.com/substack/node-browserify/pull/721
+ 
+ # 3.38.0
+ 
+-upgrades derequire which uses esprima-fb https://github.com/substack/node-browserify/pull/710 
++upgrades derequire which uses esprima-fb https://github.com/substack/node-browserify/pull/710
+ 
+ # 3.37.2
+ 
+@@ -919,7 +984,7 @@ also reverts that require('process') thing which was mistakenly briefly put in t
+ 
+ # 3.37.0
+ 
+-gives streams2 semantics for bundle() https://github.com/substack/node-browserify/pull/646 
++gives streams2 semantics for bundle() https://github.com/substack/node-browserify/pull/646
+ 
+ # 3.36.1
+ 
+@@ -931,35 +996,35 @@ adds require('process') and removes the path resolution for process out of inser
+ 
+ # 3.35.0
+ 
+-adds an empty tls stub to the builtins list https://github.com/substack/node-browserify/issues/703 
++adds an empty tls stub to the builtins list https://github.com/substack/node-browserify/issues/703
+ 
+ # 3.34.0
+ 
+-fixes a bug with transforms not being applied in deps() https://github.com/substack/node-browserify/pull/708 
++fixes a bug with transforms not being applied in deps() https://github.com/substack/node-browserify/pull/708
+ 
+ # 3.33.1
+ 
+-fixes a bug with options in --global-transform on the command-line https://github.com/substack/node-browserify/pull/705 
++fixes a bug with options in --global-transform on the command-line https://github.com/substack/node-browserify/pull/705
+ 
+ # 3.33.0
+ 
+-fixes parsing errors while maintaining es6 support by switching to esprima-fb https://github.com/substack/node-browserify/issues/698 
++fixes parsing errors while maintaining es6 support by switching to esprima-fb https://github.com/substack/node-browserify/issues/698
+ 
+ # 3.32.1
+ 
+-should be easier to shinkwrap and install on windows https://github.com/substack/node-browserify/pull/684 
++should be easier to shinkwrap and install on windows https://github.com/substack/node-browserify/pull/684
+ 
+ # 3.32.0
+ 
+-adds --full-path and opts.fullPath to always expand ids to full paths https://github.com/substack/node-browserify/pull/668#issuecomment-36586786 
++adds --full-path and opts.fullPath to always expand ids to full paths https://github.com/substack/node-browserify/pull/668#issuecomment-36586786
+ 
+ # 3.31.2
+ 
+-fixes a bug in the subarg argument parsing for multiple transforms https://github.com/substack/node-browserify/issues/678 
++fixes a bug in the subarg argument parsing for multiple transforms https://github.com/substack/node-browserify/issues/678
+ 
+ # 3.31.1
+ 
+-uses process.cwd() as the default rebase target instead of commondir https://github.com/substack/node-browserify/pull/669#issuecomment-36078282 
++uses process.cwd() as the default rebase target instead of commondir https://github.com/substack/node-browserify/pull/669#issuecomment-36078282
+ 
+ # 3.31.0
+ 
+@@ -967,23 +1032,23 @@ merges https://github.com/substack/node-browserify/pull/669  which should help w
+ 
+ # 3.30.4
+ 
+-fixes parsing the --insert-global-vars argument properly https://github.com/substack/node-browserify/pull/674 
++fixes parsing the --insert-global-vars argument properly https://github.com/substack/node-browserify/pull/674
+ 
+ # 3.30.3
+ 
+-fixes exclude globbing in the arg parser https://github.com/substack/node-browserify/pull/676 
++fixes exclude globbing in the arg parser https://github.com/substack/node-browserify/pull/676
+ 
+ # 3.30.2
+ 
+-included a fix for --no-builtins for non-wrapped modules https://github.com/substack/node-browserify/pull/666 
++included a fix for --no-builtins for non-wrapped modules https://github.com/substack/node-browserify/pull/666
+ 
+ # 3.30.1
+ 
+-upgrades buffer for a utf8 fix https://github.com/substack/node-browserify/pull/656 
++upgrades buffer for a utf8 fix https://github.com/substack/node-browserify/pull/656
+ 
+ # 3.30.0
+ 
+-adds globs for -u, -i, and -x https://github.com/substack/node-browserify/issues/654 
++adds globs for -u, -i, and -x https://github.com/substack/node-browserify/issues/654
+ 
+ # 3.29.1
+ 
+@@ -999,11 +1064,11 @@ now always includes the full package.json content in the 'package' event
+ 
+ # 3.28.1
+ 
+-fixes a bug with stream entry order https://github.com/substack/node-browserify/pull/643 
++fixes a bug with stream entry order https://github.com/substack/node-browserify/pull/643
+ 
+ # 3.28.0
+ 
+-adds plugins for doing super fancy things like factored bundle output https://github.com/substack/node-browserify#plugins 
++adds plugins for doing super fancy things like factored bundle output https://github.com/substack/node-browserify#plugins
+ 
+ # 3.27.1
+ 
+@@ -1011,11 +1076,11 @@ fixes a bug resolving transform modules when browserify is under a symlink
+ 
+ # 3.27.0
+ 
+-adds transform configuration in the package.json browserify.transform field https://github.com/substack/module-deps#packagejson-transformkey 
++adds transform configuration in the package.json browserify.transform field https://github.com/substack/module-deps#packagejson-transformkey
+ 
+ # 3.26.0
+ 
+-you can pass arguments to transforms https://github.com/substack/node-browserify/blob/master/bin/advanced.txt#L67-L77 
++you can pass arguments to transforms https://github.com/substack/node-browserify/blob/master/bin/advanced.txt#L67-L77
+ 
+ # 3.25.2
+ 
+@@ -1027,7 +1092,7 @@ fixes the transform docs
+ 
+ # 3.25.0
+ 
+-adds 'bundle' and 'transform' events https://github.com/substack/node-browserify#bonbundle-function-bundle- 
++adds 'bundle' and 'transform' events https://github.com/substack/node-browserify#bonbundle-function-bundle-
+ 
+ # 3.24.11
+ 
+@@ -1035,15 +1100,15 @@ upgrades derequire to 0.6.0. That should be the last piece needed for full es6 s
+ 
+ # 3.24.10
+ 
+-expands the documentation for the package.json browser and browserify.transform fields https://github.com/substack/node-browserify#packagejson 
++expands the documentation for the package.json browser and browserify.transform fields https://github.com/substack/node-browserify#packagejson
+ 
+ # 3.24.9
+ 
+-fixes generator syntax and other es6-isms in browserify https://github.com/substack/node-browserify/issues/614 
++fixes generator syntax and other es6-isms in browserify https://github.com/substack/node-browserify/issues/614
+ 
+ # 3.24.7
+ 
+-fixes noParse, which had accidentally been disabled in the insert-module-global changes and also closes https://github.com/substack/node-browserify/issues/504 
++fixes noParse, which had accidentally been disabled in the insert-module-global changes and also closes https://github.com/substack/node-browserify/issues/504
+ 
+ # 3.24.6
+ 
+@@ -1051,15 +1116,15 @@ similar to 3.24.5, 3.24.6 fixes some error reporting propagation from the browse
+ 
+ # 3.24.3
+ 
+-fixes how require('buffer').Buffer wasn't the same as implicit Buffer https://github.com/substack/node-browserify/issues/612 
++fixes how require('buffer').Buffer wasn't the same as implicit Buffer https://github.com/substack/node-browserify/issues/612
+ 
+ # 3.24.2
+ 
+-fixes where the output stream didn't emit "close" in standalone mode https://github.com/substack/node-browserify/pull/608 
++fixes where the output stream didn't emit "close" in standalone mode https://github.com/substack/node-browserify/pull/608
+ 
+ # 3.24.1
+ 
+-fixes an issue where --standalone combined with expose caused a syntax error https://github.com/substack/node-browserify/issues/489 
++fixes an issue where --standalone combined with expose caused a syntax error https://github.com/substack/node-browserify/issues/489
+ 
+ # 3.24.0
+ 
+@@ -1067,7 +1132,7 @@ removes require() calls from --standalone so you can require() a standalone bund
+ 
+ # 3.23.0
+ 
+-merges this tiny fix returning `this` in noParse() https://github.com/substack/node-browserify/pull/592 
++merges this tiny fix returning `this` in noParse() https://github.com/substack/node-browserify/pull/592
+ 
+ # 3.22.0
+ 
+@@ -1083,7 +1148,7 @@ has a fix for the case where stdin is implicitly treated as the input stream ins
+ 
+ # 3.20.0
+ 
+-3.20.0 is out: parity with how $NODE_PATH works in node https://github.com/substack/node-browserify/issues/593 
++3.20.0 is out: parity with how $NODE_PATH works in node https://github.com/substack/node-browserify/issues/593
+ 
+ # 3.19.1
+ 
+@@ -1101,7 +1166,7 @@ There are 2 big changes in v3 but most code should be relatively unaffected.
+ 
+ [feross](https://github.com/feross) forked
+ the [buffer-browserify](https://npmjs.org/package/buffer-browserify) package
+-to create 
++to create
+ [native-buffer-browserify](https://npmjs.org/package/native-buffer-browserify),
+ a `Buffer` implementation that uses `Uint8Array` to get `buf[i]` notation and
+ parity with the node core `Buffer` api without the performance hit of the
+diff --git a/node_modules/browserify/index.js b/node_modules/browserify/index.js
+index 8dd3fb54..d04c8e41 100644
+--- a/node_modules/browserify/index.js
++++ b/node_modules/browserify/index.js
+@@ -29,6 +29,7 @@ inherits(Browserify, EventEmitter);
+ 
+ var fs = require('fs');
+ var path = require('path');
++var relativePath = require('cached-path-relative')
+ var paths = {
+     empty: path.join(__dirname, 'lib/_empty.js')
+ };
+@@ -49,7 +50,9 @@ function Browserify (files, opts) {
+     if (opts.basedir !== undefined && typeof opts.basedir !== 'string') {
+         throw new Error('opts.basedir must be either undefined or a string.');
+     }
+-    
++
++    opts.dedupe = opts.dedupe === false ? false : true;
++
+     self._external = [];
+     self._exclude = [];
+     self._ignore = [];
+@@ -114,14 +117,14 @@ Browserify.prototype.require = function (file, opts) {
+     var basedir = defined(opts.basedir, self._options.basedir, process.cwd());
+     var expose = opts.expose;
+     if (file === expose && /^[\.]/.test(expose)) {
+-        expose = '/' + path.relative(basedir, expose);
++        expose = '/' + relativePath(basedir, expose);
+         expose = expose.replace(/\\/g, '/');
+     }
+     if (expose === undefined && this._options.exposeAll) {
+         expose = true;
+     }
+     if (expose === true) {
+-        expose = '/' + path.relative(basedir, file);
++        expose = '/' + relativePath(basedir, file);
+         expose = expose.replace(/\\/g, '/');
+     }
+     
+@@ -254,7 +257,7 @@ Browserify.prototype.external = function (file, opts) {
+     if (!opts) opts = {};
+     var basedir = defined(opts.basedir, process.cwd());
+     this._external.push(file);
+-    this._external.push('/' + path.relative(basedir, file));
++    this._external.push('/' + relativePath(basedir, file));
+     return this;
+ };
+ 
+@@ -262,7 +265,7 @@ Browserify.prototype.exclude = function (file, opts) {
+     if (!opts) opts = {};
+     var basedir = defined(opts.basedir, process.cwd());
+     this._exclude.push(file);
+-    this._exclude.push('/' + path.relative(basedir, file));
++    this._exclude.push('/' + relativePath(basedir, file));
+     return this;
+ };
+ 
+@@ -380,7 +383,7 @@ Browserify.prototype._createPipeline = function (opts) {
+     
+     var dopts = {
+         index: !opts.fullPaths && !opts.exposeAll,
+-        dedupe: true,
++        dedupe: opts.dedupe,
+         expose: this._expose
+     };
+     this._bpack = bpack(xtend(opts, { raw: true }));
+@@ -407,10 +410,10 @@ Browserify.prototype._createPipeline = function (opts) {
+             if (self._external.indexOf(row.file) >= 0) return next();
+             
+             if (isAbsolutePath(row.id)) {
+-                row.id = '/' + path.relative(basedir, row.file);
++                row.id = '/' + relativePath(basedir, row.file);
+             }
+             Object.keys(row.deps || {}).forEach(function (key) {
+-                row.deps[key] = '/' + path.relative(basedir, row.deps[key]);
++                row.deps[key] = '/' + relativePath(basedir, row.deps[key]);
+             });
+             this.push(row);
+             next();
+@@ -431,7 +434,7 @@ Browserify.prototype._createDeps = function (opts) {
+     self._extensions = mopts.extensions;
+ 
+     mopts.transform = [];
+-    mopts.transformKey = [ 'browserify', 'transform' ];
++    mopts.transformKey = defined(opts.transformKey, [ 'browserify', 'transform' ]);
+     mopts.postFilter = function (id, file, pkg) {
+         if (opts.postFilter && !opts.postFilter(id, file, pkg)) return false;
+         if (self._external.indexOf(file) >= 0) return false;
+@@ -473,7 +476,7 @@ Browserify.prototype._createDeps = function (opts) {
+             }
+             
+             if (file) {
+-                var ex = '/' + path.relative(basedir, file);
++                var ex = '/' + relativePath(basedir, file);
+                 if (self._external.indexOf(ex) >= 0) {
+                     return cb(null, ex);
+                 }
+@@ -676,7 +679,7 @@ Browserify.prototype._label = function (opts) {
+         var prev = row.id;
+ 
+         if (self._external.indexOf(row.id) >= 0) return next();
+-        if (self._external.indexOf('/' + path.relative(basedir, row.id)) >= 0) {
++        if (self._external.indexOf('/' + relativePath(basedir, row.id)) >= 0) {
+             return next();
+         }
+         if (self._external.indexOf(row.file) >= 0) return next();
+@@ -693,7 +696,7 @@ Browserify.prototype._label = function (opts) {
+             }
+ 
+             var afile = path.resolve(path.dirname(row.file), key);
+-            var rfile = '/' + path.relative(basedir, afile);
++            var rfile = '/' + relativePath(basedir, afile);
+             if (self._external.indexOf(rfile) >= 0) {
+                 row.deps[key] = rfile;
+             }
+@@ -736,7 +739,7 @@ Browserify.prototype._debug = function (opts) {
+     return through.obj(function (row, enc, next) {
+         if (opts.debug) {
+             row.sourceRoot = 'file://localhost';
+-            row.sourceFile = path.relative(basedir, row.file)
++            row.sourceFile = relativePath(basedir, row.file)
+                 .replace(/\\/g, '/');
+         }
+         this.push(row);
+diff --git a/node_modules/browserify/package.json b/node_modules/browserify/package.json
+index 4f089383..c62194d3 100644
+--- a/node_modules/browserify/package.json
++++ b/node_modules/browserify/package.json
+@@ -1,31 +1,48 @@
+ {
+-  "name": "browserify",
+-  "version": "13.0.1",
+-  "description": "browser-side require() the node way",
+-  "main": "index.js",
++  "_from": "browserify",
++  "_id": "browserify@14.4.0",
++  "_inBundle": false,
++  "_integrity": "sha1-CJo0Y69Y0OSNjNQHCz90ZU1avKk=",
++  "_location": "/browserify",
++  "_phantomChildren": {},
++  "_requested": {
++    "type": "tag",
++    "registry": true,
++    "raw": "browserify",
++    "name": "browserify",
++    "escapedName": "browserify",
++    "rawSpec": "",
++    "saveSpec": null,
++    "fetchSpec": "latest"
++  },
++  "_requiredBy": [
++    "#USER",
++    "/"
++  ],
++  "_resolved": "https://registry.npmjs.org/browserify/-/browserify-14.4.0.tgz",
++  "_shasum": "089a3463af58d0e48d8cd4070b3f74654d5abca9",
++  "_spec": "browserify",
++  "_where": "/Users/mitchellwooden/Desktop/FoD_test",
++  "author": {
++    "name": "James Halliday",
++    "email": "mail@substack.net",
++    "url": "http://substack.net"
++  },
+   "bin": {
+     "browserify": "bin/cmd.js"
+   },
+-  "repository": {
+-    "type": "git",
+-    "url": "git+ssh://git@github.com/substack/node-browserify.git"
++  "bugs": {
++    "url": "https://github.com/substack/node-browserify/issues"
+   },
+-  "keywords": [
+-    "browser",
+-    "require",
+-    "commonjs",
+-    "commonj-esque",
+-    "bundle",
+-    "npm",
+-    "javascript"
+-  ],
++  "bundleDependencies": false,
+   "dependencies": {
+     "JSONStream": "^1.0.3",
+-    "assert": "~1.3.0",
++    "assert": "^1.4.0",
+     "browser-pack": "^6.0.1",
+     "browser-resolve": "^1.11.0",
+     "browserify-zlib": "~0.1.2",
+-    "buffer": "^4.1.0",
++    "buffer": "^5.0.2",
++    "cached-path-relative": "^1.0.0",
+     "concat-stream": "~1.5.1",
+     "console-browserify": "^1.1.0",
+     "constants-browserify": "~1.0.0",
+@@ -35,14 +52,14 @@
+     "domain-browser": "~1.1.0",
+     "duplexer2": "~0.1.2",
+     "events": "~1.1.0",
+-    "glob": "^5.0.15",
++    "glob": "^7.1.0",
+     "has": "^1.0.0",
+     "htmlescape": "^1.1.0",
+-    "https-browserify": "~0.0.0",
++    "https-browserify": "^1.0.0",
+     "inherits": "~2.0.1",
+     "insert-module-globals": "^7.0.0",
+     "labeled-stream-splicer": "^2.0.0",
+-    "module-deps": "^4.0.2",
++    "module-deps": "^4.0.8",
+     "os-browserify": "~0.1.1",
+     "parents": "^1.0.1",
+     "path-browserify": "~0.0.0",
+@@ -53,10 +70,10 @@
+     "readable-stream": "^2.0.2",
+     "resolve": "^1.1.4",
+     "shasum": "^1.0.0",
+-    "shell-quote": "^1.4.3",
++    "shell-quote": "^1.6.1",
+     "stream-browserify": "^2.0.0",
+     "stream-http": "^2.0.0",
+-    "string_decoder": "~0.10.0",
++    "string_decoder": "~1.0.0",
+     "subarg": "^1.0.0",
+     "syntax-error": "^1.1.1",
+     "through2": "^2.0.0",
+@@ -67,6 +84,8 @@
+     "vm-browserify": "~0.0.1",
+     "xtend": "^4.0.0"
+   },
++  "deprecated": false,
++  "description": "browser-side require() the node way",
+   "devDependencies": {
+     "backbone": "~0.9.2",
+     "browser-unpack": "^1.1.1",
+@@ -79,83 +98,25 @@
+     "temp": "^0.8.1",
+     "through": "^2.3.4"
+   },
+-  "author": {
+-    "name": "James Halliday",
+-    "email": "mail@substack.net",
+-    "url": "http://substack.net"
+-  },
+-  "scripts": {
+-    "test": "tap test/*.js"
+-  },
+-  "license": "MIT",
+-  "gitHead": "1491be44059bdf211c88f4031b1eb0fefc890710",
+-  "bugs": {
+-    "url": "https://github.com/substack/node-browserify/issues"
+-  },
+   "homepage": "https://github.com/substack/node-browserify#readme",
+-  "_id": "browserify@13.0.1",
+-  "_shasum": "d37179cbb222179ecf730ec7e625e998677902d4",
+-  "_from": "browserify@13.0.1",
+-  "_npmVersion": "3.8.1",
+-  "_nodeVersion": "5.6.0",
+-  "_npmUser": {
+-    "name": "jmm",
+-    "email": "npm-public@jessemccarthy.net"
+-  },
+-  "maintainers": [
+-    {
+-      "name": "domenic",
+-      "email": "d@domenic.me"
+-    },
+-    {
+-      "name": "dominictarr",
+-      "email": "dominic.tarr@gmail.com"
+-    },
+-    {
+-      "name": "feross",
+-      "email": "feross@feross.org"
+-    },
+-    {
+-      "name": "jmm",
+-      "email": "npm-public@jessemccarthy.net"
+-    },
+-    {
+-      "name": "mafintosh",
+-      "email": "mathiasbuus@gmail.com"
+-    },
+-    {
+-      "name": "maxogden",
+-      "email": "max@maxogden.com"
+-    },
+-    {
+-      "name": "mellowmelon",
+-      "email": "palmermebane@gmail.com"
+-    },
+-    {
+-      "name": "substack",
+-      "email": "substack@gmail.com"
+-    },
+-    {
+-      "name": "terinjokes",
+-      "email": "terinjokes@gmail.com"
+-    },
+-    {
+-      "name": "thlorenz",
+-      "email": "thlorenz@gmx.de"
+-    },
+-    {
+-      "name": "zertosh",
+-      "email": "zertosh@gmail.com"
+-    }
++  "keywords": [
++    "browser",
++    "require",
++    "commonjs",
++    "commonj-esque",
++    "bundle",
++    "npm",
++    "javascript"
+   ],
+-  "dist": {
+-    "shasum": "d37179cbb222179ecf730ec7e625e998677902d4",
+-    "tarball": "https://registry.npmjs.org/browserify/-/browserify-13.0.1.tgz"
++  "license": "MIT",
++  "main": "index.js",
++  "name": "browserify",
++  "repository": {
++    "type": "git",
++    "url": "git+ssh://git@github.com/substack/node-browserify.git"
+   },
+-  "_npmOperationalInternal": {
+-    "host": "packages-12-west.internal.npmjs.com",
+-    "tmp": "tmp/browserify-13.0.1.tgz_1462541879956_0.8331573335453868"
++  "scripts": {
++    "test": "tap test/*.js"
+   },
+-  "directories": {},
+-  "_resolved": "https://registry.npmjs.org/browserify/-/browserify-13.0.1.tgz"
++  "version": "14.4.0"
+ }
+diff --git a/node_modules/browserify/readme.markdown b/node_modules/browserify/readme.markdown
+index d3ef10e6..ee2bb4b9 100644
+--- a/node_modules/browserify/readme.markdown
++++ b/node_modules/browserify/readme.markdown
+@@ -9,7 +9,7 @@ browserify will recursively analyze all the `require()` calls in your app in
+ order to build a bundle you can serve up to the browser in a single `<script>`
+ tag.
+ 
+-[![build status](https://secure.travis-ci.org/substack/node-browserify.png)](https://travis-ci.org/substack/node-browserify)
++[![build status](https://img.shields.io/travis/substack/node-browserify/master.svg)](https://travis-ci.org/substack/node-browserify)
+ 
+ ![browserify!](http://substack.net/images/browserify_logo.png)
+ 
+@@ -164,6 +164,15 @@ Advanced Options:
+     Turn off package.json browser field resolution. This is also handy if you
+     need to run a bundle in node.
+ 
++  --transform-key
++
++    Instead of the default package.json#browserify#transform field to list
++    all transforms to apply when running browserify, a custom field, like, e.g.
++    package.json#browserify#production or package.json#browserify#staging
++    can be used, by for example running:
++    * `browserify index.js --transform-key=production > bundle.js`
++    * `browserify index.js --transform-key=staging > bundle.js`
++
+   --node
+ 
+     Alias for --bare and --no-browser-field.
+@@ -178,6 +187,10 @@ Advanced Options:
+     Instead of standard bundle output, print the dependency array generated by
+     module-deps.
+ 
++  --no-dedupe
++
++    Turn off deduping.
++
+   --list
+ 
+     Print each file in the dependency graph. Useful for makefiles.
+@@ -447,6 +460,9 @@ When `opts.detectGlobals` is true, scan all files for `process`, `global`,
+ `__filename`, and `__dirname`, defining as necessary. With this option npm
+ modules are more likely to work but bundling takes longer. Default true.
+ 
++When `opts.ignoreMissing` is true, ignore `require()` statements that don't
++resolve to anything.
++
+ When `opts.debug` is true, add a source map inline to the end of the bundle.
+ This makes debugging easier because you can see all the original files if
+ you are in a modern enough browser.
+@@ -656,7 +672,7 @@ You can call `b.pipeline.get()` with a label name to get a handle on a stream pi
+ that you can `push()`, `unshift()`, or `splice()` to insert your own transform
+ streams.
+ 
+-# b.reset(opts)
++## b.reset(opts)
+ 
+ Reset the pipeline back to a normal state. This function is called automatically
+ when `bundle()` is called multiple times.
+diff --git a/node_modules/browserify/test/dedupe-deps.js b/node_modules/browserify/test/dedupe-deps.js
+index 4fab4dae..ebb6dedc 100644
+--- a/node_modules/browserify/test/dedupe-deps.js
++++ b/node_modules/browserify/test/dedupe-deps.js
+@@ -41,3 +41,19 @@ test('identical content gets deduped with fullPaths', function (t) {
+     );
+   }
+ })
++
++test('identical content does not get deduped with dedupe option false', function (t) {
++  t.plan(1)
++
++  var rows = [];
++  browserify({fullPaths: true, dedupe: false})
++    .on('dep', [].push.bind(rows))
++    .require(require.resolve('./dup'), { entry: true })
++    .bundle(check);
++
++  function check(err, src) {
++    if (err) return t.fail(err);
++    var deduped = rows.filter(function (x) { return x.dedupe });
++    t.equal(deduped.length, 0, 'does not dedupe');
++  }
++})
+diff --git a/node_modules/browserify/test/double_buffer.js b/node_modules/browserify/test/double_buffer.js
+index 1535eb9b..37fc6f30 100644
+--- a/node_modules/browserify/test/double_buffer.js
++++ b/node_modules/browserify/test/double_buffer.js
+@@ -9,6 +9,6 @@ test('double buffer', function (t) {
+     b.require('buffer');
+     b.bundle(function (err, src) {
+         if (err) return t.fail(err);
+-        vm.runInNewContext(src, { t: t });
++        vm.runInNewContext(src, { t: t, Uint8Array: Uint8Array });
+     });
+ });
+diff --git a/node_modules/browserify/test/global.js b/node_modules/browserify/test/global.js
+index b860abb8..3d55c67c 100644
+--- a/node_modules/browserify/test/global.js
++++ b/node_modules/browserify/test/global.js
+@@ -26,7 +26,7 @@ test('__filename and __dirname with insertGlobals: true', function (t) {
+     });
+     b.require(__dirname + '/global/filename.js', { expose: 'x' });
+     b.bundle(function (err, src) {
+-        var c = {};
++        var c = { Uint8Array: Uint8Array };
+         c.self = c;
+         vm.runInNewContext(src, c);
+         var x = c.require('x');
+@@ -83,7 +83,7 @@ test('Buffer', function (t) {
+         var c = {
+             t: t,
+             Uint8Array: Uint8Array,
+-            DataView: DataView
++            ArrayBuffer: ArrayBuffer
+         };
+         vm.runInNewContext(src, c);
+     });
+diff --git a/node_modules/browserify/test/leak.js b/node_modules/browserify/test/leak.js
+index 7479640c..21efc659 100644
+--- a/node_modules/browserify/test/leak.js
++++ b/node_modules/browserify/test/leak.js
+@@ -52,6 +52,6 @@ test('leaking information about system paths (Buffer)', function (t) {
+         t.equal(src.indexOf(dirstring), -1, 'temp directory visible');
+         t.equal(src.indexOf(process.cwd()), -1, 'cwd directory visible');
+         t.equal(src.indexOf('/home'), -1, 'home directory visible');
+-        vm.runInNewContext(src, { t: t, setTimeout: setTimeout });
++        vm.runInNewContext(src, { t: t, setTimeout: setTimeout, Uint8Array: Uint8Array, ArrayBuffer: ArrayBuffer });
+     });
+ });
+diff --git a/tmp/pids/server.pid b/tmp/pids/server.pid
+index 5bbbe64e..26c159ce 100644
+--- a/tmp/pids/server.pid
++++ b/tmp/pids/server.pid
+@@ -1 +1 @@
+-3689
+\ No newline at end of file
++771
+\ No newline at end of file
