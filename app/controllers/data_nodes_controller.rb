@@ -68,6 +68,8 @@ class DataNodesController < ApplicationController
 		p params
 		p params['ranges']
 		ranges = params['ranges']
+		p ranges
+		p ranges.count
 		num = ranges.count
 		print num
 		i = 0
