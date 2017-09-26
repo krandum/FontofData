@@ -179,7 +179,7 @@ $(document).on('ready page:load', function() {
 		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
-		if (typeof(target.value) != 'undefined' && target.value != null) {
+		if (typeof(target.node) != 'undefined' && target.node != null) {
 			target.base = null;
 		}
 		return false;
@@ -408,7 +408,8 @@ $(document).on('ready page:load', function() {
 			hovered: false,
 			grown: false,
 			base: null,
-			options: null
+			options: null,
+			node: true
 		};
 
 		out_node.onMouseEnter = function(event) {
