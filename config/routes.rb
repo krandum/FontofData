@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   devise_scope :user do
       get 'profile/:id', to: 'users/registrations#profile', as: :user
       get 'users/index', to: 'users/registrations#index', as: 'user_index'
+      put 'faction_select', to: 'users/registrations#change_faction', as: 'faction_select'
   end
   
   # get 'data_nodes/index'

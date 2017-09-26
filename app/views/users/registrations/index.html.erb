@@ -6,6 +6,7 @@
       <th>email</th>
       <th>faction</th>
       <th>admin</th>
+      <th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,10 +17,19 @@
         <td><%= user.id %></td>
         <td><%= user.username %></td>
         <td><%= user.email %></td>
-        <td><%= user.faction_id %></td>
+        <td><%= user.faction.faction_name %></td>
         <td><%= user.admin %></td>
         <td><%= link_to 'Show Profile', user %></td>
-        <td><%#= link_to 'Edit', edit_user_registration(user) %></td>
+        <td>
+        <table>
+          <th colspan="3">change faction</th>
+          <tbody>
+            <td><%= link_to Faction.find(2).faction_name, faction_select_path(user: user, faction: Faction.find(2)), method: :put %></td>
+            <td><%= link_to Faction.find(3).faction_name, faction_select_path(user: user, faction: Faction.find(3)), method: :put %></td>
+            <td><%= link_to Faction.find(4).faction_name, faction_select_path(user: user, faction: Faction.find(4)), method: :put %></td>
+          </tbody>
+        </table>
+      </td>
         <td><%= link_to 'Delete User', user_registration_path, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
