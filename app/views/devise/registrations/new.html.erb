@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Log in</title>
-	<%= csrf_meta_tags %>
-</head>
-<body class="fod_site">
-	<div class="container-fluid text-center">
+<body class="fod_site grid_login">
+	<div style="grid-area: main; text-align: center;">
 		<h2>Sign up</h2>
 		<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 			<%= devise_error_messages! %>
@@ -40,4 +34,3 @@
 		<%= render "devise/shared/links" %>
 	</div>
 </body>
-</html>

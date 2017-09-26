@@ -19,49 +19,6 @@
 		"foot foot foot foot foot foot foot";
 }
 
-.nav_link {
-	text-decoration: none;
-}
-
-.container.topnav {
-	justify-items: center;
-	align-items: center;
-	max-width: 100%;
-	margin: 0;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	grid-area: topnav;
-	display: grid;
-	background-color: rgba(9, 4, 70, .75);
-	color: #B9D6F2;
-	grid-template-columns: [brand] 8fr [play] 4fr [world] 4fr [about] 4fr [faq] 4fr [leaderboard] 24fr [account] 8fr;
-}
-
-.nav_hover:hover {
-	background-color: rgba(27, 82, 153, .75);
-}
-
-.nav_hover {
-	display: flex;
-	justify-items: center;
-	align-items: center;
-	cursor: pointer;
-	height: 100%;
-	width: 100%;
-	border-radius: 1px;
-	transition: all 150ms ease-in-out;
-}
-
-.nav_link {
-	text-align: center;
-	text-decoration: none;
-}
-
-.show.fod_drop {
-	background-color: rgba(27, 82, 153, .75);
-	border-color: #090446;
-}
-
 .row.content {
 	margin-left: 4px;
 	margin-right: 4px;
@@ -110,9 +67,14 @@
 
 .fod_site {
 	height: 100%;
-	background: image_url("background_img.jpg") no-repeat center center fixed;
 	background-size: 100%;
 	transform: translateZ(0);
+}
+
+.bgimg {
+	width: 100%;
+	min-width: 1137x;
+	background: image_url("background_img.jpg") no-repeat center center fixed;
 }
 
 /* unhighlightable text */
