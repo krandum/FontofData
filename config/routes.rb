@@ -1,41 +1,39 @@
 Rails.application.routes.draw do
 
-get 'errors/e404'
-get 'errors/e500'
-get 'home/index'
-# get 'play/index'
-get 'about/index'
-get 'story/index'
-get 'faq/index'
-
-resources :interactions
-resources :effects
-resources :factions
-resources :data_nodes
-resources :play
-
-devise_for :users,
- controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
-
-devise_scope :user do
-    get 'users/profile/:id', to: 'devise/registrations#profile', as: 'user_profile'
-    get 'users/index', to: 'devise/registrations#index', as: 'user_index'
-end
-
-# get 'data_nodes/index'
-# get 'data_nodes/show'
-# get 'data_nodes/new'
-# get 'data_nodes/edit'
-# post 'data_nodes/create'
-# patch 'data_nodes/update'
-# put 'data_nodes/update'
-# delete 'data_nodes/destroy'
-
-root 'home#index'
-
-get '/take_action', :to => 'interactions#take_action'
-
-get '/request_nodes', :to => 'data_nodes#request_nodes'
+  resources :news_posts
+  resources :interactions
+  resources :effects
+  resources :factions
+  resources :data_nodes
+  resources :play
+  
+  devise_for :users,
+   controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
+  
+  devise_scope :user do
+      get 'profile/:id', to: 'users/registrations#profile', as: :user
+      get 'users/index', to: 'users/registrations#index', as: 'user_index'
+  end
+  
+  # get 'data_nodes/index'
+  # get 'data_nodes/show'
+  # get 'data_nodes/new'
+  # get 'data_nodes/edit'
+  # post 'data_nodes/create'
+  # patch 'data_nodes/update'
+  # put 'data_nodes/update'
+  # delete 'data_nodes/destroy'
+  
+  get 'errors/e404'
+  get 'errors/e500'
+  get 'home/index'
+  get 'about/index'
+  get 'story/index'
+  get 'faq/index'
+  get '/take_action', :to => 'interactions#take_action'
+  get '/request_nodes', :to => 'data_nodes#request_nodes'
+  
+  root 'home#index'
 
 # The priority is based upon order of creation: first created -> highest priority.
 # See how all your routes lay out with "rake routes".

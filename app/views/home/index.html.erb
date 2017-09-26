@@ -1,14 +1,16 @@
 <body class="fod_site grid_home">
 <div class="sidenav">
-	<p><a href="#">News1</a></p>
-	<p class="text-left">Something about the thing that is the news</p>
-	<hr>
-	<p><a href="#">News2</a></p>
-	<p class="text-left">Something else about a thing that is also the news</p>
-	<hr>
-	<p><a href="#">News3</a></p>
-	<p class="text-left">Ising the been of the thing also which wasing the being as the news</p>
-	<hr>
+	<% @news_posts.each do |news_post| %>
+		<%= link_to news_post.title, news_post %><br>
+		<%= news_post.body %><br>
+		<% if current_user.try(:admin?) %>
+			<%= link_to 'Delete Post', news_post, method: :delete, data: { confirm: 'Are you sure?' } %><br>
+		<% end %>
+		<hr>
+	<% end %>
+	<% if current_user.try(:admin?) %>
+		<%= link_to 'New Post', new_news_post_path %>
+	<% end %>
 </div>
 <div class="main">
 	<h1>Font of Data</h1>
