@@ -581,7 +581,8 @@ $(document).on('ready page:load', function() {
 				base: move_base,
 				selected: false,
 				hovered: false,
-				grown: false
+				grown: false,
+				value: target.value
 			},
 			attack: {
 				group: attack_option,
@@ -589,7 +590,8 @@ $(document).on('ready page:load', function() {
 				base: attack_base,
 				selected: false,
 				hovered: false,
-				grown: false
+				grown: false,
+				value: target.value
 			},
 			give: {
 				group: give_option,
@@ -597,7 +599,8 @@ $(document).on('ready page:load', function() {
 				base: give_base,
 				selected: false,
 				hovered: false,
-				grown: false
+				grown: false,
+				value: target.value
 			}
 		};
 		game_data.actions.push(options.move);
