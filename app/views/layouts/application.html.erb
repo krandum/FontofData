@@ -18,7 +18,7 @@
 			<a class="nav-link noselect dropdown-toggle" style="color: #B9D6F2" id="accountMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
 			<div class="dropdown-menu fod_drop" style="margin-right: 4px;" aria-labelledby="accountMenu">
 				<% if user_signed_in? %>
-					
+					<%# link_to 'Profile', user_profile_path, {style: "color: #B9D6F2", class: "dropdown-item"} %>
 					<a class="dropdown-item" style="color: #B9D6F2" href="/user/settings">User settings</a>
 					<%= link_to 'Logout', destroy_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item", method: :delete} %>
 				<% else %>
