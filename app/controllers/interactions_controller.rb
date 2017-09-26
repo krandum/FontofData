@@ -154,9 +154,9 @@ class InteractionsController < ApplicationController
 
 	def check_valid(args)
 		@user = User.find(current_user.id)
-		effect = Effect.find(args['effect'])
+		@effect = Effect.find(args['effect'])
 		origin = DataNode.where(value: args['origin']).first
-		if effect.nil? || effect == 0 || @user.nil?
+		if @effect.nil? || @effect == 0 || @user.nil?
 			return 1
 		end
 		if origin.nil? || origin == 0 || origin.faction_id.nil? || origin.faction_id == 0
@@ -178,12 +178,23 @@ class InteractionsController < ApplicationController
 		else
 			t_val = 4
 		end
+
+		if (target.value == origin.value - 1 || target.value == origin.value + 1	||
+					 target.value == origin.value << 1 || target.value == origin.value << 1 | 1)
+			adjacent = true
+		else
+			adjacent = false
+		end
+
+		if @effect.effect_name == "attack" && !adjacent
+			return 0
+
 		# Owner and target not implemented for MVP, Admin still TODO
-		or_m, ta_m, ow_m, re_m, ra_m = get_masks(effect)
+		or_m, ta_m, ow_m, re_m, ra_m = get_masks(@effect)
 		if (or_m != 0 && o_val & or_m == 0) || (ta_m != 0 && t_val & ta_m == 0)
 			return 2
 		end
-		0
+		return 0
 	end
 
 	def can_access

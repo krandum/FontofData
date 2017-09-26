@@ -19,7 +19,7 @@
         <td><%= user.faction_id %></td>
         <td><%= user.admin %></td>
         <td><%= link_to 'Show Profile', user_profile %></td>
-        <td><%= link_to 'Edit', edit_user_registration(user) %></td>
+        <td><%# link_to 'Edit', edit_user_registration(user) %></td>
         <td><%= link_to 'Delete User', user_registration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

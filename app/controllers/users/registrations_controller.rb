@@ -7,13 +7,26 @@ class Users::RegistrationsController < Devise::RegistrationsController
     unless current_user.try(:admin?)
       flash[:notice] = "You are not authorized."
       redirect_to root_path
+    else
+      @users = User.all
     end
-    @users = User.all
   end
 
   # GET /users/profile
   def profile
     @user = User.find(params[:id])
+  end
+
+  # GET /
+  def change_faction
+    @user = User.find(params.require(:user))
+    unless current_user.id == @user.id || current_user.admin?
+      flash[:notice] = "You are not authorized."
+    else
+      flash[:notice] = "faction changed."
+      @user.update_attribute(:faction_id, params.require(:faction))
+    end
+    redirect_to root_path
   end
 
   # GET /resource/sign_up

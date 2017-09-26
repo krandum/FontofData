@@ -26,6 +26,11 @@
 			<% end %>
 		</div>
 	</ul>
+	<%# plz find a home for notifications,
+		consider adding if statments to hide
+		html code if notice/alert is empty%>
+	<p class="notice"><%= notice %></p>
+	<p class="alert"><%= alert %></p>
 </div>
 <%= yield %>
 </body>
