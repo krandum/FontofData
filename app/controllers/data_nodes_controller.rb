@@ -70,7 +70,7 @@ class DataNodesController < ApplicationController
 		ranges = params['ranges']
 		p ranges
 		p ranges.count
-		num = ranges.count
+		num = ranges.values.count
 		print num
 		i = 0
 		while (i < num)
