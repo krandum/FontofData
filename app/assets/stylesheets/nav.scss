@@ -1,0 +1,97 @@
+
+html {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.container.topnav {
+	justify-items: center;
+	align-items: center;
+	max-width: 100%;
+	margin: 0;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	grid-area: topnav;
+	display: grid;
+	background-color: rgba(9, 4, 70, .75);
+	color: #B9D6F2;
+	grid-template-columns: [brand] 8fr [play] 4fr [world] 4fr [about] 4fr [faq] 4fr [leaderboard] 24fr [account] 8fr;
+}
+
+.nav_hover:hover {
+	background-color: rgba(27, 82, 153, .75);
+}
+
+.nav_hover {
+	text-align: center;
+	justify-self: center;
+	align-self: center;
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+	border-radius: 1px;
+	transition: all 150ms ease-in-out;
+}
+
+.dropmenu {
+	position: relative;
+}
+
+.dropmenu-toggle::after {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	margin-left: 0.255em;
+	vertical-align: 0.255em;
+	content: "";
+	border-top: 0.3em solid;
+	border-right: 0.3em solid transparent;
+	border-left: 0.3em solid transparent;
+}
+
+.nav_button {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+
+.nav_link {
+	display: block;
+	padding: 0.5rem 1rem;
+	text-decoration: none !important;
+}
+
+.nav_brand {
+	text-decoration: none !important;
+	display: inline-block;
+	padding-top: 0.3125rem;
+	padding-bottom: 0.3125rem;
+	font-size: 1.25rem;
+	line-height: inherit;
+	white-space: nowrap;
+}
+
+.nav_ele {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+
+.show.fod_drop {
+	background-color: rgba(27, 82, 153, .75);
+	border-color: #090446;
+}
