@@ -2,6 +2,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
+  # GET /users/profile
+  def profile
+    @user = User.find(params[:id])
+  end
+
   # GET /resource/sign_up
   # def new
   #   super
@@ -21,13 +26,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def update
   #   super
   # end
-
-  # PATCH /resource/faction
-  def faction
-    @user = User.find(current_user.id)
-    @user.update(params.permit(:faction_id))
-    redirect_to :back
-  end
 
   # DELETE /resource
   # def destroy

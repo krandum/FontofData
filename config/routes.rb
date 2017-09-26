@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'errors/404'
+
+  get 'errors/500'
+
 get 'home/index'
 # get 'play/index'
 get 'about/index'
@@ -16,7 +20,7 @@ devise_for :users,
  controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
 
 devise_scope :user do
-    patch 'registration/faction', :to => 'users/registrations#faction'
+    get 'users/profile/:id', to: 'devise/registrations#profile', as: 'user_profile'
 end
 
 # get 'data_nodes/index'

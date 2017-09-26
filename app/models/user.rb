@@ -7,11 +7,6 @@ class User < ActiveRecord::Base
 
 	before_create :default_faction
 
-	def change_faction(f)
-		self.faction_id = f
-	end
-
-
 	private
 
 	def default_faction

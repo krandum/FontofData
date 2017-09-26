@@ -2,7 +2,6 @@
 # load './reset_dn.rb'
 
 DataNode.delete_all
-new_max = 0
 update_seq_sql = "update sqlite_sequence set seq = #{new_max} where name = 'data_nodes';"
 ActiveRecord::Base.connection.execute(update_seq_sql)
 DataNode.create([{ value: 4, faction_id: 3 },

@@ -7,8 +7,6 @@
 	<%= csrf_meta_tags %>
 </head>
 <body>
-<%= yield %>
-
 <div class="container topnav fod_nav" style="grid-area: topnav">
 	<a class="nav_hover navbar-brand" style="color: #B9D6F2; width: 100%; display: flex;" href="/">Font of Data</a>
 	<div class="nav_hover" style="grid-column: play"><a class="nav-link noselect" style="color: #B9D6F2" href="/play">Play</a></div>
@@ -20,7 +18,7 @@
 			<a class="nav-link noselect dropdown-toggle" style="color: #B9D6F2" id="accountMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
 			<div class="dropdown-menu fod_drop" style="margin-right: 4px;" aria-labelledby="accountMenu">
 				<% if user_signed_in? %>
-					<a class="dropdown-item" style="color: #B9D6F2" href="/user/profile">Profile</a>
+					
 					<a class="dropdown-item" style="color: #B9D6F2" href="/user/settings">User settings</a>
 					<%= link_to 'Logout', destroy_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item", method: :delete} %>
 				<% else %>
@@ -31,5 +29,11 @@
 		</div>
 	</ul>
 </div>
+<%# 
+	yeild is the contents of the view and everything
+	above is the header displayed on every page and
+	everything below is a footer
+%>
+<%= yield %>
 </body>
 </html>

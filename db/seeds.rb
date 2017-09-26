@@ -26,3 +26,4 @@ data_nodes = DataNode.create([{ value: 4, faction_id: 3 },
                               { value: 13, faction_id: 4 },
                               { value: 14, faction_id: 4 },
                               { value: 15, faction_id: 4 }])
+
