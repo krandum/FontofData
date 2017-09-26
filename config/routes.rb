@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
 
-  get 'errors/404'
-
-  get 'errors/500'
-
+get 'errors/e404'
+get 'errors/e500'
 get 'home/index'
 # get 'play/index'
 get 'about/index'
@@ -21,6 +19,7 @@ devise_for :users,
 
 devise_scope :user do
     get 'users/profile/:id', to: 'devise/registrations#profile', as: 'user_profile'
+    get 'users/index', to: 'devise/registrations#index', as: 'user_index'
 end
 
 # get 'data_nodes/index'

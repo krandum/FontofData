@@ -2,6 +2,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
+  # GET /users/index
+  def index
+    unless current_user.try(:admin?)
+      flash[:notice] = "You are not authorized."
+      redirect_to root_path
+    end
+    @users = User.all
+  end
+
   # GET /users/profile
   def profile
     @user = User.find(params[:id])
