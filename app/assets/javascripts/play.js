@@ -58,20 +58,20 @@ $(document).on('ready page:load', function() {
 	var scope = new paper.PaperScope();
 	scope.setup(canvas);
 
-	// function mouseDown(e) {
-	// 	if (parseInt(navigator.appVersion) > 3) {
-	// 		var evt = e ? e : window.event;
-	// 		var delta = evt.wheelDelta ? evt.wheelDelta / 120
-	// 			: evt.detail ? -evt.detail : 0;
-	// 		/* For canvas scrolling */
-	// 		if (delta > 0) { // Scroll up
-	// 			console.log("Scrolling up");
-	// 		} else { // Scroll down
-	// 			console.log("Scrolling down");
-	// 		}
-	// 	}
-	// 	return true;
-	// }
+	function mouseDown(e) {
+		if (parseInt(navigator.appVersion) > 3) {
+			var evt = e ? e : window.event;
+			var delta = evt.wheelDelta ? evt.wheelDelta / 120
+				: evt.detail ? -evt.detail : 0;
+			/* For canvas scrolling */
+			if (delta > 0) { // Scroll up
+				console.log("Scrolling up");
+			} else { // Scroll down
+				console.log("Scrolling down");
+			}
+		}
+		return true;
+	}
 
 	function select_node(target) {
 		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
@@ -327,7 +327,7 @@ $(document).on('ready page:load', function() {
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
 		var tan_size = size / 3.7;
-		var quarter_size = size / 4;
+		let quarter_size = size / 4;
 		var basis = new scope.Path();
 		var p1, p2, p3, p4, p5, p6, p7;
 		var proper1, proper2, proper3, proper4;
@@ -387,9 +387,9 @@ $(document).on('ready page:load', function() {
 			size: [num_w, num_h]
 		});
 
-		var out_node = new scope.Group(basis, num);
-		var selected = false;
-		var myBounds = out_node.bounds;
+		let out_node = new scope.Group(basis, num);
+		let selected = false;
+		let myBounds = out_node.bounds;
 
 		var relative_pos = {
 			x: center.x / scope.view.size.width,
@@ -398,7 +398,7 @@ $(document).on('ready page:load', function() {
 			size_dy: out_node.bounds.height / scope.view.size.height
 		};
 
-		var total_node = {
+		let total_node = {
 			value: elem,
 			position: elem, // Change this if you change starting base
 			group: out_node,
@@ -727,7 +727,7 @@ $(document).on('ready page:load', function() {
 	function add_animation(target, fractional_render, last_render, length_ms) {
 		game_data.date = new Date();
 		var now = game_data.date.getTime();
-		var animation = {
+		let animation = {
 			target: target,
 			fractional_render: fractional_render,
 			last_render: last_render,

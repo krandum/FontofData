@@ -16,5 +16,5 @@
 //= require paper-full.js
 //= require palette.js
 //= require popper.js
-//= require bootstrap
+//= require bootstrap.js
 //= require_tree .
