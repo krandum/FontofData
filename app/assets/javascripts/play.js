@@ -11,7 +11,6 @@ $(document).on('ready page:load', function() {
 
 	var canvas = document.getElementById("myCanvas");
 
-
 	var game_data = {
 		node_factions: [],
 		active_nodes: [],
@@ -55,6 +54,9 @@ $(document).on('ready page:load', function() {
 		global_target: null,
 		date: new Date()
 	};
+
+	var scope = new paper.PaperScope();
+	scope.setup(canvas);
 
 	function mouseDown(e) {
 		if (parseInt(navigator.appVersion) > 3) {
@@ -290,9 +292,6 @@ $(document).on('ready page:load', function() {
 			canvas.captureEvents(Event.MOUSEDOWN);
 		}
 	}
-
-	var scope = new paper.PaperScope();
-	scope.setup(canvas);
 
 	function get_initial_node_data() {
 		$.ajax({
