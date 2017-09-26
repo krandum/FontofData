@@ -689,14 +689,14 @@ $(document).on('ready page:load', function() {
 
 	function select_action(target) {
 		if (target.selected) {
-			action_index = -1;
+			game_data.action_index = -1;
 			unselect_node(target);
 		}
 		else {
-			if (action_index != -1)
-				unselect_node(game_data.actions[action_index]);
+			if (game_data.action_index != -1)
+				unselect_node(game_data.actions[game_data.action_index]);
 			select_node(target);
-			action_index = game_data.actions.indexOf(target);
+			game_data.action_index = game_data.actions.indexOf(target);
 		}
 	}
 
