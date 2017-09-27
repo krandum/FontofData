@@ -18,21 +18,27 @@
 		<button class="nav_link noselect nav_hover" onclick="dropper()" style="color: #B9D6F2">My Account</button>
 		<div class="fod_drop"  id="account_menu">
 			<% if user_signed_in? %>
-				<%= link_to 'Profile', current_user, {style: "color: #B9D6F2", class: "dropdown-item"} %>
-				<a class="dropdown-item" style="color: #B9D6F2" href="/user/settings">User settings</a>
-				<%= link_to 'Logout', destroy_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item", method: :delete} %>
+			<%= link_to 'Profile', current_user, {style: "color: #B9D6F2", class: "dropdown-item"} %>
+			<a class="dropdown-item" style="color: #B9D6F2" href="/user/settings">User settings</a>
+			<%= link_to 'Logout', destroy_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item", method: :delete} %>
 			<% else %>
-				<%= link_to 'Sign In', new_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item"} %>
-				<%= link_to 'Sign Up', new_user_registration_path, {style: "color: #B9D6F2", class: "dropdown-item"} %>
+			<%= link_to 'Sign In', new_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item"} %>
+			<%= link_to 'Sign Up', new_user_registration_path, {style: "color: #B9D6F2", class: "dropdown-item"} %>
 			<% end %>
 		</div>
 	</ul>
-	<%# plz find a home for notifications,
-		consider adding if statments to hide
-		html code if notice/alert is empty%>
+</div>
+<% unless notice == nil %>
+<div id="alert_box" class="alert_wrap">
 	<p class="notice"><%= notice %></p>
 	<p class="alert"><%= alert %></p>
+	<script>
+		setTimeout(function() {
+			$('#alert_box').fadeOut('fast');
+		}, 3000);
+	</script>
 </div>
+<% end %>
 <%= yield %>
 </div>
 </body>
