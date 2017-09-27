@@ -6,6 +6,23 @@ html {
 	padding: 0;
 }
 
+.global_grid {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-rows: 1fr 17fr;
+	grid-template-columns: [all] 100%;
+	grid-template-areas:
+		"topnav"
+		"local";
+}
+
+.local {
+	position: absolute;
+	grid-area: local;
+}
+
 .container.topnav {
 	position: absolute;
 	justify-items: center;
@@ -20,6 +37,7 @@ html {
 	background-color: rgba(9, 4, 70, .75);
 	color: #B9D6F2;
 	grid-template-columns: [brand] 8fr [play] 4fr [world] 4fr [about] 4fr [faq] 4fr [leaderboard] 24fr [account] 8fr;
+	z-index: 10;
 }
 
 .nav_hover:hover {
@@ -28,7 +46,7 @@ html {
 
 .nav_hover {
 	position: absolute;
-	background-color: rgba(9, 4, 70, .75);
+	background-color: rgba(9, 4, 70, 0.0);
 	text-align: center;
 	justify-self: center;
 	align-self: center;

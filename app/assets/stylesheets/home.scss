@@ -10,9 +10,8 @@
 	height: 100%;
 	display: grid;
 	grid-template-columns: 1fr 8fr 2fr 26fr 2fr 9fr 1fr;
-	grid-template-rows: [topnav] 2fr [top_margin] 1fr [main] 30fr [bot_margin] 1fr [foot] 2fr;
+	grid-template-rows: [top_margin] 1fr [main] 30fr [bot_margin] 1fr [foot] 2fr;
 	grid-template-areas:
-		"topnav topnav topnav topnav topnav topnav topnav"
 		". . . . . . ."
 		". sidenav . main . hooks ."
 		". . . . . . ."
@@ -53,7 +52,7 @@
 	}
 	.row.content {
 		height: auto;
-	} 
+	}
 }
 .fod_foot {
 	height:100%;

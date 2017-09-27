@@ -12,9 +12,8 @@
 	align-items: center;
 	justify-items: center;
 	grid-template-columns: 3fr 2fr 3fr;
-	grid-template-rows: 2fr 33fr 2fr;
+	grid-template-rows: 33fr 2fr;
 	grid-template-areas:
-	"topnav topnav topnav"
 	"l_margin main r_margin"
 	"foot foot foot";
 }
