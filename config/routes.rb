@@ -6,16 +6,17 @@ Rails.application.routes.draw do
   resources :factions
   resources :data_nodes
   resources :play
-  
+
   devise_for :users,
    controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
-  
+
   devise_scope :user do
       get 'profile/:id', to: 'users/registrations#profile', as: :user
       get 'users/index', to: 'users/registrations#index', as: 'user_index'
       put 'faction_select', to: 'users/registrations#change_faction', as: 'faction_select'
+      put 'users/make_admin', to: 'users/registrations#make_admin', as: 'make_user_admin'
   end
-  
+
   # get 'data_nodes/index'
   # get 'data_nodes/show'
   # get 'data_nodes/new'
@@ -24,7 +25,7 @@ Rails.application.routes.draw do
   # patch 'data_nodes/update'
   # put 'data_nodes/update'
   # delete 'data_nodes/destroy'
-  
+
   get 'errors/e404'
   get 'errors/e500'
   get 'home/index'
@@ -33,7 +34,7 @@ Rails.application.routes.draw do
   get 'faq/index'
   get '/take_action', :to => 'interactions#take_action'
   get '/request_nodes', :to => 'data_nodes#request_nodes'
-  
+
   root 'home#index'
 
 # The priority is based upon order of creation: first created -> highest priority.

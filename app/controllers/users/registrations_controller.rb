@@ -17,7 +17,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user = User.find(params[:id])
   end
 
-  # GET /
+  # PUT /
   def change_faction
     @user = User.find(params.require(:user))
     unless current_user.id == @user.id || current_user.admin?
@@ -26,7 +26,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
       flash[:notice] = "faction changed."
       @user.update_attribute(:faction_id, params.require(:faction))
     end
-    redirect_to root_path
+    redirect_back(fallback_location: root_path)
+  end
+
+  # PUT
+  def make_admin
+    @user = User.find(params.require(:user))
+    unless current_user.admin?
+      flash[:notice] = "Not sure how you got here, but no."
+    else
+      flash[:notice] = @user.username + " is now an admin"
+      @user.update_attribute(:admin, true)
+    end
+    redirect_back(fallback_location: root_path)
   end
 
   # GET /resource/sign_up
