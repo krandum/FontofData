@@ -18,6 +18,17 @@ html {
 		"local";
 }
 
+.alert_wrap {
+	color: white;
+	padding: 0px 50px;
+	margin-top: 3px;
+	height: 5%;
+	background-color: rgba(255, 0, 0, .3);
+	border: 3px solid red;
+	grid-row-start: 2;
+	justify-self: center;
+}
+
 .local {
 	position: absolute;
 	grid-area: local;
