@@ -411,7 +411,7 @@ $(document).on('ready page:load', function() {
 		basis.strokeColor = node_color['line'];
 		basis.fillColor = node_color['fill'];
 
-		var num_w = sine_size * Math.pow(1.2, num_digits);
+		var num_w = sine_size * (2 - 1 / num_digits);
 		var num_h = (num_w / num_digits) * 1.4;
 		num = new scope.PointText(center);
 		num.fillColor = node_color['num'];
@@ -589,24 +589,19 @@ $(document).on('ready page:load', function() {
 		if (target == game_data.global_root)
 			return;
 		var bit_base = hob(game_data.global_root.position);
-		console.log(bit_base);
 		var bit_dif = hob(target.position) - bit_base;
-		console.log(bit_dif);
 		var i = 0;
 		while (i < 63) {
 			var cur_node = game_data.active_nodes[i];
 			var target_position = take_bits(cur_node.position, bit_base, bit_dif, target.position);
 			if (target_position == -1) {
-				console.log("moving node " + cur_node.position + " to buffer");
 				game_data.buffer_nodes.push(cur_node);
 			}
 			else {
-				console.log("moving node " + cur_node.position + " to " + target_position);
 				cur_node.move_target = game_data.active_nodes[target_position - 1].relative_pos;
 				cur_node.move_position = target_position;
 				cur_node.move_value = cur_node.value;
 				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
-				console.log("  - move value: " + cur_node.move_value);
 			}
 			i++;
 		}
@@ -628,7 +623,6 @@ $(document).on('ready page:load', function() {
 			amount /= 2;
 		}
 		i = 0;
-		console.log("Moving from buffer now");
 		var prev_base = game_data.global_root.value;
 		var leftie = relocs[0];
 		var j = 0;
@@ -637,12 +631,10 @@ $(document).on('ready page:load', function() {
 				leftie = relocs[i];
 				j = 0;
 			}
-			console.log("Moving " + game_data.buffer_nodes[0].value + " to " + relocs[i]);
 			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
 			game_data.buffer_nodes[0].move_position = relocs[i];
 			game_data.buffer_nodes[0].move_value = leftie * target.value + j;
 			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
-			console.log("  - move value: " + game_data.buffer_nodes[0].move_value);
 			game_data.buffer_nodes.splice(0, 1);
 			i++;
 			j++;
@@ -652,9 +644,7 @@ $(document).on('ready page:load', function() {
 			game_data.active_nodes[i].position = game_data.active_nodes[i].move_position;
 			i++;
 		}
-		console.log(game_data.active_nodes);
 		sort_active_nodes(game_data.active_nodes, 0, game_data.active_nodes.length - 1);
-		console.log(game_data.active_nodes);
 		get_more_node_data(ranges);
 	}
 
@@ -679,6 +669,10 @@ $(document).on('ready page:load', function() {
 				* (cur_node.move_target.size_dx * height - cur_node.base.width);
 			cur_node.group.bounds.height = cur_node.base.height + sigma_frac
 				* (cur_node.move_target.size_dy * height - cur_node.base.height);
+			cur_node.group.firstChild.bounds.width = cur_node.base.width + sigma_frac
+				* (cur_node.move_target.size_dx * height - cur_node.base.width);
+			cur_node.group.firstChild.bounds.height = cur_node.base.height + sigma_frac
+				* (cur_node.move_target.size_dy * height - cur_node.base.height);
 			i++;
 			cur_node.moving = true;
 		}
@@ -688,14 +682,14 @@ $(document).on('ready page:load', function() {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		var i = 0;
-		console.log(game_data.active_nodes);
-		console.log(game_data.node_factions);
 		while (i < game_data.active_nodes.length) {
 			var cur_node = game_data.active_nodes[i];
 			cur_node.group.position.x = cur_node.move_target.x * width;
 			cur_node.group.position.y = cur_node.move_target.y * height;
 			cur_node.group.bounds.width = cur_node.move_target.size_dx * height;
 			cur_node.group.bounds.height = cur_node.move_target.size_dy * height;
+			cur_node.group.firstChild.bounds.width = cur_node.move_target.size_dx * height;
+			cur_node.group.firstChild.bounds.height = cur_node.move_target.size_dy * height;
 			cur_node.value = cur_node.move_value;
 			var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
 			var num_digits = cur_node.value.toString().length;
@@ -707,8 +701,8 @@ $(document).on('ready page:load', function() {
 			cur_node.group.firstChild.fillColor = node_color['fill'];
 			cur_node.group.firstChild.strokeWidth = cur_node.move_thickness;
 			var sine_size = cur_node.group.bounds.width / 2.3;
-			var num_w = sine_size * Math.pow(1.2, num_digits);
-			var num_h = (num_w / num_digits) * 1.4;
+			var num_w = sine_size * (2 - 1 / num_digits);
+			var num_h = (num_w / num_digits) * 1.45;
 			cur_node.group.lastChild.fillColor = node_color['num'];
 			cur_node.group.lastChild.content = cur_node.value.toString();
 			cur_node.group.lastChild.bounds.width = num_w;
@@ -744,7 +738,7 @@ $(document).on('ready page:load', function() {
 
 	function add_options(target) {
 		var colors = game_data.colors[game_data.node_factions[target.value].toString()];
-		var x_sign = target.value % 2 != 0 ? -1 : 1;
+		var x_sign = target.value % 2 == 0 ? -1 : 1;
 		var ref_x = target.group.position.x;
 		var ref_y = target.group.position.y;
 		var ref_stroke_width = target.group.firstChild.strokeWidth;
