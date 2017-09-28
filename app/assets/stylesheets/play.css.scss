@@ -8,12 +8,6 @@
 .grid_play {
 	width: 100%;
 	height: 100%;
-	display: grid;
-	grid-template-rows: [topnav] 1fr [main] 17fr;
-	grid-template-columns: [all] 100%;
-	grid-template-areas: 
-	"topnav"
-	"main";
 }
 
 body.play {
