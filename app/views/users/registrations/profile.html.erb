@@ -1,3 +1,14 @@
 <div class="local">
 <h1>it works</h1>
+<%= @user.faction.faction_name %>
+<% if current_user.id == @user.id %>
+<table>
+  <th colspan="3">change faction</th>
+  <tbody>
+    <td><%= link_to Faction.find(2).faction_name, faction_select_path(user: @user, faction: Faction.find(2)), method: :put %></td>
+    <td><%= link_to Faction.find(3).faction_name, faction_select_path(user: @user, faction: Faction.find(3)), method: :put %></td>
+    <td><%= link_to Faction.find(4).faction_name, faction_select_path(user: @user, faction: Faction.find(4)), method: :put %></td>
+  </tbody>
+</table>
+<% end %>
 </div>
