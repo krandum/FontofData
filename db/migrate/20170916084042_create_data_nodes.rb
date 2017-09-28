@@ -1,4 +1,4 @@
-class CreateDataNodes < ActiveRecord::Migration
+class CreateDataNodes < ActiveRecord::Migration[5.0]
   def change
     create_table :data_nodes do |t|
       t.integer :value
