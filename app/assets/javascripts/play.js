@@ -352,7 +352,7 @@ $(document).on('ready page:load', function() {
 				}
 				add_animation(null, move_nodes, confirm_moved_nodes, 1000);
 			}
-		})
+		});
 	}
 
 	function get_node(elem, center, size, thickness) {
@@ -573,19 +573,6 @@ $(document).on('ready page:load', function() {
 	}
 
 	function move_to(target) {
-		// Go through each node in game_data.active_nodes, then:
-			// If you can remove the right bits, set motion target
-			// If not, add to buffer_nodes
-		// Create array of remaining positions
-		// Go through buffer_nodes
-			// Assign each node's motion target to the remaining positions
-		// Move buffer nodes onto active_nodes again
-		// Assign all elements actual values equal to their motion target values
-		// Sort active nodes by their positions
-		// Create animation for entire process
-		// Motion target should include:
-			// size and location of each node
-			// value to be set to at last animation
 		if (target == game_data.global_root)
 			return;
 		var bit_base = hob(game_data.global_root.position);
@@ -904,8 +891,41 @@ $(document).on('ready page:load', function() {
 		add_animation(options, pop_action_animation, pop_action_stop, 150);
 	}
 
-	function take_action() { // TODO
-		console.log('Calling an event!');
+	function take_action(origin, target) {
+		if (game_data.action_index == 1) {
+			$.ajax({
+				type: "GET",
+				url: "take_action",
+				data: {
+					origin: origin.value,
+					target: target.value,
+					effect: 1
+				},
+				datatype: "html",
+				success: function (raw) {
+					var data = JSON.parse(raw);
+					var origin_fac = game_data.node_factions[origin.value];
+					var target_fac = game_data.node_factions[target.value];
+					var origin_change = data.origin;
+					var target_change = data.target;
+					console.log(data);
+					if (origin_change == 'to_target') {
+						game_data.node_factions[origin.value] = target_fac;
+						var colors = game_data.colors[target_fac.toString()];
+						origin.group.firstChild.strokeColor = colors.line;
+						origin.group.firstChild.fillColor = colors.fill;
+						origin.group.lastChild.fillColor = colors.num;
+					}
+					if (target_change == 'to_origin') {
+						game_data.node_factions[target.value] = origin_fac;
+						var colors = game_data.colors[origin_fac.toString()];
+						target.group.firstChild.strokeColor = colors.line;
+						target.group.firstChild.fillColor = colors.fill;
+						target.group.lastChild.fillColor = colors.num;
+					}
+				}
+			})
+		}
 	}
 
 	function check_selection(target) {
@@ -913,8 +933,8 @@ $(document).on('ready page:load', function() {
 			select_node(target);
 			if (game_data.selected_nodes.length >= 1 && game_data.action_index != -1) {
 				game_data.selected_nodes.push(target);
+				take_action(game_data.selected_nodes[0], target);
 				remove_options(game_data.selected_nodes[0]);
-				take_action();
 				setTimeout(function() {
 					game_data.selected_nodes.forEach(function(e) {
 						unselect_node(e);
