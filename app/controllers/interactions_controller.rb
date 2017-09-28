@@ -170,7 +170,7 @@ class InteractionsController < ApplicationController
 
 	def nodes_adjacent?(origin, target)
 		if (target == origin - 1 || target == origin + 1	||
-				target == origin << 1 || target == origin << 1 | 1)
+				target == origin << 1 || target == origin << 1 | 1 || target == origin >> 1)
 			true
 		else
 			false
