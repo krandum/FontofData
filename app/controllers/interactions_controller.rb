@@ -1,5 +1,5 @@
 class InteractionsController < ApplicationController
-	before_action :can_access, except: [:take_action, :create, :update, :destroy]
+	# before_action :can_access, except: [:take_action, :create, :update, :destroy]
 	before_action :set_interaction, only: [:show, :edit, :update, :destroy]
 
 	# GET /interactions
@@ -63,68 +63,79 @@ class InteractionsController < ApplicationController
 	end
 
 	def take_action
-		valid = check_valid(params)
-		if valid == 0
-			origin = DataNode.where(value: params['origin']).first
-			target = DataNode.where(value: params['target']).first
-			effect = Effect.find(params['effect'])
-			case effect.effect_name
+		@origin = DataNode.where(value: params['origin']).first
+		if @origin.nil?
+			@origin = DataNode.new(value: params['origin'], faction_id: 1)
+		end
+		@target = DataNode.where(value: params['target']).first
+		if @target.nil?
+			@target = DataNode.new(value: params['target'], faction_id: 1)
+		end
+		@effect = Effect.find(params['effect'])
+		out = {
+			'status' => nil,
+			'origin' => 'same',
+			'target' => 'same'
+		}
+		unless !valid?(@origin, @target, @effect)
+			case @effect.effect_name
 			when 'attack'
-				unless target.nil? || target == 0
-					target.faction_id = origin.faction_id
-					target.save
+				if nodes_adjacent?(params['origin'].to_i, params['target'].to_i)
+						unless @target == 0
+							@target.update_attribute(:faction_id, @origin.faction_id)
+						else
+							@target = DataNode.create!(value: params['target'], faction_id: @origin.faction_id)
+						end
+						out['status'] = 'success'
+						out['target'] = 'to_origin'
 				else
-					@n = DataNode.new
-					@n.value = params['target']
-					@n.faction_id = origin.faction_id
-					@n.save
+					out['status'] = 'not_adjacent'
 				end
-				out = {'status' => 'success',
-					'origin' => 'same',
-					'target' => 'to_origin'
-				}
+			when 'connect'
+				if nodes_adjacent?(params['origin'].to_i, params['target'].to_i)
+					unless @target == 0
+						p "connect"
+					else
+						p "connect"
+					end
+				else
+					p "no connect"
+				end
 			when 'give'
-				origin.faction_id = 1
-				origin.save
-				out = {'status' => 'success',
-					'origin' => 'neutral',
-					'target' => 'same'
-				}
+				@origin.update_attribute(:faction_id, 1)
+				out['status'] = 'success'
+				out['origin'] = 'netrual'
+				out['target'] = 'self'
 			when 'swap'
-				tmp_o = 1
-				unless origin.nil? || origin == 0
-					tmp_o = origin.faction_id
+				tmp_ori_id = 1
+				tmp_targ_id = 1
+				unless @origin == 0
+					tmp_ori_id = @origin.id
 				end
-				tmp_t = 1
-				unless target.nil? || target == 0
-					tmp_t = target.faction_id
+				unless @target == 0
+					tmp_targ_id = @target.id
 				end
-				if !(origin.nil?) && origin != 0
-					origin.faction_id = tmp_t
-					origin.save
+				if @origin != 0
+					@origin.update_attribute(:faction_id, tmp_targ_id)
+				elsif @target != 0
+					@origin = DataNode.create!(value: params['origin'], faction_id: @target.faction_id)
 				end
-				# TODO add else
-				if !(target.nil?) && target != 0
-					target.faction_id = tmp_o
-					target.save
+				if @target != 0
+					@target.update_attribute(:faction_id, tmp_ori_id)
+				elsif @origin != 0
+					@target = DataNode.create!(value: params['origin'], faction_id: @origin.faction_id)
 				end
-				# TODO add else
-				out = {'status' => 'success',
-					'origin' => 'to_target',
-					'target' => 'to_origin'
-				}
+				out['status'] = 'success'
+				out['origin'] = 'to_target'
+				out['target'] = 'to_origin'
 			else
-				out = { 'status' => 'failure_effect',
-					'origin' => 'same',
-					'target' => 'same'
-				}
+				out['status'] = 'invalid_action'
 			end
 		else
-			out = { 'status' => 'failure_global' << valid,
-				'origin' => 'same',
-				'target' => 'same'
-			}
+			out['status'] = 'not_valid'
 		end
+		p @origin
+		p @target
 		respond_to do |format|
 			format.html { render json: out }
 			format.json
@@ -144,64 +155,112 @@ class InteractionsController < ApplicationController
 
 	def get_masks(effect)
 		base = effect.clearence_value
-		o = (base - (base % 10000)) / 10000
-		ta = ((base % 10000) - (base % 1000)) / 1000
-		ow = ((base % 1000) - (base % 100)) / 100
-		re = ((base % 100) - (base % 10)) / 10
-		ra = base % 10
+		o = (base - (base % 10000)) / 10000	#origin_faction
+		ta = ((base % 10000) - (base % 1000)) / 1000 #target_faction
+		ow = ((base % 1000) - (base % 100)) / 100 #owner_user
+		re = ((base % 100) - (base % 10)) / 10 #reciver_user
+		ra = base % 10 #owner_rank
 		[o, ta, ow, re, ra]
 	end
 
-	def check_valid(args)
+# 0 - any
+# 1 - netrual
+# 2 - self
+# 4 - enemy
+
+	def nodes_adjacent?(origin, target)
+		if (target == origin - 1 || target == origin + 1	||
+				target == origin << 1 || target == origin << 1 | 1)
+			true
+		else
+			false
+		end
+	end
+
+	def valid?(origin, target, effect)
 		@user = User.find(current_user.id)
-		@effect = Effect.find(args['effect'])
-		origin = DataNode.where(value: args['origin']).first
-		if @effect.nil? || @effect == 0 || @user.nil?
-			return 1
-		end
-		if origin.nil? || origin == 0 || origin.faction_id.nil? || origin.faction_id == 0
-			o_val = 4
-		elsif origin.faction_id == @user.faction_id
-			o_val = 2
-		elsif origin == 4
-			o_val = 1
+		unless origin.nil?
+			if origin.faction_id == @user.faction_id
+				origin_faction = 2
+			elsif origin.faction_id == 1
+				origin_faction = 1
+			else
+				origin_faction = 4
+			end
 		else
-			o_val = 4
+			origin_faction = 4
 		end
-		target = DataNode.where(value: args['target']).first
-		if target.nil? || target == 0 || target.faction_id.nil? || target.faction_id == 0
-			t_val = 4
-		elsif target.faction_id == @user.faction_id
-			t_val = 2
-		elsif origin == 4
-			t_val = 1
+		unless target.nil?
+			if target.faction_id == @user.faction_id
+				target_faction = 2
+			elsif target.faction_id == 1
+				target_faction = 1
+			else
+				target_faction = 4
+			end
 		else
-			t_val = 4
+			target_faction = 4
 		end
+		origin_faction_mask, target_faction_mask, owner_user, target_user, owner_user_rank = get_masks(effect)
+		p ["User faction", @user.faction_id]
+		p ["ori_fact, targ_fact", origin.faction_id, target.faction_id]
+		p ["mask, value", origin_faction_mask, origin_faction]
+		p ["mask, value", target_faction_mask, target_faction]
 
-		if (target.value == origin.value - 1 || target.value == origin.value + 1	||
-					 target.value == origin.value << 1 || target.value == origin.value << 1 | 1)
-			adjacent = true
+		if (origin_faction_mask == 0 || (origin_faction_mask | origin_faction == origin_faction_mask)) && (target_faction_mask == 0 || (target_faction_mask | target_faction == target_faction_mask))
+			true
 		else
-			adjacent = false
+			false
 		end
-
-		if @effect.effect_name == "attack" && !adjacent
-			return 0
-
-		# Owner and target not implemented for MVP, Admin still TODO
-		or_m, ta_m, ow_m, re_m, ra_m = get_masks(@effect)
-		if (or_m != 0 && o_val & or_m == 0) || (ta_m != 0 && t_val & ta_m == 0)
-			return 2
-		end
-		return 0
+	# 	@user = User.find(current_user.id)
+	# 	@effect = Effect.find(args['effect'])
+	# 	origin = DataNode.where(value: args['origin']).first
+	# 	if @effect.nil? || @effect == 0 || @user.nil?
+	# 		return 1
+	# 	end
+	# 	if origin.nil? || origin == 0 || origin.faction_id.nil? || origin.faction_id == 0
+	# 		o_val = 4
+	# 	elsif origin.faction_id == @user.faction_id
+	# 		o_val = 2
+	# 	elsif origin == 4
+	# 		o_val = 1
+	# 	else
+	# 		o_val = 4
+	# 	end
+	# 	target = DataNode.where(value: args['target']).first
+	# 	if target.nil? || target == 0 || target.faction_id.nil? || target.faction_id == 0
+	# 		t_val = 4
+	# 	elsif target.faction_id == @user.faction_id
+	# 		t_val = 2
+	# 	elsif origin == 4
+	# 		t_val = 1
+	# 	else
+	# 		t_val = 4
+	# 	end
+	#
+	# 	if (target.value == origin.value - 1 || target.value == origin.value + 1	||
+	# 				 target.value == origin.value << 1 || target.value == origin.value << 1 | 1)
+	# 		adjacent = true
+	# 	else
+	# 		adjacent = false
+	# 	end
+	#
+	# 	if @effect.effect_name == "attack" && !adjacent
+	# 		return 0
+	#
+	# 	# Owner and target not implemented for MVP, Admin still TODO
+	# 	or_m, ta_m, ow_m, re_m, ra_m = get_masks(@effect)
+	# 	if (or_m != 0 && o_val & or_m == 0) || (ta_m != 0 && t_val & ta_m == 0)
+	# 		return 2
+	# 	end
+	# 	return 0
+	# end
+	#
+	# def can_access
+	# 	unless current_user.try(:admin?)
+	# 		flash[:notice] = "You are not authorized."
+	# 		redirect_to root_path
+	# 	end
 	end
 
-	def can_access
-		unless current_user.try(:admin?)
-			flash[:notice] = "You are not authorized."
-			redirect_to root_path
-		end
-	end
-	
 end
