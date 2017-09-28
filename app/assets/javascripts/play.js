@@ -21,11 +21,11 @@ $(document).on('ready page:load', function() {
 		animations: [],
 		colors: {
 			1: { // Neutral
-				line: '#ffffff',
-				num: '#ffffff',
-				fill: '#8E8E8E',
-				selected: '#ffffff',
-				glow: '#ffffff'
+				line: '#000000',
+				num: '#000000',
+				fill: '#CECECE',
+				selected: '#000000',
+				glow: '#000000'
 			},
 			2: { // Red Rocks
 				line: '#e52d00',
@@ -74,6 +74,8 @@ $(document).on('ready page:load', function() {
 	}
 
 	function select_node(target) {
+		if (target.moving)
+			return;
 		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
 		var quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
 		target.group.shadowColor = node_color['glow'];
@@ -85,6 +87,8 @@ $(document).on('ready page:load', function() {
 	}
 
 	function unselect_node(target) {
+		if (target.moving)
+			return;
 		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
 		target.group.shadowColor = 0;
 		target.group.shadowBlur = 0;
@@ -95,6 +99,8 @@ $(document).on('ready page:load', function() {
 	}
 
 	function grow_node(target) {
+		if (target.moving)
+			return;
 		if (!target.grown && (target.selected || target.hovered)) {
 			if (has_animation(target)) {
 				remove_animations(target);
@@ -105,6 +111,8 @@ $(document).on('ready page:load', function() {
 	}
 
 	function ungrow_node(target) {
+		if (target.moving)
+			return;
 		if (target.grown && !target.selected && !target.hovered) {
 			if (has_animation(target)) {
 				remove_animations(target);
@@ -306,19 +314,45 @@ $(document).on('ready page:load', function() {
 			datatype: "html",
 			success: function (raw) {
 				var data = JSON.parse(raw);
-				in_nodes = data['nodes'];
+				var in_nodes = data['nodes'];
 				var i = 1;
-				while (i < 64)
-				{
+				while (i < 64) {
 					game_data.node_factions[i] = in_nodes[i]['faction_id'];
 					i++;
 				}
 				game_data.active_nodes = build_nodes(6, scope.view.size.width,
 					scope.view.size.height);
+				game_data.global_root = game_data.active_nodes[0];
 				console.log(game_data.active_nodes);
+				console.log(game_data.global_root);
 			},
 			async: true
 		});
+	}
+
+	function get_more_node_data(ranges) {
+		$.ajax({
+			type: "GET",
+			url: "request_nodes",
+			data: {
+				ranges: ranges
+			},
+			datatype: "html",
+			success: function (raw) {
+				var data = JSON.parse(raw);
+				var in_nodes = data['nodes'];
+				var i = 0;
+				while (i < ranges.length) {
+					var j = ranges[i].from;
+					while (j < ranges[i].to) {
+						game_data.node_factions[j] = in_nodes[j]['faction_id'];
+						j++;
+					}
+					i++;
+				}
+				add_animation(null, move_nodes, confirm_moved_nodes, 1000);
+			}
+		})
 	}
 
 	function get_node(elem, center, size, thickness) {
@@ -400,15 +434,18 @@ $(document).on('ready page:load', function() {
 
 		let total_node = {
 			value: elem,
-			position: elem, // Change this if you change starting base
+			position: elem,
 			group: out_node,
 			relative_pos: relative_pos,
 			selected: false,
 			hovered: false,
 			grown: false,
+			moving: false,
 			base: null,
 			options: null,
-			node: true
+			node: true,
+			move_target: null,
+			move_thickness: thickness
 		};
 
 		out_node.onMouseEnter = function(event) {
@@ -460,6 +497,228 @@ $(document).on('ready page:load', function() {
 			}
 		}
 		return nodes;
+	}
+
+	function hob(num) {
+		if (!num)
+			return 0;
+		var out = 1;
+		while (num >>= 1)
+			out += 1;
+		return out;
+	}
+
+	function get_solid_mask(len) {
+		if (len <= 0)
+			return 0;
+		var out = 1;
+		var i = 1;
+		while (i < len) {
+			out <<= 1;
+			out |= 1;
+			i++;
+		}
+		return out;
+	}
+
+	function take_bits(num, from, amount, base) {
+		var bit_len = hob(num);
+		var tail_num = bit_len - from - amount;
+		if (tail_num < 0)
+			return -1;
+		var tail_mask = get_solid_mask(tail_num);
+		var check_mask = get_solid_mask(amount);
+		var compare = base & check_mask;
+		check_mask <<= tail_num;
+		var head_mask = get_solid_mask(from) << (tail_num + amount);
+		var check = (num & check_mask) >> tail_num;
+		var tail = num & tail_mask;
+		var head = (num & head_mask) >> amount;
+		if (check != compare) {
+			return -1;
+		}
+		return head | tail;
+	}
+
+	function swap(arr, index1, index2) {
+		var tmp = arr[index1];
+		arr[index1] = arr[index2];
+		arr[index2] = tmp;
+	}
+
+	function partition(arr, lo, hi) {
+		var pivot = arr[lo].position;
+		var i = lo - 1;
+		var j = hi + 1;
+		while (true) {
+			do {
+				i++;
+			} while (arr[i].position < pivot);
+			do {
+				j--;
+			} while (arr[j].position > pivot);
+			if (i >= j) {
+				return j;
+			}
+			swap(arr, i, j);
+		}
+	}
+
+	function sort_active_nodes(arr, lo, hi) {
+		if (lo < hi) {
+			var pivot = partition(arr, lo, hi);
+			sort_active_nodes(arr, lo, pivot);
+			sort_active_nodes(arr, pivot + 1, hi);
+		}
+	}
+
+	function move_to(target) {
+		// Go through each node in game_data.active_nodes, then:
+			// If you can remove the right bits, set motion target
+			// If not, add to buffer_nodes
+		// Create array of remaining positions
+		// Go through buffer_nodes
+			// Assign each node's motion target to the remaining positions
+		// Move buffer nodes onto active_nodes again
+		// Assign all elements actual values equal to their motion target values
+		// Sort active nodes by their positions
+		// Create animation for entire process
+		// Motion target should include:
+			// size and location of each node
+			// value to be set to at last animation
+		if (target == game_data.global_root)
+			return;
+		var bit_base = hob(game_data.global_root.position);
+		console.log(bit_base);
+		var bit_dif = hob(target.position) - bit_base;
+		console.log(bit_dif);
+		var i = 0;
+		while (i < 63) {
+			var cur_node = game_data.active_nodes[i];
+			var target_position = take_bits(cur_node.position, bit_base, bit_dif, target.position);
+			if (target_position == -1) {
+				console.log("moving node " + cur_node.position + " to buffer");
+				game_data.buffer_nodes.push(cur_node);
+			}
+			else {
+				console.log("moving node " + cur_node.position + " to " + target_position);
+				cur_node.move_target = game_data.active_nodes[target_position - 1].relative_pos;
+				cur_node.move_position = target_position;
+				cur_node.move_value = cur_node.value;
+				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
+				console.log("  - move value: " + cur_node.move_value);
+			}
+			i++;
+		}
+		var relocs = []; // Stands for relocations. I don't know what to call it tbh
+		var ranges = [];
+		var amount = 32;
+		i = 0;
+		while (i < bit_dif) {
+			j = 0;
+			while (j < amount) {
+				relocs.push(j + amount);
+				j++;
+			}
+			ranges.push({
+				from: Math.pow(2, 5 - i) * target.value,
+				to: Math.pow(2, 5 - i) * target.value + amount
+			})
+			i++;
+			amount /= 2;
+		}
+		i = 0;
+		console.log("Moving from buffer now");
+		var prev_base = game_data.global_root.value;
+		var leftie = relocs[0];
+		var j = 0;
+		while (game_data.buffer_nodes.length > 0) {
+			if (relocs[i] < leftie) {
+				leftie = relocs[i];
+				j = 0;
+			}
+			console.log("Moving " + game_data.buffer_nodes[0].value + " to " + relocs[i]);
+			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
+			game_data.buffer_nodes[0].move_position = relocs[i];
+			game_data.buffer_nodes[0].move_value = leftie * target.value + j;
+			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
+			console.log("  - move value: " + game_data.buffer_nodes[0].move_value);
+			game_data.buffer_nodes.splice(0, 1);
+			i++;
+			j++;
+		}
+		i = 0;
+		while (i < game_data.active_nodes.length) {
+			game_data.active_nodes[i].position = game_data.active_nodes[i].move_position;
+			i++;
+		}
+		console.log(game_data.active_nodes);
+		sort_active_nodes(game_data.active_nodes, 0, game_data.active_nodes.length - 1);
+		console.log(game_data.active_nodes);
+		get_more_node_data(ranges);
+	}
+
+	var move_nodes = function(target, sigma_frac, delta_frac) {
+		var width = scope.view.size.width;
+		var height = scope.view.size.height;
+		var i = 0;
+		while (i < game_data.active_nodes.length) {
+			var cur_node = game_data.active_nodes[i];
+			if (cur_node.base == null) {
+				cur_node.base = new scope.Rectangle();
+				cur_node.base.width = cur_node.relative_pos.size_dx * height;
+				cur_node.base.height = cur_node.relative_pos.size_dy * height;
+				cur_node.base.x = cur_node.relative_pos.x * width;
+				cur_node.base.y = cur_node.relative_pos.y * height;
+			}
+			cur_node.group.position.x = cur_node.base.x + sigma_frac
+				* (cur_node.move_target.x * width - cur_node.base.x);
+			cur_node.group.position.y = cur_node.base.y + sigma_frac
+				* (cur_node.move_target.y * height - cur_node.base.y);
+			cur_node.group.bounds.width = cur_node.base.width + sigma_frac
+				* (cur_node.move_target.size_dx * height - cur_node.base.width);
+			cur_node.group.bounds.height = cur_node.base.height + sigma_frac
+				* (cur_node.move_target.size_dy * height - cur_node.base.height);
+			i++;
+			cur_node.moving = true;
+		}
+	}
+
+	var confirm_moved_nodes = function(target) {
+		var width = scope.view.size.width;
+		var height = scope.view.size.height;
+		var i = 0;
+		console.log(game_data.active_nodes);
+		console.log(game_data.node_factions);
+		while (i < game_data.active_nodes.length) {
+			var cur_node = game_data.active_nodes[i];
+			cur_node.group.position.x = cur_node.move_target.x * width;
+			cur_node.group.position.y = cur_node.move_target.y * height;
+			cur_node.group.bounds.width = cur_node.move_target.size_dx * height;
+			cur_node.group.bounds.height = cur_node.move_target.size_dy * height;
+			cur_node.value = cur_node.move_value;
+			var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
+			var num_digits = cur_node.value.toString().length;
+			cur_node.relative_pos = cur_node.move_target;
+			cur_node.base = null;
+			cur_node.group.lastChild.content = cur_node.value;
+			cur_node.moving = false;
+			cur_node.group.firstChild.strokeColor = node_color['line'];
+			cur_node.group.firstChild.fillColor = node_color['fill'];
+			cur_node.group.firstChild.strokeWidth = cur_node.move_thickness;
+			var sine_size = cur_node.group.bounds.width / 2.3;
+			var num_w = sine_size * Math.pow(1.2, num_digits);
+			var num_h = (num_w / num_digits) * 1.4;
+			cur_node.group.lastChild.fillColor = node_color['num'];
+			cur_node.group.lastChild.content = cur_node.value.toString();
+			cur_node.group.lastChild.bounds.width = num_w;
+			cur_node.group.lastChild.bounds.height = num_h;
+			cur_node.group.lastChild.bounds.x = cur_node.group.position.x - num_w / 2;
+			cur_node.group.lastChild.bounds.y = cur_node.group.position.y - num_h / 2;
+			i++;
+		}
+		game_data.global_root = game_data.active_nodes[0];
+		return false;
 	}
 
 	function set_resize() {
@@ -615,7 +874,12 @@ $(document).on('ready page:load', function() {
 			ungrow_node(options.move);
 		}
 		move_option.onClick = function(event) {
-			select_action(options.move);
+			game_data.action_index = -1;
+			remove_options(target);
+			unselect_node(target);
+			var index = game_data.selected_nodes.indexOf(target);
+			game_data.selected_nodes.splice(index, 1);
+			move_to(target);
 		}
 		attack_option.onMouseEnter = function(event) {
 			options.attack.hovered = true;
@@ -747,8 +1011,8 @@ $(document).on('ready page:load', function() {
 			var anim = game_data.animations[i];
 			var total_timespan = tick_time - anim.start;
 			var current_timespan = tick_time - anim.last;
-			var sigma_frac = total_timespan / anim.length;
-			var delta_frac = current_timespan / anim.length;
+			var sigma_frac = total_timespan / anim.length; // Total time spent
+			var delta_frac = current_timespan / anim.length; // Time since last tick
 			var survive = true;
 			if (total_timespan >= anim.length) {
 				survive = anim.last_render(anim.target);
