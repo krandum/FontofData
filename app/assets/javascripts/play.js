@@ -227,12 +227,14 @@ $(document).on('ready page:load', function() {
 		}
 		target.attack.group.position.x = target.attack.base.x;
 		target.attack.group.position.y = target.attack.base.y;
+		console.log(target.attack);
 		if (target.give.group.bounds.width < target.give.base.width) {
 			target.give.group.bounds.width = target.give.base.width;
 			target.give.group.bounds.height = target.give.base.height;
 		}
 		target.give.group.position.x = target.give.base.x;
 		target.give.group.position.y = target.give.base.y;
+		console.log(target.give);
 		return false;
 	}
 
@@ -853,20 +855,19 @@ $(document).on('ready page:load', function() {
 		attack_circle.strokeWidth = ref_stroke_width / 2;
 		attack_circle.strokeColor = colors['line'];
 		attack_circle.fillColor = colors['fill'];
-		var attack_char = new scope.PointText(attack_point);
-		attack_char.position.x -= attack_rad / 2;
-		attack_char.fillColor = colors['num'];
-		attack_char.content = 'A';
-		attack_char.bounds.width = attack_rad;
-		attack_char.bounds.height = attack_rad * 4 / 3;
-		var attack_option = new scope.Group(attack_circle, attack_char);
+		var attack_img = new scope.Raster('assets/icons/009-crosshair.png');
+		attack_img.bounds.width = attack_rad * 2;
+		attack_img.bounds.height = attack_rad * 2;
+		attack_img.position.x = attack_point.x;
+		attack_img.position.y = attack_point.y;
+		var attack_option = new scope.Group(attack_circle, attack_img);
 		var attack_base = new scope.Rectangle();
 		attack_base.x = attack_option.position.x;
 		attack_base.y = attack_option.position.y;
 		attack_base.width = attack_option.bounds.width;
 		attack_base.height = attack_option.bounds.height;
-		attack_option.bounds.width = 0.0001;
-		attack_option.bounds.height = 0.0001;
+		attack_option.bounds.width = 0.0000001;
+		attack_option.bounds.height = 0.0000001;
 		var attack_relative_pos = {
 			x: attack_base.x / scope.view.size.width,
 			y: attack_base.y / scope.view.size.height,
@@ -958,6 +959,7 @@ $(document).on('ready page:load', function() {
 		attack_option.onMouseEnter = function(event) {
 			options.attack.hovered = true;
 			grow_node(options.attack);
+			console.log(attack_option)
 		}
 		attack_option.onMouseLeave = function(event) {
 			options.attack.hovered = false;
@@ -1141,9 +1143,31 @@ $(document).on('ready page:load', function() {
 		}
 	}
 
+	function set_assets() {
+		var icon_up = new scope.Raster('assets/icons/001-arrow-up.png');
+		var icon_up_right = new scope.Raster('assets/icons/002-arrow-up-right.png');
+		var icon_right = new scope.Raster('assets/icons/003-arrow-right.png');
+		var icon_down_right = new scope.Raster('assets/icons/004-arrow-down-right.png');
+		var icon_down = new scope.Raster('assets/icons/005-arrow-down.png');
+		var icon_down_left = new scope.Raster('assets/icons/006-arrow-down-left.png');
+		var icon_left = new scope.Raster('assets/icons/007-arrow-left.png');
+		var icon_up_left = new scope.Raster('assets/icons/008-arrow-up-left.png');
+		var icon_attack = new scope.Raster('assets/icons/009-crosshair.png');
+		icon_up.visible = false;
+		icon_up_right.visible = false;
+		icon_right.visible = false;
+		icon_down_right.visible = false;
+		icon_down.visible = false;
+		icon_down_left.visible = false;
+		icon_left.visible = false;
+		icon_up_left.visible = false;
+		icon_attack.visible = false;
+	}
+
 	function init() {
 		get_initial_node_data();
 		set_resize();
+		set_assets();
 		scope.view.onFrame = function(event) {
 			tick(event);
 		};
@@ -1154,6 +1178,8 @@ $(document).on('ready page:load', function() {
 		get_initial_node_data(); // Sets up the initial map
 		console.log("Initial node data loaded");
 		set_resize();
+		console.log("Setting up assets...");
+		set_assets();
 		console.log("Canvas resize set up");
 		scope.view.onFrame = function(event) {
 			tick(event);
