@@ -3,6 +3,7 @@
 
 DataNode.delete_all
 update_seq_sql = "update sqlite_sequence set seq = #{0} where name = 'data_nodes';"
+ActiveRecord::Base.connection.execute(update_seq_sql)
 ConnectedNode.delete_all
 update_seq_sql = "update sqlite_sequence set seq = #{0} where name = 'connected_nodes';"
 ActiveRecord::Base.connection.execute(update_seq_sql)

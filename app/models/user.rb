@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 	# Pablo removed: :recoverable, :trackable
 	devise :database_authenticatable, :registerable, :rememberable, :validatable
 	belongs_to :faction
+	has_many :data_nodes
 
 	before_create :default_faction
 

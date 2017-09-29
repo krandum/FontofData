@@ -1,5 +1,6 @@
 class DataNode < ActiveRecord::Base
   belongs_to :faction
+  belongs_to :user
   has_many :interactions
 
   has_many :connected_nodes

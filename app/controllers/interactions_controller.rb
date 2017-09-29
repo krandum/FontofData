@@ -81,25 +81,28 @@ class InteractionsController < ApplicationController
 			case @effect.effect_name
 			when 'attack'
 				if nodes_adjacent?(params['origin'].to_i, params['target'].to_i)
-						unless @target == 0
-							@target.update_attribute(:faction_id, @origin.faction_id)
-						else
-							@target = DataNode.create!(value: params['target'], faction_id: @origin.faction_id)
-						end
-						out['status'] = 'success'
-						out['target'] = 'to_origin'
+					unless @target.id.nil?
+						@target.update_attribute(:faction_id, @origin.faction_id)
+						p "not 0"
+					else
+						@target = current_user.data_nodes.build(value: params['target'], faction_id: @origin.faction_id)
+						@target.save
+						p "0"
+					end
+					out['status'] = 'success'
+					out['target'] = 'to_origin'
 				else
 					out['status'] = 'not_adjacent'
 				end
 			when 'connect'
 				if nodes_adjacent?(params['origin'].to_i, params['target'].to_i)
-					unless @target == 0
-						p "connect"
-					else
-						p "connect"
+					@origin.connections << @target
+					if @origin != 0
+						@origin.save
 					end
+					out['status'] = 'success'
 				else
-					p "no connect"
+					out['status'] = 'not_adjacent'
 				end
 			when 'give'
 				@origin.update_attribute(:faction_id, 1)
@@ -207,7 +210,10 @@ class InteractionsController < ApplicationController
 		p ["mask, value", origin_faction_mask, origin_faction]
 		p ["mask, value", target_faction_mask, target_faction]
 
-		if (origin_faction_mask == 0 || (origin_faction_mask | origin_faction == origin_faction_mask)) && (target_faction_mask == 0 || (target_faction_mask | target_faction == target_faction_mask))
+		# could also do mask & input != 0 instead of mask | input == mask
+		if (origin_faction_mask == 0 || (origin_faction_mask |
+			origin_faction == origin_faction_mask)) && (target_faction_mask == 0 ||
+				(target_faction_mask | target_faction == target_faction_mask))
 			true
 		else
 			false
