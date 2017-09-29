@@ -676,21 +676,26 @@ $(document).on('ready page:load', function() {
 		var total = 32;
 		var len = 16;
 		i = 0;
+		var off = base % 2 == 0 ? len : 0;
 		while (i <= 5) {
-			var j = 0;
-			while (j < len) {
+			var j = off;
+			while (j < len + off) {
 				relocs.push(j + total);
 				j++;
 			}
 			ranges.push({
-				from: Math.pow(2, 5 - i) * new_base_value,
-				to: Math.pow(2, 5 - i) * new_base_value + len
+				from: Math.pow(2, 5 - i) * new_base_value + off,
+				to: Math.pow(2, 5 - i) * new_base_value + len + off
 			});
 			i++;
 			total /= 2;
 			len /= 2;
-			if (len <= 1)
+			if (len < 1) {
 				len = 1;
+				off = 0;
+			}
+			else
+				off = base % 2 == 0 ? len : 0;
 		}
 		i = 0;
 		var leftie = relocs[0];
