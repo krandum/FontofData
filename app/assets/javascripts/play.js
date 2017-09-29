@@ -21,11 +21,11 @@ $(document).on('ready page:load', function() {
 		animations: [],
 		colors: {
 			1: { // Neutral
-				line: '#000000',
-				num: '#000000',
-				fill: '#CECECE',
-				selected: '#000000',
-				glow: '#000000'
+				line: '#ffffff',
+				num: '#ffffff',
+				fill: '#8E8E8E',
+				selected: '#ffffff',
+				glow: '#ffffff'
 			},
 			2: { // Red Rocks
 				line: '#e52d00',
@@ -35,11 +35,11 @@ $(document).on('ready page:load', function() {
 				glow: '#e98a15'
 			},
 			3: { // Green Elves
-				line: '#5eb22e',
-				num: '#5eb22e',
+				line: '#3eb200',
+				num: '#3eb200',
 				fill: '#edeec0',
-				selected: '#97FC9C',
-				glow: '#97FC9C'
+				selected: '#40ed4b',
+				glow: '#40ed4b'
 			},
 			4: { // Blue Jellyfish
 				line: '#2188dd',
@@ -50,8 +50,6 @@ $(document).on('ready page:load', function() {
 			}
 		},
 		global_root: null,
-		current_target: null,
-		global_target: null,
 		date: new Date()
 	};
 
@@ -540,6 +538,19 @@ $(document).on('ready page:load', function() {
 		return head | tail;
 	}
 
+	function give_bits(num, from, amount, add) {
+		var bit_len = hob(num);
+		var tail_num = bit_len - from;
+		if (tail_num < 0 || tail_num > 4)
+			return -1;
+		var tail_mask = get_solid_mask(tail_num);
+		var head_mask = get_solid_mask(from) << (tail_num);
+		var tail = num & tail_mask;
+		var head = (num & head_mask) << amount;
+		var mid = add << tail_num;
+		return head | mid | tail;
+	}
+
 	function swap(arr, index1, index2) {
 		var tmp = arr[index1];
 		arr[index1] = arr[index2];
@@ -573,8 +584,6 @@ $(document).on('ready page:load', function() {
 	}
 
 	function move_to(target) {
-		if (target == game_data.global_root)
-			return;
 		var bit_base = hob(game_data.global_root.position);
 		var bit_dif = hob(target.position) - bit_base;
 		var i = 0;
@@ -597,7 +606,7 @@ $(document).on('ready page:load', function() {
 		var amount = 32;
 		i = 0;
 		while (i < bit_dif) {
-			j = 0;
+			var j = 0;
 			while (j < amount) {
 				relocs.push(j + amount);
 				j++;
@@ -605,12 +614,11 @@ $(document).on('ready page:load', function() {
 			ranges.push({
 				from: Math.pow(2, 5 - i) * target.value,
 				to: Math.pow(2, 5 - i) * target.value + amount
-			})
+			});
 			i++;
 			amount /= 2;
 		}
 		i = 0;
-		var prev_base = game_data.global_root.value;
 		var leftie = relocs[0];
 		var j = 0;
 		while (game_data.buffer_nodes.length > 0) {
@@ -621,6 +629,81 @@ $(document).on('ready page:load', function() {
 			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
 			game_data.buffer_nodes[0].move_position = relocs[i];
 			game_data.buffer_nodes[0].move_value = leftie * target.value + j;
+			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
+			game_data.buffer_nodes.splice(0, 1);
+			i++;
+			j++;
+		}
+		i = 0;
+		while (i < game_data.active_nodes.length) {
+			game_data.active_nodes[i].position = game_data.active_nodes[i].move_position;
+			i++;
+		}
+		sort_active_nodes(game_data.active_nodes, 0, game_data.active_nodes.length - 1);
+		get_more_node_data(ranges);
+	}
+
+	function move_back(amount) {
+		var base = game_data.global_root.value;
+		var new_base_value = base >> amount;
+		if (new_base_value <= 0)
+			return;
+		var bit_base = hob(base);
+		var i = 0;
+		var add = 0;
+		while (i < amount) {
+			add <<= 1;
+			add |= base & 1;
+			i++;
+		}
+		i = 0;
+		while (i < 63) {
+			var cur_node = game_data.active_nodes[i];
+			var target_position = give_bits(cur_node.position, 1, amount, add);
+			if (target_position == -1) {
+				game_data.buffer_nodes.push(cur_node);
+			}
+			else {
+				cur_node.move_target = game_data.active_nodes[target_position - 1].relative_pos;
+				cur_node.move_position = target_position;
+				cur_node.move_value = cur_node.value;
+				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
+			}
+			i++;
+		}
+		var relocs = [];
+		var ranges = [];
+		var total = 32;
+		var len = 16;
+		i = 0;
+		while (i <= 5) {
+			var j = 0;
+			while (j < len) {
+				relocs.push(j + total);
+				j++;
+			}
+			ranges.push({
+				from: Math.pow(2, 5 - i) * new_base_value,
+				to: Math.pow(2, 5 - i) * new_base_value + len
+			});
+			i++;
+			total /= 2;
+			len /= 2;
+			if (len <= 1)
+				len = 1;
+		}
+		i = 0;
+		var leftie = relocs[0];
+		var j = 0;
+		while (game_data.buffer_nodes.length > 0) {
+			if (relocs[i] < leftie) {
+				leftie = relocs[i];
+				j = 0;
+			}
+			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
+			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
+			game_data.buffer_nodes[0].move_position = relocs[i];
+			game_data.buffer_nodes[0].move_value = leftie * new_base_value + j;
 			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
 			game_data.buffer_nodes.splice(0, 1);
 			i++;
@@ -860,7 +943,12 @@ $(document).on('ready page:load', function() {
 			unselect_node(target);
 			var index = game_data.selected_nodes.indexOf(target);
 			game_data.selected_nodes.splice(index, 1);
-			move_to(target);
+			if (target == game_data.global_root) {
+				move_back(1);
+			}
+			else {
+				move_to(target);
+			}
 		}
 		attack_option.onMouseEnter = function(event) {
 			options.attack.hovered = true;
@@ -924,7 +1012,7 @@ $(document).on('ready page:load', function() {
 						target.group.lastChild.fillColor = colors.num;
 					}
 				}
-			})
+			});
 		}
 	}
 
