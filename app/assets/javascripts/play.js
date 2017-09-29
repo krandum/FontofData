@@ -698,17 +698,20 @@ $(document).on('ready page:load', function() {
 				off = base % 2 == 0 ? len : 0;
 		}
 		i = 0;
-		var leftie = relocs[0];
+		off = base % 2 == 0 ? 16 : 0;
+		var leftie = relocs[0] - off;
 		var j = 0;
 		while (game_data.buffer_nodes.length > 0) {
-			if (relocs[i] < leftie) {
-				leftie = relocs[i];
+			if (relocs[i] - off < leftie) {
+				off /= 2;
+				if (off < 1 && off > 0)
+					off = 0;
+				leftie = relocs[i] - off;
 				j = 0;
 			}
 			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
-			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
 			game_data.buffer_nodes[0].move_position = relocs[i];
-			game_data.buffer_nodes[0].move_value = leftie * new_base_value + j;
+			game_data.buffer_nodes[0].move_value = leftie * new_base_value + j + off;
 			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
 			game_data.buffer_nodes.splice(0, 1);
 			i++;
