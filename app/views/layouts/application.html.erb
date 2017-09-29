@@ -7,39 +7,36 @@
 	<%= csrf_meta_tags %>
 </head>
 <body>
-<div class="global_grid">
-<div class="container topnav fod_nav">
-	<div class="nav_hover" style="grid-column: brand"><a class="nav_brand noselect" style="color: #B9D6F2;" href="/">Font of Data</a></div>
-	<div class="nav_hover" style="grid-column: play"><a class="nav_link noselect" style="color: #B9D6F2" href="/play">Play</a></div>
-	<div class="nav_hover" style="grid-column: world"><a class="nav_link noselect" style="color: #B9D6F2" href="/story/index">World</a></div>
-	<div class="nav_hover" style="grid-column: about"><a class="nav_link noselect" style="color: #B9D6F2" href="/about/index">About</a></div>
-	<div class="nav_hover" style="grid-column: faq"><a class="nav_link noselect" style="color: #B9D6F2" href="/faq/index">FAQ</a></div>
-	<ul class="nav_button nav_hover" style="grid-column: account; display: flex;">
-		<button class="nav_link noselect nav_hover" onclick="dropper()" style="color: #B9D6F2">My Account</button>
-		<div class="fod_drop"  id="account_menu">
-			<% if user_signed_in? %>
-			<%= link_to 'Profile', current_user, {style: "color: #B9D6F2", class: "dropdown-item"} %>
-			<a class="dropdown-item" style="color: #B9D6F2" href="/user/settings">User settings</a>
-			<%= link_to 'Logout', destroy_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item", method: :delete} %>
-			<% else %>
-			<%= link_to 'Sign In', new_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item"} %>
-			<%= link_to 'Sign Up', new_user_registration_path, {style: "color: #B9D6F2", class: "dropdown-item"} %>
-			<% end %>
+	<div class="global_grid">
+		<div class="container topnav fod_nav">
+			<div class="nav_hover" style="grid-column: brand"><a class="nav_brand noselect" style="color: #B9D6F2;" href="/">Font of Data</a></div>
+			<div class="nav_hover" style="grid-column: play"><a class="nav_link noselect" style="color: #B9D6F2" href="/play">Play</a></div>
+			<div class="nav_hover" style="grid-column: world"><a class="nav_link noselect" style="color: #B9D6F2" href="/story/index">World</a></div>
+			<div class="nav_hover" style="grid-column: about"><a class="nav_link noselect" style="color: #B9D6F2" href="/about/index">About</a></div>
+			<div class="nav_hover" style="grid-column: faq"><a class="nav_link noselect" style="color: #B9D6F2" href="/faq/index">FAQ</a></div>
+			<ul class="nav_button nav_hover" style="grid-column: account; display: flex;">
+				<button class="nav_link noselect nav_hover" onclick="dropper()" style="color: #B9D6F2">My Account</button>
+				<div class="fod_drop"  id="account_menu">
+					<% if user_signed_in? %>
+					<%= link_to 'Profile', current_user, {style: "color: #B9D6F2", class: "dropdown-item"} %>
+					<a class="dropdown-item" style="color: #B9D6F2" href="/user/settings">User settings</a>
+					<%= link_to 'Logout', destroy_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item", method: :delete} %>
+					<% else %>
+					<%= link_to 'Sign In', new_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item"} %>
+					<%= link_to 'Sign Up', new_user_registration_path, {style: "color: #B9D6F2", class: "dropdown-item"} %>
+					<% end %>
+				</div>
+			</ul>
 		</div>
-	</ul>
-</div>
-<% unless notice == nil %>
-<div id="alert_box" class="alert_wrap">
-	<p class="notice"><%= notice %></p>
-	<p class="alert"><%= alert %></p>
-	<script>
-		setTimeout(function() {
-			$('#alert_box').fadeOut('fast');
-		}, 3000);
-	</script>
-</div>
-<% end %>
-<%= yield %>
-</div>
+		<!-- <script></script> -->
+		<% unless notice == nil %>
+		<div id="alert_box" class="alert_wrap">
+			<!-- <span id="close">X</span> -->
+			<p class="notice"><%= notice %></p>
+			<p class="alert"><%= alert %></p>
+		</div>
+		<% end %>
+		<%= yield %>
+	</div>
 </body>
 </html>
