@@ -275,4 +275,8 @@ class InteractionsController < ApplicationController
 	# 	end
 	end
 
+	def not_blocked
+
+	end
+
 end
