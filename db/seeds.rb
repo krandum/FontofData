@@ -27,3 +27,31 @@ data_nodes = DataNode.create([{ value: 4, faction_id: 3 },
                               { value: 13, faction_id: 4 },
                               { value: 14, faction_id: 4 },
                               { value: 15, faction_id: 4 }])
+
+data_nodes.find(1).connections << data_nodes.find(5)
+data_nodes.find(5).connections << data_nodes.find(1)
+data_nodes.find(1).connections << data_nodes.find(6)
+data_nodes.find(6).connections << data_nodes.find(1)
+data_nodes.find(5).connections << data_nodes.find(6)
+data_nodes.find(6).connections << data_nodes.find(5)
+data_nodes.find(6).connections << data_nodes.find(7)
+data_nodes.find(7).connections << data_nodes.find(6)
+
+data_nodes.find(2).connections << data_nodes.find(3)
+data_nodes.find(3).connections << data_nodes.find(2)
+data_nodes.find(2).connections << data_nodes.find(8)
+data_nodes.find(8).connections << data_nodes.find(2)
+data_nodes.find(3).connections << data_nodes.find(9)
+data_nodes.find(9).connections << data_nodes.find(3)
+data_nodes.find(8).connections << data_nodes.find(9)
+data_nodes.find(9).connections << data_nodes.find(8)
+
+
+data_nodes.find(4).connections << data_nodes.find(11)
+data_nodes.find(11).connections << data_nodes.find(4)
+data_nodes.find(4).connections << data_nodes.find(12)
+data_nodes.find(12).connections << data_nodes.find(4)
+data_nodes.find(10).connections << data_nodes.find(11)
+data_nodes.find(11).connections << data_nodes.find(10)
+data_nodes.find(11).connections << data_nodes.find(12)
+data_nodes.find(12).connections << data_nodes.find(11)
