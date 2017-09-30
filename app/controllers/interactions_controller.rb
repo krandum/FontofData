@@ -81,25 +81,31 @@ class InteractionsController < ApplicationController
 			case @effect.effect_name
 			when 'attack'
 				if nodes_adjacent?(params['origin'].to_i, params['target'].to_i)
-					unless @target.id.nil?
-						@target.update_attribute(:faction_id, @origin.faction_id)
-						p "not 0"
+					if !@origin.connections.where(value: params['target']).empty?
+						unless @target.id.nil?
+							@target.update_attribute(:faction_id, @origin.faction_id)
+							@target.update_attribute(:user_id, @origin.user_id)
+						else
+							@target = current_user.data_nodes.build(value: params['target'], faction_id: @origin.faction_id)
+							@target.save
+						end
+						out['status'] = 'success'
+						out['target'] = 'to_origin'
 					else
-						@target = current_user.data_nodes.build(value: params['target'], faction_id: @origin.faction_id)
-						@target.save
-						p "0"
+						out['status'] = 'not_connected'
 					end
-					out['status'] = 'success'
-					out['target'] = 'to_origin'
 				else
 					out['status'] = 'not_adjacent'
 				end
 			when 'connect'
 				if nodes_adjacent?(params['origin'].to_i, params['target'].to_i)
-					@origin.connections << @target
-					if @origin != 0
+					if @target.id.nil?
+						@target.save
+					end
+					if @origin.id.nil?
 						@origin.save
 					end
+					@origin.connections << @target
 					out['status'] = 'success'
 				else
 					out['status'] = 'not_adjacent'
@@ -112,20 +118,20 @@ class InteractionsController < ApplicationController
 			when 'swap'
 				tmp_ori_id = 1
 				tmp_targ_id = 1
-				unless @origin == 0
+				unless @origin.id.nil?
 					tmp_ori_id = @origin.id
 				end
-				unless @target == 0
+				unless @target.id.nil?
 					tmp_targ_id = @target.id
 				end
-				if @origin != 0
+				if !@origin.id.nil?
 					@origin.update_attribute(:faction_id, tmp_targ_id)
-				elsif @target != 0
+				elsif !@target.id.nil?
 					@origin = DataNode.create!(value: params['origin'], faction_id: @target.faction_id)
 				end
-				if @target != 0
+				if !@target.id.nil?
 					@target.update_attribute(:faction_id, tmp_ori_id)
-				elsif @origin != 0
+				elsif !@origin.id.nil?
 					@target = DataNode.create!(value: params['origin'], faction_id: @origin.faction_id)
 				end
 				out['status'] = 'success'
