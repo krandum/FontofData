@@ -206,12 +206,12 @@ $(document).on('ready page:load', function() {
 		}
 		target.attack.group.position.x = target.attack.base.x;
 		target.attack.group.position.y = target.attack.base.y;
-		if (target.give.group.bounds.width < sigma_frac * target.give.base.width) {
-			target.give.group.bounds.width = sigma_frac * target.give.base.width;
-			target.give.group.bounds.height = sigma_frac * target.give.base.height;
+		if (target.connect.group.bounds.width < sigma_frac * target.connect.base.width) {
+			target.connect.group.bounds.width = sigma_frac * target.connect.base.width;
+			target.connect.group.bounds.height = sigma_frac * target.connect.base.height;
 		}
-		target.give.group.position.x = target.give.base.x;
-		target.give.group.position.y = target.give.base.y;
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
 	}
 
 	var pop_action_stop = function(target) {
@@ -227,14 +227,12 @@ $(document).on('ready page:load', function() {
 		}
 		target.attack.group.position.x = target.attack.base.x;
 		target.attack.group.position.y = target.attack.base.y;
-		console.log(target.attack);
-		if (target.give.group.bounds.width < target.give.base.width) {
-			target.give.group.bounds.width = target.give.base.width;
-			target.give.group.bounds.height = target.give.base.height;
+		if (target.connect.group.bounds.width < target.connect.base.width) {
+			target.connect.group.bounds.width = target.connect.base.width;
+			target.connect.group.bounds.height = target.connect.base.height;
 		}
-		target.give.group.position.x = target.give.base.x;
-		target.give.group.position.y = target.give.base.y;
-		console.log(target.give);
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
 		return false;
 	}
 
@@ -251,12 +249,12 @@ $(document).on('ready page:load', function() {
 		}
 		target.attack.group.position.x = target.attack.base.x;
 		target.attack.group.position.y = target.attack.base.y;
-		if (target.give.group.bounds.width > (1 - sigma_frac) * target.give.base.width) {
-			target.give.group.bounds.width = (1 - sigma_frac) * target.give.base.width;
-			target.give.group.bounds.height = (1 - sigma_frac) * target.give.base.height;
+		if (target.connect.group.bounds.width > (1 - sigma_frac) * target.connect.base.width) {
+			target.connect.group.bounds.width = (1 - sigma_frac) * target.connect.base.width;
+			target.connect.group.bounds.height = (1 - sigma_frac) * target.connect.base.height;
 		}
-		target.give.group.position.x = target.give.base.x;
-		target.give.group.position.y = target.give.base.y;
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
 	}
 
 	var unpop_action_stop = function(target) {
@@ -272,22 +270,22 @@ $(document).on('ready page:load', function() {
 		}
 		target.attack.group.position.x = target.attack.base.x;
 		target.attack.group.position.y = target.attack.base.y;
-		if (target.give.group.bounds.width > 0) {
-			target.give.group.bounds.width = 0;
-			target.give.group.bounds.height = 0;
+		if (target.connect.group.bounds.width > 0) {
+			target.connect.group.bounds.width = 0;
+			target.connect.group.bounds.height = 0;
 		}
-		target.give.group.position.x = target.give.base.x;
-		target.give.group.position.y = target.give.base.y;
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
 		target.move.group.remove();
 		target.attack.group.remove();
-		target.give.group.remove();
+		target.connect.group.remove();
 		var index = game_data.actions.indexOf(target.move);
 		if (typeof(index) != 'undefined' && index != null)
 			game_data.actions.splice(index, 1);
 		index = game_data.actions.indexOf(target.attack);
 		if (typeof(index) != 'undefined' && index != null)
 			game_data.actions.splice(index, 1);
-		index = game_data.actions.indexOf(target.give);
+		index = game_data.actions.indexOf(target.connect);
 		if (typeof(index) != 'undefined' && index != null)
 			game_data.actions.splice(index, 1);
 		return false;
@@ -439,6 +437,8 @@ $(document).on('ready page:load', function() {
 			position: elem,
 			group: out_node,
 			relative_pos: relative_pos,
+			connection_values: [],
+			connections: null,
 			selected: false,
 			hovered: false,
 			grown: false,
@@ -885,33 +885,33 @@ $(document).on('ready page:load', function() {
 			size_dx: attack_base.width / scope.view.size.height,
 			size_dy: attack_base.height / scope.view.size.height
 		};
-		var give_rad = move_rad;
-		var give_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
-		var give_y = (1.8 * move_rad + target.group.bounds.height / 2) / -2;
-		var give_point = new scope.Point(ref_x + give_x, ref_y + give_y);
-		var give_circle = new scope.Path.Circle(give_point, give_rad);
-		give_circle.strokeWidth = ref_stroke_width / 2;
-		give_circle.strokeColor = colors['line'];
-		give_circle.fillColor = colors['fill'];
-		var give_char = new scope.PointText(give_point);
-		give_char.position.x -= give_rad / 2;
-		give_char.fillColor = colors['num'];
-		give_char.content = 'G';
-		give_char.bounds.width = give_rad;
-		give_char.bounds.height = give_rad * 4 / 3;
-		var give_option = new scope.Group(give_circle, give_char);
-		var give_base = new scope.Rectangle();
-		give_base.x = give_option.position.x;
-		give_base.y = give_option.position.y;
-		give_base.width = give_option.bounds.width;
-		give_base.height = give_option.bounds.height;
-		give_option.bounds.width = 0.0001;
-		give_option.bounds.height = 0.0001;
-		var give_relative_pos = {
-			x: give_base.x / scope.view.size.width,
-			y: give_base.y / scope.view.size.height,
-			size_dx: give_base.width / scope.view.size.height,
-			size_dy: give_base.height / scope.view.size.height
+		var connect_rad = move_rad;
+		var connect_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
+		var connect_y = (1.8 * move_rad + target.group.bounds.height / 2) / -2;
+		var connect_point = new scope.Point(ref_x + connect_x, ref_y + connect_y);
+		var connect_circle = new scope.Path.Circle(connect_point, connect_rad);
+		connect_circle.strokeWidth = ref_stroke_width / 2;
+		connect_circle.strokeColor = colors['line'];
+		connect_circle.fillColor = colors['fill'];
+		var connect_char = new scope.PointText(connect_point);
+		connect_char.position.x -= connect_rad / 2;
+		connect_char.fillColor = colors['num'];
+		connect_char.content = 'C';
+		connect_char.bounds.width = connect_rad;
+		connect_char.bounds.height = connect_rad * 4 / 3;
+		var connect_option = new scope.Group(connect_circle, connect_char);
+		var connect_base = new scope.Rectangle();
+		connect_base.x = connect_option.position.x;
+		connect_base.y = connect_option.position.y;
+		connect_base.width = connect_option.bounds.width;
+		connect_base.height = connect_option.bounds.height;
+		connect_option.bounds.width = 0.0001;
+		connect_option.bounds.height = 0.0001;
+		var connect_relative_pos = {
+			x: connect_base.x / scope.view.size.width,
+			y: connect_base.y / scope.view.size.height,
+			size_dx: connect_base.width / scope.view.size.height,
+			size_dy: connect_base.height / scope.view.size.height
 		};
 		var options = {
 			target: target,
@@ -933,10 +933,10 @@ $(document).on('ready page:load', function() {
 				grown: false,
 				value: target.value
 			},
-			give: {
-				group: give_option,
-				relative_pos: give_relative_pos,
-				base: give_base,
+			connect: {
+				group: connect_option,
+				relative_pos: connect_relative_pos,
+				base: connect_base,
 				selected: false,
 				hovered: false,
 				grown: false,
@@ -945,7 +945,7 @@ $(document).on('ready page:load', function() {
 		};
 		game_data.actions.push(options.move);
 		game_data.actions.push(options.attack);
-		game_data.actions.push(options.give);
+		game_data.actions.push(options.connect);
 		move_option.onMouseEnter = function(event) {
 			options.move.hovered = true;
 			grow_node(options.move);
@@ -978,16 +978,16 @@ $(document).on('ready page:load', function() {
 		attack_option.onClick = function(event) {
 			select_action(options.attack);
 		}
-		give_option.onMouseEnter = function(event) {
-			options.give.hovered = true;
-			grow_node(options.give);
+		connect_option.onMouseEnter = function(event) {
+			options.connect.hovered = true;
+			grow_node(options.connect);
 		}
-		give_option.onMouseLeave = function(event) {
-			options.give.hovered = false;
-			ungrow_node(options.give);
+		connect_option.onMouseLeave = function(event) {
+			options.connect.hovered = false;
+			ungrow_node(options.connect);
 		}
-		give_option.onClick = function(event) {
-			select_action(options.give);
+		connect_option.onClick = function(event) {
+			select_action(options.connect);
 		}
 		// move_option.onClick = function(event) {
 		// 	check_selection(move_option);
