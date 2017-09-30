@@ -30,14 +30,14 @@ $(document).on('ready page:load', function() {
 			2: { // Red Rocks
 				line: '#e52d00',
 				num: '#e52d00',
-				fill: '#FAF9F9',
-				selected: '#e98a15',
-				glow: '#e98a15'
+				fill: '#faf9f9',
+				selected: '#ff8300',
+				glow: '#ff8300'
 			},
 			3: { // Green Elves
 				line: '#3eb200',
 				num: '#3eb200',
-				fill: '#edeec0',
+				fill: '#ffffd8',
 				selected: '#40ed4b',
 				glow: '#40ed4b'
 			},
@@ -432,6 +432,8 @@ $(document).on('ready page:load', function() {
 			size_dy: out_node.bounds.height / scope.view.size.height
 		};
 
+		var leftie = elem % 2 == 0 ? false : true;
+
 		let total_node = {
 			value: elem,
 			position: elem,
@@ -445,7 +447,8 @@ $(document).on('ready page:load', function() {
 			options: null,
 			node: true,
 			move_target: null,
-			move_thickness: thickness
+			move_thickness: thickness,
+			left_pointed: leftie
 		};
 
 		out_node.onMouseEnter = function(event) {
@@ -771,6 +774,11 @@ $(document).on('ready page:load', function() {
 			cur_node.group.firstChild.bounds.width = cur_node.move_target.size_dx * height;
 			cur_node.group.firstChild.bounds.height = cur_node.move_target.size_dy * height;
 			cur_node.value = cur_node.move_value;
+			var leftie = cur_node.value % 2 == 0 ? false : true;
+			if (leftie != cur_node.left_pointed) {
+				cur_node.left_pointed = leftie;
+				cur_node.group.firstChild.scale(-1, 1);
+			}
 			var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
 			var num_digits = cur_node.value.toString().length;
 			cur_node.relative_pos = cur_node.move_target;
@@ -962,7 +970,6 @@ $(document).on('ready page:load', function() {
 		attack_option.onMouseEnter = function(event) {
 			options.attack.hovered = true;
 			grow_node(options.attack);
-			console.log(attack_option)
 		}
 		attack_option.onMouseLeave = function(event) {
 			options.attack.hovered = false;
