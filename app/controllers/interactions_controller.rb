@@ -105,9 +105,13 @@ class InteractionsController < ApplicationController
 					if @origin.id.nil?
 						@origin.save
 					end
-					@origin.connections << @target
-					@target.connections << @origin
-					out['status'] = 'success'
+					begin
+						@origin.connections << @target
+						@target.connections << @origin
+						out['status'] = 'success'
+					rescue ActiveRecord::RecordNotUnique
+						out['status'] = 'connection_exists'
+					end
 				else
 					out['status'] = 'not_adjacent'
 				end
