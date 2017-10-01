@@ -106,6 +106,7 @@ class InteractionsController < ApplicationController
 						@origin.save
 					end
 					@origin.connections << @target
+					@target.connections << @origin
 					out['status'] = 'success'
 				else
 					out['status'] = 'not_adjacent'
