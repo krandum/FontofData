@@ -72,17 +72,23 @@ class DataNodesController < ApplicationController
 			range = ranges[i.to_s]
 			cur = range[:from].to_i
 			while (cur <= range[:to].to_i)
+
 				curNode = DataNode.where(value: cur).first
-				unless curNode.nil? || curNode == 0
+				unless curNode.nil?
 					out['nodes'][cur] = {
 						'value' => cur,
 						'faction_id' => curNode.faction_id
 					}
+					out['nodes'][cur]['bro'] = curNode.connections.where(value: cur - 1).first.try(:value)
+					out['nodes'][cur]['dad'] = curNode.connections.where(value: cur >> 1).first.try(:value)
+
 				else
 					out['nodes'][cur] = {
 						'value' => cur,
 						'faction_id' => 1
 					}
+					out['nodes'][cur]['bro'] = nil
+					out['nodes'][cur]['dad'] = nil
 				end
 				cur += 1
 			end

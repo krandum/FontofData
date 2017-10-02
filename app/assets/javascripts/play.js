@@ -13,6 +13,7 @@ $(document).on('ready page:load', function() {
 
 	var game_data = {
 		node_factions: [],
+		node_connections: [],
 		active_nodes: [],
 		buffer_nodes: [],
 		selected_nodes: [],
@@ -206,12 +207,12 @@ $(document).on('ready page:load', function() {
 		}
 		target.attack.group.position.x = target.attack.base.x;
 		target.attack.group.position.y = target.attack.base.y;
-		if (target.give.group.bounds.width < sigma_frac * target.give.base.width) {
-			target.give.group.bounds.width = sigma_frac * target.give.base.width;
-			target.give.group.bounds.height = sigma_frac * target.give.base.height;
+		if (target.connect.group.bounds.width < sigma_frac * target.connect.base.width) {
+			target.connect.group.bounds.width = sigma_frac * target.connect.base.width;
+			target.connect.group.bounds.height = sigma_frac * target.connect.base.height;
 		}
-		target.give.group.position.x = target.give.base.x;
-		target.give.group.position.y = target.give.base.y;
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
 	}
 
 	var pop_action_stop = function(target) {
@@ -227,14 +228,12 @@ $(document).on('ready page:load', function() {
 		}
 		target.attack.group.position.x = target.attack.base.x;
 		target.attack.group.position.y = target.attack.base.y;
-		console.log(target.attack);
-		if (target.give.group.bounds.width < target.give.base.width) {
-			target.give.group.bounds.width = target.give.base.width;
-			target.give.group.bounds.height = target.give.base.height;
+		if (target.connect.group.bounds.width < target.connect.base.width) {
+			target.connect.group.bounds.width = target.connect.base.width;
+			target.connect.group.bounds.height = target.connect.base.height;
 		}
-		target.give.group.position.x = target.give.base.x;
-		target.give.group.position.y = target.give.base.y;
-		console.log(target.give);
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
 		return false;
 	}
 
@@ -251,12 +250,12 @@ $(document).on('ready page:load', function() {
 		}
 		target.attack.group.position.x = target.attack.base.x;
 		target.attack.group.position.y = target.attack.base.y;
-		if (target.give.group.bounds.width > (1 - sigma_frac) * target.give.base.width) {
-			target.give.group.bounds.width = (1 - sigma_frac) * target.give.base.width;
-			target.give.group.bounds.height = (1 - sigma_frac) * target.give.base.height;
+		if (target.connect.group.bounds.width > (1 - sigma_frac) * target.connect.base.width) {
+			target.connect.group.bounds.width = (1 - sigma_frac) * target.connect.base.width;
+			target.connect.group.bounds.height = (1 - sigma_frac) * target.connect.base.height;
 		}
-		target.give.group.position.x = target.give.base.x;
-		target.give.group.position.y = target.give.base.y;
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
 	}
 
 	var unpop_action_stop = function(target) {
@@ -272,22 +271,25 @@ $(document).on('ready page:load', function() {
 		}
 		target.attack.group.position.x = target.attack.base.x;
 		target.attack.group.position.y = target.attack.base.y;
-		if (target.give.group.bounds.width > 0) {
-			target.give.group.bounds.width = 0;
-			target.give.group.bounds.height = 0;
+		if (target.connect.group.bounds.width > 0) {
+			target.connect.group.bounds.width = 0;
+			target.connect.group.bounds.height = 0;
 		}
-		target.give.group.position.x = target.give.base.x;
-		target.give.group.position.y = target.give.base.y;
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
+		target.move.group.removeChildren();
 		target.move.group.remove();
+		target.attack.group.removeChildren();
 		target.attack.group.remove();
-		target.give.group.remove();
+		target.connect.group.removeChildren();
+		target.connect.group.remove();
 		var index = game_data.actions.indexOf(target.move);
 		if (typeof(index) != 'undefined' && index != null)
 			game_data.actions.splice(index, 1);
 		index = game_data.actions.indexOf(target.attack);
 		if (typeof(index) != 'undefined' && index != null)
 			game_data.actions.splice(index, 1);
-		index = game_data.actions.indexOf(target.give);
+		index = game_data.actions.indexOf(target.connect);
 		if (typeof(index) != 'undefined' && index != null)
 			game_data.actions.splice(index, 1);
 		return false;
@@ -318,13 +320,21 @@ $(document).on('ready page:load', function() {
 				var i = 1;
 				while (i < 64) {
 					game_data.node_factions[i] = in_nodes[i]['faction_id'];
+					var cur_connections = {
+						dad: in_nodes[i]['dad'],
+						bro: in_nodes[i]['bro']
+					};
+					game_data.node_connections[i] = cur_connections;
 					i++;
 				}
 				game_data.active_nodes = build_nodes(6, scope.view.size.width,
 					scope.view.size.height);
+				i = 0;
+				while (i < 63) {
+					show_connections(game_data.active_nodes[i]);
+					i++;
+				}
 				game_data.global_root = game_data.active_nodes[0];
-				console.log(game_data.active_nodes);
-				console.log(game_data.global_root);
 			},
 			async: true
 		});
@@ -346,8 +356,19 @@ $(document).on('ready page:load', function() {
 					var j = ranges[i].from;
 					while (j < ranges[i].to) {
 						game_data.node_factions[j] = in_nodes[j]['faction_id'];
+						var cur_connections = {
+							dad: in_nodes[j]['dad'],
+							bro: in_nodes[j]['bro']
+						};
+						game_data.node_connections[j] = cur_connections;
 						j++;
 					}
+					i++;
+				}
+				i = 0;
+				while (i < game_data.active_nodes.length) {
+					var cur_node = game_data.active_nodes[i];
+					hide_connections(cur_node);
 					i++;
 				}
 				add_animation(null, move_nodes, confirm_moved_nodes, 1000);
@@ -355,7 +376,117 @@ $(document).on('ready page:load', function() {
 		});
 	}
 
-	function get_node(elem, center, size, thickness) {
+	function shorten_line(line, start_trim, end_trim) {
+		var start = line.firstSegment.point;
+		var end = line.lastSegment.point;
+		var theta = Math.atan((start.y - end.y) / (start.x - end.x));
+		var x_sign = end.x > start.x ? 1 : -1;// from start to end
+		var new_start = new scope.Point(start.x + x_sign * Math.cos(theta) * start_trim,
+			start.y + x_sign * Math.sin(theta) * start_trim);
+		var new_end = new scope.Point(end.x - x_sign * Math.cos(theta) * end_trim,
+			end.y - x_sign * Math.sin(theta) * end_trim);
+		line.firstSegment.point = new_start;
+		line.lastSegment.point = new_end;
+	}
+
+	function tug_of_war(line, ratio, start_faction, end_faction) {
+		var start = new scope.Point(line.firstSegment.point);
+		var end = new scope.Point(line.lastSegment.point);
+		var dx = Math.abs(start.x - end.x);
+		var dy = Math.abs(start.y - end.y);
+		var refx = Math.min(start.x, end.x);
+		var refy = Math.min(start.y, end.y);
+		var mid = new scope.Point(refx + dx * ratio, refy + dy * ratio);
+		var thick = line.strokeWidth;
+		line.remove();
+		var first = new scope.Path.Line(start, mid);
+		first.strokeWidth = thick;
+		first.strokeColor = game_data.colors[start_faction.toString()].line;
+		var second= new scope.Path.Line(mid, end);
+		second.strokeWidth = thick;
+		second.strokeColor = game_data.colors[end_faction.toString()].line;
+		line = new scope.Group(first, second);
+		return line;
+	}
+
+	function show_parent(parent, son) {
+		var son_sign = son.value % 2 == 0 ? 1 : -1;
+		var from = new scope.Point(parent.group.position.x, parent.group.position.y);
+		var to = new scope.Point(son.group.position.x, son.group.position.y);
+		var connection = new scope.Path.Line(from, to);
+		shorten_line(connection, parent.rad * 1.2, son.rad * 0.7);
+		connection.strokeWidth = (parent.group.firstChild.strokeWidth +
+			son.group.firstChild.strokeWidth) / 2;
+		if (game_data.node_factions[parent.value] == game_data.node_factions[son.value]) {
+			var colors = game_data.colors[game_data.node_factions[parent.value].toString()];
+			connection.strokeColor = colors.line;
+		}
+		else {
+			connection = tug_of_war(connection, 0.5, game_data.node_factions[parent.value],
+				game_data.node_factions[son.value]);
+		}
+		return connection;
+	}
+
+	function show_brother(brother, sis) {
+		var sis_sign = sis.value % 2 == 0 ? 1 : -1;
+		var from = new scope.Point(brother.group.position.x, brother.group.position.y);
+		var to = new scope.Point(sis.group.position.x, sis.group.position.y);
+		var connection = new scope.Path.Line(from, to);
+		shorten_line(connection, brother.rad * 1.2, sis.rad * 1.2);
+		connection.strokeWidth = (brother.group.firstChild.strokeWidth +
+			sis.group.firstChild.strokeWidth) / 2;
+		if (game_data.node_factions[brother.value] == game_data.node_factions[sis.value]) {
+			var colors = game_data.colors[game_data.node_factions[brother.value].toString()];
+			connection.strokeColor = colors.line;
+		}
+		else {
+			connection = tug_of_war(connection, 0.5, game_data.node_factions[brother.value],
+				game_data.node_factions[sis.value]);
+		}
+		return connection;
+	}
+
+	function show_connections(target) {
+		target.connection_values.dad = game_data.node_connections[target.value]['dad'];
+		target.connection_values.bro = game_data.node_connections[target.value]['bro'];
+		connection_dad = null;
+		connection_bro = null;
+		if (target.connection_values.dad != null) {
+			var dad = null
+			var j = 0;
+			while (j < game_data.active_nodes.length) {
+				if (game_data.active_nodes[j].value == target.connection_values.dad) {
+					dad = game_data.active_nodes[j];
+					break;
+				}
+				j++;
+			}
+			if (dad != null)
+				connection_dad = show_parent(dad, target);
+		}
+		if (target.connection_values.bro != null) {
+			var bro = null;
+			j = 0;
+			while (j < game_data.active_nodes.length) {
+				if (game_data.active_nodes[j].value == target.connection_values.bro) {
+					bro = game_data.active_nodes[j];
+					break;
+				}
+				j++;
+			}
+			if (bro != null)
+				connection_bro = show_brother(bro, target);
+		}
+		connections_group = new scope.Group(connection_dad, connection_bro);
+		target.connections = connections_group;
+	}
+
+	function hide_connections(target) {
+		target.connections.remove();
+	}
+
+	function get_node(elem, center, size, thickness, parent, brother) {
 		var num_digits = elem.toString().length;
 		var node_color = game_data.colors[game_data.node_factions[elem].toString()];
 		var half_size = size / 2;
@@ -438,7 +569,13 @@ $(document).on('ready page:load', function() {
 			value: elem,
 			position: elem,
 			group: out_node,
+			rad: half_size,
 			relative_pos: relative_pos,
+			connection_values: {
+				dad: parent,
+				bro: brother
+			},
+			connections: null,
 			selected: false,
 			hovered: false,
 			grown: false,
@@ -483,7 +620,9 @@ $(document).on('ready page:load', function() {
 			point.y = y;
 			point.x = (width / num_sub) / 2;
 			while (j < num_sub) {
-				var new_node = get_node(index, point, node_height, thickness);
+				var new_node = get_node(index, point, node_height, thickness,
+					game_data.node_connections[index]['dad'],
+					game_data.node_connections[index]['bro']);
 				nodes.push(new_node);
 				point.x += width / num_sub;
 				j++;
@@ -783,6 +922,7 @@ $(document).on('ready page:load', function() {
 			var num_digits = cur_node.value.toString().length;
 			cur_node.relative_pos = cur_node.move_target;
 			cur_node.base = null;
+			cur_node.rad = cur_node.group.firstChild.bounds.width / 2;
 			cur_node.group.lastChild.content = cur_node.value;
 			cur_node.moving = false;
 			cur_node.group.firstChild.strokeColor = node_color['line'];
@@ -797,6 +937,11 @@ $(document).on('ready page:load', function() {
 			cur_node.group.lastChild.bounds.height = num_h;
 			cur_node.group.lastChild.bounds.x = cur_node.group.position.x - num_w / 2;
 			cur_node.group.lastChild.bounds.y = cur_node.group.position.y - num_h / 2;
+			i++;
+		}
+		i = 0;
+		while (i < game_data.active_nodes.length) {
+			show_connections(game_data.active_nodes[i]);
 			i++;
 		}
 		game_data.global_root = game_data.active_nodes[0];
@@ -886,33 +1031,33 @@ $(document).on('ready page:load', function() {
 			size_dx: attack_base.width / scope.view.size.height,
 			size_dy: attack_base.height / scope.view.size.height
 		};
-		var give_rad = move_rad;
-		var give_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
-		var give_y = (1.8 * move_rad + target.group.bounds.height / 2) / -2;
-		var give_point = new scope.Point(ref_x + give_x, ref_y + give_y);
-		var give_circle = new scope.Path.Circle(give_point, give_rad);
-		give_circle.strokeWidth = ref_stroke_width / 2;
-		give_circle.strokeColor = colors['line'];
-		give_circle.fillColor = colors['fill'];
-		var give_char = new scope.PointText(give_point);
-		give_char.position.x -= give_rad / 2;
-		give_char.fillColor = colors['num'];
-		give_char.content = 'G';
-		give_char.bounds.width = give_rad;
-		give_char.bounds.height = give_rad * 4 / 3;
-		var give_option = new scope.Group(give_circle, give_char);
-		var give_base = new scope.Rectangle();
-		give_base.x = give_option.position.x;
-		give_base.y = give_option.position.y;
-		give_base.width = give_option.bounds.width;
-		give_base.height = give_option.bounds.height;
-		give_option.bounds.width = 0.0001;
-		give_option.bounds.height = 0.0001;
-		var give_relative_pos = {
-			x: give_base.x / scope.view.size.width,
-			y: give_base.y / scope.view.size.height,
-			size_dx: give_base.width / scope.view.size.height,
-			size_dy: give_base.height / scope.view.size.height
+		var connect_rad = move_rad;
+		var connect_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
+		var connect_y = (1.8 * move_rad + target.group.bounds.height / 2) / -2;
+		var connect_point = new scope.Point(ref_x + connect_x, ref_y + connect_y);
+		var connect_circle = new scope.Path.Circle(connect_point, connect_rad);
+		connect_circle.strokeWidth = ref_stroke_width / 2;
+		connect_circle.strokeColor = colors['line'];
+		connect_circle.fillColor = colors['fill'];
+		var connect_char = new scope.PointText(connect_point);
+		connect_char.position.x -= connect_rad / 2;
+		connect_char.fillColor = colors['num'];
+		connect_char.content = 'C';
+		connect_char.bounds.width = connect_rad;
+		connect_char.bounds.height = connect_rad * 4 / 3;
+		var connect_option = new scope.Group(connect_circle, connect_char);
+		var connect_base = new scope.Rectangle();
+		connect_base.x = connect_option.position.x;
+		connect_base.y = connect_option.position.y;
+		connect_base.width = connect_option.bounds.width;
+		connect_base.height = connect_option.bounds.height;
+		connect_option.bounds.width = 0.0001;
+		connect_option.bounds.height = 0.0001;
+		var connect_relative_pos = {
+			x: connect_base.x / scope.view.size.width,
+			y: connect_base.y / scope.view.size.height,
+			size_dx: connect_base.width / scope.view.size.height,
+			size_dy: connect_base.height / scope.view.size.height
 		};
 		var options = {
 			target: target,
@@ -934,10 +1079,10 @@ $(document).on('ready page:load', function() {
 				grown: false,
 				value: target.value
 			},
-			give: {
-				group: give_option,
-				relative_pos: give_relative_pos,
-				base: give_base,
+			connect: {
+				group: connect_option,
+				relative_pos: connect_relative_pos,
+				base: connect_base,
 				selected: false,
 				hovered: false,
 				grown: false,
@@ -946,7 +1091,7 @@ $(document).on('ready page:load', function() {
 		};
 		game_data.actions.push(options.move);
 		game_data.actions.push(options.attack);
-		game_data.actions.push(options.give);
+		game_data.actions.push(options.connect);
 		move_option.onMouseEnter = function(event) {
 			options.move.hovered = true;
 			grow_node(options.move);
@@ -979,16 +1124,16 @@ $(document).on('ready page:load', function() {
 		attack_option.onClick = function(event) {
 			select_action(options.attack);
 		}
-		give_option.onMouseEnter = function(event) {
-			options.give.hovered = true;
-			grow_node(options.give);
+		connect_option.onMouseEnter = function(event) {
+			options.connect.hovered = true;
+			grow_node(options.connect);
 		}
-		give_option.onMouseLeave = function(event) {
-			options.give.hovered = false;
-			ungrow_node(options.give);
+		connect_option.onMouseLeave = function(event) {
+			options.connect.hovered = false;
+			ungrow_node(options.connect);
 		}
-		give_option.onClick = function(event) {
-			select_action(options.give);
+		connect_option.onClick = function(event) {
+			select_action(options.connect);
 		}
 		// move_option.onClick = function(event) {
 		// 	check_selection(move_option);
@@ -1010,11 +1155,14 @@ $(document).on('ready page:load', function() {
 				datatype: "html",
 				success: function (raw) {
 					var data = JSON.parse(raw);
+					if (data['status'] != 'success') {
+						console.log(data);
+						return;
+					}
 					var origin_fac = game_data.node_factions[origin.value];
 					var target_fac = game_data.node_factions[target.value];
 					var origin_change = data.origin;
 					var target_change = data.target;
-					console.log(data);
 					if (origin_change == 'to_target') {
 						game_data.node_factions[origin.value] = target_fac;
 						var colors = game_data.colors[target_fac.toString()];
@@ -1028,6 +1176,77 @@ $(document).on('ready page:load', function() {
 						target.group.firstChild.strokeColor = colors.line;
 						target.group.firstChild.fillColor = colors.fill;
 						target.group.lastChild.fillColor = colors.num;
+					}
+					if (origin.value == (target.value >> 1)) { // origin is dad
+						game_data.node_connections[target.value].dad = origin.value;
+						hide_connections(target);
+						show_connections(target);
+					}
+					else if (origin.value == (target.value - 1)) { // origin is bro
+						game_data.node_connections[target.value].bro = origin.value;
+						hide_connections(target);
+						show_connections(target);
+					}
+					else if (target.value == (origin.value >> 1)) { // target is dad
+						game_data.node_connections[origin.value].dad = target.value;
+						hide_connections(origin);
+						show_connections(origin);
+					}
+					else if (target.value == (origin.value - 1)) { // target is bro
+						game_data.node_connections[origin.value].bro = target.value;
+						hide_connections(origin);
+						show_connections(origin);
+					}
+					else {
+						console.log("could not find relationsip between: (1/3)");
+						console.log(origin);
+						console.log(target);
+						return;
+					}
+				}
+			});
+		}
+		else if (game_data.action_index == 2) {
+			$.ajax({
+				type: "GET",
+				url: "take_action",
+				data: {
+					origin: origin.value,
+					target: target.value,
+					effect: 4
+				},
+				datatype: "html",
+				success: function (raw) {
+					var data = JSON.parse(raw);
+					if (data['status'] != 'success') {
+						console.log(data);
+						return;
+					}
+					if (origin.value == (target.value >> 1)) { // origin is dad
+						game_data.node_connections[target.value].dad = origin.value;
+						hide_connections(target);
+						show_connections(target);
+					}
+					else if (origin.value == (target.value - 1)) { // origin is bro
+						game_data.node_connections[target.value].bro = origin.value;
+						hide_connections(target);
+						show_connections(target);
+					}
+					else if (target.value == (origin.value >> 1)) { // target is dad
+						game_data.node_connections[origin.value].dad = target.value;
+						hide_connections(origin);
+						show_connections(origin);
+					}
+					else if (target.value == (origin.value - 1)) { // target is bro
+						game_data.node_connections[origin.value].bro = target.value;
+						hide_connections(origin);
+						show_connections(origin);
+					}
+					else {
+						console.log("could not find relationsip between: (1/3)");
+						console.log(origin);
+						console.log(target);
+						return;
 					}
 				}
 			});
