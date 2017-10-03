@@ -2,9 +2,21 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
   def change
     create_table :users do |t|
       ## Database authenticatable
-      t.string :username
+	  # has many:
+	  # => friends(users)
+	  # => quests
+	  # => datan_nodes
+	  # => favorite_nodes(data_nodes)
+
+
+      t.string :username,			null: false, default: ""
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
+	  t.integer :faction_id,		null: false, default: 1
+	  t.integer :gold,				null: false, default: 0
+	  t.decimal :gold_per_min,		null: false, default: 0
+	  t.integer :gems,				null: false, default: 0
+	  t.integer :user_access,		null: false, default: 0
 
     #   ## Recoverable
     #   t.string   :reset_password_token
@@ -31,18 +43,13 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-      t.integer :faction_id
-
       t.timestamps
     end
 
-    add_index :users, :email,                unique: true
+    add_index :users, :email,                  unique: true
+	add_index :users, :username,               unique: true
     # add_index :users, :reset_password_token, unique: true
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
   end
-
-  # def down
-  #   drop_table :users
-  # end
 end

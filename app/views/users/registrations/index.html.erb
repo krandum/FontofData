@@ -19,7 +19,7 @@
 					<td><%= user.username %></td>
 					<td><%= user.email %></td>
 					<td><%= user.faction.faction_name %></td>
-					<td><%= user.admin %></td>
+					<td><%= user.user_access %></td>
 					<td><%= link_to 'Show Profile', user %></td>
 					<td>
 						<table>
@@ -31,9 +31,24 @@
 							</tbody>
 						</table>
 					</td>
+					<% unless current_user&.user_access_before_type_cast < 2 %>
 					<td><%= link_to 'Delete User', user_registration_path, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-					<% unless user.admin? %>
-						<td><%= link_to "make admin", make_user_admin_path(user: user), method: :put %></td>
+					<td>
+						<table>
+							<thead>change admin status</thead>
+							<tbody>
+								<% if user&.user_access_before_type_cast > 0 %>
+									<td><%= link_to "remove status", make_user_admin_path(user: user, access: 0), method: :put %></td>
+								<% end %>
+								<% if user&.user_access_before_type_cast != 1 %>
+									<td><%= link_to "sub-admin", make_user_admin_path(user: user, access: 1), method: :put %></td>
+								<% end %>
+								<% if user&.user_access_before_type_cast != 2 %>
+									<td><%= link_to "admin", make_user_admin_path(user: user, access: 2), method: :put %></td>
+								<% end %>
+							</tbody>
+						</table>
+					</td>
 					<% end %>
 				</tr>
 			<% end %>

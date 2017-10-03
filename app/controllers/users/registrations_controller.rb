@@ -4,7 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /users/index
   def index
-    unless current_user.try(:admin?)
+    unless current_user&.user_access_before_type_cast > 0
       flash[:notice] = "You are not authorized."
       redirect_to root_path
     else
@@ -20,7 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /
   def change_faction
     @user = User.find(params.require(:user))
-    unless current_user.id == @user.id || current_user.admin?
+    if current_user.id != @user.id && current_user&.user_access_before_type_cast < 1
       flash[:notice] = "You are not authorized."
     else
       flash[:notice] = "faction changed."
@@ -32,11 +32,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT
   def make_admin
     @user = User.find(params.require(:user))
-    unless current_user.admin?
+    if current_user&.user_access_before_type_cast < 2
       flash[:notice] = "Not sure how you got here, but no."
     else
       flash[:notice] = @user.username + " is now an admin"
-      @user.update_attribute(:admin, true)
+      @user.update_attribute(:user_access, params.require(:access).to_i)
+		# @user.user_access = params.require(:access).to_i
     end
     redirect_back(fallback_location: root_path)
   end
