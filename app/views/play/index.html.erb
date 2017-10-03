@@ -11,8 +11,23 @@
 				</table>
 			</div>
 		<% else %>
-			<div class='local grid_play'>
+			<div class='local wrap play_grid'>
 				<canvas class="myCanvas" id="myCanvas" resize></canvas>
+				<div class="status_bar">
+					<div class="profile_pic"></div>
+					<div class="username"></div>
+				</div>
+				<div class="clusters"></div>
+				<div class="quest_log"></div>
+				<div class="search_bar"></div>
+				<div class="info">
+					<div class="nameplate"><span id="nameword">Name: </span><span id="nodename">7</span></div>
+					<div class="typename"><span id="typename">Jellyfish</span></div>
+					<div class="typeicon"><span id="typeicon"></span></div>
+					<div class="nodeinfo"></div>
+					<div class="typeinfo"></div>
+				</div>
+				<div class="chat_log"></div>
 			</div>
 		<% end %>
 </body>
