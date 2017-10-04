@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
       get 'profile/:id', to: 'users/registrations#profile', as: :user
+	#   delete 'profile/:id', to: 'users/registrations#destroy'
       get 'users/index', to: 'users/registrations#index', as: 'user_index'
       put 'faction_select', to: 'users/registrations#change_faction', as: 'faction_select'
       put 'users/make_admin', to: 'users/registrations#make_admin', as: 'make_user_admin'
