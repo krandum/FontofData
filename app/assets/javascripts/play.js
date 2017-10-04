@@ -22,11 +22,11 @@ $(document).on('ready page:load', function() {
 		animations: [],
 		colors: {
 			1: { // Neutral
-				line: '#ffffff',
-				num: '#ffffff',
-				fill: '#8E8E8E',
-				selected: '#ffffff',
-				glow: '#ffffff'
+				line: '#000000',
+				num: '#000000',
+				fill: '#cecece',
+				selected: '#000000',
+				glow: '#000000'
 			},
 			2: { // Red Rocks
 				line: '#e52d00',
@@ -122,12 +122,14 @@ $(document).on('ready page:load', function() {
 	}
 
 	var grow_animation = function(target, sigma_frac, delta_frac) {
+		var width = scope.view.size.width;
+		var height = scope.view.size.height;
 		if (target.base == null) {
 			target.base = new scope.Rectangle();
-			target.base.width = target.group.bounds.width;
-			target.base.height = target.group.bounds.height;
-			target.base.x = target.group.position.x;
-			target.base.y = target.group.position.y;
+			target.base.width = target.relative_pos.size_dx * height;
+			target.base.height = target.relative_pos.size_dy * height;
+			target.base.x = target.relative_pos.x * width;
+			target.base.y = target.relative_pos.y * height;
 		}
 		if (target.group.bounds.width < (1 + 0.2 * sigma_frac) * target.base.width) {
 			target.group.bounds.width = (1 + 0.2 * sigma_frac) * target.base.width;
@@ -138,12 +140,14 @@ $(document).on('ready page:load', function() {
 	}
 
 	var grow_stop = function(target) {
+		var width = scope.view.size.width;
+		var height = scope.view.size.height;
 		if (target.base == null) {
 			target.base = new scope.Rectangle();
-			target.base.width = target.group.bounds.width;
-			target.base.height = target.group.bounds.height;
-			target.base.x = target.group.position.x;
-			target.base.y = target.group.position.y;
+			target.base.width = target.relative_pos.size_dx * height;
+			target.base.height = target.relative_pos.size_dy * height;
+			target.base.x = target.relative_pos.x * width;
+			target.base.y = target.relative_pos.y * height;
 		}
 		if (target.group.bounds.width < 1.2 * target.base.width) {
 			target.group.bounds.width = 1.2 * target.base.width;
@@ -492,7 +496,7 @@ $(document).on('ready page:load', function() {
 		var half_size = size / 2;
 		var sine_size = size / 2.3;
 		var tan_size = size / 3.7;
-		let quarter_size = size / 4;
+		var quarter_size = size / 4;
 		var basis = new scope.Path();
 		var p1, p2, p3, p4, p5, p6, p7;
 		var proper1, proper2, proper3, proper4;
@@ -557,8 +561,8 @@ $(document).on('ready page:load', function() {
 		let myBounds = out_node.bounds;
 
 		var relative_pos = {
-			x: center.x / scope.view.size.width,
-			y: center.y / scope.view.size.height,
+			x: out_node.position.x / scope.view.size.width,
+			y: out_node.position.y / scope.view.size.height,
 			size_dx: out_node.bounds.width / scope.view.size.height,
 			size_dy: out_node.bounds.height / scope.view.size.height
 		};
@@ -607,9 +611,11 @@ $(document).on('ready page:load', function() {
 
 	function build_nodes(num_layers, width, height) {
 		var nodes = [];
-		var layer_height = height / 3;
-		var node_height = height / 4;
-		var y = height - (layer_height / 2);
+		var total_height = height * 25 / 33 - 54;
+		var bottom_y = height * 27 / 33 - 32;
+		var layer_height = total_height * 243 / 665;
+		var node_height = layer_height * 3 / 4;
+		var y = bottom_y - (layer_height / 2);
 		var point = new scope.Point();
 		var index = 1;
 		var i = 0;
@@ -623,6 +629,16 @@ $(document).on('ready page:load', function() {
 				var new_node = get_node(index, point, node_height, thickness,
 					game_data.node_connections[index]['dad'],
 					game_data.node_connections[index]['bro']);
+				if (i == num_layers - 1) {
+					var dot_w = new_node.group.bounds.width * 0.7246377;
+					var dot_h = dot_w * 0.483333;
+					new_node.group.lastChild.content = "...";
+					new_node.group.lastChild.bounds.width = dot_w;
+					new_node.group.lastChild.bounds.height = dot_h;
+					new_node.group.lastChild.bounds.x = new_node.group.position.x - dot_w / 2;
+					new_node.group.lastChild.bounds.y = new_node.group.position.y - dot_h / 2;
+					new_node.group.firstChild.strokeWidth += 1;
+				}
 				nodes.push(new_node);
 				point.x += width / num_sub;
 				j++;
@@ -630,7 +646,7 @@ $(document).on('ready page:load', function() {
 			}
 			node_height /= 1.5;
 			y -= layer_height / 2;
-			layer_height /= 1.5;
+			layer_height = node_height * 4 / 3;
 			y -= layer_height / 2;
 			i++;
 			if (thickness > 1)
@@ -878,10 +894,10 @@ $(document).on('ready page:load', function() {
 			var cur_node = game_data.active_nodes[i];
 			if (cur_node.base == null) {
 				cur_node.base = new scope.Rectangle();
-				cur_node.base.width = cur_node.relative_pos.size_dx * height;
-				cur_node.base.height = cur_node.relative_pos.size_dy * height;
 				cur_node.base.x = cur_node.relative_pos.x * width;
 				cur_node.base.y = cur_node.relative_pos.y * height;
+				cur_node.base.width = cur_node.relative_pos.size_dx * height;
+				cur_node.base.height = cur_node.relative_pos.size_dy * height;
 			}
 			cur_node.group.position.x = cur_node.base.x + sigma_frac
 				* (cur_node.move_target.x * width - cur_node.base.x);
@@ -890,10 +906,6 @@ $(document).on('ready page:load', function() {
 			cur_node.group.bounds.width = cur_node.base.width + sigma_frac
 				* (cur_node.move_target.size_dx * height - cur_node.base.width);
 			cur_node.group.bounds.height = cur_node.base.height + sigma_frac
-				* (cur_node.move_target.size_dy * height - cur_node.base.height);
-			cur_node.group.firstChild.bounds.width = cur_node.base.width + sigma_frac
-				* (cur_node.move_target.size_dx * height - cur_node.base.width);
-			cur_node.group.firstChild.bounds.height = cur_node.base.height + sigma_frac
 				* (cur_node.move_target.size_dy * height - cur_node.base.height);
 			i++;
 			cur_node.moving = true;
@@ -910,8 +922,6 @@ $(document).on('ready page:load', function() {
 			cur_node.group.position.y = cur_node.move_target.y * height;
 			cur_node.group.bounds.width = cur_node.move_target.size_dx * height;
 			cur_node.group.bounds.height = cur_node.move_target.size_dy * height;
-			cur_node.group.firstChild.bounds.width = cur_node.move_target.size_dx * height;
-			cur_node.group.firstChild.bounds.height = cur_node.move_target.size_dy * height;
 			cur_node.value = cur_node.move_value;
 			var leftie = cur_node.value % 2 == 0 ? false : true;
 			if (leftie != cur_node.left_pointed) {
@@ -928,15 +938,28 @@ $(document).on('ready page:load', function() {
 			cur_node.group.firstChild.strokeColor = node_color['line'];
 			cur_node.group.firstChild.fillColor = node_color['fill'];
 			cur_node.group.firstChild.strokeWidth = cur_node.move_thickness;
-			var sine_size = cur_node.group.bounds.width / 2.3;
-			var num_w = sine_size * (2 - 1 / num_digits);
-			var num_h = (num_w / num_digits) * 1.45;
-			cur_node.group.lastChild.fillColor = node_color['num'];
-			cur_node.group.lastChild.content = cur_node.value.toString();
-			cur_node.group.lastChild.bounds.width = num_w;
-			cur_node.group.lastChild.bounds.height = num_h;
-			cur_node.group.lastChild.bounds.x = cur_node.group.position.x - num_w / 2;
-			cur_node.group.lastChild.bounds.y = cur_node.group.position.y - num_h / 2;
+			if (i < 31) {
+				var sine_size = cur_node.group.firstChild.bounds.width / 2.3;
+				var num_w = sine_size * (2 - 1 / num_digits);
+				var num_h = (num_w / num_digits) * 1.45;
+				cur_node.group.lastChild.visible = true;
+				cur_node.group.lastChild.fillColor = node_color['num'];
+				cur_node.group.lastChild.content = cur_node.value.toString();
+				cur_node.group.lastChild.bounds.width = num_w;
+				cur_node.group.lastChild.bounds.height = num_h;
+				cur_node.group.lastChild.bounds.x = cur_node.group.position.x - num_w / 2;
+				cur_node.group.lastChild.bounds.y = cur_node.group.position.y - num_h / 2;
+			}
+			else {
+				var dot_w = cur_node.group.firstChild.bounds.width * 0.7246377;
+				var dot_h = dot_w * 0.483333;
+				cur_node.group.lastChild.fillColor = node_color['num'];
+				cur_node.group.lastChild.content = "...";
+				cur_node.group.lastChild.bounds.width = dot_w;
+				cur_node.group.lastChild.bounds.height = dot_h;
+				cur_node.group.lastChild.bounds.x = cur_node.group.position.x - dot_w / 2;
+				cur_node.group.lastChild.bounds.y = cur_node.group.position.y - dot_h / 2;
+			}
 			i++;
 		}
 		i = 0;
@@ -955,10 +978,16 @@ $(document).on('ready page:load', function() {
 			var i = 0;
 			while (i < 63) {
 				cur_node = game_data.active_nodes[i];
+				hide_connections(cur_node);
 				cur_node.group.position.x = cur_node.relative_pos.x * width;
 				cur_node.group.position.y = cur_node.relative_pos.y * height;
 				cur_node.group.bounds.width = cur_node.relative_pos.size_dx * height;
 				cur_node.group.bounds.height = cur_node.relative_pos.size_dy * height;
+				i++;
+			}
+			i = 0;
+			while (i < 63) {
+				show_connections(game_data.active_nodes[i]);
 				i++;
 			}
 		}

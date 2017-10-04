@@ -1,5 +1,6 @@
 <div class="local">
 <h1><%= @user.username %></h1>
+<%= image_tag @user.avatar.url(:medium) %>
 <%= @user.faction.faction_name %>
 <% if current_user.id == @user.id %>
 <table>
@@ -10,5 +11,6 @@
     <td><%= link_to Faction.find(4).faction_name, faction_select_path(user: @user, faction: Faction.find(4)), method: :put %></td>
   </tbody>
 </table>
+<%= link_to "edit account info", edit_user_registration_path %>
 <% end %>
 </div>
