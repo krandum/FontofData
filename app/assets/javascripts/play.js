@@ -11,7 +11,16 @@ $(document).on('ready page:load', function() {
 
 	var canvas = document.getElementById("myCanvas");
 
+	var scope = new paper.PaperScope();
+	scope.setup(canvas);
+
+	var w = scope.view.size.width / 2;
+	var h = scope.view.size.height / 2;
+
 	var game_data = {
+		fov: 220,
+		view_dist: h / 1.4,
+		tilt: -19,
 		node_factions: [],
 		node_connections: [],
 		active_nodes: [],
@@ -21,6 +30,10 @@ $(document).on('ready page:load', function() {
 		actions: [],
 		animations: [],
 		colors: {
+			0: { // Background
+				light: [61, 196, 255],
+				dark: [35, 82, 175]
+			},
 			1: { // Neutral
 				line: '#000000',
 				num: '#000000',
@@ -50,12 +63,203 @@ $(document).on('ready page:load', function() {
 				glow: '#9428ab'
 			}
 		},
+		background: {},
 		global_root: null,
 		date: new Date()
 	};
 
-	var scope = new paper.PaperScope();
-	scope.setup(canvas);
+	function make_background() {
+		var background = game_data.background;
+
+		background.y_range = [h / 4, h / 8];
+		background.x_range = [w / 8, w / 12];
+		background.z_range = h / 4;
+		background.z_force = h / 11;
+		background.rows = [];
+		background.add_row = function(base_y) {
+			this.rows.push({
+				first: this.rows.length != 0 ? false : true,
+				points: [],
+				triangles: []
+			});
+			var row_len = this.rows.length;
+			var cur_x = -200;
+			var var_y = Math.floor(Math.random() * this.y_range[1]) - this.y_range[1] / 2;
+			var cur_shifted = new scope.Point(0, var_y + base_y);
+			var z = Math.floor(Math.random() * this.z_range) + this.z_range / 2;
+			rotate_point(cur_shifted);
+			cur_shifted.x = cur_x;
+			z = unrotate_point(cur_shifted, z);
+			cur_x = cur_shifted.x;
+			z = rotate_point(cur_shifted, z);
+			while (cur_shifted.x <= 2*w) {
+				var delta_x = this.x_range[0] + Math.floor(Math.random() * this.x_range[1]);
+				var_y = Math.floor(Math.random() * this.y_range[1]) - this.y_range[1] / 2;
+				var point = new scope.Point(cur_x + delta_x, base_y + var_y);
+				z = rotate_point(point, z);
+				this.rows[row_len-1].points.push({
+					x: point.x,
+					y: point.y,
+					z: z
+				});
+				cur_x += delta_x;
+				cur_shifted.x = cur_x;
+				cur_shifted.y = var_y + base_y;
+				var prev_z = z;
+				while (Math.abs(prev_z - z) < this.z_force)
+				z = Math.floor(Math.random() * this.z_range) - this.z_range / 2;
+				rotate_point(cur_shifted, z);
+			}
+			return cur_shifted.y;
+		};
+
+		background.generate_rows = function(start) {
+			var cur_y = start;
+			var gotten_y = 0;
+			while (gotten_y < 2*h + 100) {
+				gotten_y = this.add_row(cur_y);
+				cur_y += this.y_range[0];
+			}
+		};
+
+		background.remake_grid = function() {
+			if (this.rows.length < 2) {
+				console.log("Error attempting to reset a grid with fewer than two rows");
+				return;
+			}
+			var cur_row_up = 0, cur_row_down = 1;
+			while (cur_row_down < this.rows.length) {
+				var cur_col_up = 0, cur_col_down = 0, moving_up = true;
+				while (cur_col_up < this.rows[cur_row_up].points.length
+					&& cur_col_down < this.rows[cur_row_down].points.length) {
+					var up = this.rows[cur_row_up].points[cur_col_up];
+					var down = this.rows[cur_row_down].points[cur_col_down];
+					if (cur_col_up > 0 || cur_col_down > 0) {
+						var triangle = new scope.Path();
+						var first_point;
+						if (moving_up)
+						first_point = this.rows[cur_row_up].points[cur_col_up - 1];
+						else
+						first_point = this.rows[cur_row_down].points[cur_col_down - 1];
+						var second_point = this.rows[cur_row_up].points[cur_col_up];
+						var third_point = this.rows[cur_row_down].points[cur_col_down];
+						var edge1 = get_vector(second_point, first_point);
+						var edge2 = get_vector(third_point, first_point);
+						var normal = normalize(cross(edge1, edge2));
+						var theta = get_angle(normal, normalize({
+							x: 1,
+							y: 0.5,
+							z: 1
+						}));
+						var cos = Math.cos(theta);
+						var r1 = 61, g1 = 196, b1 = 255;
+						var r2 = 35, g2 = 82, b2 = 175;
+						var red = Math.floor((r1 - r2) * cos) + r2;
+						var green = Math.floor((g1 - g2) * cos) + g2;
+						var blue = Math.floor((b1 - b2) * cos) + b2;
+						var r_bit = red.toString(16);
+						var g_bit = green.toString(16);
+						var b_bit = blue.toString(16);
+						var color = "#" + r_bit + g_bit + b_bit;
+						triangle.add(new scope.Segment(first_point));
+						triangle.add(new scope.Segment(second_point));
+						triangle.add(new scope.Segment(third_point));
+						triangle.closed = true;
+						triangle.fillColor = color;
+						triangle.strokeColor = color;
+						triangle.strokeWidth = 1;
+						triangle.strokeJoin = 'bevel';
+						this.rows[cur_row_down].triangles.push(triangle);
+					}
+					if ((moving_up && up.x > down.x) || (!moving_up && down.x > up.x))
+					moving_up = !moving_up;
+					if (moving_up)
+					cur_col_up++;
+					else
+					cur_col_down++;
+				}
+				cur_row_up++;
+				cur_row_down++;
+			}
+		};
+		background.generate_rows(-h);
+		background.remake_grid();
+	}
+
+	//make_background();
+
+	function rotate_point(point, z) {
+		var rd, ca, sa, ry, rz, f;
+
+		x = point.x - w;
+		y = point.y - h;
+		rd = game_data.tilt * Math.PI / 180;
+		ca = Math.cos(rd);
+		sa = Math.sin(rd);
+
+		ry = y * ca;
+		rz = y * sa;
+
+		f = game_data.fov / (game_data.view_dist + rz);
+		point.x = x * f + w;
+		point.y = ry * f + h;
+		return rz + z;
+	}
+
+	function unrotate_point(point, z) {
+		var rd, ca, sa, ry, rz, f;
+
+		x = point.x - w;
+		y = point.y - h;
+		rd = game_data.tilt * Math.PI / 180;
+		ca = Math.cos(rd);
+		sa = Math.sin(rd);
+
+		point.y = y * game_data.view_dist / (ca * game_data.fov - sa * y);
+		point.x = (x / (game_data.fov / (game_data.view_dist + point.y * sa))) + w;
+		var rz = point.y * sa;
+		point.y += h;
+		return z - rz;
+	}
+
+	function get_angle(vec1, vec2) {
+		var magn1 = Math.sqrt(vec1.x*vec1.x + vec1.y*vec1.y + vec1.z*vec1.z);
+		var magn2 = Math.sqrt(vec2.x*vec2.x + vec2.y*vec2.y + vec2.z*vec2.z);
+		var dot_product = dot(vec1, vec2) / (magn1 * magn2);
+		return dot_product / (magn1 * magn2);
+	}
+
+	function get_vector(p1, p2) {
+		var vector = {
+			x: p2.x - p1.x,
+			y: p2.y - p1.y,
+			z: p2.z - p1.z
+		};
+		return vector;
+	}
+
+	function cross(vec1, vec2) {
+		var vector = {
+			x: vec1.y * vec2.z - vec1.z * vec2.y,
+			y: vec1.z * vec2.x - vec1.x * vec2.z,
+			z: vec1.x * vec2.y - vec1.y * vec2.x
+		};
+		return vector;
+	}
+
+	function dot(vec1, vec2) {
+		return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
+	}
+
+	function normalize(vec) {
+		var magnitude = Math.sqrt(vec.x*vec.x + vec.y*vec.y + vec.z*vec.z);
+		var vector = {
+			x: vec.x / magnitude,
+			y: vec.y / magnitude,
+			z: vec.z / magnitude
+		};
+		return vector;
+	}
 
 	function mouseDown(e) {
 		if (parseInt(navigator.appVersion) > 3) {
@@ -556,9 +760,9 @@ $(document).on('ready page:load', function() {
 			size: [num_w, num_h]
 		});
 
-		let out_node = new scope.Group(basis, num);
-		let selected = false;
-		let myBounds = out_node.bounds;
+		var out_node = new scope.Group(basis, num);
+		var selected = false;
+		var myBounds = out_node.bounds;
 
 		var relative_pos = {
 			x: out_node.position.x / scope.view.size.width,
@@ -569,7 +773,7 @@ $(document).on('ready page:load', function() {
 
 		var leftie = elem % 2 == 0 ? false : true;
 
-		let total_node = {
+		var total_node = {
 			value: elem,
 			position: elem,
 			group: out_node,
@@ -1358,7 +1562,7 @@ $(document).on('ready page:load', function() {
 	function add_animation(target, fractional_render, last_render, length_ms) {
 		game_data.date = new Date();
 		var now = game_data.date.getTime();
-		let animation = {
+		var animation = {
 			target: target,
 			fractional_render: fractional_render,
 			last_render: last_render,
