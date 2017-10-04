@@ -36,6 +36,8 @@ gem 'browserify-rails'
 
 gem 'devise'
 
+gem 'paperclip'
+
 gem 'passenger', '>= 5.0.25', require: 'phusion_passenger/rack_handler'
 
 group :development, :test do

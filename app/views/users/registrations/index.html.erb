@@ -32,7 +32,7 @@
 						</table>
 					</td>
 					<% unless current_user&.user_access_before_type_cast < 2 %>
-					<td><%= link_to 'Delete User', user_registration_path, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+					<td>Delete User<%#= link_to 'Delete User', user_registration_path(user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
 					<td>
 						<table>
 							<thead>change admin status</thead>
