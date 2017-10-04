@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
 
 	has_attached_file :avatar, styles: { medium: "500x500>", thumb: "28x28>" }, default_url: "/images/:style/missing.png"
 	validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
+	validates_with AttachmentSizeValidator, attributes: :avatar, less_than: 100.kilobytes
 
 	belongs_to :faction
 	has_many :data_nodes
