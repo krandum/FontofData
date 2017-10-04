@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 	devise :database_authenticatable, :registerable, :rememberable, :validatable
 	attr_accessor :login
 
-	has_attached_file :avatar, styles: { medium: "500x500>", thumb: "28x28>" }, default_url: "/images/:style/missing.png"
+	has_attached_file :avatar, styles: { medium: "150x150#", thumb: "28x28#" }, default_url: "/images/:style/missing.png"
 	validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
 	validates_with AttachmentSizeValidator, attributes: :avatar, less_than: 100.kilobytes
 
