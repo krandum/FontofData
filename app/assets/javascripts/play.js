@@ -1041,6 +1041,7 @@ $(document).on('ready page:load', function() {
 		attack_circle.strokeColor = colors['line'];
 		attack_circle.fillColor = colors['fill'];
 		var attack_img = new scope.Raster('assets/icons/009-crosshair.png');
+		attack_img.fillColor = colors.num;
 		attack_img.bounds.width = attack_rad * 2;
 		attack_img.bounds.height = attack_rad * 2;
 		attack_img.position.x = attack_point.x;
