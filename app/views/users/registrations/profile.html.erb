@@ -1,7 +1,7 @@
 <div class="local">
 <h1><%= @user.username %></h1>
 <%= image_tag @user.avatar.url(:medium) %>
-<%= @user.faction.faction_name %>
+<%= @user&.faction&.faction_name %>
 <% if current_user.id == @user.id %>
 <table>
   <th colspan="3">change faction</th>
