@@ -1,0 +1,22 @@
+# development:
+#   adapter: async
+#   url: redis://0.0.0.0:3000/
+#
+# test:
+#   adapter: async
+#
+# production:
+#   adapter: redis
+#   url: redis://localhost:3000
+
+
+production:
+    adapter: redis
+    url: redis://10.10.190.8:6379
+
+local: &local
+    adapter: redis
+    url: redis://localhost:6379
+
+development: *local
+test: *local
