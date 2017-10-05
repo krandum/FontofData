@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
 	has_many :cluster_memberships
 
 	has_many :news_posts
+	has_many :chat_rooms, dependent: :destroy
+	has_many :messages, dependent: :destroy
 
 	# before_create :default_faction
 
