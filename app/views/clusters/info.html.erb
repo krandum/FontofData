@@ -1,0 +1,43 @@
+<div class="local">
+	<table>
+		<thead>
+			<th>faction clusters</th>
+		</thead>
+		<tbody>
+			<% @factions.each do |faction| %>
+				<tr>
+					<td><%= faction.faction_name %></td>
+					<td>
+						<table>
+							<% faction.clusters.each do |cluster| %>
+								<tr>home: <% cluster.core.value %></tr>
+								<tr><% cluster.data_nodes.count %></tr>
+							<% end %>
+						</table>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+
+	<table>
+		<thead>
+			<th>user clusters</th>
+		</thead>
+		<tbody>
+			<% @users.each do |user| %>
+				<tr>
+					<td><%= user.username %></td>
+					<td>
+						<table>
+							<% user.owned_clusters.each do |cluster| %>
+								<tr>home: <% cluster.core.value %></tr>
+								<tr><% cluster.data_nodes.count %></tr>
+							<% end %>
+						</table>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>

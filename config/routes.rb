@@ -8,28 +8,36 @@ resources :interactions
 resources :effects
 resources :factions
 resources :data_nodes
-resources :play
+resources :play, only: [:index]
 resources :chat_rooms, only: [:new, :create, :show, :index]
 
 devise_for :users,
 	controllers: { sessions: 'users/sessions' , registrations: 'users/registrations'}
 devise_scope :user do
 	get 'profile/:id', to: 'users/registrations#profile', as: :user
-	# delete 'profile/:id', to: 'users/registrations#destroy'
+	# delete 'profile/:id', to: 'users/registrations#destroy' deletes current user only
 	get 'users/index', to: 'users/registrations#index', as: 'user_index'
 	put 'faction_select', to: 'users/registrations#change_faction', as: 'faction_select'
 	put 'users/make_admin', to: 'users/registrations#make_admin', as: 'make_user_admin'
 end
 
-get 'errors/e404'
-get 'errors/e500'
-get 'home/index'
-get 'about/index'
-get 'story/index'
-get 'faq/index'
+# get 'errors/e404'
+# get 'errors/e500'
+# get 'home/index'
+# get 'about/index'
+# get 'story/index'
+# get 'faq/index'
 get '/take_action', to: 'interactions#take_action'
 get '/request_nodes', to: 'data_nodes#request_nodes'
-root 'home#index'
+get 'clusters/info'
+get 'home', to: 'pages#home'
+get 'about', to: 'pages#about'
+get 'story', to: 'pages#story'
+# get 'play', to: 'pages#play'
+get 'faq', to: 'pages#faq'
+get 'e404', to: 'pages#e404'
+get 'e500', to: 'pages#e500'
+root 'pages#home'
 
 # The priority is based upon order of creation: first created -> highest priority.
 # See how all your routes lay out with "rake routes".

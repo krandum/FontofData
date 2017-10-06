@@ -8,7 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       flash[:notice] = "You are not authorized."
       redirect_to root_path
     else
-      @users = User.all
+      @users = User.includes(:faction).all
     end
   end
 
