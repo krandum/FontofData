@@ -6,43 +6,121 @@
 }
 
 .grid_home {
+	position: absolute;
 	width: 100%;
 	height: 100%;
 	display: grid;
-	grid-template-columns: 1fr 8fr 2fr 26fr 2fr 9fr 1fr;
-	grid-template-rows: [top_margin] 2fr [main] 31fr [bot_margin] 2fr [foot] 2fr;
+	grid-template-columns: 1fr 27fr 8fr;
+	grid-template-rows: [top_margin] 1fr [main] 22fr;
 	grid-template-areas:
-		". . . . . . ."
-		". sidenav . main . hooks ."
-		". . . . . . ."
-		"foot foot foot foot foot foot foot";
+	". . hooks"
+	". page_content hooks"
 }
 
-.row.content {
+.row_content {
 	margin-left: 4px;
 	margin-right: 4px;
 	height: 530px
 }
 
-.main {
-	grid-column: 4/5;
-	grid-row-start: main;
-	grid-row-end: bot_margin;
+.content_item {
+	position: relative;
+	background-color: rgba(200, 82, 53, .75);
+	border: 2px solid black;
 }
 
-.hooks {
+#news_slider {
+	position: relative;
+	height: 500px;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+}
+
+.slide {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	z-index: 1;
+
+	-webkit-transition: opacity 1s;
+	-moz-transition: opacity 1s;
+	-o-transition: opacity 1s;
+	transition: opacity 1s;
+}
+
+.showing {
+	opacity: 1;
+	z-index: 2;
+}
+
+.slide:nth-of-type(1) {
+	background: image_url("background_img.jpg") center;
+}
+.slide:nth-of-type(2) {
+	background: image_url("kyle-gregory-devaras-241280.jpg") center;
+}
+.slide:nth-of-type(3) {
+	background: green;
+}
+.slide:nth-of-type(4) {
+	background: blue;
+}
+.slide:nth-of-type(5) {
+	background: purple;
+}
+
+.page_content {
+	grid-area: page_content;
+}
+
+.slider_button.left:hover {
+	background-color: gray;
+	background: -webkit-linear-gradient(right, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0));
+	background: -o-linear-gradient(right, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to right, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* Standard syntax */
+}
+
+.slider_button.right:hover {
+	background-color: gray;
+	background: -webkit-linear-gradient(left, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0));
+	background: -o-linear-gradient(left, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(left, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to left, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* Standard syntax */
+}
+
+.slider_button.left {
+	left: 0;
+}
+.slider_button.right {
+	right: 0;
+}
+
+.slider_button {
+	position: absolute;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.0);
+	text-align: center;
+	justify-self: center;
+	align-self: center;
+	cursor: pointer;
+	height: 500px;
+	width: 14%;
+	border-radius: 1px;
+	z-index: 3;
+	transition: all 1000ms ease-in-out;
+}
+
+#hooks_container {
 	grid-area: hooks;
-	grid-row: main/bot_margin;
+	margin: 8px;
 	background-color: rgba(27, 82, 153, .75);
 	border: 2px solid rgba(9, 4, 70, .75);
-}
-
-.sidenav {
-	grid-area: sidenav;
-	padding: 10px;
-	padding-top: 20px;
-	background-color: #f1f1f1;
-	border-radius: 1px;
 }
 
 @media screen and (max-width: 767px) {
@@ -50,10 +128,11 @@
 		height: auto;
 		padding: 15px;
 	}
-	.row.content {
+	.row_content {
 		height: auto;
 	}
 }
+
 .fod_foot {
 	height:100%;
 	width: 100%;
@@ -75,10 +154,10 @@
 /* unhighlightable text */
 .noselect {
 	-webkit-touch-callout: none; /* iOS Safari */
-	  -webkit-user-select: none; /* Safari */
-	   -khtml-user-select: none; /* Konqueror HTML */
-		 -moz-user-select: none; /* Firefox */
-		  -ms-user-select: none; /* Internet Explorer/Edge */
-			  user-select: none; /* Non-prefixed version, currently
-									supported by Chrome and Opera */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+	supported by Chrome and Opera */
 }
