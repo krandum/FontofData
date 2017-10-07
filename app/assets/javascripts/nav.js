@@ -2,22 +2,27 @@ function dropper() {
 	document.getElementById("account_menu").classList.toggle("show");
 }
 
-
-var timeout_fn = function () {
-	$('#alert_box').fadeOut('fast');
-}
-var v_timeout = setTimeout("timeout_fn()", 3000);
-
 $(document).on('ready page:load', function() {
-	bind_alert_events();
-});
-
-function bind_alert_events() {
-	$('#alert_box').mouseout( function () {
-		v_timeout = setTimeout("timeout_fn()", 3000)
-	});
-	$('#alert_box').mouseover( function () {
+	var close = document.getElementById('close');
+	var alert_box = document.getElementById('alert_box');
+	var timeout_fn = function () {
+		alert_box.fadeOut('fast');
+	}
+	var v_timeout = setTimeout("timeout_fn()", 3000);
+/*	alert_box.addEventListener('mouseover', function(event) {
+		console.log('over');
 		clearTimeout(v_timeout);
 	});
-	$("#close").click(timeout_fn);
-}
+	alert_box.addEventListener('mouseout', function(event) {
+		v_timeout = setTimeout("timeout_fn()", 3000);
+	});
+	close.addEventListener('click', function(event) {
+		timeout_fn;
+	});
+	document.addEventListener('click', function() {
+		if (document.getElementById("account_menu").classList.contains("show")) {
+			document.getElementById("account_menu").classList.remove("show");
+		}
+	});
+	*/
+});

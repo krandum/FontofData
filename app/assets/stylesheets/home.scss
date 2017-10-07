@@ -14,7 +14,7 @@
 	grid-template-rows: [top_margin] 1fr [main] 22fr;
 	grid-template-areas:
 	". . hooks"
-	". page_content hooks"
+	". page_content hooks";
 }
 
 .row_content {
@@ -25,10 +25,85 @@
 
 .content_item {
 	position: relative;
-	background-color: rgba(200, 82, 53, .75);
+	height: 350px;
+	margin-bottom: 20px;
+	overflow: hidden;
 	border: 2px solid black;
 }
 
+
+//Main content elements
+.expanded {
+	height: 550px;
+	display: block;
+}
+
+.content_img {
+	position: absolute;
+	right: 0;
+	z-index: -1;
+}
+
+.content_text {
+	padding-left: 5px;
+	color: #B9D6F2;
+	position: absolute;
+	width: 50%;
+	left: 0;
+}
+
+.content_grid {
+	height: 100%;
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 350px 1fr 2fr;
+	grid-template-areas:
+	"bg1 bg1 bg1"
+	"bg2 bg2 bg2"
+	"bg3 bg3 bg3";
+}
+.bg_1 {
+	grid-area: bg1;
+	grid-row-end: bg3;
+	height: 100%;
+	width: 100%;
+	background-image: linear-gradient(to right, rgba(9, 4, 70, 1.0), rgba(9, 4, 70, 1.0) 33%, rgba(0, 0, 0, 0.0) 67%);
+}
+.bg_2 {
+	grid-area: bg2;
+	height: 100%;
+	width: 100%;
+	background-image: linear-gradient(to top, rgba(9, 4, 70, 1.0), rgba(0, 0, 0, 0.0));
+}
+.bg_3 {
+	grid-area: bg3;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(9, 4, 70, 1.0);
+}
+
+.content_dropper:hover {
+	opacity: 1;
+}
+
+.content_dropper {
+	position: absolute;
+	grid-area: bg1;
+	cursor: pointer;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	opacity: 0;
+	background-image: linear-gradient(to top, rgba(185, 214, 242, 1.0), rgba(0, 0, 0, 0.0));
+	transition: all 400ms ease-in-out;
+}
+
+.chev_img {
+	opacity: 1;
+}
+
+// News Slideshow
 #news_slider {
 	position: relative;
 	height: 500px;
@@ -75,23 +150,22 @@
 }
 
 .page_content {
+	overflow: scroll;
 	grid-area: page_content;
+}
+
+::-webkit-scrollbar {
+	display: none;
 }
 
 .slider_button.left:hover {
 	background-color: gray;
-	background: -webkit-linear-gradient(right, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0));
-	background: -o-linear-gradient(right, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* For Opera 11.1 to 12.0 */
-	background: -moz-linear-gradient(right, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* For Firefox 3.6 to 15 */
-	background: linear-gradient(to right, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* Standard syntax */
+	background: linear-gradient(to right, rgba(185, 214, 242, 9.0), rgba(0, 0, 0, 0.0));
 }
 
 .slider_button.right:hover {
 	background-color: gray;
-	background: -webkit-linear-gradient(left, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0));
-	background: -o-linear-gradient(left, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* For Opera 11.1 to 12.0 */
-	background: -moz-linear-gradient(left, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* For Firefox 3.6 to 15 */
-	background: linear-gradient(to left, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.0)); /* Standard syntax */
+	background: linear-gradient(to left, rgba(185, 214, 242, 9.0), rgba(0, 0, 0, 0.0));
 }
 
 .slider_button.left {
@@ -149,6 +223,14 @@
 	background: image_url("background_img.jpg") no-repeat center center fixed;
 	background-size: 100%;
 	transform: translateZ(0);
+}
+
+button.content_dropper:focus {
+	outline: none;
+}
+
+button {
+	background: rgba(0, 0, 0, 0.0);
 }
 
 /* unhighlightable text */
