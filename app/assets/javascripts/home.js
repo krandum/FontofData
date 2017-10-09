@@ -6,14 +6,18 @@ function expand_content(elem_num) {
 	for (i=0; i<content_list.length; i++) {
 		if (i == elem_num){
 			content_list[i].classList.toggle('expanded');
-			content_list[i].querySelector('.content_dropper').querySelector('.chev_img').src = 'assets/icons/028-down-chevron.svg';
+			if (content_list[i].querySelector('.content_dropper')) {
+				content_list[i].querySelector('.content_dropper').querySelector('.chev_img').src = 'assets/icons/028-down-chevron.svg';
+			}
 			if (content_list[i].classList.contains('expanded')) {
 				content_list[i].querySelector('.content_dropper').querySelector('.chev_img').src = 'assets/icons/029-up-chevron.svg';
 			}
 		}
 		else {
 			content_list[i].classList.remove('expanded');
-			content_list[i].querySelector('.content_dropper').querySelector('.chev_img').src = 'assets/icons/028-down-chevron.svg';
+			if (content_list[i].querySelector('.content_dropper')) {
+				content_list[i].querySelector('.content_dropper').querySelector('.chev_img').src = 'assets/icons/028-down-chevron.svg';
+			}
 		}
 	}
 }
@@ -27,7 +31,6 @@ $(document).on('ready page:load', function() {
 	var slideInterval = setInterval(nextSlide,8000);
 
 	function nextSlide() {
-		console.log(currentSlide);
 		slides[currentSlide].className = 'slide';
 		currentSlide = (currentSlide+1)%slides.length;
 		slides[currentSlide].className = 'slide showing';
