@@ -3,44 +3,54 @@
 		<div id="hooks_container">
 		</div>
 		<div class="page_content" id="content_list">
-			<div class="content_item">
+			<div class="content_item" style="height: 500px;">
 				<ul id="news_slider">
 					<li class="slide showing">Test 1</li>
 					<li class="slide">Test 2</li>
 					<li class="slide">Test 3</li>
 					<li class="slide">Test 4</li>
 				</ul>
-				<div class="slider_button left"></div>
-				<div class="slider_button right"></div>
+				<button id="prev_slide" class="slider_button left" onclick="this.blur();">
+					<img src="assets/icons/030-left-chevron.svg" style="width: 30px;"></img></button>
+				<button id="next_slide" class="slider_button right" onclick="this.blur();">
+				<img src="assets/icons/031-right-chevron.svg" style="width: 30px;"></img></button>
 			</div>
-			<div class="content_item">
-				<img class="content_img" src="/assets/kyle-gregory-devaras-241280.jpg"></img>
+			<div class="content_item drop">
+				<img class="content_img" src="/assets/FoD_img.png"></img>
 				<div class="content_grid">
-					<div class='content_text'>
-						<h1>Font of Data</h1>
-						<p>Welcome to Font of Data, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-						<br>
-						<h3>Test</h3>
-						<p>Lorem ipsum...</p>
+					<div class='content_title'>
+						<br><h1>Welcome to Font of Data</h1><br><br>
+						<h2>Stake your claim in the Font of Data, blurb blurb</h2>
+					</div>
+					<div class="content_text">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 					</div>
 					<div class='bg_1'></div>
 					<div class='bg_2'></div>
 					<div class='bg_3'></div>
-					<button class='content_dropper noselect' onclick='expand_content(1)'>
-						<img class="chev_img" src="assets/icons/028-down-chevron.svg" style="width: 30px;"></img>
-					</button>
+					<div class="chev_container"><img class="chev_img" src="assets/icons/028-down-chevron.svg" style="width: 30px;"></img></div>
+					<div class='content_dropper noselect'></div>
 				</div>
 			</div>
-			<div class="content_item">
-				<h1>Font of Data</h1>
-				<p>Welcome to Font of Data, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-				<hr>
-				<h3>Test</h3>
-				<p>Lorem ipsum...</p>
+			<div class="content_item drop">
+				<img class="content_img" src="/assets/kyle-gregory-devaras-241280.jpg"></img>
+				<div class="content_grid">
+					<div class='content_title'>
+						<br><h1>Font of Data</h1><br><br>
+					</div>
+					<div class="content_text">
+						<p>Welcome to Font of Data, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+					</div>
+					<div class='bg_1'></div>
+					<div class='bg_2'></div>
+					<div class='bg_3'></div>
+					<div class="chev_container"><img class="chev_img" src="assets/icons/028-down-chevron.svg" style="width: 30px;"></img></div>
+					<div class='content_dropper noselect'></div>
+				</div>
 			</div>
 		</div>
-		<div class="fod_foot"></div>
 	</div>
+	<div class="fod_foot"></div>
 </body>
 
 <!--

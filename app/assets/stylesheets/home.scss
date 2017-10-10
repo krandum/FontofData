@@ -1,7 +1,7 @@
-.html {
+html {
 	height: 100%;
 }
-.body {
+body {
 	height: 100%;
 }
 
@@ -30,6 +30,10 @@
 	overflow: hidden;
 	border-radius: 3px;
 	border: 1px solid black;
+	-webkit-transition: all 150ms ease-in-out;
+	-moz-transition: all 150ms ease-in-out;
+	-o-transition: all 150ms ease-in-out;
+	transition: all 150ms ease-in-out;
 }
 
 
@@ -43,14 +47,6 @@
 	position: absolute;
 	right: 0;
 	z-index: -1;
-}
-
-.content_text {
-	padding-left: 5px;
-	color: #B9D6F2;
-	position: absolute;
-	width: 50%;
-	left: 0;
 }
 
 .content_grid {
@@ -84,10 +80,30 @@
 	background-color: rgba(9, 4, 70, 1.0);
 }
 
+.content_title {
+	grid-area: bg1;
+	padding-left: 15px;
+	padding-top: 15px;
+	color: #B9D6F2;
+	position: absolute;
+	width: 40%;
+	left: 0;
+}
+
+.content_text {
+	grid-area: bg2;
+	padding-left: 15px;
+	padding-right: 15px;
+	color: #B9D6F2;
+	z-index: 3;
+}
+
+.content_dropper:focus {
+	outline: none;
+}
 .content_dropper:hover {
 	opacity: 1;
 }
-
 .content_dropper {
 	position: absolute;
 	grid-area: bg1;
@@ -95,13 +111,28 @@
 	bottom: 0;
 	width: 100%;
 	height: 50px;
-	opacity: 0;
-	background-image: linear-gradient(to top, rgba(185, 214, 242, 1.0), rgba(0, 0, 0, 0.0));
+	opacity: 0.2;
+	background-image: linear-gradient(to top, rgba(185, 214, 242, .90) 30%, rgba(185, 214, 242, .01));
+	-webkit-transition: all 400ms ease-in-out;
+	-moz-transition: all 400ms ease-in-out;
+	-o-transition: all 400ms ease-in-out;
 	transition: all 400ms ease-in-out;
 }
 
-.chev_img {
-	opacity: 1;
+.chev_container{
+	position: absolute;
+	grid-area: bg1;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	text-align: center;
+	padding-top: 13px;
+	z-index: 1;
+	pointer-events: none;
+	-webkit-transition: all 150ms ease-in-out;
+	-moz-transition: all 150ms ease-in-out;
+	-o-transition: all 150ms ease-in-out;
+	transition: all 150ms ease-in-out;
 }
 
 // News Slideshow
@@ -122,7 +153,6 @@
 	height: 100%;
 	opacity: 0;
 	z-index: 1;
-
 	-webkit-transition: opacity 1s;
 	-moz-transition: opacity 1s;
 	-o-transition: opacity 1s;
@@ -141,41 +171,42 @@
 	background: image_url("kyle-gregory-devaras-241280.jpg") center;
 }
 .slide:nth-of-type(3) {
-	background: green;
+	background: image_url("FoD_img.png") center;
 }
 .slide:nth-of-type(4) {
 	background: blue;
 }
-.slide:nth-of-type(5) {
-	background: purple;
-}
 
 .page_content {
-	overflow: scroll;
+	overflow-y: scroll;
 	grid-area: page_content;
+	-webkit-transition: all 150ms ease-in-out;
+	-moz-transition: all 150ms ease-in-out;
+	-o-transition: all 150ms ease-in-out;
+	transition: all 150ms ease-in-out;
 }
 
 ::-webkit-scrollbar {
 	display: none;
 }
 
+.slider_button:focus {
+	outline: none;
+}
 .slider_button.left:hover {
 	background-color: gray;
-	background: linear-gradient(to right, rgba(185, 214, 242, 9.0), rgba(0, 0, 0, 0.0));
+	background: linear-gradient(to right, rgba(185, 214, 242, .60) 30%, rgba(185, 214, 242, .01));
 }
-
 .slider_button.right:hover {
 	background-color: gray;
-	background: linear-gradient(to left, rgba(185, 214, 242, 9.0), rgba(0, 0, 0, 0.0));
+	background: linear-gradient(to left, rgba(185, 214, 242, .60) 30%, rgba(185, 214, 242, .01));
 }
-
 .slider_button.left {
 	left: 0;
 }
 .slider_button.right {
 	right: 0;
 }
-
 .slider_button {
 	position: absolute;
 	top: 0;
@@ -185,9 +216,13 @@
 	align-self: center;
 	cursor: pointer;
 	height: 500px;
-	width: 14%;
+	width: 11%;
 	border-radius: 1px;
 	z-index: 3;
+	outline: none;
+	-webkit-transition: all 1000ms ease-in-out;
+	-moz-transition: all 1000ms ease-in-out;
+	-o-transition: all 1000ms ease-in-out;
 	transition: all 1000ms ease-in-out;
 }
 
@@ -224,10 +259,6 @@
 	background: image_url("background_img.jpg") no-repeat center center fixed;
 	background-size: 100%;
 	transform: translateZ(0);
-}
-
-button.content_dropper:focus {
-	outline: none;
 }
 
 button {
