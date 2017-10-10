@@ -67,21 +67,23 @@ class DataNodesController < ApplicationController
 		out = {'nodes' => {}}
 		ranges = params['ranges']
 		num = ranges.values.count
-		i = 0
-		while (i < num)
-			range = ranges[i.to_s]
+		iter = 0
+		while (iter < num)
+			range = ranges[iter.to_s]
 			cur = range[:from].to_i
-			while (cur <= range[:to].to_i)
-
-				curNode = DataNode.where(value: cur).first
-				unless curNode.nil?
+			claimedNodes = DataNode.includes(:connected_nodes).where(value: range[:from].to_i..range[:to].to_i)
+			i = 0
+			i_max = claimedNodes.count
+			# p i_max
+			while cur <= range[:to].to_i
+				if i < i_max && cur == claimedNodes[i].value
 					out['nodes'][cur] = {
 						'value' => cur,
-						'faction_id' => curNode.faction_id
+						'faction_id' => claimedNodes[i].faction_id
 					}
-					out['nodes'][cur]['bro'] = curNode.connections.where(value: cur - 1).first.try(:value)
-					out['nodes'][cur]['dad'] = curNode.connections.where(value: cur >> 1).first.try(:value)
-
+					out['nodes'][cur]['bro'] = claimedNodes[i].connections.where(value: cur - 1).first.try(:value)
+					out['nodes'][cur]['dad'] = claimedNodes[i].connections.where(value: cur >> 1).first.try(:value)
+					i += 1
 				else
 					out['nodes'][cur] = {
 						'value' => cur,
@@ -92,8 +94,37 @@ class DataNodesController < ApplicationController
 				end
 				cur += 1
 			end
-			i += 1
+			iter += 1
 		end
+
+		# i = 0
+		# while (i < num)
+		# 	range = ranges[i.to_s]
+		# 	cur = range[:from].to_i
+		# 	p [num, range, cur]
+		# 	while (cur <= range[:to].to_i)
+		#
+		# 		curNode = DataNode.where(value: cur).first
+		# 		unless curNode.nil?
+		# 			out['nodes'][cur] = {
+		# 				'value' => cur,
+		# 				'faction_id' => curNode.faction_id
+		# 			}
+		# 			out['nodes'][cur]['bro'] = curNode.connections.where(value: cur - 1).first.try(:value)
+		# 			out['nodes'][cur]['dad'] = curNode.connections.where(value: cur >> 1).first.try(:value)
+		#
+		# 		else
+		# 			out['nodes'][cur] = {
+		# 				'value' => cur,
+		# 				'faction_id' => 1
+		# 			}
+		# 			out['nodes'][cur]['bro'] = nil
+		# 			out['nodes'][cur]['dad'] = nil
+		# 		end
+		# 		cur += 1
+		# 	end
+		# 	i += 1
+		# end
 		respond_to do |format|
 			format.html { render json: out }
 			format.json
