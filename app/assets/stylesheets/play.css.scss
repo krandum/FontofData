@@ -28,14 +28,14 @@ body.play {
 	height: 100%;
 	width: 100%;
 	display: grid;
-	grid-template-columns: 7fr 6fr 1fr 13fr 9fr 5fr;
-	grid-template-rows: 54px 12fr 10fr 3fr 8fr;
+	grid-template-columns: 7fr 6fr 1fr 13fr 8fr 6fr;
+	grid-template-rows: 54px 19fr 3fr 3fr 8fr;
 	grid-template-areas:
 		"stat-bar stat-bar stat-bar stat-bar stat-bar stat-bar"
 		". . . . . ."
-		"clusters . . . . quests"
-		"search search . . . quests"
-		"info info info . chat chat";
+		"clusters . . . quests quests"
+		"search search . . quests quests"
+		"info info info . quests quests";
 	z-index: 1;
 }
 
@@ -48,8 +48,8 @@ body.play {
 
 .status_bar {
 	grid-area: stat-bar;
-	background-color: rgba(33, 136, 221, 0.65);
-	border-color: #094074;
+	background-color: rgba(0, 66, 153, 0.65);
+	border-color: #004299;
 	border-style: solid;
 	border-width: 0px 0px 1px 0px;
 	display: grid;
@@ -64,40 +64,43 @@ body.play {
 
 .profile_pic {
 	grid-area: profile_pic;
-	background-color: #c9f0ff;
+	background-color: #BCDEFF;
 	border-radius: 3px;
 	z-index: 3;
 }
 
 .clusters {
 	grid-area: clusters;
-	background-color: #2188dd;
+	background-color: #BCDEFF;
 	display: none;
 	z-index: 2;
 }
 
-.quest_log {
+.quest_pane {
 	grid-area: quests;
-	background-color: #e2e544;
-	display: none;
+	background-color: rgba(153, 153, 153, .85);
+	border-color: #004299;
+	border-style: solid;
+	border-width: 1px 0px 0px 1px;
+	border-radius: 12px 0px 0px 0px;
 	z-index: 2;
 }
 
 .search_bar {
 	grid-area: search;
-	background-color: rgba(226, 229, 68, 0.65);
-	border-color: #094074;
+	background-color: rgba(153, 153, 153, .85);
+	border-color: #004299;
 	border-style: solid;
 	border-width: 1px 1px 0px 0px;
 	border-radius: 0px 12px 0px 0px;
 	z-index: 2;
 }
 
-.info {
+#info_pane {
 	position: relative;
 	grid-area: info;
 	display: grid;
-	background-color: rgba(33, 136, 221, 0.65);
+	background-color: rgba(27, 70, 107, 0.65);
 	border-color: #094074;
 	border-style: solid;
 	border-width: 1px 1px 0px 0px;
@@ -116,7 +119,6 @@ body.play {
 	font-size: 2vw;
 	flex-flow: row nowrap;
 	align-self: center;
-	color: #C9F0FF;
 }
 
 span#nameword {
@@ -138,7 +140,6 @@ span#nodename {
 	grid-area: typename;
 	font-size: 2vw;
 	font-weight: 300;
-	color: #C9F0FF;
 }
 
 .typeicon {
@@ -153,7 +154,6 @@ span#nodename {
 
 .nodeinfo {
 	grid-area: nodeinfo;
-	color: #C9F0FF;
 }
 
 .typeinfo {
@@ -164,13 +164,10 @@ span#nodename {
 	border-color: #094074;
 	border-width: 2px 2px 0px 2px;
 	background-color: #C9F0FF;
-	color: #2188DD;
 }
 
 .chat_log {
-	grid-area: chat;
-	background-color: rgba(33, 136, 221, 0.65);
-	border-color: #094074;
+	grid-area: quests;
 	border-style: solid;
 	border-width: 1px 0px 0px 1px;
 	border-radius: 12px 0px 0px 0px;

@@ -68,26 +68,108 @@ $(document).on('ready page:load', function() {
 			}
 		},
 		background: {},
-		//user_interface: {},
+		user_info: {},
+		user_interface: {},
 		global_root: null,
 		old_root: null,
 		date: new Date()
 	};
 
-	// function make_ui() {
-	// 	var ui = game_data.user_interface;
-	//
-	// 	ui.card = {};
-	//
-	// 	ui.set_card = function() {
-	// 		// THINGS THAT WILL BE REPLACED WITH ACTUAL DATABASE REQUEST STUFF
-	//
-	// 		// END OF THOSE THINGS
-	// 	};
-	// 	ui.init = function() {
-	// 		ui.set_card();
-	// 	};
-	// }
+// Getting user information
+// function get_user_info() {
+// 	$.ajax({
+// 		type: "GET",
+// 		url: "request_userdata",
+// 		data: {
+// 				//current session user
+// 		},
+// 		datatype: "html",
+// 		success: function (raw) {
+// 			var data = JSON.parse(raw);
+// 			var user_info = game_data.user_info;
+// 			user_info.name = data['user']['name'];
+// 			user_info.picture = data['user']['picture'];
+// 			user_info.faction_id = data['user']['faction_id'];
+// 			user_info.resources = data['user']['resources'];
+// 			user_info.gem_placeholder = data['user']['gems'];
+// 		},
+// 		async: true
+// 	});
+// }
+
+	function make_ui() {
+		var user = game_data.user_info;
+		user.faction_id = 3;//remove with query
+		var ui = game_data.user_interface;
+		ui.color_palette = {
+			1: {//Ancient
+				primary: '#1B466B',
+				secondary: '#999999',
+				basis: '#090446',
+				accent: '#004299',
+				highlight: '#BCDEFF'
+			},
+			2: {//Rocks
+				primary: '#7F0812',
+				secondary: '#E52D00',
+				basis: '#0F0202',
+				accent: '#FF8300',
+				highlight: '#FAF9F9'
+			},
+			3: {//Elves
+				primary: '#588401',
+				secondary: '#3EB200',
+				basis: '#352E09',
+				accent: '#40ED4B',
+				highlight: '#FFFFD8'
+			},
+			4: {//Jellyfish
+				primary: '#2188DD',
+				secondary: '#AE45C7',
+				basis: '#094074',
+				accent: '#E2E544',
+				highlight: '#C9F0FF'
+			}
+		};
+		ui.card = {};
+		function hex_to_rgba(hex, alpha) {
+			var r = parseInt(hex.slice(1, 3), 16),
+			g = parseInt(hex.slice(3, 5), 16),
+			b = parseInt(hex.slice(5, 7), 16);
+
+			if (alpha) {
+				return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+			} else {
+				return "rgb(" + r + ", " + g + ", " + b + ")";
+			}
+		}
+		ui.set_colors = function() {
+			var cur_div = document.getElementById('info_pane');
+			cur_div.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary, .75);
+			cur_div.style.borderColor = ui.color_palette[user.faction_id].accent;
+			cur_div.style.color = ui.color_palette[user.faction_id].highlight;
+			cur_div = document.getElementsByClassName('search_bar')[0];
+			cur_div.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis, .75);
+			cur_div.style.borderColor = ui.color_palette[user.faction_id].accent;
+			cur_div = document.getElementsByClassName('quest_pane')[0];
+			cur_div.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis, .75);
+			cur_div.style.borderColor = ui.color_palette[user.faction_id].accent;
+			cur_div = document.getElementsByClassName('status_bar')[0];
+			cur_div.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis, .75);
+			cur_div.style.borderColor = ui.color_palette[user.faction_id].accent;
+			cur_div.style.color = ui.color_palette[user.faction_id].highlight;
+		};
+		ui.set_card = function() {
+			// THINGS THAT WILL BE REPLACED WITH ACTUAL DATABASE REQUEST STUFF
+
+			// END OF THOSE THINGS
+		};
+		ui.init = function() {
+			ui.set_colors();
+			ui.set_card();
+		};
+		ui.init();
+	}
 
 	function make_background() {
 		var background = game_data.background;
@@ -2156,6 +2238,7 @@ $(document).on('ready page:load', function() {
 		get_initial_node_data();
 		set_resize();
 		set_assets();
+		make_ui();
 		make_background();
 		scope.view.onFrame = function(event) {
 			tick(event);
@@ -2169,6 +2252,8 @@ $(document).on('ready page:load', function() {
 		set_resize();
 		console.log("Setting up assets...");
 		set_assets();
+		console.log("Making UI pretty...");
+		make_ui();
 		console.log("Making background...");
 		make_background();
 		console.log("Canvas resize set up");
