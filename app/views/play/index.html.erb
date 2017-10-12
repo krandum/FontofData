@@ -3,11 +3,11 @@
 			<div class='local'>
 				<h1>Please choose a faction</h1>
 				<table>
-				  <tbody>
-				    <td><%= link_to Faction.find(2).faction_name, faction_select_path(user: current_user, faction: Faction.find(2)), method: :put %></td>
-				    <td><%= link_to Faction.find(3).faction_name, faction_select_path(user: current_user, faction: Faction.find(3)), method: :put %></td>
-				    <td><%= link_to Faction.find(4).faction_name, faction_select_path(user: current_user, faction: Faction.find(4)), method: :put %></td>
-				  </tbody>
+					<tbody>
+						<td><%= link_to Faction.find(2).faction_name, faction_select_path(user: current_user, faction: Faction.find(2)), method: :put %></td>
+						<td><%= link_to Faction.find(3).faction_name, faction_select_path(user: current_user, faction: Faction.find(3)), method: :put %></td>
+						<td><%= link_to Faction.find(4).faction_name, faction_select_path(user: current_user, faction: Faction.find(4)), method: :put %></td>
+					</tbody>
 				</table>
 			</div>
 		<% else %>

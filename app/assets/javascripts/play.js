@@ -15,12 +15,16 @@ $(document).on('ready page:load', function() {
 	scope.setup(canvas);
 
 	var w = scope.view.size.width / 2;
+	var wl = -0.5 * w;
+	var wh = 2.5 * w;
 	var h = scope.view.size.height / 2;
+	var hh = 2.5 * h;
+	var m = Math.min(w, h);
 
 	var game_data = {
-		fov: 220,
-		view_dist: h / 1.4,
-		tilt: -19,
+		fov: 260,
+		view_dist: h / 1.8,
+		tilt: -24,
 		node_factions: [],
 		node_connections: [],
 		active_nodes: [],
@@ -64,160 +68,669 @@ $(document).on('ready page:load', function() {
 			}
 		},
 		background: {},
+		//user_interface: {},
 		global_root: null,
+		old_root: null,
 		date: new Date()
 	};
+
+	// function make_ui() {
+	// 	var ui = game_data.user_interface;
+	//
+	// 	ui.card = {};
+	//
+	// 	ui.set_card = function() {
+	// 		// THINGS THAT WILL BE REPLACED WITH ACTUAL DATABASE REQUEST STUFF
+	//
+	// 		// END OF THOSE THINGS
+	// 	};
+	// 	ui.init = function() {
+	// 		ui.set_card();
+	// 	};
+	// }
 
 	function make_background() {
 		var background = game_data.background;
 
-		background.y_range = [h / 4, h / 8];
-		background.x_range = [w / 8, w / 12];
-		background.z_range = h / 4;
-		background.z_force = h / 11;
+		background.y_range = { base: h / 4, range: h / 11 };
+		background.y_range.mid = background.y_range.base + background.y_range.range / 2;
+		background.x_range = { base: h / 4, range: h / 11 };
+		background.x_range.mid = background.x_range.base + background.x_range.range / 2;
+		background.z_range = { range: m / 4, force: m / 9 };
+
+		background.triangles = [];
+		background.y_fade = 64;
+		var shifter = { x: w, y: background.y_fade, z: 0 }, tmp;
+		change_actual_of_seen(shifter, { x: 0, y: -background.y_range.mid, z: 0 });
+		background.y_lim = shifter.y;
+		background.light_ray = normalize({ x: 0.7, y: 0.5, z: 1 });
+		background.map = { top: 1, bot: 0, moved_top: false, moved_bot: false };
 		background.rows = [];
-		background.add_row = function(base_y) {
-			this.rows.push({
-				first: this.rows.length != 0 ? false : true,
-				points: [],
-				triangles: []
-			});
-			var row_len = this.rows.length;
-			var cur_x = -200;
-			var var_y = Math.floor(Math.random() * this.y_range[1]) - this.y_range[1] / 2;
-			var cur_shifted = new scope.Point(0, var_y + base_y);
-			var z = Math.floor(Math.random() * this.z_range) + this.z_range / 2;
-			rotate_point(cur_shifted);
-			cur_shifted.x = cur_x;
-			z = unrotate_point(cur_shifted, z);
-			cur_x = cur_shifted.x;
-			z = rotate_point(cur_shifted, z);
-			while (cur_shifted.x <= 2*w) {
-				var delta_x = this.x_range[0] + Math.floor(Math.random() * this.x_range[1]);
-				var_y = Math.floor(Math.random() * this.y_range[1]) - this.y_range[1] / 2;
-				var point = new scope.Point(cur_x + delta_x, base_y + var_y);
-				z = rotate_point(point, z);
-				this.rows[row_len-1].points.push({
-					x: point.x,
-					y: point.y,
-					z: z
-				});
-				cur_x += delta_x;
-				cur_shifted.x = cur_x;
-				cur_shifted.y = var_y + base_y;
-				var prev_z = z;
-				while (Math.abs(prev_z - z) < this.z_force)
-				z = Math.floor(Math.random() * this.z_range) - this.z_range / 2;
-				rotate_point(cur_shifted, z);
-			}
-			return cur_shifted.y;
-		};
 
-		background.generate_rows = function(start) {
-			var cur_y = start;
-			var gotten_y = 0;
-			while (gotten_y < 2*h + 100) {
-				gotten_y = this.add_row(cur_y);
-				cur_y += this.y_range[0];
-			}
+		background.add_point = function(row, x, y, z, color) {
+			var point = { x: x, y: y, z: z };
+			point.triangles = [];
+			var i = row.points.length;
+			while (--i >= 0 && row.points[i].x > x);
+			if (++i == row.points.length)
+				row.points.push(point);
+			else
+				row.points.splice(i, 0, point);
+			point.path = new scope.Path.Circle(new scope.Point(x, y), 2);
+			point.path.fillColor = color;
+			point.path.bringToFront();
+			return point;
 		};
-
-		background.remake_grid = function() {
-			if (this.rows.length < 2) {
-				console.log("Error attempting to reset a grid with fewer than two rows");
+		function has_triangle(p1, p2, p3) {
+			if (p1.x > p2.x){ tmp = p1; p1 = p2; p2 = tmp; }
+			if (p2.x > p3.x){ tmp = p2; p2 = p3; p3 = tmp; }
+			if (p1.y > p2.y){ tmp = p1; p1 = p2; p2 = tmp; }
+			var cur = -1;
+			while (++cur < p1.triangles.length) {
+				var cur_triangle = p1.triangles[cur];
+				if (cur_triangle.points[0] == p1 &&
+					cur_triangle.points[1] == p2 &&
+					cur_triangle.points[2] == p3)
+					return true;
+			}
+			return false;
+		}
+		background.add_triangle = function(p1, p2, p3) {
+			var path = new scope.Path();
+			if (p1.x > p2.x){ tmp = p1; p1 = p2; p2 = tmp; }
+			if (p2.x > p3.x){ tmp = p2; p2 = p3; p3 = tmp; }
+			if (p1.y > p2.y){ tmp = p1; p1 = p2; p2 = tmp; }
+			var edge1 = get_vector(p2, p1);
+			var edge2 = get_vector(p3, p1);
+			var normal = normalize(cross(edge1, edge2));
+			var theta = get_angle(normal, this.light_ray);
+			var cos = Math.cos(theta);
+			var alpha = Math.floor(127 * cos);
+			var bit = alpha.toString(16);
+			// var c1 = game_data.colors['0'].light;
+			// var c2 = game_data.colors['0'].dark;
+			// var red = Math.floor((c1[0] - c2[0]) * cos) + c2[0];
+			// var green = Math.floor((c1[1] - c2[1]) * cos) + c2[1];
+			// var blue = Math.floor((c1[2] - c2[2]) * cos) + c2[2];
+			// var r_bit = red.toString(16);
+			// var g_bit = green.toString(16);
+			// var b_bit = blue.toString(16);
+			// var color = "#" + r_bit + g_bit + b_bit;
+			var color = "#" + bit + bit + bit;
+			path.add(new scope.Segment(new scope.Point(p1.x, p1.y)));
+			path.add(new scope.Segment(new scope.Point(p2.x, p2.y)));
+			path.add(new scope.Segment(new scope.Point(p3.x, p3.y)));
+			path.closed = true;
+			path.fillColor = color;
+			path.strokeColor = 'black';
+			path.strokeWidth = 1;
+			path.strokeJoin = "bevel";
+			path.sendToBack();
+			var triangle = {
+				path: path,
+				points: [p1, p2, p3]
+			};
+			this.triangles.push(triangle);
+			p1.triangles.push(triangle);
+			p2.triangles.push(triangle);
+			p3.triangles.push(triangle);
+			return triangle;
+		};
+		background.add_row = function(base_y, y_mod) {
+			if (y_mod != 1 && y_mod != -1)
 				return;
-			}
-			var cur_row_up = 0, cur_row_down = 1;
-			while (cur_row_down < this.rows.length) {
-				var cur_col_up = 0, cur_col_down = 0, moving_up = true;
-				while (cur_col_up < this.rows[cur_row_up].points.length
-					&& cur_col_down < this.rows[cur_row_down].points.length) {
-					var up = this.rows[cur_row_up].points[cur_col_up];
-					var down = this.rows[cur_row_down].points[cur_col_down];
-					if (cur_col_up > 0 || cur_col_down > 0) {
-						var triangle = new scope.Path();
-						var first_point;
-						if (moving_up)
-						first_point = this.rows[cur_row_up].points[cur_col_up - 1];
-						else
-						first_point = this.rows[cur_row_down].points[cur_col_down - 1];
-						var second_point = this.rows[cur_row_up].points[cur_col_up];
-						var third_point = this.rows[cur_row_down].points[cur_col_down];
-						var edge1 = get_vector(second_point, first_point);
-						var edge2 = get_vector(third_point, first_point);
-						var normal = normalize(cross(edge1, edge2));
-						var theta = get_angle(normal, normalize({
-							x: 1,
-							y: 0.5,
-							z: 1
-						}));
-						var cos = Math.cos(theta);
-						var r1 = 61, g1 = 196, b1 = 255;
-						var r2 = 35, g2 = 82, b2 = 175;
-						var red = Math.floor((r1 - r2) * cos) + r2;
-						var green = Math.floor((g1 - g2) * cos) + g2;
-						var blue = Math.floor((b1 - b2) * cos) + b2;
-						var r_bit = red.toString(16);
-						var g_bit = green.toString(16);
-						var b_bit = blue.toString(16);
-						var color = "#" + r_bit + g_bit + b_bit;
-						triangle.add(new scope.Segment(first_point));
-						triangle.add(new scope.Segment(second_point));
-						triangle.add(new scope.Segment(third_point));
-						triangle.closed = true;
-						triangle.fillColor = color;
-						triangle.strokeColor = color;
-						triangle.strokeWidth = 1;
-						triangle.strokeJoin = 'bevel';
-						this.rows[cur_row_down].triangles.push(triangle);
-					}
-					if ((moving_up && up.x > down.x) || (!moving_up && down.x > up.x))
-					moving_up = !moving_up;
-					if (moving_up)
-					cur_col_up++;
-					else
-					cur_col_down++;
+			var cur = { x: w, y: base_y, z: 0 };
+			var change = { x: 0, y: y_mod * this.y_range.mid, z: 0 };
+			change_actual_of_seen(cur, change);
+			var base = { mid: cur.y };
+			change.y = -this.y_range.range / 2;
+			change_actual_of_seen(cur, change);
+			base.min = cur.y;
+			change.y = this.y_range.range;
+			change_actual_of_seen(cur, change);
+			base.max = cur.y;
+			var row = {
+				base: base,
+				points: [],
+				left_above: -1,
+				left_below: -1,
+				right_above: -1,
+				right_below: -1
+			};
+			var ref_row = null;
+			var push_row;
+			if (y_mod == -1) {
+				if (this.map.moved_top)
+					ref_row = this.rows[this.map.top];
+				push_row = function(left, right, ref_left, right_ref) {
+					if (row.left_below == -1 || row.left_below > left)
+						row.left_below = left;
+					if (row.right_below < right)
+						row.right_below = right;
+					if (ref_row.left_above == -1 || ref_row.left_above > ref_left)
+						ref_row.left_above = ref_left;
+					if (ref_row.right_above < right_ref)
+						ref_row.right_above = right_ref;
 				}
-				cur_row_up++;
-				cur_row_down++;
+				this.map.moved_top = true;
+				this.map.top--;
+				this.rows[this.map.top] = row;
+			}
+			else { // y_mod == 1
+				if (this.map.moved_top)
+					ref_row = this.rows[this.map.bot];
+				push_row = function(left, right, ref_left, right_ref) {
+					if (row.left_above == -1 || row.left_above > left)
+						row.left_above = left;
+					if (row.right_above < right)
+						row.right_above = right;
+					if (ref_row.left_below == -1 || ref_row.left_below > ref_left)
+						ref_row.left_below = ref_left;
+					if (ref_row.right_below < right_ref)
+						ref_row.right_below = right_ref;
+				}
+				this.map.moved_bot = true;
+				this.map.bot++;
+				this.rows[this.map.bot] = row;
+			}
+			cur.x = wl - (this.x_range.base + this.x_range.range / 2);
+			var cur_point = null, last_point, prev_z;
+			var left_ref = -1, right_ref = -1, last_left, last_right;
+			var cur_index = -1, last_index;
+			change.z = 0;
+			while (cur.x < wh) {
+				last_point = cur_point;
+				cur.y = base.min;
+				cur.z = 0;
+				change.x = Math.floor(Math.random() * this.x_range.range) + this.x_range.base;
+				change.y = Math.floor(Math.random() * this.y_range.range);
+				//prev_z = change.z;
+				//while (Math.abs(prev_z - change.z) < this.z_range.force)
+				change.z = Math.floor(Math.random() * this.z_range.range) - this.z_range.range / 2;
+				change_actual_of_seen(cur, change);
+				cur_point = this.add_point(row, cur.x, cur.y, cur.z, 'red');
+				cur_index = row.points.indexOf(cur_point);
+				last_index = row.points.indexOf(last_point);
+				if (ref_row != null) {
+					last_left = left_ref;
+					last_right = right_ref;
+					right_ref = -1;
+					left_ref = ref_row.points.length;
+					while (++right_ref < ref_row.points.length &&
+						x_dif(ref_row.points[right_ref], cur_point) < 0);
+					while (--left_ref >= 0 && x_dif(ref_row.points[left_ref], cur_point) > 0);
+					if (right_ref != ref_row.points.length && left_ref != -1) {
+						if (last_left == -1) {
+							this.add_triangle(cur_point, ref_row.points[left_ref],
+								ref_row.points[right_ref]);
+							  push_row(cur_index, cur_index, left_ref, right_ref);
+						}
+						else if (last_left == left_ref && last_right == right_ref) {
+							this.add_triangle(cur_point, ref_row.points[right_ref],
+								last_point);
+							  push_row(last_index, cur_index, right_ref, right_ref);
+						}
+						else if (last_right == left_ref) {
+							this.add_triangle(cur_point, ref_row.points[left_ref],
+								ref_row.points[right_ref]);
+							  push_row(cur_index, cur_index, left_ref, right_ref);
+							this.add_triangle(cur_point, ref_row.points[left_ref],
+								last_point);
+							  push_row(last_index, cur_index, left_ref, left_ref);
+						}
+						else {
+							this.add_triangle(cur_point, ref_row.points[left_ref],
+								ref_row.points[right_ref]);
+							  push_row(cur_index, cur_index, left_ref, right_ref);
+							if (left_ref - last_right == 1) {
+								this.add_triangle(cur_point, ref_row.points[last_right],
+									ref_row.points[left_ref]);
+								  push_row(cur_index, cur_index, last_right, left_ref);
+								this.add_triangle(cur_point, ref_row.points[last_right],
+									last_point);
+								  push_row(last_index, cur_index, last_right, last_right);
+							}
+							else {
+								while (--left_ref > last_right) {
+									if (left_ref - last_right == 1) {
+										this.add_triangle(cur_point, ref_row.points[left_ref],
+											ref_row.points[left_ref + 1]);
+										  push_row(cur_index, cur_index, left_ref, left_ref + 1);
+										this.add_triangle(cur_point, last_point,
+											ref_row.points[left_ref]);
+										  push_row(last_index, cur_index, left_ref, left_ref);
+										this.add_triangle(last_point, ref_row.points[left_ref],
+											ref_row.points[last_right]);
+										  push_row(cur_index, cur_index, last_right, left_ref);
+									}
+									else {
+										this.add_triangle(cur_point, ref_row.points[left_ref],
+											ref_row.points[left_ref + 1]);
+										  push_row(cur_index, cur_index, left_ref, left_ref + 1);
+									}
+								}
+							}
+						}
+					}
+					else if (left_ref != -1 && last_right == left_ref) {
+						this.add_triangle(cur_point, last_point, ref_row.points[left_ref]);
+						  push_row(last_index, cur_index, left_ref, left_ref);
+					}
+				}
 			}
 		};
-		background.generate_rows(-h);
-		background.remake_grid();
+		background.remove_row = function(y_mod) {
+			var row, cur_point, cur_triangle, index;
+			if (y_mod == 1 && this.map.moved_top) {
+				row = this.rows[this.map.top];
+			}
+			else if (y_mod == -1 && this.map.moved_bot) {
+				row = this.rows[this.map.bot];
+			}
+			else
+				return;
+			while (row.points.length > 0) {
+				cur_point = row.points[0];
+				while (cur_point.triangles.length > 0) {
+					cur_triangle = cur_point.triangles[0];
+					index = cur_triangle.points[0].triangles.indexOf(cur_triangle);
+					cur_triangle.points[0].triangles.splice(index, 1);
+					index = cur_triangle.points[1].triangles.indexOf(cur_triangle);
+					cur_triangle.points[1].triangles.splice(index, 1);
+					index = cur_triangle.points[2].triangles.indexOf(cur_triangle);
+					cur_triangle.points[2].triangles.splice(index, 1);
+					index = this.triangles.indexOf(cur_triangle);
+					this.triangles.splice(index, 1);
+					cur_triangle.path.remove();
+				}
+				cur_point.path.remove();
+				row.points.splice(0, 1);
+			}
+			if (y_mod == 1) {
+				delete this.rows[this.map.top];
+				this.map.top++;
+			}
+			else {
+				delete this.rows[this.map.bot];
+				this.map.bot--;
+			}
+		};
+		background.trim_sides = function() {
+			var cur = this.map.top - 1, cur_row, cur_point, cur_triangle;
+			var trimmed_l = [];
+			var i;
+			var top_lim = 0;
+			var bot_lim = 1;
+			while (++cur <= this.map.bot) {
+				// TODO: make this efficient. Here is what is wrong with this.
+				// Each point of the triangles that we are removing could have
+				// an efficient way of keeping track of which row it is in,
+				// so I shouldn't have to look for each point when trimming
+				if (cur == this.map.top + 1)
+					top_lim = -1;
+				if (cur == this.map.bot)
+					bot_lim = 0;
+				cur_row = this.rows[cur];
+				trimmed_l[-1] = 0;
+				trimmed_l[0] = 0;
+				trimmed_l[1] = 0;
+				while (cur_row.points[0].x < wl) {
+					cur_point = cur_row.points[0];
+					while (cur_point.triangles.length > 0) {
+						cur_triangle = cur_point.triangles[0];
+						i = bot_lim - 1;
+						while (++i <= top_lim) {
+							if (this.rows[cur + i].points.indexOf(cur_triangle.points[0]) == -1)
+								continue;
+							trimmed_l[i]++;
+						}
+						i = bot_lim - 1;
+						while (++i <= top_lim) {
+							if (this.rows[cur + i].points.indexOf(cur_triangle.points[1]) == -1)
+								continue;
+							trimmed_l[i]++;
+						}
+						i = bot_lim - 1;
+						while (++i <= top_lim) {
+							if (this.rows[cur + i].points.indexOf(cur_triangle.points[2]) == -1)
+								continue;
+							trimmed_l[i]++;
+						}
+						index = cur_triangle.points[0].triangles.indexOf(cur_triangle);
+						cur_triangle.points[0].triangles.splice(index, 1);
+						index = cur_triangle.points[1].triangles.indexOf(cur_triangle);
+						cur_triangle.points[1].triangles.splice(index, 1);
+						index = cur_triangle.points[2].triangles.indexOf(cur_triangle);
+						cur_triangle.points[2].triangles.splice(index, 1);
+						index = this.triangles.indexOf(cur_triangle);
+						this.triangles.splice(index, 1);
+						cur_triangle.path.remove();
+					}
+					cur_point.path.remove();
+					cur_row.points.splice(0, 1);
+				}
+				// cur_row.left_below -= trimmed_l;
+				// if (cur_row.left_below < 0)
+				// 	cur_row.left_below = 0;
+				// cur_row.left_above -= trimmed_l;
+				// if (cur_row.left_above < 0)
+				// 	cur_row.left_above = 0;
+				i = bot_lim - 1;
+				while (++i <= top_lim) {
+					var this_row = this.rows[cur + i];
+					this_row.left_below += trimeed_l[i];
+					if (this_row.left_below < 0)
+						this_row.left_below = 0;
+					this_row.left_above += trimeed_l[i];
+					if (this_row.left_above < 0)
+						this_row.left_above = 0;
+				}
+				cur_row.right_below -= trimmed_l;
+				cur_row.right_above -= trimmed_l;
+				if (cur_row.points.length <= 0)
+				{
+					console.log("PANIK - with top and removed. Check trim sides on make background");
+					console.log(this.map.top);
+					console.log(cur);
+					continue;
+				}
+				while (cur_row.points[cur_row.points.length - 1].x > wh) {
+					cur_point = cur_row.points[cur_row.points.length - 1];
+					while (cur_point.triangles.length > 0) {
+						cur_triangle = cur_point.triangles[0];
+						index = cur_triangle.points[0].triangles.indexOf(cur_triangle);
+						cur_triangle.points[0].triangles.splice(index, 1);
+						index = cur_triangle.points[1].triangles.indexOf(cur_triangle);
+						cur_triangle.points[1].triangles.splice(index, 1);
+						index = cur_triangle.points[2].triangles.indexOf(cur_triangle);
+						cur_triangle.points[2].triangles.splice(index, 1);
+						index = this.triangles.indexOf(cur_triangle);
+						this.triangles.splice(index, 1);
+						cur_triangle.path.remove();
+					}
+					cur_point.path.remove();
+					cur_row.points.splice(cur_row.points.length - 1, 1);
+				}
+				if (cur_row.right_above >= cur_row.points.length)
+					cur_row.right_above = cur_row.points.length - 1;
+				if (cur_row.right_below >= cur_row.points.length)
+					cur_row.right_below = cur_row.points.length - 1;
+			}
+		};
+		background.fill_sides = function(frac) {
+			var row_num = this.map.bot + 1, cur_row, prev_point, prev_z, cur;
+			var change = { z: 0 };
+			var red, green, blue, f;
+			f = 2 * Math.PI * frac;
+			red = Math.floor((Math.cos(f) + 1) * 127).toString(16);
+			green = Math.floor((Math.sin(f) + 1) * 127).toString(16);
+			blue = Math.floor((-Math.cos(f) + 1) * 127).toString(16);
+			while (red.length < 2)
+				red = "0" + red;
+			while (green.length < 2)
+				green = "0" + green;
+			while (blue.length < 2)
+				blue = "0" + blue;
+			var color = "#" + red + green + blue;
+			while (--row_num >= this.map.top) {
+				cur_row = this.rows[row_num];
+				// console.log("/////");
+				// console.log(row_num);
+				// console.log(cur_row.points.length);
+				// console.log(cur_row);
+				// console.log(cur_row.left_above);
+				// console.log(cur_row.left_below);
+				while (cur_row.points[0].x > wl) {
+					prev_point = cur_row.points[0];
+					cur = { x: prev_point.x, y: cur_row.base.min, z: 0};
+					change.x = -(Math.floor(Math.random() * this.x_range.range) + this.x_range.base);
+					change.y = Math.floor(Math.random() * this.y_range.range);
+					prev_z = prev_point.z;
+					while (Math.abs(prev_z - change.z) < this.z_range.force)
+						change.z = Math.floor(Math.random() * this.z_range.range) - this.z_range.range / 2;
+					change_actual_of_seen(cur, change);
+					this.add_point(cur_row, cur.x, cur.y, cur.z, color);
+					cur_row.left_above++;
+					cur_row.left_below++;
+					cur_row.right_above++;
+					cur_row.right_below++;
+				}
+				if (cur_row.points.length <= 0)
+					continue;
+				while (cur_row.points[cur_row.points.length - 1].x < wh) {
+					prev_point = cur_row.points[cur_row.points.length - 1];
+					cur = { x: prev_point.x, y: cur_row.base.min, z: 0};
+					change.x = Math.floor(Math.random() * this.x_range.range) + this.x_range.base;
+					change.y = Math.floor(Math.random() * this.y_range.range);
+					prev_z = prev_point.z;
+					while (Math.abs(prev_z - change.z) < this.z_range.force)
+						change.z = Math.floor(Math.random() * this.z_range.range) - this.z_range.range / 2;
+					change_actual_of_seen(cur, change);
+					this.add_point(cur_row, cur.x, cur.y, cur.z, color);
+					// console.log("Adding point right");
+				}
+			}
+			// console.log("XXXXXXXXXX");
+			row_num = this.map.top; // Notice we skip the very top one
+			var above, left_edge, right_edge, left_ref, right_ref;
+			var cur_col, last_point;
+			while (++row_num <= this.map.bot) {
+				cur_row = this.rows[row_num];
+				above = this.rows[row_num - 1];
+				cur_col = cur_row.left_above + 1;
+				// console.log("~~~~~~~~~~~~~~~~~");
+				// console.log(row_num);
+				// console.log(cur_row.points.length);
+				// console.log(cur_row);
+				// console.log(cur_row.left_above);
+				// console.log(cur_row.left_below);
+				while (--cur_col >= 0) {
+					last_point = cur_row.points[cur_col + 1];
+					//console.log(cur_row);
+					//console.log(cur_col);
+					cur_point = cur_row.points[cur_col];
+					//console.log(cur_point);
+					right_ref = -1;
+					left_ref = above.points.length;
+					while (++right_ref < above.points.length &&
+						x_dif(above.points[right_ref], cur_point) < 0);
+					while (--left_ref >= 0 && x_dif(above.points[left_ref],
+						cur_point) > 0);
+					if (right_ref != above.points.length && left_ref != -1) {
+						// console.log("______");
+						// console.log(cur_col);
+						// console.log(right_ref);
+						// console.log(left_ref);
+						// console.log(cur_row.left_above);
+						// console.log(above.left_below);
+						if (cur_col == cur_row.left_above) {
+							if (right_ref == above.left_below) {
+								this.add_triangle(cur_point, above.points[left_ref],
+									above.points[right_ref]);
+								above.left_below = left_ref;
+							}
+						}
+						else if (cur_col == cur_row.left_above - 1) {
+							if (right_ref == above.left_below) {
+								this.add_triangle(cur_point, above.points[right_ref],
+									cur_row.points[cur_row.left_above]);
+								this.add_triangle(cur_point, above.points[left_ref],
+									above.points[right_ref]);
+								above.left_below = left_ref;
+								cur_row.left_above = cur_col;
+							}
+							else if (left_ref == above.left_below) {
+								this.add_triangle(cur_point, cur_row.points[cur_row.left_above],
+									above.points[left_ref]);
+								cur_row.left_above = cur_col;
+							}
+							else {
+								var du = above.left_below - left_ref;
+								var dd = cur_row.left_above - cur_col;
+								while (du > 0 || dd > 0) {
+									var ur = above.points[above.left_below];
+									var dr = cur_row.points[cur_row.left_above];
+									var ul = above.points[above.left_below - 1];
+									var dl = cur_row.points[cur_row.left_above - 1];
+									if (x_dif(ur, dr) > 0 && du > 0) {
+										this.add_triangle(ur, ul, dr);
+										above.left_below--;
+										du--;
+									}
+									else if (dd > 0) {
+										this.add_triangle(ur, dl, dr);
+										cur_row.left_above--;
+										dd--;
+									}
+								}
+								// while (cur_row.left_above > cur_col &&
+								// 	above.left_below > right_ref) {
+								// 	var ur = above.points[above.left_below];
+								// 	var dr = cur_row.points[cur_row.left_above];
+								// 	var ul = above.points[above.left_below - 1];
+								// 	var dl = cur_row.points[cur_row.left_above - 1];
+								// 	// console.log(above.left_below);
+								// 	// console.log(cur_row.left_above);
+								// 	// console.log(ur);
+								// 	// console.log(dr);
+								// 	// console.log(ul);
+								// 	// console.log(dl);
+								// 	if (x_dif(ur, dr) > 0) {
+								// 		this.add_triangle(ur, dl, dr);
+								// 		cur_row.left_above--;
+								// 	}
+								// 	else {
+								// 		this.add_triangle(ul, ur, dr);
+								// 		above.left_below--;
+								// 	}
+								// }
+							}
+						}
+					}
+				}
+			}
+		};
+		background.move_to = function(from, to, frac) {
+			var real_from = { x: from.x, y: from.y, z: 0 };
+			real_from.z = unrotate_point(real_from, 0);
+			var real_to = { x: to.x, y: to.y, z: 0 };
+			real_to.z = unrotate_point(real_to, 0);
+			var change = { x: real_to.x - real_from.x, y: real_to.y - real_from.y, z: 0 };
+			var cur_row = this.map.top - 1, cur_col, cur_base, cur_triangle, cur_point;
+			while (++cur_row <= this.map.bot) {
+				cur_base = this.rows[cur_row].base;
+				shifter = { x: w, y: cur_base.min, z: 0 };
+				change_actual_of_seen(shifter, change);
+				cur_base.min = shifter.y
+				shifter = { x: w, y: cur_base.mid, z: 0 };
+				change_actual_of_seen(shifter, change);
+				cur_base.mid = shifter.y
+				shifter = { x: w, y: cur_base.max, z: 0 };
+				change_actual_of_seen(shifter, change);
+				cur_base.max = shifter.y
+				cur_col = -1;
+				while (++cur_col < this.rows[cur_row].points.length)
+				{
+					cur_point = this.rows[cur_row].points[cur_col]
+					change_actual_of_seen(cur_point, change);
+					cur_point.path.position.x = cur_point.x;
+					cur_point.path.position.y = cur_point.y;
+				}
+			}
+			var cur = -1;
+			while (++cur < this.triangles.length) {
+				cur_triangle = this.triangles[cur];
+				cur_triangle.path.segments[0].point.x = cur_triangle.points[0].x;
+				cur_triangle.path.segments[0].point.y = cur_triangle.points[0].y;
+				cur_triangle.path.segments[1].point.x = cur_triangle.points[1].x;
+				cur_triangle.path.segments[1].point.y = cur_triangle.points[1].y;
+				cur_triangle.path.segments[2].point.x = cur_triangle.points[2].x;
+				cur_triangle.path.segments[2].point.y = cur_triangle.points[2].y;
+			}
+			if (change.y > 0) {
+				while (this.rows[this.map.bot].base.mid > hh) {
+					this.remove_row(-1);
+				}
+				while (this.rows[this.map.top].base.mid > this.y_fade) {
+					this.add_row(this.rows[this.map.top].base.mid, -1);
+				}
+				this.trim_sides();
+			}
+			else {
+				while (this.rows[this.map.bot].base.mid < hh) {
+					this.add_row(this.rows[this.map.bot].base.mid, 1);
+				}
+				while (this.rows[this.map.top].base.mid < this.y_lim) {
+					this.remove_row(1);
+				}
+			}
+			this.fill_sides(frac);
+		};
+		background.start = function() {
+			this.add_row(h, -1);
+			while (this.rows[this.map.top].base.mid > this.y_fade) {
+				this.add_row(this.rows[this.map.top].base.mid, -1);
+			}
+			while (this.rows[this.map.bot].base.mid < hh) {
+				this.add_row(this.rows[this.map.bot].base.mid, 1);
+			}
+			this.fill_sides();
+		};
+		background.start();
 	}
 
-	//make_background();
+	function x_dif(p1, p2) {
+		p1.z = unrotate_point(p1, p1.z);
+		p2.z = unrotate_point(p2, p2.z);
+		var dif = p1.x - p2.x;
+		p1.z = rotate_point(p1, p1.z);
+		p2.z = rotate_point(p2, p2.z);
+		return dif;
+	}
+
+	function change_actual_of_seen(point, change) {
+		point.z = unrotate_point(point, point.z);
+		point.x += change.x;
+		point.y += change.y;
+		point.z += change.z;
+		point.z = rotate_point(point, point.z);
+	}
+
+	function change_seen_of_actual(point, change) {
+		point.z = rotate_point(point, point.z);
+		point.x += change.x;
+		point.y += change.y;
+		point.z += change.z;
+		point.z = unrotate_point(point, point.z);
+	}
+
+	var rd = game_data.tilt * Math.PI / 180;
+	var ca = Math.cos(rd);
+	var sa = Math.sin(rd);
+	var d = game_data.view_dist;
+	var f = game_data.fov;
 
 	function rotate_point(point, z) {
-		var rd, ca, sa, ry, rz, f;
-
-		x = point.x - w;
-		y = point.y - h;
-		rd = game_data.tilt * Math.PI / 180;
-		ca = Math.cos(rd);
-		sa = Math.sin(rd);
-
+		var ry, rz, rf;
+		var x = point.x - w;
+		var y = point.y - h;
 		ry = y * ca;
 		rz = y * sa;
 
-		f = game_data.fov / (game_data.view_dist + rz);
-		point.x = x * f + w;
-		point.y = ry * f + h;
+		rf = f / (d + rz);
+		point.x = x * rf + w;
+		point.y = ry * rf + h;
 		return rz + z;
 	}
 
 	function unrotate_point(point, z) {
-		var rd, ca, sa, ry, rz, f;
+		var rz;
+		var x = point.x - w;
+		var y = point.y - h;
 
-		x = point.x - w;
-		y = point.y - h;
-		rd = game_data.tilt * Math.PI / 180;
-		ca = Math.cos(rd);
-		sa = Math.sin(rd);
-
-		point.y = y * game_data.view_dist / (ca * game_data.fov - sa * y);
-		point.x = (x / (game_data.fov / (game_data.view_dist + point.y * sa))) + w;
-		var rz = point.y * sa;
+		point.y = y * d / (ca * f - sa * y);
+		point.x = (x / (f / (d + point.y * sa))) + w;
+		rz = point.y * sa;
 		point.y += h;
 		return z - rz;
 	}
@@ -543,6 +1056,7 @@ $(document).on('ready page:load', function() {
 					i++;
 				}
 				game_data.global_root = game_data.active_nodes[0];
+				game_data.old_root = game_data.global_root;
 			},
 			async: true
 		});
@@ -824,6 +1338,10 @@ $(document).on('ready page:load', function() {
 		var index = 1;
 		var i = 0;
 		var thickness = 5;
+		if (game_data.node_layer == null)
+		{
+			game_data.node_layer = new scope.Layer();
+		}
 		while (i < num_layers) {
 			var num_sub = Math.pow(2, i);
 			var j = 0;
@@ -1004,6 +1522,7 @@ $(document).on('ready page:load', function() {
 			i++;
 		}
 		sort_active_nodes(game_data.active_nodes, 0, game_data.active_nodes.length - 1);
+		game_data.old_root = game_data.active_nodes[0];
 		get_more_node_data(ranges);
 	}
 
@@ -1086,6 +1605,7 @@ $(document).on('ready page:load', function() {
 			game_data.active_nodes[i].position = game_data.active_nodes[i].move_position;
 			i++;
 		}
+		game_data.old_root = game_data.active_nodes[0];
 		sort_active_nodes(game_data.active_nodes, 0, game_data.active_nodes.length - 1);
 		get_more_node_data(ranges);
 	}
@@ -1093,9 +1613,11 @@ $(document).on('ready page:load', function() {
 	var move_nodes = function(target, sigma_frac, delta_frac) {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
-		var i = 0;
-		while (i < game_data.active_nodes.length) {
-			var cur_node = game_data.active_nodes[i];
+		var prev_pos = game_data.old_root.group.position;
+		var i = -1;
+		var cur_node;
+		while (++i < game_data.active_nodes.length) {
+			cur_node = game_data.active_nodes[i];
 			if (cur_node.base == null) {
 				cur_node.base = new scope.Rectangle();
 				cur_node.base.x = cur_node.relative_pos.x * width;
@@ -1111,15 +1633,17 @@ $(document).on('ready page:load', function() {
 				* (cur_node.move_target.size_dx * height - cur_node.base.width);
 			cur_node.group.bounds.height = cur_node.base.height + sigma_frac
 				* (cur_node.move_target.size_dy * height - cur_node.base.height);
-			i++;
 			cur_node.moving = true;
 		}
+		var new_pos = game_data.old_root.group.position;
+		game_data.background.move_to(prev_pos, new_pos, sigma_frac);
 	}
 
 	var confirm_moved_nodes = function(target) {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		var i = 0;
+		var prev_pos = game_data.old_root.group.position;
 		while (i < game_data.active_nodes.length) {
 			var cur_node = game_data.active_nodes[i];
 			cur_node.group.position.x = cur_node.move_target.x * width;
@@ -1166,6 +1690,8 @@ $(document).on('ready page:load', function() {
 			}
 			i++;
 		}
+		var new_pos = game_data.old_root.group.position;
+		game_data.background.move_to(prev_pos, new_pos, 1);
 		i = 0;
 		while (i < game_data.active_nodes.length) {
 			show_connections(game_data.active_nodes[i]);
@@ -1245,7 +1771,6 @@ $(document).on('ready page:load', function() {
 		attack_circle.strokeColor = colors['line'];
 		attack_circle.fillColor = colors['fill'];
 		var attack_img = new scope.Raster('assets/icons/009-crosshair.png');
-		attack_img.fillColor = colors.num;
 		attack_img.bounds.width = attack_rad * 2;
 		attack_img.bounds.height = attack_rad * 2;
 		attack_img.position.x = attack_point.x;
@@ -1539,25 +2064,22 @@ $(document).on('ready page:load', function() {
 		var i = 0;
 		var len = game_data.animations.length;
 		while (i < len) {
-			if (target == game_data.animations[i].target) {
+			if (target == game_data.animations[i].target)
 				return true;
-			}
 			i++;
 		}
 		return false;
 	}
 
 	function remove_animations(target) {
-		var i = 0;
+		var i = -1;
 		var len = game_data.animations.length;
-		while (i < len) {
+		while (++i < len)
 			if (target == game_data.animations[i].target) {
 				game_data.animations.splice(i, 1);
 				len--;
 				continue;
 			}
-			i++;
-		}
 	}
 
 	function add_animation(target, fractional_render, last_render, length_ms) {
@@ -1575,6 +2097,9 @@ $(document).on('ready page:load', function() {
 	}
 
 	function tick(event) {
+		w = scope.view.size.width / 2;
+		h = scope.view.size.height / 2;
+		m = Math.min(w, h);
 		game_data.date = new Date();
 		var tick_time = game_data.date.getTime();
 		var i = 0;
@@ -1631,6 +2156,7 @@ $(document).on('ready page:load', function() {
 		get_initial_node_data();
 		set_resize();
 		set_assets();
+		make_background();
 		scope.view.onFrame = function(event) {
 			tick(event);
 		};
@@ -1643,6 +2169,8 @@ $(document).on('ready page:load', function() {
 		set_resize();
 		console.log("Setting up assets...");
 		set_assets();
+		console.log("Making background...");
+		make_background();
 		console.log("Canvas resize set up");
 		scope.view.onFrame = function(event) {
 			tick(event);
