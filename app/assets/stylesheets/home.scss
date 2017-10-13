@@ -112,6 +112,7 @@ body {
 	width: 100%;
 	height: 50px;
 	opacity: 0.2;
+	z-index: 3;
 	background-image: linear-gradient(to top, rgba(185, 214, 242, .90) 30%, rgba(185, 214, 242, .01));
 	-webkit-transition: all 400ms ease-in-out;
 	-moz-transition: all 400ms ease-in-out;
