@@ -291,12 +291,8 @@ $(document).on('ready page:load', function() {
 		background.x_range = { base: basis, range: basis / 3.1 };
 		background.x_range.base -= background.x_range.range;
 		background.x_range.mid = background.x_range.base + background.x_range.range / 2;
-<<<<<<< HEAD
-		background.z_range = { range: m / 4, force: m / 9 };
-=======
 		background.z_range = { range: basis, force: basis / 4.1 };
 
->>>>>>> bbd04fa182891c56d648415cfc6bd86bdf0c5e81
 		background.triangles = [];
 		background.y_fade = 40;
 		var shifter = { x: w, y: background.y_fade, z: 0 }, tmp;
