@@ -74,6 +74,8 @@ $(document).on('ready page:load', function() {
 		date: new Date()
 	};
 
+
+
 	// function make_ui() {
 	// 	var ui = game_data.user_interface;
 	//
@@ -774,20 +776,20 @@ $(document).on('ready page:load', function() {
 		return vector;
 	}
 
-	function mouseDown(e) {
-		if (parseInt(navigator.appVersion) > 3) {
-			var evt = e ? e : window.event;
-			var delta = evt.wheelDelta ? evt.wheelDelta / 120
-				: evt.detail ? -evt.detail : 0;
-			/* For canvas scrolling */
-			if (delta > 0) { // Scroll up
-				console.log("Scrolling up");
-			} else { // Scroll down
-				console.log("Scrolling down");
-			}
-		}
-		return true;
-	}
+	// function mouseDown(e) {
+	// 	if (parseInt(navigator.appVersion) > 3) {
+	// 		var evt = e ? e : window.event;
+	// 		var delta = evt.wheelDelta ? evt.wheelDelta / 120
+	// 			: evt.detail ? -evt.detail : 0;
+	// 		/* For canvas scrolling */
+	// 		if (delta > 0) { // Scroll up
+	// 			console.log("Scrolling up");
+	// 		} else { // Scroll down
+	// 			console.log("Scrolling down");
+	// 		}
+	// 	}
+	// 	return true;
+	// }
 
 	function select_node(target) {
 		if (target.moving)
@@ -1016,13 +1018,13 @@ $(document).on('ready page:load', function() {
 		return false;
 	}
 
-	if (parseInt(navigator.appVersion) > 3) {
-		canvas.onmousewheel = mouseDown;
-		if (navigator.appName == "Netscape"
-			&& parseInt(navigator.appVersion) == 4) {
-			canvas.captureEvents(Event.MOUSEDOWN);
-		}
-	}
+	// if (parseInt(navigator.appVersion) > 3) {
+	// 	canvas.onmousewheel = mouseDown;
+	// 	if (navigator.appName == "Netscape"
+	// 		&& parseInt(navigator.appVersion) == 4) {
+	// 		canvas.captureEvents(Event.MOUSEDOWN);
+	// 	}
+	// }
 
 	function get_initial_node_data() {
 		$.ajax({
@@ -1900,7 +1902,32 @@ $(document).on('ready page:load', function() {
 		add_animation(options, pop_action_animation, pop_action_stop, 150);
 	}
 
+	App.game = App.cable.subscriptions.create("GameChannel", {
+	  connected: function() {
+	    // Called when the subscription is ready for use on the server
+	  },
+
+	  disconnected: function() {
+	    // Called when the subscription has been terminated by the server
+	  },
+
+	  received: function(data) {
+	    // Called when there's incoming data on the websocket for this channel
+			console.log("recived")
+			game_data.active_nodes[0].group.firstChild.fillColor = 'green';
+			// game_data.node_factions[origin.value] = target_fac;
+			//                         var colors = game_data.colors[target_fac.toString()];
+			//                         origin.group.firstChild.strokeColor = colors.line;
+			//                         origin.group.firstChild.fillColor = colors.fill;
+			//                         origin.group.lastChild.fillColor = colors.num;
+	  }
+	});
+
 	function take_action(origin, target) {
+		App.game.perform(
+			'update_node', {
+				color: "red"
+			});
 		if (game_data.action_index == 1) {
 			$.ajax({
 				type: "GET",
@@ -1921,6 +1948,7 @@ $(document).on('ready page:load', function() {
 					var target_fac = game_data.node_factions[target.value];
 					var origin_change = data.origin;
 					var target_change = data.target;
+
 					if (origin_change == 'to_target') {
 						game_data.node_factions[origin.value] = target_fac;
 						var colors = game_data.colors[target_fac.toString()];
@@ -2009,6 +2037,7 @@ $(document).on('ready page:load', function() {
 				}
 			});
 		}
+
 	}
 
 	function check_selection(target) {
