@@ -253,19 +253,19 @@ $(document).on('ready page:load', function() {
 			var theta = get_angle(normal, this.light_ray);
 			var cos = Math.cos(theta);
 			// Grayscale
-			// var alpha = Math.floor(127 * cos);
-			// var bit = alpha.toString(16);
-			// var color = "#" + bit + bit + bit;
+			var alpha = Math.floor(192 * cos);
+			var bit = alpha.toString(16);
+			var color = "#" + bit + bit + bit;
 			// Color gradient
-			var c1 = game_data.colors['0'].light;
-			var c2 = game_data.colors['0'].dark;
-			var red = Math.floor((c1[0] - c2[0]) * cos) + c2[0];
-			var green = Math.floor((c1[1] - c2[1]) * cos) + c2[1];
-			var blue = Math.floor((c1[2] - c2[2]) * cos) + c2[2];
-			var r_bit = red.toString(16);
-			var g_bit = green.toString(16);
-			var b_bit = blue.toString(16);
-			var color = "#" + r_bit + g_bit + b_bit;
+			// var c1 = game_data.colors['0'].light;
+			// var c2 = game_data.colors['0'].dark;
+			// var red = Math.floor((c1[0] - c2[0]) * cos) + c2[0];
+			// var green = Math.floor((c1[1] - c2[1]) * cos) + c2[1];
+			// var blue = Math.floor((c1[2] - c2[2]) * cos) + c2[2];
+			// var r_bit = red.toString(16);
+			// var g_bit = green.toString(16);
+			// var b_bit = blue.toString(16);
+			// var color = "#" + r_bit + g_bit + b_bit;
 			path.add(new scope.Segment(new scope.Point(p1.x, p1.y)));
 			path.add(new scope.Segment(new scope.Point(p2.x, p2.y)));
 			path.add(new scope.Segment(new scope.Point(p3.x, p3.y)));
@@ -279,7 +279,8 @@ $(document).on('ready page:load', function() {
 				path: path,
 				points: [p1, p2, p3],
 				base: base,
-				dir: dir
+				dir: dir,
+				cos: cos
 			};
 			this.triangles.push(triangle);
 			p1.triangles.push(triangle);
@@ -287,6 +288,35 @@ $(document).on('ready page:load', function() {
 			p3.triangles.push(triangle);
 			return triangle;
 		};
+		background.change_colors = function(light, dark) {
+			game_data.colors['0'].dark = dark;
+			game_data.colors['0'].light = light;
+			var i = -1, cur_triangle;
+			var red, green, blue, r_bit, g_bit, b_bit, color;
+			while (++i < this.triangles.length) {
+				cur_triangle = this.triangles[i];
+				red = Math.floor((light[0] - dark[0]) * cur_triangle.cos) + dark[0];
+				green = Math.floor((light[1] - dark[1]) * cur_triangle.cos) + dark[1];
+				blue = Math.floor((light[2] - dark[2]) * cur_triangle.cos) + dark[2];
+				r_bit = red.toString(16);
+				g_bit = green.toString(16);
+				b_bit = blue.toString(16);
+				color = "#" + r_bit + g_bit + b_bit;
+				cur_triangle.path.fillColor = color;
+				cur_triangle.path.strokeColor = color;
+			}
+		};
+		background.set_grayscale = function() {
+			var i = -1, cur_triangle, alpha, bit;
+			while (++i < this.triangles.length) {
+				cur_triangle = this.triangles[i];
+				alpha = Math.floor(192 * cur_triangle.cos);
+				bit = alpha.toString(16);
+				color = "#" + bit + bit + bit;
+				cur_triangle.path.fillColor = color;
+				cur_triangle.path.strokeColor = color;
+			}
+		}
 		background.add_row = function(base_y, y_mod) {
 			if (y_mod != 1 && y_mod != -1)
 				return;
