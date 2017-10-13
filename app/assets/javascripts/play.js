@@ -115,8 +115,15 @@ $(document).on('ready page:load', function() {
 
 	function make_ui() {
 		var user = game_data.user_info;
-		user.faction_id = 3;//remove with query
 		var ui = game_data.user_interface;
+		//REMOVE WITH QUERY
+		var user_info = game_data.user_info;
+		user.name = "Namey McNamerson";
+		user.picture = 'assets/icons/032-cone.svg';
+		user.faction_id = 3;
+		user.resources = 59362;
+		user.gem_placeholder = 1;
+		//MEOW
 		ui.color_palette = {
 			1: {//Ancient
 				primary: '#1B466B',
@@ -147,7 +154,25 @@ $(document).on('ready page:load', function() {
 				highlight: '#C9F0FF'
 			}
 		};
-		ui.card = {};
+		ui.faction_icons = {//REPLACE WITH GRAPHIC ASSETS
+			1: null,
+			2: 'assets/icons/placeholder-red_faction_icon.svg',
+			3: 'assets/icons/placeholder-green_faction_icon.svg',
+			4: 'assets/icons/placeholder-blue_faction_icon.svg'
+		};
+		ui.faction_names = {
+			1: 'Neutral',
+			2: 'Rocks',
+			3: 'Elves',
+			4: 'Jellyfish'
+		};
+		ui.card = document.getElementById('info_pane');
+		ui.search_bar = document.getElementsByClassName('search_bar')[0];
+		ui.quest_pane = document.getElementsByClassName('quest_pane')[0];
+		ui.chat_pane = document.getElementsByClassName('chat_pane')[0];
+		ui.status_bar = document.getElementsByClassName('status_bar')[0];
+		ui.tabs = document.getElementsByClassName('tabs')[0];
+
 		function hex_to_rgba(hex, alpha) {
 			var r = parseInt(hex.slice(1, 3), 16),
 			g = parseInt(hex.slice(3, 5), 16),
@@ -160,29 +185,94 @@ $(document).on('ready page:load', function() {
 			}
 		}
 		ui.set_colors = function() {
-			var cur_div = document.getElementById('info_pane');
-			cur_div.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary, .75);
-			cur_div.style.borderColor = ui.color_palette[user.faction_id].accent;
-			cur_div.style.color = ui.color_palette[user.faction_id].highlight;
-			cur_div = document.getElementsByClassName('search_bar')[0];
-			cur_div.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis, .75);
-			cur_div.style.borderColor = ui.color_palette[user.faction_id].accent;
-			cur_div = document.getElementsByClassName('quest_pane')[0];
-			cur_div.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis, .75);
-			cur_div.style.borderColor = ui.color_palette[user.faction_id].accent;
-			cur_div = document.getElementsByClassName('status_bar')[0];
-			cur_div.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis, .75);
-			cur_div.style.borderColor = ui.color_palette[user.faction_id].accent;
-			cur_div.style.color = ui.color_palette[user.faction_id].highlight;
+			ui.card.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary, .75);
+			ui.card.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.card.style.color = ui.color_palette[user.faction_id].highlight;
+			ui.card.children[2].style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.card.children[2].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.card.children[4].style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.card.children[4].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.search_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis, .75);
+			ui.search_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.quest_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.quest_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.chat_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.chat_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.status_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary, .75);
+			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.status_bar.style.color = ui.color_palette[user.faction_id].highlight;
+			ui.tabs.children[0].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
+			ui.tabs.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.tabs.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
+			ui.tabs.children[1].style.borderColor = ui.color_palette[user.faction_id].accent;
 		};
-		ui.set_card = function() {
+		ui.set_bar = function() {
+			ui.status_bar.children[0].firstChild.src = user.picture;
+			ui.status_bar.children[1].firstChild.appendChild(document.createTextNode(user.name));
+		}
+		ui.set_card = function(card_node) {
 			// THINGS THAT WILL BE REPLACED WITH ACTUAL DATABASE REQUEST STUFF
-
+			ui.card_spans = {
+				1: document.getElementById('node_number'),
+				2: document.getElementById('node_owner'),
+				3: document.getElementById('node_tier'),
+				4: document.getElementById('node_function'),
+				5: document.getElementById('node_connections'),
+				6: document.getElementById('node_value'),
+				7: document.getElementById('node_contention'),
+				8: document.getElementById('faction_name'),
+				9: document.getElementById('faction_icon')
+			}
+			var span_num = 0;
+			while (++span_num < 9) {
+				cur_span = ui.card_spans[span_num];
+				while (cur_span.firstChild) {
+					cur_span.removeChild(cur_span.firstChild);
+				}
+			}
+			console.log(typeof(card_node.number))
+			ui.card_spans[1].appendChild(document.createTextNode(card_node.number));
+			ui.card_spans[2].appendChild(document.createTextNode(card_node.owner));
+			ui.card_spans[3].appendChild(document.createTextNode(card_node.tier));
+			ui.card_spans[4].appendChild(document.createTextNode(card_node.function));
+			ui.card_spans[5].appendChild(document.createTextNode(card_node.connections));
+			ui.card_spans[6].appendChild(document.createTextNode(card_node.value));
+			ui.card_spans[7].appendChild(document.createTextNode(card_node.contention));
+			ui.card_spans[8].appendChild(document.createTextNode(ui.faction_names[card_node.faction_id]));
+			ui.card_spans[9].src = ui.faction_icons[card_node.faction_id];
 			// END OF THOSE THINGS
 		};
+		ui.create_listeners = function() {
+			ui.tabs.children[0].addEventListener('click', function() {
+				ui.tabs.children[0].style.borderBottomWidth = '0px';
+				ui.tabs.children[1].style.borderBottomWidth = '2px';
+				ui.quest_pane.style.display = 'block';
+				ui.chat_pane.style.display = 'none';
+			});
+			ui.tabs.children[1].addEventListener('click', function() {
+				ui.tabs.children[0].style.borderBottomWidth = '2px';
+				ui.tabs.children[1].style.borderBottomWidth = '0px';
+				ui.quest_pane.style.display = 'none';
+				ui.chat_pane.style.display = 'block';
+			});
+		}
 		ui.init = function() {
 			ui.set_colors();
-			ui.set_card();
+			ui.set_bar();
+			ui.create_listeners();
+			//testing data
+			var card_node = {
+				number: '4',
+				owner: 'mwooden',
+				tier: '2',
+				function: 'Core',
+				connections: '2',
+				value: '5043',
+				contention: '0',
+				faction_id: '1'
+			};
+			ui.set_card(card_node);
 		};
 		ui.init();
 	}
@@ -201,8 +291,12 @@ $(document).on('ready page:load', function() {
 		background.x_range = { base: basis, range: basis / 3.1 };
 		background.x_range.base -= background.x_range.range;
 		background.x_range.mid = background.x_range.base + background.x_range.range / 2;
+<<<<<<< HEAD
+		background.z_range = { range: m / 4, force: m / 9 };
+=======
 		background.z_range = { range: basis, force: basis / 4.1 };
 
+>>>>>>> bbd04fa182891c56d648415cfc6bd86bdf0c5e81
 		background.triangles = [];
 		background.y_fade = 40;
 		var shifter = { x: w, y: background.y_fade, z: 0 }, tmp;
