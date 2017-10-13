@@ -292,7 +292,6 @@ $(document).on('ready page:load', function() {
 		background.x_range.base -= background.x_range.range;
 		background.x_range.mid = background.x_range.base + background.x_range.range / 2;
 		background.z_range = { range: basis, force: basis / 4.1 };
-
 		background.triangles = [];
 		background.y_fade = 40;
 		var shifter = { x: w, y: background.y_fade, z: 0 }, tmp;
