@@ -3,9 +3,12 @@ html {
 	height: 100%;
 }
 
+span {
+	white-space: pre;
+}
+
 .bg_play {
 	width: 100%;
-	//background: url("background_img3.jpg") no-repeat center center fixed;
 	background-size: cover;
 }
 
@@ -28,15 +31,46 @@ body.play {
 	height: 100%;
 	width: 100%;
 	display: grid;
-	grid-template-columns: 7fr 6fr 1fr 13fr 9fr 5fr;
-	grid-template-rows: 54px 12fr 10fr 3fr 8fr;
+	grid-template-columns: 7fr 6fr 1fr 13fr 8fr 6fr;
+	grid-template-rows: 54px 19fr 2fr 3fr 8fr;
 	grid-template-areas:
 		"stat-bar stat-bar stat-bar stat-bar stat-bar stat-bar"
 		". . . . . ."
-		"clusters . . . . quests"
-		"search search . . . quests"
-		"info info info . chat chat";
+		"clusters . . . tabs tabs"
+		"search search . . quests quests"
+		"info info info . quests quests";
 	z-index: 1;
+}
+
+.tabs {
+	grid-area: tabs;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 10px 1fr 1fr 1fr;
+	grid-template-rows: 1fr;
+	grid-template-areas:
+		". quest_tab chat_tab .";
+}
+
+.quest_tab {
+	grid-area: quest_tab;
+	width: 96%;
+	border-style: solid;
+	border-width: 2px 2px 0px 2px;
+	border-radius: 10px 10px 0px 0px;
+	margin: 0px 0px -2px 0px;
+	z-index: 3;
+}
+
+.chat_tab {
+	grid-area: chat_tab;
+	border-style: solid;
+	width: 96%;
+	border-width: 2px 2px 2px 2px; //bottom border for deselected tab
+	border-radius: 10px 10px 0px 0px;
+	margin: 0px 0px -2px 0px;
+	z-index: 3;
 }
 
 .myCanvas {
@@ -48,10 +82,10 @@ body.play {
 
 .status_bar {
 	grid-area: stat-bar;
-	background-color: rgba(33, 136, 221, 0.65);
-	border-color: #094074;
+	background-color: rgba(0, 66, 153, 0.65);
+	border-color: #004299;
 	border-style: solid;
-	border-width: 0px 0px 1px 0px;
+	border-width: 0px 0px 2px 0px;
 	display: grid;
 	grid-template-columns: 1fr 48px 2fr 12fr 100fr;
 	grid-template-rows: 3px 48px 3px;
@@ -64,49 +98,47 @@ body.play {
 
 .profile_pic {
 	grid-area: profile_pic;
-	background-color: #c9f0ff;
+	overflow: hidden;
 	border-radius: 3px;
 	z-index: 3;
 }
 
-.clusters {
-	grid-area: clusters;
-	background-color: #2188dd;
-	display: none;
-	z-index: 2;
+.username {
+	grid-area: username;
+	align-self: center;
+	justify-self: center;
 }
 
-.quest_log {
-	grid-area: quests;
-	background-color: #e2e544;
+.clusters {
+	grid-area: clusters;
 	display: none;
 	z-index: 2;
 }
 
 .search_bar {
 	grid-area: search;
-	background-color: rgba(226, 229, 68, 0.65);
-	border-color: #094074;
+	background-color: rgba(153, 153, 153, .85);
+	border-color: #004299;
 	border-style: solid;
-	border-width: 1px 1px 0px 0px;
+	border-width: 2px 2px 0px 0px;
 	border-radius: 0px 12px 0px 0px;
 	z-index: 2;
 }
 
-.info {
+#info_pane {
 	position: relative;
 	grid-area: info;
 	display: grid;
-	background-color: rgba(33, 136, 221, 0.65);
+	background-color: rgba(27, 70, 107, 0.65);
 	border-color: #094074;
 	border-style: solid;
-	border-width: 1px 1px 0px 0px;
+	border-width: 2px 2px 0px 0px;
 	border-radius: 0px 12px 0px 0px;
 	grid-template-columns: 1fr 10fr 1fr 8fr 48px;
 	grid-template-rows: 48px auto;
 	grid-template-areas:
-		". nameplate . typename typeicon"
-		". nodeinfo . typeinfo typeinfo";
+		". nameplate . faction_name faction_icon"
+		". nodeinfo . cluster_info cluster_info";
 	z-index: 2;
 }
 
@@ -116,7 +148,6 @@ body.play {
 	font-size: 2vw;
 	flex-flow: row nowrap;
 	align-self: center;
-	color: #C9F0FF;
 }
 
 span#nameword {
@@ -132,20 +163,19 @@ span#nodename {
 	font-weight: 400;
 }
 
-.typename {
+.faction_name {
 	justify-self: center;
 	align-self: center;
-	grid-area: typename;
+	grid-area: faction_name;
 	font-size: 2vw;
 	font-weight: 300;
-	color: #C9F0FF;
 }
 
-.typeicon {
-	grid-area: typeicon;
+.faction_icon {
+	grid-area: faction_icon;
 	margin: 4px;
+	overflow: hidden;
 	border-radius: 50%;
-	background-color: #C9F0FF;
 	border-style: solid;
 	border-color: #094074;
 	border-width: 2px;
@@ -153,26 +183,28 @@ span#nodename {
 
 .nodeinfo {
 	grid-area: nodeinfo;
-	color: #C9F0FF;
 }
 
-.typeinfo {
-	grid-area: typeinfo;
-	margin: 4px 4px 0px 4px;
+.cluster_info {
+	grid-area: cluster_info;
+	margin: 4px -2px 0px 4px;
 	border-radius: 10% 10% 0% 0%;
 	border-style: solid;
-	border-color: #094074;
 	border-width: 2px 2px 0px 2px;
-	background-color: #C9F0FF;
-	color: #2188DD;
 }
 
-.chat_log {
-	grid-area: chat;
-	background-color: rgba(33, 136, 221, 0.65);
-	border-color: #094074;
+.chat_pane {
+	grid-area: quests;
 	border-style: solid;
-	border-width: 1px 0px 0px 1px;
+	border-width: 2px 0px 0px 2px;
+	border-radius: 12px 0px 0px 0px;
+	z-index: 2;
+}
+
+.quest_pane {
+	grid-area: quests;
+	border-style: solid;
+	border-width: 2px 0px 0px 2px;
 	border-radius: 12px 0px 0px 0px;
 	z-index: 2;
 }

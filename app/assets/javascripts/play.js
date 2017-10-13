@@ -15,16 +15,16 @@ $(document).on('ready page:load', function() {
 	scope.setup(canvas);
 
 	var w = scope.view.size.width / 2;
-	var wl = -0.5 * w;
-	var wh = 2.5 * w;
+	var wl = -0.4 * w;
+	var wh = 2.4 * w;
 	var h = scope.view.size.height / 2;
 	var hh = 2.5 * h;
 	var m = Math.min(w, h);
 
 	var game_data = {
-		fov: 260,
-		view_dist: h / 1.8,
-		tilt: -24,
+		fov: 400,
+		view_dist: 300,
+		tilt: -23,
 		node_factions: [],
 		node_connections: [],
 		active_nodes: [],
@@ -68,13 +68,14 @@ $(document).on('ready page:load', function() {
 			}
 		},
 		background: {},
-		//user_interface: {},
+		user_info: {},
+		user_interface: {},
 		global_root: null,
 		old_root: null,
 		date: new Date()
 	};
 
-
+	var g_theta = game_data.tilt * Math.PI / 180;
 
 	// function make_ui() {
 	// 	var ui = game_data.user_interface;
@@ -90,26 +91,222 @@ $(document).on('ready page:load', function() {
 	// 		ui.set_card();
 	// 	};
 	// }
+// Getting user information
+// function get_user_info() {
+// 	$.ajax({
+// 		type: "GET",
+// 		url: "request_userdata",
+// 		data: {
+// 				//current session user
+// 		},
+// 		datatype: "html",
+// 		success: function (raw) {
+// 			var data = JSON.parse(raw);
+// 			var user_info = game_data.user_info;
+// 			user_info.name = data['user']['name'];
+// 			user_info.picture = data['user']['picture'];
+// 			user_info.faction_id = data['user']['faction_id'];
+// 			user_info.resources = data['user']['resources'];
+// 			user_info.gem_placeholder = data['user']['gems'];
+// 		},
+// 		async: true
+// 	});
+// }
+
+	function make_ui() {
+		var user = game_data.user_info;
+		var ui = game_data.user_interface;
+		//REMOVE WITH QUERY
+		var user_info = game_data.user_info;
+		user.name = "Namey McNamerson";
+		user.picture = 'assets/icons/032-cone.svg';
+		user.faction_id = 3;
+		user.resources = 59362;
+		user.gem_placeholder = 1;
+		//MEOW
+		ui.color_palette = {
+			1: {//Ancient
+				primary: '#1B466B',
+				secondary: '#999999',
+				basis: '#090446',
+				accent: '#004299',
+				highlight: '#BCDEFF'
+			},
+			2: {//Rocks
+				primary: '#7F0812',
+				secondary: '#E52D00',
+				basis: '#0F0202',
+				accent: '#FF8300',
+				highlight: '#FAF9F9'
+			},
+			3: {//Elves
+				primary: '#588401',
+				secondary: '#3EB200',
+				basis: '#352E09',
+				accent: '#40ED4B',
+				highlight: '#FFFFD8'
+			},
+			4: {//Jellyfish
+				primary: '#2188DD',
+				secondary: '#AE45C7',
+				basis: '#094074',
+				accent: '#E2E544',
+				highlight: '#C9F0FF'
+			}
+		};
+		ui.faction_icons = {//REPLACE WITH GRAPHIC ASSETS
+			1: null,
+			2: 'assets/icons/placeholder-red_faction_icon.svg',
+			3: 'assets/icons/placeholder-green_faction_icon.svg',
+			4: 'assets/icons/placeholder-blue_faction_icon.svg'
+		};
+		ui.faction_names = {
+			1: 'Neutral',
+			2: 'Rocks',
+			3: 'Elves',
+			4: 'Jellyfish'
+		};
+		ui.card = document.getElementById('info_pane');
+		ui.search_bar = document.getElementsByClassName('search_bar')[0];
+		ui.quest_pane = document.getElementsByClassName('quest_pane')[0];
+		ui.chat_pane = document.getElementsByClassName('chat_pane')[0];
+		ui.status_bar = document.getElementsByClassName('status_bar')[0];
+		ui.tabs = document.getElementsByClassName('tabs')[0];
+
+		function hex_to_rgba(hex, alpha) {
+			var r = parseInt(hex.slice(1, 3), 16),
+			g = parseInt(hex.slice(3, 5), 16),
+			b = parseInt(hex.slice(5, 7), 16);
+
+			if (alpha) {
+				return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+			} else {
+				return "rgb(" + r + ", " + g + ", " + b + ")";
+			}
+		}
+		ui.set_colors = function() {
+			ui.card.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary, .75);
+			ui.card.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.card.style.color = ui.color_palette[user.faction_id].highlight;
+			ui.card.children[2].style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.card.children[2].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.card.children[4].style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.card.children[4].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.search_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis, .75);
+			ui.search_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.quest_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.quest_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.chat_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.chat_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.status_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary, .75);
+			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.status_bar.style.color = ui.color_palette[user.faction_id].highlight;
+			ui.tabs.children[0].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
+			ui.tabs.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.tabs.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
+			ui.tabs.children[1].style.borderColor = ui.color_palette[user.faction_id].accent;
+		};
+		ui.set_bar = function() {
+			ui.status_bar.children[0].firstChild.src = user.picture;
+			ui.status_bar.children[1].firstChild.appendChild(document.createTextNode(user.name));
+		}
+		ui.set_card = function(card_node) {
+			// THINGS THAT WILL BE REPLACED WITH ACTUAL DATABASE REQUEST STUFF
+			ui.card_spans = {
+				1: document.getElementById('node_number'),
+				2: document.getElementById('node_owner'),
+				3: document.getElementById('node_tier'),
+				4: document.getElementById('node_function'),
+				5: document.getElementById('node_connections'),
+				6: document.getElementById('node_value'),
+				7: document.getElementById('node_contention'),
+				8: document.getElementById('faction_name'),
+				9: document.getElementById('faction_icon')
+			}
+			var span_num = 0;
+			while (++span_num < 9) {
+				cur_span = ui.card_spans[span_num];
+				while (cur_span.firstChild) {
+					cur_span.removeChild(cur_span.firstChild);
+				}
+			}
+			console.log(typeof(card_node.number))
+			ui.card_spans[1].appendChild(document.createTextNode(card_node.number));
+			ui.card_spans[2].appendChild(document.createTextNode(card_node.owner));
+			ui.card_spans[3].appendChild(document.createTextNode(card_node.tier));
+			ui.card_spans[4].appendChild(document.createTextNode(card_node.function));
+			ui.card_spans[5].appendChild(document.createTextNode(card_node.connections));
+			ui.card_spans[6].appendChild(document.createTextNode(card_node.value));
+			ui.card_spans[7].appendChild(document.createTextNode(card_node.contention));
+			ui.card_spans[8].appendChild(document.createTextNode(ui.faction_names[card_node.faction_id]));
+			ui.card_spans[9].src = ui.faction_icons[card_node.faction_id];
+			// END OF THOSE THINGS
+		};
+		ui.create_listeners = function() {
+			ui.tabs.children[0].addEventListener('click', function() {
+				ui.tabs.children[0].style.borderBottomWidth = '0px';
+				ui.tabs.children[1].style.borderBottomWidth = '2px';
+				ui.quest_pane.style.display = 'block';
+				ui.chat_pane.style.display = 'none';
+			});
+			ui.tabs.children[1].addEventListener('click', function() {
+				ui.tabs.children[0].style.borderBottomWidth = '2px';
+				ui.tabs.children[1].style.borderBottomWidth = '0px';
+				ui.quest_pane.style.display = 'none';
+				ui.chat_pane.style.display = 'block';
+			});
+		}
+		ui.init = function() {
+			ui.set_colors();
+			ui.set_bar();
+			ui.create_listeners();
+			//testing data
+			var card_node = {
+				number: '4',
+				owner: 'mwooden',
+				tier: '2',
+				function: 'Core',
+				connections: '2',
+				value: '5043',
+				contention: '0',
+				faction_id: '1'
+			};
+			ui.set_card(card_node);
+		};
+		ui.init();
+	}
 
 	function make_background() {
 		var background = game_data.background;
 
-		background.y_range = { base: h / 4, range: h / 11 };
-		background.y_range.mid = background.y_range.base + background.y_range.range / 2;
-		background.x_range = { base: h / 4, range: h / 11 };
-		background.x_range.mid = background.x_range.base + background.x_range.range / 2;
-		background.z_range = { range: m / 4, force: m / 9 };
+		var d_off = game_data.view_dist / Math.tan(-g_theta);
+		var h_off = d_off / Math.cos(-g_theta);
+		var num = 9;
+		var basis = (((d_off + 2*h - 40) / Math.cos(-g_theta)) - h_off) / num;
 
+		background.y_range = { base: basis, range: basis / 3.1 };
+		background.y_range.base -= background.y_range.range;
+		background.y_range.mid = background.y_range.base + background.y_range.range / 2;
+		background.x_range = { base: basis, range: basis / 3.1 };
+		background.x_range.base -= background.x_range.range;
+		background.x_range.mid = background.x_range.base + background.x_range.range / 2;
+		background.z_range = { range: basis, force: basis / 4.1 };
 		background.triangles = [];
-		background.y_fade = 64;
+		background.y_fade = 40;
 		var shifter = { x: w, y: background.y_fade, z: 0 }, tmp;
 		change_actual_of_seen(shifter, { x: 0, y: -background.y_range.mid, z: 0 });
 		background.y_lim = shifter.y;
+		shifter = { x: w, y: 2*h, z: 0};
+		change_actual_of_seen(shifter, { x: 0, y: basis, z: 0 });
+		console.log(2*h);
+		hh = shifter.y;
+		console.log(hh);
 		background.light_ray = normalize({ x: 0.7, y: 0.5, z: 1 });
 		background.map = { top: 1, bot: 0, moved_top: false, moved_bot: false };
 		background.rows = [];
 
-		background.add_point = function(row, x, y, z, color) {
+		background.add_point = function(row, x, y, z) {
 			var point = { x: x, y: y, z: z };
 			point.triangles = [];
 			var i = row.points.length;
@@ -118,9 +315,6 @@ $(document).on('ready page:load', function() {
 				row.points.push(point);
 			else
 				row.points.splice(i, 0, point);
-			point.path = new scope.Path.Circle(new scope.Point(x, y), 2);
-			point.path.fillColor = color;
-			point.path.bringToFront();
 			return point;
 		};
 		function has_triangle(p1, p2, p3) {
@@ -137,7 +331,7 @@ $(document).on('ready page:load', function() {
 			}
 			return false;
 		}
-		background.add_triangle = function(p1, p2, p3) {
+		background.add_triangle = function(p1, p2, p3, base, dir) {
 			var path = new scope.Path();
 			if (p1.x > p2.x){ tmp = p1; p1 = p2; p2 = tmp; }
 			if (p2.x > p3.x){ tmp = p2; p2 = p3; p3 = tmp; }
@@ -147,8 +341,11 @@ $(document).on('ready page:load', function() {
 			var normal = normalize(cross(edge1, edge2));
 			var theta = get_angle(normal, this.light_ray);
 			var cos = Math.cos(theta);
-			var alpha = Math.floor(127 * cos);
+			// Grayscale
+			var alpha = Math.floor(192 * cos);
 			var bit = alpha.toString(16);
+			var color = "#" + bit + bit + bit;
+			// Color gradient
 			// var c1 = game_data.colors['0'].light;
 			// var c2 = game_data.colors['0'].dark;
 			// var red = Math.floor((c1[0] - c2[0]) * cos) + c2[0];
@@ -158,19 +355,21 @@ $(document).on('ready page:load', function() {
 			// var g_bit = green.toString(16);
 			// var b_bit = blue.toString(16);
 			// var color = "#" + r_bit + g_bit + b_bit;
-			var color = "#" + bit + bit + bit;
 			path.add(new scope.Segment(new scope.Point(p1.x, p1.y)));
 			path.add(new scope.Segment(new scope.Point(p2.x, p2.y)));
 			path.add(new scope.Segment(new scope.Point(p3.x, p3.y)));
 			path.closed = true;
 			path.fillColor = color;
-			path.strokeColor = 'black';
+			path.strokeColor = color;
 			path.strokeWidth = 1;
 			path.strokeJoin = "bevel";
 			path.sendToBack();
 			var triangle = {
 				path: path,
-				points: [p1, p2, p3]
+				points: [p1, p2, p3],
+				base: base,
+				dir: dir,
+				cos: cos
 			};
 			this.triangles.push(triangle);
 			p1.triangles.push(triangle);
@@ -178,6 +377,35 @@ $(document).on('ready page:load', function() {
 			p3.triangles.push(triangle);
 			return triangle;
 		};
+		background.change_colors = function(light, dark) {
+			game_data.colors['0'].dark = dark;
+			game_data.colors['0'].light = light;
+			var i = -1, cur_triangle;
+			var red, green, blue, r_bit, g_bit, b_bit, color;
+			while (++i < this.triangles.length) {
+				cur_triangle = this.triangles[i];
+				red = Math.floor((light[0] - dark[0]) * cur_triangle.cos) + dark[0];
+				green = Math.floor((light[1] - dark[1]) * cur_triangle.cos) + dark[1];
+				blue = Math.floor((light[2] - dark[2]) * cur_triangle.cos) + dark[2];
+				r_bit = red.toString(16);
+				g_bit = green.toString(16);
+				b_bit = blue.toString(16);
+				color = "#" + r_bit + g_bit + b_bit;
+				cur_triangle.path.fillColor = color;
+				cur_triangle.path.strokeColor = color;
+			}
+		};
+		background.set_grayscale = function() {
+			var i = -1, cur_triangle, alpha, bit;
+			while (++i < this.triangles.length) {
+				cur_triangle = this.triangles[i];
+				alpha = Math.floor(192 * cur_triangle.cos);
+				bit = alpha.toString(16);
+				color = "#" + bit + bit + bit;
+				cur_triangle.path.fillColor = color;
+				cur_triangle.path.strokeColor = color;
+			}
+		}
 		background.add_row = function(base_y, y_mod) {
 			if (y_mod != 1 && y_mod != -1)
 				return;
@@ -200,40 +428,22 @@ $(document).on('ready page:load', function() {
 				right_below: -1
 			};
 			var ref_row = null;
-			var push_row;
+			var row_index;
 			if (y_mod == -1) {
 				if (this.map.moved_top)
 					ref_row = this.rows[this.map.top];
-				push_row = function(left, right, ref_left, right_ref) {
-					if (row.left_below == -1 || row.left_below > left)
-						row.left_below = left;
-					if (row.right_below < right)
-						row.right_below = right;
-					if (ref_row.left_above == -1 || ref_row.left_above > ref_left)
-						ref_row.left_above = ref_left;
-					if (ref_row.right_above < right_ref)
-						ref_row.right_above = right_ref;
-				}
 				this.map.moved_top = true;
 				this.map.top--;
 				this.rows[this.map.top] = row;
+				row_index = this.map.top;
 			}
 			else { // y_mod == 1
 				if (this.map.moved_top)
 					ref_row = this.rows[this.map.bot];
-				push_row = function(left, right, ref_left, right_ref) {
-					if (row.left_above == -1 || row.left_above > left)
-						row.left_above = left;
-					if (row.right_above < right)
-						row.right_above = right;
-					if (ref_row.left_below == -1 || ref_row.left_below > ref_left)
-						ref_row.left_below = ref_left;
-					if (ref_row.right_below < right_ref)
-						ref_row.right_below = right_ref;
-				}
 				this.map.moved_bot = true;
 				this.map.bot++;
 				this.rows[this.map.bot] = row;
+				row_index = this.map.bot;
 			}
 			cur.x = wl - (this.x_range.base + this.x_range.range / 2);
 			var cur_point = null, last_point, prev_z;
@@ -246,11 +456,11 @@ $(document).on('ready page:load', function() {
 				cur.z = 0;
 				change.x = Math.floor(Math.random() * this.x_range.range) + this.x_range.base;
 				change.y = Math.floor(Math.random() * this.y_range.range);
-				//prev_z = change.z;
-				//while (Math.abs(prev_z - change.z) < this.z_range.force)
+				prev_z = change.z;
+					while (Math.abs(prev_z - change.z) < this.z_range.force)
 				change.z = Math.floor(Math.random() * this.z_range.range) - this.z_range.range / 2;
 				change_actual_of_seen(cur, change);
-				cur_point = this.add_point(row, cur.x, cur.y, cur.z, 'red');
+				cur_point = this.add_point(row, cur.x, cur.y, cur.z);
 				cur_index = row.points.indexOf(cur_point);
 				last_index = row.points.indexOf(last_point);
 				if (ref_row != null) {
@@ -264,59 +474,48 @@ $(document).on('ready page:load', function() {
 					if (right_ref != ref_row.points.length && left_ref != -1) {
 						if (last_left == -1) {
 							this.add_triangle(cur_point, ref_row.points[left_ref],
-								ref_row.points[right_ref]);
-							  push_row(cur_index, cur_index, left_ref, right_ref);
+								ref_row.points[right_ref], row_index - y_mod, y_mod);
 						}
 						else if (last_left == left_ref && last_right == right_ref) {
 							this.add_triangle(cur_point, ref_row.points[right_ref],
-								last_point);
-							  push_row(last_index, cur_index, right_ref, right_ref);
+								last_point, row_index, -y_mod);
 						}
 						else if (last_right == left_ref) {
 							this.add_triangle(cur_point, ref_row.points[left_ref],
-								ref_row.points[right_ref]);
-							  push_row(cur_index, cur_index, left_ref, right_ref);
+								ref_row.points[right_ref], row_index - y_mod, y_mod);
 							this.add_triangle(cur_point, ref_row.points[left_ref],
-								last_point);
-							  push_row(last_index, cur_index, left_ref, left_ref);
+								last_point, row_index, -y_mod);
 						}
 						else {
 							this.add_triangle(cur_point, ref_row.points[left_ref],
-								ref_row.points[right_ref]);
-							  push_row(cur_index, cur_index, left_ref, right_ref);
+								ref_row.points[right_ref], row_index - y_mod, y_mod);
 							if (left_ref - last_right == 1) {
 								this.add_triangle(cur_point, ref_row.points[last_right],
-									ref_row.points[left_ref]);
-								  push_row(cur_index, cur_index, last_right, left_ref);
+									ref_row.points[left_ref], row_index - y_mod, y_mod);
 								this.add_triangle(cur_point, ref_row.points[last_right],
-									last_point);
-								  push_row(last_index, cur_index, last_right, last_right);
+									last_point, row_index, -y_mod);
 							}
 							else {
 								while (--left_ref > last_right) {
 									if (left_ref - last_right == 1) {
 										this.add_triangle(cur_point, ref_row.points[left_ref],
-											ref_row.points[left_ref + 1]);
-										  push_row(cur_index, cur_index, left_ref, left_ref + 1);
+											ref_row.points[left_ref + 1], row_index - y_mod, y_mod);
 										this.add_triangle(cur_point, last_point,
-											ref_row.points[left_ref]);
-										  push_row(last_index, cur_index, left_ref, left_ref);
+											ref_row.points[left_ref], row_index, -y_mod);
 										this.add_triangle(last_point, ref_row.points[left_ref],
-											ref_row.points[last_right]);
-										  push_row(cur_index, cur_index, last_right, left_ref);
+											ref_row.points[last_right], row_index - y_mod, y_mod);
 									}
 									else {
 										this.add_triangle(cur_point, ref_row.points[left_ref],
-											ref_row.points[left_ref + 1]);
-										  push_row(cur_index, cur_index, left_ref, left_ref + 1);
+											ref_row.points[left_ref + 1], row_index - y_mod, y_mod);
 									}
 								}
 							}
 						}
 					}
 					else if (left_ref != -1 && last_right == left_ref) {
-						this.add_triangle(cur_point, last_point, ref_row.points[left_ref]);
-						  push_row(last_index, cur_index, left_ref, left_ref);
+						this.add_triangle(cur_point, last_point, ref_row.points[left_ref],
+							row_index, -y_mod);
 					}
 				}
 			}
@@ -345,7 +544,6 @@ $(document).on('ready page:load', function() {
 					this.triangles.splice(index, 1);
 					cur_triangle.path.remove();
 				}
-				cur_point.path.remove();
 				row.points.splice(0, 1);
 			}
 			if (y_mod == 1) {
@@ -357,47 +555,76 @@ $(document).on('ready page:load', function() {
 				this.map.bot--;
 			}
 		};
+		background.set_edges = function() {
+			var cur = this.map.top - 1, cur_row;
+			var i, j, top_found, bot_found, cur_point, cur_triangle;
+			while (++cur <= this.map.bot) {
+				cur_row = this.rows[cur];
+				cur_row.left_above = 0;
+				cur_row.left_below = 0;
+				top_found = false;
+				bot_found = false;
+				i = -1;
+				while (++i < cur_row.points.length && (!top_found || !bot_found)) {
+					cur_point = cur_row.points[i];
+					j = -1;
+					while (++j < cur_point.triangles.length) {
+						cur_triangle = cur_point.triangles[j];
+						if ((cur_triangle.base == cur && cur_triangle.dir == -1) ||
+							(cur_triangle.base == cur - 1 && cur_triangle.dir == 1))
+							top_found = true;
+						else if ((cur_triangle.base == cur && cur_triangle.dir == 1) ||
+							(cur_triangle.base == cur + 1 && cur_triangle.dir == -1))
+							bot_found = true;
+						else
+							console.log("weird left");
+					}
+					if (!top_found)
+						cur_row.left_above++;
+					if (!bot_found)
+						cur_row.left_below++;
+				}
+				cur_row.right_above = cur_row.points.length - 1;
+				cur_row.right_below = cur_row.points.length - 1;
+				top_found = false;
+				bot_found = false;
+				i = cur_row.points.length;
+				while (--i >= 0 && (!top_found || !bot_found)) {
+					cur_point = cur_row.points[i];
+					j = -1;
+					while (++j < cur_point.triangles.length) {
+						cur_triangle = cur_point.triangles[j];
+						if ((cur_triangle.base == cur && cur_triangle.dir == -1) ||
+							(cur_triangle.base == cur - 1 && cur_triangle.dir == 1))
+							top_found = true;
+						else if ((cur_triangle.base == cur && cur_triangle.dir == 1) ||
+							(cur_triangle.base == cur + 1 && cur_triangle.dir == -1))
+							bot_found = true;
+						else
+							console.log("weird right");
+					}
+					if (!top_found)
+						cur_row.right_above--;
+					if (!bot_found)
+						cur_row.right_below--;
+				}
+			}
+		}
 		background.trim_sides = function() {
 			var cur = this.map.top - 1, cur_row, cur_point, cur_triangle;
-			var trimmed_l = [];
-			var i;
+			var i, j, top_found, bot_found;
 			var top_lim = 0;
 			var bot_lim = 1;
 			while (++cur <= this.map.bot) {
-				// TODO: make this efficient. Here is what is wrong with this.
-				// Each point of the triangles that we are removing could have
-				// an efficient way of keeping track of which row it is in,
-				// so I shouldn't have to look for each point when trimming
-				if (cur == this.map.top + 1)
+				if (cur >= this.map.top + 1)
 					top_lim = -1;
-				if (cur == this.map.bot)
+				if (cur >= this.map.bot)
 					bot_lim = 0;
 				cur_row = this.rows[cur];
-				trimmed_l[-1] = 0;
-				trimmed_l[0] = 0;
-				trimmed_l[1] = 0;
 				while (cur_row.points[0].x < wl) {
 					cur_point = cur_row.points[0];
 					while (cur_point.triangles.length > 0) {
 						cur_triangle = cur_point.triangles[0];
-						i = bot_lim - 1;
-						while (++i <= top_lim) {
-							if (this.rows[cur + i].points.indexOf(cur_triangle.points[0]) == -1)
-								continue;
-							trimmed_l[i]++;
-						}
-						i = bot_lim - 1;
-						while (++i <= top_lim) {
-							if (this.rows[cur + i].points.indexOf(cur_triangle.points[1]) == -1)
-								continue;
-							trimmed_l[i]++;
-						}
-						i = bot_lim - 1;
-						while (++i <= top_lim) {
-							if (this.rows[cur + i].points.indexOf(cur_triangle.points[2]) == -1)
-								continue;
-							trimmed_l[i]++;
-						}
 						index = cur_triangle.points[0].triangles.indexOf(cur_triangle);
 						cur_triangle.points[0].triangles.splice(index, 1);
 						index = cur_triangle.points[1].triangles.indexOf(cur_triangle);
@@ -408,80 +635,36 @@ $(document).on('ready page:load', function() {
 						this.triangles.splice(index, 1);
 						cur_triangle.path.remove();
 					}
-					cur_point.path.remove();
 					cur_row.points.splice(0, 1);
 				}
-				// cur_row.left_below -= trimmed_l;
-				// if (cur_row.left_below < 0)
-				// 	cur_row.left_below = 0;
-				// cur_row.left_above -= trimmed_l;
-				// if (cur_row.left_above < 0)
-				// 	cur_row.left_above = 0;
-				i = bot_lim - 1;
-				while (++i <= top_lim) {
-					var this_row = this.rows[cur + i];
-					this_row.left_below += trimeed_l[i];
-					if (this_row.left_below < 0)
-						this_row.left_below = 0;
-					this_row.left_above += trimeed_l[i];
-					if (this_row.left_above < 0)
-						this_row.left_above = 0;
-				}
-				cur_row.right_below -= trimmed_l;
-				cur_row.right_above -= trimmed_l;
 				if (cur_row.points.length <= 0)
-				{
 					console.log("PANIK - with top and removed. Check trim sides on make background");
-					console.log(this.map.top);
-					console.log(cur);
-					continue;
-				}
-				while (cur_row.points[cur_row.points.length - 1].x > wh) {
-					cur_point = cur_row.points[cur_row.points.length - 1];
-					while (cur_point.triangles.length > 0) {
-						cur_triangle = cur_point.triangles[0];
-						index = cur_triangle.points[0].triangles.indexOf(cur_triangle);
-						cur_triangle.points[0].triangles.splice(index, 1);
-						index = cur_triangle.points[1].triangles.indexOf(cur_triangle);
-						cur_triangle.points[1].triangles.splice(index, 1);
-						index = cur_triangle.points[2].triangles.indexOf(cur_triangle);
-						cur_triangle.points[2].triangles.splice(index, 1);
-						index = this.triangles.indexOf(cur_triangle);
-						this.triangles.splice(index, 1);
-						cur_triangle.path.remove();
+				else {
+					while (cur_row.points[cur_row.points.length - 1].x > wh) {
+						cur_point = cur_row.points[cur_row.points.length - 1];
+						while (cur_point.triangles.length > 0) {
+							cur_triangle = cur_point.triangles[0];
+							index = cur_triangle.points[0].triangles.indexOf(cur_triangle);
+							cur_triangle.points[0].triangles.splice(index, 1);
+							index = cur_triangle.points[1].triangles.indexOf(cur_triangle);
+							cur_triangle.points[1].triangles.splice(index, 1);
+							index = cur_triangle.points[2].triangles.indexOf(cur_triangle);
+							cur_triangle.points[2].triangles.splice(index, 1);
+							index = this.triangles.indexOf(cur_triangle);
+							this.triangles.splice(index, 1);
+							cur_triangle.path.remove();
+						}
+						cur_row.points.splice(cur_row.points.length - 1, 1);
 					}
-					cur_point.path.remove();
-					cur_row.points.splice(cur_row.points.length - 1, 1);
 				}
-				if (cur_row.right_above >= cur_row.points.length)
-					cur_row.right_above = cur_row.points.length - 1;
-				if (cur_row.right_below >= cur_row.points.length)
-					cur_row.right_below = cur_row.points.length - 1;
+				this.set_edges();
 			}
 		};
-		background.fill_sides = function(frac) {
+		background.fill_sides = function() {
 			var row_num = this.map.bot + 1, cur_row, prev_point, prev_z, cur;
 			var change = { z: 0 };
-			var red, green, blue, f;
-			f = 2 * Math.PI * frac;
-			red = Math.floor((Math.cos(f) + 1) * 127).toString(16);
-			green = Math.floor((Math.sin(f) + 1) * 127).toString(16);
-			blue = Math.floor((-Math.cos(f) + 1) * 127).toString(16);
-			while (red.length < 2)
-				red = "0" + red;
-			while (green.length < 2)
-				green = "0" + green;
-			while (blue.length < 2)
-				blue = "0" + blue;
-			var color = "#" + red + green + blue;
 			while (--row_num >= this.map.top) {
 				cur_row = this.rows[row_num];
-				// console.log("/////");
-				// console.log(row_num);
-				// console.log(cur_row.points.length);
-				// console.log(cur_row);
-				// console.log(cur_row.left_above);
-				// console.log(cur_row.left_below);
 				while (cur_row.points[0].x > wl) {
 					prev_point = cur_row.points[0];
 					cur = { x: prev_point.x, y: cur_row.base.min, z: 0};
@@ -491,7 +674,7 @@ $(document).on('ready page:load', function() {
 					while (Math.abs(prev_z - change.z) < this.z_range.force)
 						change.z = Math.floor(Math.random() * this.z_range.range) - this.z_range.range / 2;
 					change_actual_of_seen(cur, change);
-					this.add_point(cur_row, cur.x, cur.y, cur.z, color);
+					this.add_point(cur_row, cur.x, cur.y, cur.z);
 					cur_row.left_above++;
 					cur_row.left_below++;
 					cur_row.right_above++;
@@ -508,11 +691,9 @@ $(document).on('ready page:load', function() {
 					while (Math.abs(prev_z - change.z) < this.z_range.force)
 						change.z = Math.floor(Math.random() * this.z_range.range) - this.z_range.range / 2;
 					change_actual_of_seen(cur, change);
-					this.add_point(cur_row, cur.x, cur.y, cur.z, color);
-					// console.log("Adding point right");
+					this.add_point(cur_row, cur.x, cur.y, cur.z);
 				}
 			}
-			// console.log("XXXXXXXXXX");
 			row_num = this.map.top; // Notice we skip the very top one
 			var above, left_edge, right_edge, left_ref, right_ref;
 			var cur_col, last_point;
@@ -520,18 +701,9 @@ $(document).on('ready page:load', function() {
 				cur_row = this.rows[row_num];
 				above = this.rows[row_num - 1];
 				cur_col = cur_row.left_above + 1;
-				// console.log("~~~~~~~~~~~~~~~~~");
-				// console.log(row_num);
-				// console.log(cur_row.points.length);
-				// console.log(cur_row);
-				// console.log(cur_row.left_above);
-				// console.log(cur_row.left_below);
 				while (--cur_col >= 0) {
 					last_point = cur_row.points[cur_col + 1];
-					//console.log(cur_row);
-					//console.log(cur_col);
 					cur_point = cur_row.points[cur_col];
-					//console.log(cur_point);
 					right_ref = -1;
 					left_ref = above.points.length;
 					while (++right_ref < above.points.length &&
@@ -539,73 +711,113 @@ $(document).on('ready page:load', function() {
 					while (--left_ref >= 0 && x_dif(above.points[left_ref],
 						cur_point) > 0);
 					if (right_ref != above.points.length && left_ref != -1) {
-						// console.log("______");
-						// console.log(cur_col);
-						// console.log(right_ref);
-						// console.log(left_ref);
-						// console.log(cur_row.left_above);
-						// console.log(above.left_below);
 						if (cur_col == cur_row.left_above) {
 							if (right_ref == above.left_below) {
 								this.add_triangle(cur_point, above.points[left_ref],
-									above.points[right_ref]);
+									above.points[right_ref], row_num - 1, 1);
 								above.left_below = left_ref;
 							}
 						}
 						else if (cur_col == cur_row.left_above - 1) {
 							if (right_ref == above.left_below) {
 								this.add_triangle(cur_point, above.points[right_ref],
-									cur_row.points[cur_row.left_above]);
+									cur_row.points[cur_row.left_above], row_num, -1);
 								this.add_triangle(cur_point, above.points[left_ref],
-									above.points[right_ref]);
+									above.points[right_ref], row_num - 1, 1);
 								above.left_below = left_ref;
 								cur_row.left_above = cur_col;
 							}
 							else if (left_ref == above.left_below) {
 								this.add_triangle(cur_point, cur_row.points[cur_row.left_above],
-									above.points[left_ref]);
+									above.points[left_ref], row_num, -1);
 								cur_row.left_above = cur_col;
 							}
 							else {
 								var du = above.left_below - left_ref;
 								var dd = cur_row.left_above - cur_col;
-								while (du > 0 || dd > 0) {
+								while ((du > 0 || dd > 0) && du >= 0 && dd >= 0) {
 									var ur = above.points[above.left_below];
 									var dr = cur_row.points[cur_row.left_above];
 									var ul = above.points[above.left_below - 1];
 									var dl = cur_row.points[cur_row.left_above - 1];
-									if (x_dif(ur, dr) > 0 && du > 0) {
-										this.add_triangle(ur, ul, dr);
+									var ups = [x_dif(ur, dr) > 0 && du > 0,
+										du > dd && du > 0, du > 0];
+									var dns = [x_dif(ur, dr) < 0 && dd > 0,
+										du < dd && dd > 0, dd > 0];
+									var uppy = ((ups[0] && !dns[0]) || (ups[1] && !ups[0] && !ups[1]) ||
+										(ups[2] && !dns[0] && !dns[1] && !dns[2]));
+									if (uppy) {
+										this.add_triangle(ur, ul, dr, row_num - 1, 1);
 										above.left_below--;
 										du--;
 									}
-									else if (dd > 0) {
-										this.add_triangle(ur, dl, dr);
+									else if (dns[2]) {
+										this.add_triangle(ur, dl, dr, row_num, -1);
 										cur_row.left_above--;
 										dd--;
 									}
 								}
-								// while (cur_row.left_above > cur_col &&
-								// 	above.left_below > right_ref) {
-								// 	var ur = above.points[above.left_below];
-								// 	var dr = cur_row.points[cur_row.left_above];
-								// 	var ul = above.points[above.left_below - 1];
-								// 	var dl = cur_row.points[cur_row.left_above - 1];
-								// 	// console.log(above.left_below);
-								// 	// console.log(cur_row.left_above);
-								// 	// console.log(ur);
-								// 	// console.log(dr);
-								// 	// console.log(ul);
-								// 	// console.log(dl);
-								// 	if (x_dif(ur, dr) > 0) {
-								// 		this.add_triangle(ur, dl, dr);
-								// 		cur_row.left_above--;
-								// 	}
-								// 	else {
-								// 		this.add_triangle(ul, ur, dr);
-								// 		above.left_below--;
-								// 	}
-								// }
+							}
+						}
+					}
+				}
+				cur_col = cur_row.right_above - 1;
+				while (++cur_col < cur_row.points.length) {
+					last_point = cur_row.points[cur_col - 1];
+					cur_point = cur_row.points[cur_col];
+					right_ref = -1;
+					left_ref = above.points.length;
+					while (++right_ref < above.points.length &&
+						x_dif(above.points[right_ref], cur_point) < 0);
+					while (--left_ref >= 0 && x_dif(above.points[left_ref],
+						cur_point) > 0);
+					if (right_ref != above.points.length && left_ref != -1) {
+						if (cur_col == cur_row.right_above) {
+							if (left_ref == above.right_below) {
+								this.add_triangle(cur_point, above.points[left_ref],
+									above.points[right_ref], row_num - 1, 1);
+								above.right_below = left_ref;
+							}
+						}
+						else if (cur_col == cur_row.right_above + 1) {
+							if (left_ref == above.right_below) {
+								this.add_triangle(cur_point, above.points[left_ref],
+									cur_row.points[cur_row.right_above], row_num, -1);
+								this.add_triangle(cur_point, above.points[left_ref],
+									above.points[right_ref], row_num - 1, 1);
+								above.right_below = right_ref;
+								cur_row.right_above = cur_col;
+							}
+							else if (right_ref == above.right_below) {
+								this.add_triangle(cur_point, cur_row.points[cur_row.right_above],
+									above.points[right_ref], row_num, -1);
+								cur_row.right_above = cur_col;
+							}
+							else {
+								var du = right_ref - above.right_below; //above.left_below - left_ref;
+								var dd = cur_col - cur_row.right_above; //cur_row.left_above - cur_col;
+								while ((du > 0 || dd > 0) && du >= 0 && dd >= 0) {
+									var ur = above.points[above.right_below + 1];
+									var dr = cur_row.points[cur_row.right_above + 1];
+									var ul = above.points[above.right_below];
+									var dl = cur_row.points[cur_row.right_above];
+									var ups = [x_dif(ul, dl) < 0 && du > 0, // potential change first greater
+										du > dd && du > 0, du > 0];
+									var dns = [x_dif(ul, dl) > 0 && dd > 0,
+										du < dd && dd > 0, dd > 0];
+									var uppy = ((ups[0] && !dns[0]) || (ups[1] && !ups[0] && !ups[1]) ||
+										(ups[2] && !dns[0] && !dns[1] && !dns[2]));
+									if (uppy) {
+										this.add_triangle(ur, ul, dl, row_num - 1, 1);
+										above.right_below++;
+										du--;
+									}
+									else if (dns[2]) {
+										this.add_triangle(ul, dl, dr, row_num, -1);
+										cur_row.right_above++;
+										dd--;
+									}
+								}
 							}
 						}
 					}
@@ -635,8 +847,6 @@ $(document).on('ready page:load', function() {
 				{
 					cur_point = this.rows[cur_row].points[cur_col]
 					change_actual_of_seen(cur_point, change);
-					cur_point.path.position.x = cur_point.x;
-					cur_point.path.position.y = cur_point.y;
 				}
 			}
 			var cur = -1;
@@ -666,17 +876,19 @@ $(document).on('ready page:load', function() {
 					this.remove_row(1);
 				}
 			}
+			this.set_edges();
 			this.fill_sides(frac);
+			this.set_edges();
 		};
 		background.start = function() {
 			this.add_row(h, -1);
 			while (this.rows[this.map.top].base.mid > this.y_fade) {
-				this.add_row(this.rows[this.map.top].base.mid, -1);
+				this.add_row(this.rows[this.map.top].base.min, -1);
 			}
 			while (this.rows[this.map.bot].base.mid < hh) {
-				this.add_row(this.rows[this.map.bot].base.mid, 1);
+				this.add_row(this.rows[this.map.bot].base.max, 1);
 			}
-			this.fill_sides();
+			this.set_edges();
 		};
 		background.start();
 	}
@@ -706,9 +918,8 @@ $(document).on('ready page:load', function() {
 		point.z = unrotate_point(point, point.z);
 	}
 
-	var rd = game_data.tilt * Math.PI / 180;
-	var ca = Math.cos(rd);
-	var sa = Math.sin(rd);
+	var ca = Math.cos(g_theta);
+	var sa = Math.sin(g_theta);
 	var d = game_data.view_dist;
 	var f = game_data.fov;
 
@@ -2185,6 +2396,7 @@ $(document).on('ready page:load', function() {
 		get_initial_node_data();
 		set_resize();
 		set_assets();
+		make_ui();
 		make_background();
 		scope.view.onFrame = function(event) {
 			tick(event);
@@ -2198,6 +2410,8 @@ $(document).on('ready page:load', function() {
 		set_resize();
 		console.log("Setting up assets...");
 		set_assets();
+		console.log("Making UI pretty...");
+		make_ui();
 		console.log("Making background...");
 		make_background();
 		console.log("Canvas resize set up");
