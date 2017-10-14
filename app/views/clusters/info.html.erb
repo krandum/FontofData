@@ -10,8 +10,8 @@
 					<td>
 						<table>
 							<% faction.clusters.each do |cluster| %>
-								<tr>home: <% cluster.core.value %></tr>
-								<tr><% cluster.data_nodes.count %></tr>
+								<tr><td>core: <%= cluster.data_nodes.where(cluster_core: true).first.value %></td></tr>
+								<tr><td>number of nodes: <%= cluster.data_nodes.count %></td></tr>
 							<% end %>
 						</table>
 					</td>

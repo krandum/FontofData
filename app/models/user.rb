@@ -16,8 +16,8 @@ class User < ActiveRecord::Base
 	has_many :data_nodes
 
 	has_many :owned_clusters, class_name: 'Cluster', as: :owner
-	has_many :clusters, through: :cluster_memberships
 	has_many :cluster_memberships
+	has_many :clusters, through: :cluster_memberships
 
 	has_many :news_posts
 	has_many :chat_rooms, dependent: :destroy

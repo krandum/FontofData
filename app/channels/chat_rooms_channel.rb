@@ -10,9 +10,6 @@ class ChatRoomsChannel < ApplicationCable::Channel
 
 	def send_message(data)
 		#process data sent from the page
-		$stdout = File.new('debug.txt', 'w')
-		$stdout.sync = true
-		puts "sending message"
 		current_user.messages.create!(body: data['message'], chat_room_id: data['chat_room_id'])
 	end
 end

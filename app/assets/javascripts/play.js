@@ -2124,21 +2124,78 @@ $(document).on('ready page:load', function() {
 
 	  received: function(data) {
 	    // Called when there's incoming data on the websocket for this channel
+			// game_data.active_nodes[0].group.firstChild.fillColor
 			console.log("recived")
-			game_data.active_nodes[0].group.firstChild.fillColor = 'green';
-			// game_data.node_factions[origin.value] = target_fac;
-			//                         var colors = game_data.colors[target_fac.toString()];
-			//                         origin.group.firstChild.strokeColor = colors.line;
-			//                         origin.group.firstChild.fillColor = colors.fill;
-			//                         origin.group.lastChild.fillColor = colors.num;
+			console.log(data['origin'] + ' ' + data['target']);
+			var origin;
+			var target;
+			for (i = 0;i < game_data.active_nodes.length; i++) {
+				if (game_data.active_nodes[i].value == data['origin']) {
+					origin = game_data.active_nodes[i];
+				}
+				if (game_data.active_nodes[i].value == data['target']) {
+					target = game_data.active_nodes[i];
+				}
+			}
+			console.log(origin);
+			console.log(target);
+			console.log(data['origin_change']);
+			console.log(data['target_change']);
+			if (data['action_index'] == 1) {
+				console.log("attack");
+				if (data['origin_change'] == 'to_target') {
+					game_data.node_factions[origin.value] = data['target_fac'];
+					var colors = game_data.colors[data['target_fac'].toString()];
+					origin.group.firstChild.strokeColor = colors.line;
+					origin.group.firstChild.fillColor = colors.fill;
+					origin.group.lastChild.fillColor = colors.num;
+					console.log(colors);
+				}
+				if (data['target_change'] == 'to_origin') {
+					game_data.node_factions[target.value] = data['origin_fac'];
+					var colors = game_data.colors[data['origin_fac'].toString()];
+					target.group.firstChild.strokeColor = colors.line;
+					target.group.firstChild.fillColor = colors.fill;
+					target.group.lastChild.fillColor = colors.num;
+					console.log(colors);
+				}
+			}
+			if (origin.value == (target.value >> 1)) { // origin is dad
+				game_data.node_connections[target.value].dad = origin.value;
+				hide_connections(target);
+				show_connections(target);
+			}
+			else if (origin.value == (target.value - 1)) { // origin is bro
+				game_data.node_connections[target.value].bro = origin.value;
+				hide_connections(target);
+				show_connections(target);
+			}
+			else if (target.value == (origin.value >> 1)) { // target is dad
+				game_data.node_connections[origin.value].dad = target.value;
+				hide_connections(origin);
+				show_connections(origin);
+			}
+			else if (target.value == (origin.value - 1)) { // target is bro
+				game_data.node_connections[origin.value].bro = target.value;
+				hide_connections(origin);
+				show_connections(origin);
+			}
+			else {
+				console.log("could not find relationsip between: (1/3)");
+				console.log(origin);
+				console.log(target);
+				return;
+			}
 	  }
 	});
 
 	function take_action(origin, target) {
-		App.game.perform(
-			'update_node', {
-				color: "red"
-			});
+		// App.game.perform(
+		// 	'update_node', {
+		// 		origin: origin.value,
+		// 		target: target.value,
+		// 		color: "red"
+		// 	});
 		if (game_data.action_index == 1) {
 			$.ajax({
 				type: "GET",
@@ -2155,51 +2212,61 @@ $(document).on('ready page:load', function() {
 						console.log(data);
 						return;
 					}
-					var origin_fac = game_data.node_factions[origin.value];
-					var target_fac = game_data.node_factions[target.value];
-					var origin_change = data.origin;
-					var target_change = data.target;
-
-					if (origin_change == 'to_target') {
-						game_data.node_factions[origin.value] = target_fac;
-						var colors = game_data.colors[target_fac.toString()];
-						origin.group.firstChild.strokeColor = colors.line;
-						origin.group.firstChild.fillColor = colors.fill;
-						origin.group.lastChild.fillColor = colors.num;
-					}
-					if (target_change == 'to_origin') {
-						game_data.node_factions[target.value] = origin_fac;
-						var colors = game_data.colors[origin_fac.toString()];
-						target.group.firstChild.strokeColor = colors.line;
-						target.group.firstChild.fillColor = colors.fill;
-						target.group.lastChild.fillColor = colors.num;
-					}
-					if (origin.value == (target.value >> 1)) { // origin is dad
-						game_data.node_connections[target.value].dad = origin.value;
-						hide_connections(target);
-						show_connections(target);
-					}
-					else if (origin.value == (target.value - 1)) { // origin is bro
-						game_data.node_connections[target.value].bro = origin.value;
-						hide_connections(target);
-						show_connections(target);
-					}
-					else if (target.value == (origin.value >> 1)) { // target is dad
-						game_data.node_connections[origin.value].dad = target.value;
-						hide_connections(origin);
-						show_connections(origin);
-					}
-					else if (target.value == (origin.value - 1)) { // target is bro
-						game_data.node_connections[origin.value].bro = target.value;
-						hide_connections(origin);
-						show_connections(origin);
-					}
-					else {
-						console.log("could not find relationsip between: (1/3)");
-						console.log(origin);
-						console.log(target);
-						return;
-					}
+					App.game.perform(
+						'update_node', {
+							action_index: game_data.action_index,
+							origin: origin.value,
+							target: target.value,
+							origin_fac: game_data.node_factions[origin.value],
+							target_fac: game_data.node_factions[target.value],
+							origin_change: data.origin,
+							target_change: data.target
+						});
+					// var origin_fac = game_data.node_factions[origin.value];
+					// var target_fac = game_data.node_factions[target.value];
+					// var origin_change = data.origin;
+					// var target_change = data.target;
+					//
+					// if (origin_change == 'to_target') {
+					// 	game_data.node_factions[origin.value] = target_fac;
+					// 	var colors = game_data.colors[target_fac.toString()];
+					// 	origin.group.firstChild.strokeColor = colors.line;
+					// 	origin.group.firstChild.fillColor = colors.fill;
+					// 	origin.group.lastChild.fillColor = colors.num;
+					// }
+					// if (target_change == 'to_origin') {
+					// 	game_data.node_factions[target.value] = origin_fac;
+					// 	var colors = game_data.colors[origin_fac.toString()];
+					// 	target.group.firstChild.strokeColor = colors.line;
+					// 	target.group.firstChild.fillColor = colors.fill;
+					// 	target.group.lastChild.fillColor = colors.num;
+					// }
+					// if (origin.value == (target.value >> 1)) { // origin is dad
+					// 	game_data.node_connections[target.value].dad = origin.value;
+					// 	hide_connections(target);
+					// 	show_connections(target);
+					// }
+					// else if (origin.value == (target.value - 1)) { // origin is bro
+					// 	game_data.node_connections[target.value].bro = origin.value;
+					// 	hide_connections(target);
+					// 	show_connections(target);
+					// }
+					// else if (target.value == (origin.value >> 1)) { // target is dad
+					// 	game_data.node_connections[origin.value].dad = target.value;
+					// 	hide_connections(origin);
+					// 	show_connections(origin);
+					// }
+					// else if (target.value == (origin.value - 1)) { // target is bro
+					// 	game_data.node_connections[origin.value].bro = target.value;
+					// 	hide_connections(origin);
+					// 	show_connections(origin);
+					// }
+					// else {
+					// 	console.log("could not find relationsip between: (1/3)");
+					// 	console.log(origin);
+					// 	console.log(target);
+					// 	return;
+					// }
 				}
 			});
 		}
@@ -2219,32 +2286,42 @@ $(document).on('ready page:load', function() {
 						console.log(data);
 						return;
 					}
-					if (origin.value == (target.value >> 1)) { // origin is dad
-						game_data.node_connections[target.value].dad = origin.value;
-						hide_connections(target);
-						show_connections(target);
-					}
-					else if (origin.value == (target.value - 1)) { // origin is bro
-						game_data.node_connections[target.value].bro = origin.value;
-						hide_connections(target);
-						show_connections(target);
-					}
-					else if (target.value == (origin.value >> 1)) { // target is dad
-						game_data.node_connections[origin.value].dad = target.value;
-						hide_connections(origin);
-						show_connections(origin);
-					}
-					else if (target.value == (origin.value - 1)) { // target is bro
-						game_data.node_connections[origin.value].bro = target.value;
-						hide_connections(origin);
-						show_connections(origin);
-					}
-					else {
-						console.log("could not find relationsip between: (1/3)");
-						console.log(origin);
-						console.log(target);
-						return;
-					}
+					App.game.perform(
+						'update_node', {
+							action: game_data.action_index,
+							origin: origin.value,
+							target: target.value,
+							origin_fac: game_data.node_factions[origin.value],
+							target_fac: game_data.node_factions[target.value],
+							origin_change: data.origin,
+							target_change: data.target
+						});
+					// if (origin.value == (target.value >> 1)) { // origin is dad
+					// 	game_data.node_connections[target.value].dad = origin.value;
+					// 	hide_connections(target);
+					// 	show_connections(target);
+					// }
+					// else if (origin.value == (target.value - 1)) { // origin is bro
+					// 	game_data.node_connections[target.value].bro = origin.value;
+					// 	hide_connections(target);
+					// 	show_connections(target);
+					// }
+					// else if (target.value == (origin.value >> 1)) { // target is dad
+					// 	game_data.node_connections[origin.value].dad = target.value;
+					// 	hide_connections(origin);
+					// 	show_connections(origin);
+					// }
+					// else if (target.value == (origin.value - 1)) { // target is bro
+					// 	game_data.node_connections[origin.value].bro = target.value;
+					// 	hide_connections(origin);
+					// 	show_connections(origin);
+					// }
+					// else {
+					// 	console.log("could not find relationsip between: (1/3)");
+					// 	console.log(origin);
+					// 	console.log(target);
+					// 	return;
+					// }
 				}
 			});
 		}
