@@ -82,7 +82,12 @@ class DataNodesController < ApplicationController
 				if i < i_max && cur == claimedNodes[i].value
 					out['nodes'][cur] = {
 						'value' => cur,
-						'faction_id' => claimedNodes[i].faction_id
+						'faction_id' => claimedNodes[i].faction_id,
+						'owner' => claimedNodes[i].user&.username,
+						'teir' => 1,
+						'connections' => claimedNodes[i].connections.count,
+						'worth' => 1000,
+						'contention' => 0
 					}
 					out['nodes'][cur]['bro'] = claimedNodes[i].connections.where(value: cur - 1).first.try(:value)
 					out['nodes'][cur]['dad'] = claimedNodes[i].connections.where(value: cur >> 1).first.try(:value)
@@ -90,7 +95,12 @@ class DataNodesController < ApplicationController
 				else
 					out['nodes'][cur] = {
 						'value' => cur,
-						'faction_id' => 1
+						'faction_id' => 1,
+						'owner' => "unclaimed",
+						'teir' => 1,
+						'connections' => 0,
+						'worth' => 0,
+						'contention' => 0
 					}
 					out['nodes'][cur]['bro'] = nil
 					out['nodes'][cur]['dad'] = nil
