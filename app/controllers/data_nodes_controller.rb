@@ -71,7 +71,10 @@ class DataNodesController < ApplicationController
 		while (iter < num)
 			range = ranges[iter.to_s]
 			cur = range[:from].to_i
-			claimedNodes = DataNode.includes(:connected_nodes).where(value: range[:from].to_i..range[:to].to_i)
+			claimedNodes = DataNode.includes(:connected_nodes).where(value: range[:from].to_i..range[:to].to_i).order(:value)
+			p range[:from].to_i
+			p range[:to].to_i
+			p claimedNodes
 			i = 0
 			i_max = claimedNodes.count
 			# p i_max
