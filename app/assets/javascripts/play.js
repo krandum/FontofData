@@ -270,7 +270,7 @@ $(document).on('ready page:load', function() {
 				connections: '2',
 				value: '5043',
 				contention: '0',
-				faction_id: '1'
+				faction_id: '3'
 			};
 			ui.set_card(card_node);
 		};
@@ -299,9 +299,7 @@ $(document).on('ready page:load', function() {
 		background.y_lim = shifter.y;
 		shifter = { x: w, y: 2*h, z: 0};
 		change_actual_of_seen(shifter, { x: 0, y: basis, z: 0 });
-		console.log(2*h);
 		hh = shifter.y;
-		console.log(hh);
 		background.light_ray = normalize({ x: 0.7, y: 0.5, z: 1 });
 		background.map = { top: 1, bot: 0, moved_top: false, moved_bot: false };
 		background.rows = [];
@@ -1289,7 +1287,7 @@ $(document).on('ready page:load', function() {
 				var i = 0;
 				while (i < ranges.length) {
 					var j = ranges[i].from;
-					while (j < ranges[i].to) {
+					while (j <= ranges[i].to) {
 						game_data.node_factions[j] = in_nodes[j]['faction_id'];
 						var cur_connections = {
 							dad: in_nodes[j]['dad'],
@@ -1636,7 +1634,7 @@ $(document).on('ready page:load', function() {
 	function give_bits(num, from, amount, add) {
 		var bit_len = hob(num);
 		var tail_num = bit_len - from;
-		if (tail_num < 0 || tail_num > 4)
+		if (tail_num < 0 || tail_num > 5 - amount)
 			return -1;
 		var tail_mask = get_solid_mask(tail_num);
 		var head_mask = get_solid_mask(from) << (tail_num);
@@ -1708,7 +1706,7 @@ $(document).on('ready page:load', function() {
 			}
 			ranges.push({
 				from: Math.pow(2, 5 - i) * target.value,
-				to: Math.pow(2, 5 - i) * target.value + amount
+				to: Math.pow(2, 5 - i) * target.value + amount - 1
 			});
 			i++;
 			amount /= 2;
@@ -1740,6 +1738,8 @@ $(document).on('ready page:load', function() {
 	}
 
 	function move_back(amount) {
+		if (amount > 4)
+			return;
 		var base = game_data.global_root.value;
 		var new_base_value = base >> amount;
 		if (new_base_value <= 0)
@@ -1747,9 +1747,11 @@ $(document).on('ready page:load', function() {
 		var bit_base = hob(base);
 		var i = 0;
 		var add = 0;
+		var cur_base = base;
 		while (i < amount) {
-			add <<= 1;
-			add |= base & 1;
+			add |= (cur_base & (1 << (amount - i - 1))) >> (amount - i - 1);
+			if (i + 1 != amount)
+				add <<= 1;
 			i++;
 		}
 		i = 0;
@@ -1769,49 +1771,94 @@ $(document).on('ready page:load', function() {
 		}
 		var relocs = [];
 		var ranges = [];
-		var total = 32;
-		var len = 16;
-		i = 0;
-		var off = base % 2 == 0 ? len : 0;
-		while (i <= 5) {
-			var j = off;
-			while (j < len + off) {
-				relocs.push(j + total);
-				j++;
-			}
-			ranges.push({
-				from: Math.pow(2, 5 - i) * new_base_value + off,
-				to: Math.pow(2, 5 - i) * new_base_value + len + off
-			});
-			i++;
-			total /= 2;
-			len /= 2;
-			if (len < 1) {
-				len = 1;
-				off = 0;
-			}
-			else
-				off = base % 2 == 0 ? len : 0;
+		var row_len = 32;
+		var gap_len = 32 >> amount;
+		var gap_start = 0;
+		var to_add;
+		var tmp_amount = amount, tmp_add = 16;
+		while (tmp_amount > 0) {
+			tmp_amount--;
+			to_add = ((add >> tmp_amount) & 1) * tmp_add;
+			gap_start += to_add;
+			tmp_add >>= 1;
 		}
+		// var off = base % 2 == 0 ? len : 0;
+		// while (i <= 5) {
+		// 	var j = off;
+		// 	while (j < len + off) {
+		// 		relocs.push(j + total);
+		// 		j++;
+		// 	}
+		// 	ranges.push({
+		// 		from: Math.pow(2, 5 - i) * new_base_value + off,
+		// 		to: Math.pow(2, 5 - i) * new_base_value + len + off
+		// 	});
+		// 	i++;
+		// 	total /= 2;
+		// 	len /= 2;
+		// 	if (len < 1) {
+		// 		len = 1;
+		// 		off = 0;
+		// 	}
+		// 	else
+		// 		off = base % 2 == 0 ? len : 0;
+		// }
 		i = 0;
-		off = base % 2 == 0 ? 16 : 0;
-		var leftie = relocs[0] - off;
-		var j = 0;
-		while (game_data.buffer_nodes.length > 0) {
-			if (relocs[i] - off < leftie) {
-				off /= 2;
-				if (off < 1 && off > 0)
-					off = 0;
-				leftie = relocs[i] - off;
-				j = 0;
+		while (i <= 5) {
+			var j = -1;
+			while (++j < row_len) {
+				if (j == gap_start)
+					j += gap_len;
+				relocs.push({
+					value: j + row_len,
+					leftie: row_len
+				});
 			}
-			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
-			game_data.buffer_nodes[0].move_position = relocs[i];
-			game_data.buffer_nodes[0].move_value = leftie * new_base_value + j + off;
-			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
+			if (gap_start != 0)
+				ranges.push({
+					from: Math.pow(2, 5 - i) * new_base_value,
+					to: Math.pow(2, 5 - i) * new_base_value + gap_start - 1
+				});
+			if (gap_start + gap_len < row_len)
+				ranges.push({
+					from: Math.pow(2, 5 - i) * new_base_value + gap_start + gap_len,
+					to: Math.pow(2, 5 - i) * new_base_value + row_len - 1
+				});
+			i++;
+			row_len /= 2;
+			gap_len = Math.floor(gap_len / 2);
+			gap_start = Math.floor(gap_start / 2);
+		}
+		// off = base % 2 == 0 ? 16 : 0;
+		// var leftie = relocs[0] - off;
+		// var j = 0;
+		// while (game_data.buffer_nodes.length > 0) {
+		// 	if (relocs[i] - off < leftie) {
+		// 		off /= 2;
+		// 		if (off < 1 && off > 0)
+		// 			off = 0;
+		// 		leftie = relocs[i] - off;
+		// 		j = 0;
+		// 	}
+		// 	game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
+		// 	game_data.buffer_nodes[0].move_position = relocs[i];
+		// 	game_data.buffer_nodes[0].move_value = leftie * new_base_value + j + off;
+		// 	game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
+		// 	game_data.buffer_nodes.splice(0, 1);
+		// 	i++;
+		// 	j++;
+		// }
+		i = 0;
+		while (game_data.buffer_nodes.length > 0) {
+			game_data.buffer_nodes[0].move_target = game_data.active_nodes[
+				relocs[i].value - 1].relative_pos;
+			game_data.buffer_nodes[0].move_position = relocs[i].value;
+			game_data.buffer_nodes[0].move_value = relocs[i].leftie *
+				new_base_value + relocs[i].value % relocs[i].leftie;
+			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[
+				relocs[i].value - 1].group.firstChild.strokeWidth;
 			game_data.buffer_nodes.splice(0, 1);
 			i++;
-			j++;
 		}
 		i = 0;
 		while (i < game_data.active_nodes.length) {
@@ -2078,7 +2125,7 @@ $(document).on('ready page:load', function() {
 			var index = game_data.selected_nodes.indexOf(target);
 			game_data.selected_nodes.splice(index, 1);
 			if (target == game_data.global_root) {
-				move_back(1);
+				move_back(2);
 			}
 			else {
 				move_to(target);
