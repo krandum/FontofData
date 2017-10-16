@@ -1880,6 +1880,10 @@ $(document).on('ready page:load', function() {
 					cur_node.group.position.y = cur_node.base.y;
 				}
 			}
+			if (cur_node.group.bounds.width <= 0)
+				cur_node.group.bounds.width = 0.0001;
+			if (cur_node.group.bounds.height <= 0)
+				cur_node.group.bounds.height = 0.0001;
 			cur_node.moving = true;
 		}
 		var new_pos = game_data.old_root.group.position;
