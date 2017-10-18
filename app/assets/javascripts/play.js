@@ -8,7 +8,6 @@ $(document).on('ready page:load', function() {
 		console.log('aborting play.js due to no element with id play');
 		return;
 	}
-console.log('name: ' + userinfo.name);
 	var canvas = document.getElementById("myCanvas");
 
 	var scope = new paper.PaperScope();
@@ -227,7 +226,8 @@ console.log('name: ' + userinfo.name);
 			ui.card_spans[6].appendChild(document.createTextNode(card_node.worth));
 			ui.card_spans[7].appendChild(document.createTextNode(card_node.contention));
 			ui.card_spans[8].appendChild(document.createTextNode(ui.faction_names[card_node.faction_id]));
-			ui.card_spans[9].style.backgroundImage = 'url(' + ui.faction_icons[card_node.faction_id] + ')';
+			if (card_node.faction_id != 0)
+				ui.card_spans[9].style.backgroundImage = 'url(' + ui.faction_icons[card_node.faction_id] + ')';
 		};
 		ui.create_listeners = function() {
 			ui.tabs.children[0].addEventListener('click', function() {
@@ -273,9 +273,7 @@ console.log('name: ' + userinfo.name);
 		background.y_lim = shifter.y;
 		shifter = { x: w, y: 2*h, z: 0};
 		change_actual_of_seen(shifter, { x: 0, y: basis, z: 0 });
-		console.log(2*h);
 		hh = shifter.y;
-		console.log(hh);
 		background.light_ray = normalize({ x: 0.7, y: 0.5, z: 1 });
 		background.map = { top: 1, bot: 0, moved_top: false, moved_bot: false };
 		background.rows = [];
@@ -1293,7 +1291,6 @@ console.log('name: ' + userinfo.name);
 			success: function (raw) {
 				var data = JSON.parse(raw);
 				var in_nodes = data['nodes'];
-				console.log(in_nodes);
 				var i = 0;
 				var k = 0;
 				while (i < ranges.length) {
@@ -1310,7 +1307,6 @@ console.log('name: ' + userinfo.name);
 							if (game_data.active_nodes[k].move_value == j)
 								break;
 						}
-						console.log(k,j);
 						if (k != game_data.active_nodes.length) {
 							game_data.active_nodes[k].faction_id = in_nodes[j]['faction_id'];
 							game_data.active_nodes[k].owner = in_nodes[j]['owner'];
@@ -1323,7 +1319,6 @@ console.log('name: ' + userinfo.name);
 					}
 					i++;
 				}
-				console.log('after move:', game_data.active_nodes);
 				i = 0;
 				while (i < game_data.active_nodes.length) {
 					var cur_node = game_data.active_nodes[i];
