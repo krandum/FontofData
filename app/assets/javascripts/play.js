@@ -69,7 +69,7 @@ $(document).on('ready page:load', function() {
 			}
 		},
 		background: {},
-		user_info: {},
+		user_info: userinfo,
 		user_interface: {},
 		global_root: null,
 		old_root: null,
@@ -105,11 +105,6 @@ $(document).on('ready page:load', function() {
 		var user = game_data.user_info;
 		var ui = game_data.user_interface;
 		//REMOVE WITH QUERY
-		user.name = "Namey McNamerson";
-		user.picture = 'assets/icons/032-cone.svg';
-		user.faction_id = 3;
-		user.resources = 59362;
-		user.gem_placeholder = 1;
 		//MEOW
 		ui.color_palette = {
 			1: {//Ancient
@@ -196,7 +191,8 @@ $(document).on('ready page:load', function() {
 			ui.tabs.children[1].style.borderColor = ui.color_palette[user.faction_id].accent;
 		};
 		ui.set_bar = function() {
-			ui.status_bar.children[0].firstChild.src = user.picture;
+			console.log(user.picture);
+			ui.status_bar.children[0].style.backgroundImage = 'url(' + user.picture + ')';
 			ui.status_bar.children[1].firstChild.appendChild(document.createTextNode(user.name));
 		}
 		ui.set_card = function(card_node) {
@@ -2379,6 +2375,8 @@ $(document).on('ready page:load', function() {
 	}
 
 	function check_selection(target) {
+		if (target.moving)
+			return;
 		if (!target.selected) {
 			select_node(target);
 			if (game_data.selected_nodes.length >= 1 && game_data.action_index != -1) {
