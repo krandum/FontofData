@@ -1,4 +1,13 @@
 <body class='play bg_play' id='play'>
+	<%= javascript_tag do %>
+	window.userinfo = {
+		name: '<%= current_user.username %>',
+		picture: '<%= current_user.avatar.url(:thumb) %>',
+		faction_id: <%= current_user.faction_id %>,
+		resources: '<%= current_user.gold %>',
+		gem_placeholder: '<%= current_user.gems %>'
+	};
+	<% end %>
 	<% if current_user.faction_id == 1 %>
 	<div class='local'>
 		<h1>Please choose a faction</h1>
@@ -14,16 +23,20 @@
 	<div class='local wrap play_grid'>
 		<canvas class="myCanvas" id="myCanvas" resize></canvas>
 		<div class="status_bar">
-			<div class="profile_pic"><img></img></div>
+			<div class="profile_pic"></div>
 			<div class="username"><span></span></div>
 		</div>
 		<div class="clusters"></div>
 		<div class="quest_pane"></div>
-		<div class="search_bar"></div>
+		<div class="search_bar">
+			<div>
+
+			</div>
+		</div>
 		<div id="info_pane">
 			<div class="nameplate"><span>Node: </span><span id="node_number"></span></div>
 			<div class="faction_name"><span id="faction_name"></span></div>
-			<div class="faction_icon"></div>
+			<div class="faction_icon"><img id="faction_icon"></img></div>
 			<div class="nodeinfo">
 				<span>Owner: </span><span id="node_owner"></span><br>
 				<span>Tier: </span><span id="node_tier"></span><br>
