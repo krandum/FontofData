@@ -33,8 +33,6 @@ console.log('name: ' + userinfo.name);
 		action_index: -1,
 		actions: [],
 		animations: [],
-		icon_data: {},
-		icons: {},
 		colors: {
 			0: { // Background
 				light: [61, 196, 255],
@@ -74,58 +72,46 @@ console.log('name: ' + userinfo.name);
 		user_interface: {},
 		global_root: null,
 		old_root: null,
-		date: new Date()
+		date: new Date(),
+		card_set: false
 	};
 
 	var g_theta = game_data.tilt * Math.PI / 180;
 
-	// function make_ui() {
-	// 	var ui = game_data.user_interface;
-	//
-	// 	ui.card = {};
-	//
-	// 	ui.set_card = function() {
-	// 		// THINGS THAT WILL BE REPLACED WITH ACTUAL DATABASE REQUEST STUFF
-	//
-	// 		// END OF THOSE THINGS
-	// 	};
-	// 	ui.init = function() {
-	// 		ui.set_card();
-	// 	};
+	// Getting user information
+	// function get_user_info() {
+	// 	$.ajax({
+	// 		type: "GET",
+	// 		url: "request_userdata",
+	// 		data: {
+	// 				//current session user
+	// 		},
+	// 		datatype: "html",
+	// 		success: function (raw) {
+	// 			var data = JSON.parse(raw);
+	// 			var user_info = game_data.user_info;
+	// 			user_info.name = data['user']['name'];
+	// 			user_info.picture = data['user']['picture'];
+	// 			user_info.faction_id = data['user']['faction_id'];
+	// 			user_info.resources = data['user']['resources'];
+	// 			user_info.gem_placeholder = data['user']['gems'];
+	// 		},
+	// 		async: true
+	// 	});
 	// }
-// Getting user information
-// function get_user_info() {
-// 	$.ajax({
-// 		type: "GET",
-// 		url: "request_userdata",
-// 		data: {
-// 				//current session user
-// 		},
-// 		datatype: "html",
-// 		success: function (raw) {
-// 			var data = JSON.parse(raw);
-// 			var user_info = game_data.user_info;
-// 			user_info.name = data['user']['name'];
-// 			user_info.picture = data['user']['picture'];
-// 			user_info.faction_id = data['user']['faction_id'];
-// 			user_info.resources = data['user']['resources'];
-// 			user_info.gem_placeholder = data['user']['gems'];
-// 		},
-// 		async: true
-// 	});
-// }
 
 	function make_ui() {
 		var user = game_data.user_info;
 		var ui = game_data.user_interface;
 		//REMOVE WITH QUERY
-		var user_info = game_data.user_info;
 		user.name = "Namey McNamerson";
 		user.picture = 'assets/icons/032-cone.svg';
 		user.faction_id = 3;
 		user.resources = 59362;
 		user.gem_placeholder = 1;
 		//MEOW
+		ui.hov_node = [];
+		ui.cur_node = [];
 		ui.color_palette = {
 			1: {//Ancient
 				primary: '#1B466B',
@@ -157,12 +143,13 @@ console.log('name: ' + userinfo.name);
 			}
 		};
 		ui.faction_icons = {//REPLACE WITH GRAPHIC ASSETS
-			1: null,
+			1: 'assets/icons/032-cone.svg',
 			2: 'assets/icons/placeholder-red_faction_icon.svg',
 			3: 'assets/icons/placeholder-green_faction_icon.svg',
 			4: 'assets/icons/placeholder-blue_faction_icon.svg'
 		};
 		ui.faction_names = {
+			0: '',
 			1: 'Neutral',
 			2: 'Rocks',
 			3: 'Elves',
@@ -204,9 +191,9 @@ console.log('name: ' + userinfo.name);
 			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.status_bar.style.color = ui.color_palette[user.faction_id].highlight;
-			ui.tabs.children[0].style.backgroundColor =	ui.color_palette[user.faction_id].basis;
+			ui.tabs.children[0].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
 			ui.tabs.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.tabs.children[1].style.backgroundColor =	ui.color_palette[user.faction_id].basis;
+			ui.tabs.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
 			ui.tabs.children[1].style.borderColor = ui.color_palette[user.faction_id].accent;
 		};
 		ui.set_bar = function() {
@@ -214,7 +201,6 @@ console.log('name: ' + userinfo.name);
 			ui.status_bar.children[1].firstChild.appendChild(document.createTextNode(user.name));
 		}
 		ui.set_card = function(card_node) {
-			// THINGS THAT WILL BE REPLACED WITH ACTUAL DATABASE REQUEST STUFF
 			ui.card_spans = {
 				1: document.getElementById('node_number'),
 				2: document.getElementById('node_owner'),
@@ -224,7 +210,7 @@ console.log('name: ' + userinfo.name);
 				6: document.getElementById('node_value'),
 				7: document.getElementById('node_contention'),
 				8: document.getElementById('faction_name'),
-				9: document.getElementById('faction_icon')
+				9: document.getElementsByClassName('faction_icon')[0]
 			}
 			var span_num = 0;
 			while (++span_num < 9) {
@@ -233,17 +219,15 @@ console.log('name: ' + userinfo.name);
 					cur_span.removeChild(cur_span.firstChild);
 				}
 			}
-			console.log(typeof(card_node.number))
-			ui.card_spans[1].appendChild(document.createTextNode(card_node.number));
+			ui.card_spans[1].appendChild(document.createTextNode(card_node.value));
 			ui.card_spans[2].appendChild(document.createTextNode(card_node.owner));
 			ui.card_spans[3].appendChild(document.createTextNode(card_node.tier));
 			ui.card_spans[4].appendChild(document.createTextNode(card_node.function));
-			ui.card_spans[5].appendChild(document.createTextNode(card_node.connections));
-			ui.card_spans[6].appendChild(document.createTextNode(card_node.value));
+			ui.card_spans[5].appendChild(document.createTextNode(card_node.connection_num));
+			ui.card_spans[6].appendChild(document.createTextNode(card_node.worth));
 			ui.card_spans[7].appendChild(document.createTextNode(card_node.contention));
 			ui.card_spans[8].appendChild(document.createTextNode(ui.faction_names[card_node.faction_id]));
-			ui.card_spans[9].src = ui.faction_icons[card_node.faction_id];
-			// END OF THOSE THINGS
+			ui.card_spans[9].style.backgroundImage = 'url(' + ui.faction_icons[card_node.faction_id] + ')';
 		};
 		ui.create_listeners = function() {
 			ui.tabs.children[0].addEventListener('click', function() {
@@ -263,18 +247,6 @@ console.log('name: ' + userinfo.name);
 			ui.set_colors();
 			ui.set_bar();
 			ui.create_listeners();
-			//testing data
-			var card_node = {
-				number: '4',
-				owner: 'mwooden',
-				tier: '2',
-				function: 'Core',
-				connections: '2',
-				value: '5043',
-				contention: '0',
-				faction_id: '3'
-			};
-			ui.set_card(card_node);
 		};
 		ui.init();
 	}
@@ -301,7 +273,9 @@ console.log('name: ' + userinfo.name);
 		background.y_lim = shifter.y;
 		shifter = { x: w, y: 2*h, z: 0};
 		change_actual_of_seen(shifter, { x: 0, y: basis, z: 0 });
+		console.log(2*h);
 		hh = shifter.y;
+		console.log(hh);
 		background.light_ray = normalize({ x: 0.7, y: 0.5, z: 1 });
 		background.map = { top: 1, bot: 0, moved_top: false, moved_bot: false };
 		background.rows = [];
@@ -1028,6 +1002,11 @@ console.log('name: ' + userinfo.name);
 	}
 
 	function grow_node(target) {
+		if (target.node) {
+			if (!game_data.card_set)
+				game_data.card_set = true;
+			game_data.user_interface.set_card(target);
+		}
 		if (target.moving)
 			return;
 		if (!target.grown && (target.selected || target.hovered)) {
@@ -1048,6 +1027,27 @@ console.log('name: ' + userinfo.name);
 			}
 			add_animation(target, ungrow_animation, ungrow_stop, 100);
 			target.grown = false;
+		}
+		if (target.node) {
+			if (game_data.card_set && game_data.selected_nodes.length > 0)
+				game_data.user_interface.set_card(game_data.selected_nodes[0]);
+			else {
+				if (game_data.card_set) {
+					game_data.card_set = false;
+				// TODO make card blank again
+					var empty_card;
+					empty_card = {
+						value: "",
+						faction_id: 0,
+						owner: "",
+						tier: "",
+						connection_num: "",
+						worth: "",
+						contention: ""
+					}
+					game_data.user_interface.set_card(empty_card);
+				}
+			}
 		}
 	}
 
@@ -1129,61 +1129,103 @@ console.log('name: ' + userinfo.name);
 	}
 
 	var pop_action_animation = function(target, sigma_frac, delta_frac) {
-		var option;
-		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.group.bounds.width < sigma_frac * option.base.width) {
-				option.group.bounds.width = sigma_frac * option.base.width;
-				option.group.bounds.height = sigma_frac * option.base.height;
-			}
-			option.group.position.x = option.base.x;
-			option.group.position.y = option.base.y;
+		if (target.move.group.bounds.width < sigma_frac * target.move.base.width) {
+			target.move.group.bounds.width = sigma_frac * target.move.base.width;
+			target.move.group.bounds.height = sigma_frac * target.move.base.height;
 		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width < sigma_frac * target.attack.base.width) {
+			target.attack.group.bounds.width = sigma_frac * target.attack.base.width;
+			target.attack.group.bounds.height = sigma_frac * target.attack.base.height;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+		if (target.connect.group.bounds.width < sigma_frac * target.connect.base.width) {
+			target.connect.group.bounds.width = sigma_frac * target.connect.base.width;
+			target.connect.group.bounds.height = sigma_frac * target.connect.base.height;
+		}
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
 	}
 
 	var pop_action_stop = function(target) {
-		var option;
-		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.group.bounds.width < option.base.width) {
-				option.group.bounds.width = option.base.width;
-				option.group.bounds.height = option.base.height;
-			}
-			option.group.position.x = option.base.x;
-			option.group.position.y = option.base.y;
+		if (target.move.group.bounds.width < target.move.base.width) {
+			target.move.group.bounds.width = target.move.base.width;
+			target.move.group.bounds.height = target.move.base.height;
 		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width < target.attack.base.width) {
+			target.attack.group.bounds.width = target.attack.base.width;
+			target.attack.group.bounds.height = target.attack.base.height;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+		if (target.connect.group.bounds.width < target.connect.base.width) {
+			target.connect.group.bounds.width = target.connect.base.width;
+			target.connect.group.bounds.height = target.connect.base.height;
+		}
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
 		return false;
 	}
 
 	var unpop_action_animation = function(target, sigma_frac, delta_frac) {
-		var option;
-		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.group.bounds.width > (1 - sigma_frac) * option.base.width) {
-				option.group.bounds.width = (1 - sigma_frac) * option.base.width;
-				option.group.bounds.height = (1 - sigma_frac) * option.base.height;
-			}
-			option.group.position.x = option.base.x;
-			option.group.position.y = option.base.y;
+		if (target.move.group.bounds.width > (1 - sigma_frac) * target.move.base.width) {
+			target.move.group.bounds.width = (1 - sigma_frac) * target.move.base.width;
+			target.move.group.bounds.height = (1 - sigma_frac) * target.move.base.height;
 		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width > (1 - sigma_frac) * target.attack.base.width) {
+			target.attack.group.bounds.width = (1 - sigma_frac) * target.attack.base.width;
+			target.attack.group.bounds.height = (1 - sigma_frac) * target.attack.base.height;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+		if (target.connect.group.bounds.width > (1 - sigma_frac) * target.connect.base.width) {
+			target.connect.group.bounds.width = (1 - sigma_frac) * target.connect.base.width;
+			target.connect.group.bounds.height = (1 - sigma_frac) * target.connect.base.height;
+		}
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
 	}
 
 	var unpop_action_stop = function(target) {
-		var option, index;
-		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.group.bounds.width > 0) {
-				option.group.bounds.width = 0;
-				option.group.bounds.height = 0;
-			}
-			option.group.position.x = option.base.x;
-			option.group.position.y = option.base.y;
-			option.group.removeChildren();
-			option.group.remove();
-			index = game_data.actions.indexOf(option);
-			if (index != -1)
-				game_data.actions.splice(index, 1);
+		if (target.move.group.bounds.width > 0) {
+			target.move.group.bounds.width = 0;
+			target.move.group.bounds.height = 0;
 		}
+		target.move.group.position.x = target.move.base.x;
+		target.move.group.position.y = target.move.base.y;
+		if (target.attack.group.bounds.width > 0) {
+			target.attack.group.bounds.width = 0;
+			target.attack.group.bounds.height = 0;
+		}
+		target.attack.group.position.x = target.attack.base.x;
+		target.attack.group.position.y = target.attack.base.y;
+		if (target.connect.group.bounds.width > 0) {
+			target.connect.group.bounds.width = 0;
+			target.connect.group.bounds.height = 0;
+		}
+		target.connect.group.position.x = target.connect.base.x;
+		target.connect.group.position.y = target.connect.base.y;
+		target.move.group.removeChildren();
+		target.move.group.remove();
+		target.attack.group.removeChildren();
+		target.attack.group.remove();
+		target.connect.group.removeChildren();
+		target.connect.group.remove();
+		var index = game_data.actions.indexOf(target.move);
+		if (typeof(index) != 'undefined' && index != null)
+			game_data.actions.splice(index, 1);
+		index = game_data.actions.indexOf(target.attack);
+		if (typeof(index) != 'undefined' && index != null)
+			game_data.actions.splice(index, 1);
+		index = game_data.actions.indexOf(target.connect);
+		if (typeof(index) != 'undefined' && index != null)
+			game_data.actions.splice(index, 1);
 		return false;
 	}
 
@@ -1224,6 +1266,13 @@ console.log('name: ' + userinfo.name);
 				i = 0;
 				while (i < 63) {
 					show_connections(game_data.active_nodes[i]);
+					game_data.node_connections[i] = cur_connections;
+					game_data.active_nodes[i].faction_id = in_nodes[i+1]['faction_id'];
+					game_data.active_nodes[i].owner = in_nodes[i+1]['owner'];
+					game_data.active_nodes[i].tier = in_nodes[i+1]['tier'];
+					game_data.active_nodes[i].connection_num = in_nodes[i+1]['connection_num'];
+					game_data.active_nodes[i].worth = in_nodes[i+1]['worth'];
+					game_data.active_nodes[i].contention = in_nodes[i+1]['contention'];
 					i++;
 				}
 				game_data.global_root = game_data.active_nodes[0];
@@ -1244,20 +1293,37 @@ console.log('name: ' + userinfo.name);
 			success: function (raw) {
 				var data = JSON.parse(raw);
 				var in_nodes = data['nodes'];
+				console.log(in_nodes);
 				var i = 0;
+				var k = 0;
 				while (i < ranges.length) {
 					var j = ranges[i].from;
-					while (j <= ranges[i].to) {
+					while (j < ranges[i].to) {
 						game_data.node_factions[j] = in_nodes[j]['faction_id'];
 						var cur_connections = {
 							dad: in_nodes[j]['dad'],
 							bro: in_nodes[j]['bro']
 						};
 						game_data.node_connections[j] = cur_connections;
+						k = -1;
+						while (++k < game_data.active_nodes.length) {
+							if (game_data.active_nodes[k].move_value == j)
+								break;
+						}
+						console.log(k,j);
+						if (k != game_data.active_nodes.length) {
+							game_data.active_nodes[k].faction_id = in_nodes[j]['faction_id'];
+							game_data.active_nodes[k].owner = in_nodes[j]['owner'];
+							game_data.active_nodes[k].tier = in_nodes[j]['tier'];
+							game_data.active_nodes[k].connection_num = in_nodes[j]['connection_num'];
+							game_data.active_nodes[k].worth = in_nodes[j]['worth'];
+							game_data.active_nodes[k].contention = in_nodes[j]['contention'];
+						}
 						j++;
 					}
 					i++;
 				}
+				console.log('after move:', game_data.active_nodes);
 				i = 0;
 				while (i < game_data.active_nodes.length) {
 					var cur_node = game_data.active_nodes[i];
@@ -1468,7 +1534,13 @@ console.log('name: ' + userinfo.name);
 				dad: parent,
 				bro: brother
 			},
+			connection_num: null,
 			connections: null,
+			faction_id: null,
+			owner: null,
+			tier: null,
+			worth: null,
+			contention: null,
 			selected: false,
 			hovered: false,
 			grown: false,
@@ -1478,9 +1550,7 @@ console.log('name: ' + userinfo.name);
 			node: true,
 			move_target: null,
 			move_thickness: thickness,
-			left_pointed: leftie,
-			popped: false,
-			popper: false
+			left_pointed: leftie
 		};
 
 		out_node.onMouseEnter = function(event) {
@@ -1596,7 +1666,7 @@ console.log('name: ' + userinfo.name);
 	function give_bits(num, from, amount, add) {
 		var bit_len = hob(num);
 		var tail_num = bit_len - from;
-		if (tail_num < 0 || tail_num > 5 - amount)
+		if (tail_num < 0 || tail_num > 4)
 			return -1;
 		var tail_mask = get_solid_mask(tail_num);
 		var head_mask = get_solid_mask(from) << (tail_num);
@@ -1653,7 +1723,6 @@ console.log('name: ' + userinfo.name);
 				cur_node.move_position = target_position;
 				cur_node.move_value = cur_node.value;
 				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
-				cur_node.popper = false;
 			}
 			i++;
 		}
@@ -1669,7 +1738,7 @@ console.log('name: ' + userinfo.name);
 			}
 			ranges.push({
 				from: Math.pow(2, 5 - i) * target.value,
-				to: Math.pow(2, 5 - i) * target.value + amount - 1
+				to: Math.pow(2, 5 - i) * target.value + amount
 			});
 			i++;
 			amount /= 2;
@@ -1686,8 +1755,6 @@ console.log('name: ' + userinfo.name);
 			game_data.buffer_nodes[0].move_position = relocs[i];
 			game_data.buffer_nodes[0].move_value = leftie * target.value + j;
 			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
-			game_data.buffer_nodes[0].popper = true;
-			game_data.buffer_nodes[0].popped = false;
 			game_data.buffer_nodes.splice(0, 1);
 			i++;
 			j++;
@@ -1703,8 +1770,6 @@ console.log('name: ' + userinfo.name);
 	}
 
 	function move_back(amount) {
-		if (amount > 5)
-			return;
 		var base = game_data.global_root.value;
 		var new_base_value = base >> amount;
 		if (new_base_value <= 0)
@@ -1712,11 +1777,9 @@ console.log('name: ' + userinfo.name);
 		var bit_base = hob(base);
 		var i = 0;
 		var add = 0;
-		var cur_base = base;
 		while (i < amount) {
-			add |= (cur_base & (1 << (amount - i - 1))) >> (amount - i - 1);
-			if (i + 1 != amount)
-				add <<= 1;
+			add <<= 1;
+			add |= base & 1;
 			i++;
 		}
 		i = 0;
@@ -1731,64 +1794,54 @@ console.log('name: ' + userinfo.name);
 				cur_node.move_position = target_position;
 				cur_node.move_value = cur_node.value;
 				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
-				cur_node.popper = false;
 			}
 			i++;
 		}
 		var relocs = [];
 		var ranges = [];
-		var row_len = 32;
-		var gap_len = 32 >> amount;
-		var gap_start = 0;
-		var to_add;
-		var tmp_amount = amount, tmp_add = 16;
-		while (tmp_amount > 0) {
-			tmp_amount--;
-			to_add = ((add >> tmp_amount) & 1) * tmp_add;
-			gap_start += to_add;
-			tmp_add >>= 1;
-		}
+		var total = 32;
+		var len = 16;
 		i = 0;
+		var off = base % 2 == 0 ? len : 0;
 		while (i <= 5) {
-			var j = -1;
-			while (++j < row_len) {
-				if (j == gap_start)
-					j += gap_len;
-				if (j >= row_len)
-					break;
-				relocs.push({
-					value: j + row_len,
-					leftie: row_len
-				});
+			var j = off;
+			while (j < len + off) {
+				relocs.push(j + total);
+				j++;
 			}
-			if (gap_start != 0)
-				ranges.push({
-					from: Math.pow(2, 5 - i) * new_base_value,
-					to: Math.pow(2, 5 - i) * new_base_value + gap_start - 1
-				});
-			if (gap_start + gap_len < row_len)
-				ranges.push({
-					from: Math.pow(2, 5 - i) * new_base_value + gap_start + gap_len,
-					to: Math.pow(2, 5 - i) * new_base_value + row_len - 1
-				});
+			ranges.push({
+				from: Math.pow(2, 5 - i) * new_base_value + off,
+				to: Math.pow(2, 5 - i) * new_base_value + len + off
+			});
 			i++;
-			row_len /= 2;
-			gap_len = Math.floor(gap_len / 2);
-			gap_start = Math.floor(gap_start / 2);
+			total /= 2;
+			len /= 2;
+			if (len < 1) {
+				len = 1;
+				off = 0;
+			}
+			else
+				off = base % 2 == 0 ? len : 0;
 		}
 		i = 0;
+		off = base % 2 == 0 ? 16 : 0;
+		var leftie = relocs[0] - off;
+		var j = 0;
 		while (game_data.buffer_nodes.length > 0) {
-			game_data.buffer_nodes[0].move_target = game_data.active_nodes[
-				relocs[i].value - 1].relative_pos;
-			game_data.buffer_nodes[0].move_position = relocs[i].value;
-			game_data.buffer_nodes[0].move_value = relocs[i].leftie *
-				new_base_value + relocs[i].value % relocs[i].leftie;
-			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[
-				relocs[i].value - 1].group.firstChild.strokeWidth;
-			game_data.buffer_nodes[0].popper = true;
-			game_data.buffer_nodes[0].popped = false;
+			if (relocs[i] - off < leftie) {
+				off /= 2;
+				if (off < 1 && off > 0)
+					off = 0;
+				leftie = relocs[i] - off;
+				j = 0;
+			}
+			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
+			game_data.buffer_nodes[0].move_position = relocs[i];
+			game_data.buffer_nodes[0].move_value = leftie * new_base_value + j + off;
+			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
 			game_data.buffer_nodes.splice(0, 1);
 			i++;
+			j++;
 		}
 		i = 0;
 		while (i < game_data.active_nodes.length) {
@@ -1815,75 +1868,14 @@ console.log('name: ' + userinfo.name);
 				cur_node.base.width = cur_node.relative_pos.size_dx * height;
 				cur_node.base.height = cur_node.relative_pos.size_dy * height;
 			}
-			if (!cur_node.popper) {
-				cur_node.group.position.x = cur_node.base.x + sigma_frac
-					* (cur_node.move_target.x * width - cur_node.base.x);
-				cur_node.group.position.y = cur_node.base.y + sigma_frac
-					* (cur_node.move_target.y * height - cur_node.base.y);
-				cur_node.group.bounds.width = cur_node.base.width + sigma_frac
-					* (cur_node.move_target.size_dx * height - cur_node.base.width);
-				cur_node.group.bounds.height = cur_node.base.height + sigma_frac
-					* (cur_node.move_target.size_dy * height - cur_node.base.height);
-			}
-			else {
-				if (sigma_frac >= 0.5 && !cur_node.popped) {
-					cur_node.popped = true;
-					cur_node.value = cur_node.move_value;
-					var leftie = cur_node.value % 2 == 0 ? false : true;
-					if (leftie != cur_node.left_pointed) {
-						cur_node.left_pointed = leftie;
-						cur_node.group.firstChild.scale(-1, 1);
-					}
-					var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
-					var num_digits = cur_node.value.toString().length;
-					cur_node.group.lastChild.content = cur_node.value;
-					cur_node.group.firstChild.strokeColor = node_color['line'];
-					cur_node.group.firstChild.fillColor = node_color['fill'];
-					cur_node.group.firstChild.strokeWidth = cur_node.move_thickness;
-					if (i < 31) {
-						var sine_size = cur_node.group.firstChild.bounds.width / 2.3;
-						var num_w = sine_size * (2 - 1 / num_digits);
-						var num_h = (num_w / num_digits) * 1.45;
-						cur_node.group.lastChild.visible = true;
-						cur_node.group.lastChild.fillColor = node_color['num'];
-						cur_node.group.lastChild.content = cur_node.value.toString();
-						cur_node.group.lastChild.bounds.width = num_w;
-						cur_node.group.lastChild.bounds.height = num_h;
-						cur_node.group.lastChild.bounds.x = cur_node.group.position.x - num_w / 2;
-						cur_node.group.lastChild.bounds.y = cur_node.group.position.y - num_h / 2;
-					}
-					else {
-						var dot_w = cur_node.group.firstChild.bounds.width * 0.7246377;
-						var dot_h = dot_w * 0.483333;
-						cur_node.group.lastChild.fillColor = node_color['num'];
-						cur_node.group.lastChild.content = "...";
-						cur_node.group.lastChild.bounds.width = dot_w;
-						cur_node.group.lastChild.bounds.height = dot_h;
-						cur_node.group.lastChild.bounds.x = cur_node.group.position.x - dot_w / 2;
-						cur_node.group.lastChild.bounds.y = cur_node.group.position.y - dot_h / 2;
-					}
-				}
-				if (cur_node.popped) {
-					cur_node.group.bounds.width = 2 * (sigma_frac - 0.5) *
-						cur_node.move_target.size_dx * height;
-					cur_node.group.bounds.height = 2 * (sigma_frac - 0.5) *
-						cur_node.move_target.size_dy * height;
-					cur_node.group.position.x = cur_node.move_target.x * width;
-					cur_node.group.position.y = cur_node.move_target.y * height;
-				}
-				else {
-					cur_node.group.bounds.width = 2 * (0.5 - sigma_frac) *
-						cur_node.base.width;
-					cur_node.group.bounds.height = 2 * (0.5 - sigma_frac) *
-						cur_node.base.height;
-					cur_node.group.position.x = cur_node.base.x;
-					cur_node.group.position.y = cur_node.base.y;
-				}
-			}
-			if (cur_node.group.bounds.width <= 0)
-				cur_node.group.bounds.width = 0.0001;
-			if (cur_node.group.bounds.height <= 0)
-				cur_node.group.bounds.height = 0.0001;
+			cur_node.group.position.x = cur_node.base.x + sigma_frac
+				* (cur_node.move_target.x * width - cur_node.base.x);
+			cur_node.group.position.y = cur_node.base.y + sigma_frac
+				* (cur_node.move_target.y * height - cur_node.base.y);
+			cur_node.group.bounds.width = cur_node.base.width + sigma_frac
+				* (cur_node.move_target.size_dx * height - cur_node.base.width);
+			cur_node.group.bounds.height = cur_node.base.height + sigma_frac
+				* (cur_node.move_target.size_dy * height - cur_node.base.height);
 			cur_node.moving = true;
 		}
 		var new_pos = game_data.old_root.group.position;
@@ -1897,7 +1889,6 @@ console.log('name: ' + userinfo.name);
 		var prev_pos = game_data.old_root.group.position;
 		while (i < game_data.active_nodes.length) {
 			var cur_node = game_data.active_nodes[i];
-			cur_node.popped = false;
 			cur_node.group.position.x = cur_node.move_target.x * width;
 			cur_node.group.position.y = cur_node.move_target.y * height;
 			cur_node.group.bounds.width = cur_node.move_target.size_dx * height;
@@ -1980,126 +1971,169 @@ console.log('name: ' + userinfo.name);
 		target.options = null;
 	}
 
-	function make_option_group(center, option_rad, node_rad, theta, colors,
-		thickness, icon_name, value) {
-		var x = (1.8 * option_rad + node_rad) * Math.cos(theta);
-		var y = (1.8 * option_rad + node_rad) * -Math.sin(theta);
-		var point = new scope.Point(center.x + x, center.y + y);
-		var circle = new scope.Path.Circle(point, option_rad);
-		circle.strokeWidth = thickness;
-		circle.strokeColor = colors['line'];
-		circle.fillColor = colors['fill'];
-		var img = new scope.CompoundPath(game_data.icon_data[icon_name]);
-		img.visible = true;
-		img.fillColor = colors['num'];
-		var scale = Math.cos(Math.PI / 4) * 2;
-		img.bounds.height = option_rad * scale;
-		img.bounds.width = option_rad * scale;
-		img.position.x = point.x;
-		img.position.y = point.y;
-		var option = new scope.Group(circle, img);
-		var base = new scope.Rectangle();
-		base.x = option.position.x;
-		base.y = option.position.y;
-		base.width = option.bounds.width;
-		base.height = option.bounds.height;
-		option.bounds.width = 0.00001;
-		option.bounds.height = 0.00001;
-		var width = scope.view.size.width,
-			height = scope.view.size.height;
-		var relative_pos = {
-			x: base.x / width,
-			y: base.y / height,
-			size_dx: base.width / height,
-			size_dy: base.height / height
-		};
-		var out = {
-			group: option,
-			relative_pos: relative_pos,
-			base: base,
-			selected: false,
-			hovered: false,
-			grown: false,
-			value: value
-		};
-		return out;
-	}
-
 	function add_options(target) {
 		var colors = game_data.colors[game_data.node_factions[target.value].toString()];
 		var x_sign = target.value % 2 == 0 ? -1 : 1;
+		var ref_x = target.group.position.x;
+		var ref_y = target.group.position.y;
 		var ref_stroke_width = target.group.firstChild.strokeWidth;
-		var small_rad = target.group.bounds.width / 8; // rad / 4
-		var big_rad = target.group.bounds.width / 2;
-		var theta_base = Math.PI * (target.value % 2 == 0 ? 1 : 0);
-		var options = {};
-		var theta, name;
-		if (target != game_data.global_root) {
-			name = 'move';
-		}
-		else {
-			name = 'back';
-		}
-		theta = theta_base + x_sign * 7 * Math.PI / 6;
-		if (target != game_data.global_root || game_data.global_root.value != 1) {
-			options.move = make_option_group(target.group.position, small_rad, big_rad,
-				theta, colors, ref_stroke_width / 2, name, target.value);
-			options.move.group.lastChild.strokeWidth = 1;
-			options.move.group.lastChild.strokeColor = colors['num'];
-			game_data.actions.push(options.move);
-			options.move.group.onMouseEnter = function(event) {
-				options.move.hovered = true;
-				grow_node(options.move);
+		var move_rad = target.group.bounds.width / 8;
+		var move_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
+		var move_y = (1.8 * move_rad + target.group.bounds.height / 2) / 2;
+		var move_point = new scope.Point(ref_x + move_x, ref_y + move_y);
+		var move_circle = new scope.Path.Circle(move_point, move_rad);
+		move_circle.strokeWidth = ref_stroke_width / 2;
+		move_circle.strokeColor = colors['line'];
+		move_circle.fillColor = colors['fill'];
+		var move_char = new scope.PointText(move_point);
+		move_char.position.x -= move_rad / 2;
+		move_char.fillColor = colors['num'];
+		move_char.content = 'M';
+		move_char.bounds.width = move_rad;
+		move_char.bounds.height = move_rad * 4 / 3;
+		var move_option = new scope.Group(move_circle, move_char);
+		var move_base = new scope.Rectangle();
+		move_base.x = move_option.position.x;
+		move_base.y = move_option.position.y;
+		move_base.width = move_option.bounds.width;
+		move_base.height = move_option.bounds.height;
+		move_option.bounds.width = 0.0001;
+		move_option.bounds.height = 0.0001;
+		var move_relative_pos = {
+			x: move_base.x / scope.view.size.width,
+			y: move_base.y / scope.view.size.height,
+			size_dx: move_base.width / scope.view.size.height,
+			size_dy: move_base.height / scope.view.size.height
+		};
+		var attack_rad = move_rad;
+		var attack_x = x_sign * (1.8 * attack_rad + target.group.bounds.width / 2);
+		var attack_y = 0;
+		var attack_point = new scope.Point(ref_x + attack_x, ref_y + attack_y);
+		var attack_circle = new scope.Path.Circle(attack_point, attack_rad);
+		attack_circle.strokeWidth = ref_stroke_width / 2;
+		attack_circle.strokeColor = colors['line'];
+		attack_circle.fillColor = colors['fill'];
+		var attack_img = new scope.Raster('assets/icons/009-crosshair.png');
+		attack_img.bounds.width = attack_rad * 2;
+		attack_img.bounds.height = attack_rad * 2;
+		attack_img.position.x = attack_point.x;
+		attack_img.position.y = attack_point.y;
+		var attack_option = new scope.Group(attack_circle, attack_img);
+		var attack_base = new scope.Rectangle();
+		attack_base.x = attack_option.position.x;
+		attack_base.y = attack_option.position.y;
+		attack_base.width = attack_option.bounds.width;
+		attack_base.height = attack_option.bounds.height;
+		attack_option.bounds.width = 0.0000001;
+		attack_option.bounds.height = 0.0000001;
+		var attack_relative_pos = {
+			x: attack_base.x / scope.view.size.width,
+			y: attack_base.y / scope.view.size.height,
+			size_dx: attack_base.width / scope.view.size.height,
+			size_dy: attack_base.height / scope.view.size.height
+		};
+		var connect_rad = move_rad;
+		var connect_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
+		var connect_y = (1.8 * move_rad + target.group.bounds.height / 2) / -2;
+		var connect_point = new scope.Point(ref_x + connect_x, ref_y + connect_y);
+		var connect_circle = new scope.Path.Circle(connect_point, connect_rad);
+		connect_circle.strokeWidth = ref_stroke_width / 2;
+		connect_circle.strokeColor = colors['line'];
+		connect_circle.fillColor = colors['fill'];
+		var connect_char = new scope.PointText(connect_point);
+		connect_char.position.x -= connect_rad / 2;
+		connect_char.fillColor = colors['num'];
+		connect_char.content = 'C';
+		connect_char.bounds.width = connect_rad;
+		connect_char.bounds.height = connect_rad * 4 / 3;
+		var connect_option = new scope.Group(connect_circle, connect_char);
+		var connect_base = new scope.Rectangle();
+		connect_base.x = connect_option.position.x;
+		connect_base.y = connect_option.position.y;
+		connect_base.width = connect_option.bounds.width;
+		connect_base.height = connect_option.bounds.height;
+		connect_option.bounds.width = 0.0001;
+		connect_option.bounds.height = 0.0001;
+		var connect_relative_pos = {
+			x: connect_base.x / scope.view.size.width,
+			y: connect_base.y / scope.view.size.height,
+			size_dx: connect_base.width / scope.view.size.height,
+			size_dy: connect_base.height / scope.view.size.height
+		};
+		var options = {
+			target: target,
+			move: {
+				group: move_option,
+				relative_pos: move_relative_pos,
+				base: move_base,
+				selected: false,
+				hovered: false,
+				grown: false,
+				value: target.value
+			},
+			attack: {
+				group: attack_option,
+				relative_pos: attack_relative_pos,
+				base: attack_base,
+				selected: false,
+				hovered: false,
+				grown: false,
+				value: target.value
+			},
+			connect: {
+				group: connect_option,
+				relative_pos: connect_relative_pos,
+				base: connect_base,
+				selected: false,
+				hovered: false,
+				grown: false,
+				value: target.value
 			}
-			options.move.group.onMouseLeave = function(event) {
-				options.move.hovered = false;
-				ungrow_node(options.move);
-			}
-			options.move.group.onClick = function(event) {
-				game_data.action_index = -1;
-				remove_options(target);
-				unselect_node(target);
-				var index = game_data.selected_nodes.indexOf(target);
-				game_data.selected_nodes.splice(index, 1);
-				if (target == game_data.global_root) {
-					move_back(1);
-				}
-				else {
-					move_to(target);
-				}
-			}
-		}
-		theta = Math.PI / 2;
-		options.attack = make_option_group(target.group.position, small_rad, big_rad,
-			theta, colors, ref_stroke_width / 2, 'attack', target.value);
-		theta = 2 * Math.PI / 3;
-		options.connect = make_option_group(target.group.position, small_rad, big_rad,
-			theta, colors, ref_stroke_width / 2, 'connect', target.value);
-		theta = Math.PI / 3;
-		options.node_info = make_option_group(target.group.position, small_rad, big_rad,
-			theta, colors, ref_stroke_width / 2, 'node_info', target.value);
+		};
+		game_data.actions.push(options.move);
 		game_data.actions.push(options.attack);
 		game_data.actions.push(options.connect);
-		options.attack.group.onMouseEnter = function(event) {
+		move_option.onMouseEnter = function(event) {
+			options.move.hovered = true;
+			grow_node(options.move);
+		}
+		move_option.onMouseLeave = function(event) {
+			options.move.hovered = false;
+			ungrow_node(options.move);
+		}
+		move_option.onClick = function(event) {
+			game_data.action_index = -1;
+			remove_options(target);
+			unselect_node(target);
+			var index = game_data.selected_nodes.indexOf(target);
+			game_data.selected_nodes.splice(index, 1);
+			if (target == game_data.global_root) {
+				move_back(1);
+			}
+			else {
+				move_to(target);
+			}
+		}
+		attack_option.onMouseEnter = function(event) {
 			options.attack.hovered = true;
 			grow_node(options.attack);
 		}
-		options.attack.group.onMouseLeave = function(event) {
+		attack_option.onMouseLeave = function(event) {
 			options.attack.hovered = false;
 			ungrow_node(options.attack);
 		}
-		options.attack.group.onClick = function(event) {
+		attack_option.onClick = function(event) {
 			select_action(options.attack);
 		}
-		options.connect.group.onMouseEnter = function(event) {
+		connect_option.onMouseEnter = function(event) {
 			options.connect.hovered = true;
 			grow_node(options.connect);
 		}
-		options.connect.group.onMouseLeave = function(event) {
+		connect_option.onMouseLeave = function(event) {
 			options.connect.hovered = false;
 			ungrow_node(options.connect);
 		}
-		options.connect.group.onClick = function(event) {
+		connect_option.onClick = function(event) {
 			select_action(options.connect);
 		}
 		// move_option.onClick = function(event) {
@@ -2110,16 +2144,16 @@ console.log('name: ' + userinfo.name);
 	}
 
 	App.game = App.cable.subscriptions.create("GameChannel", {
-		connected: function() {
-			// Called when the subscription is ready for use on the server
-		},
+	  connected: function() {
+	    // Called when the subscription is ready for use on the server
+	  },
 
-		disconnected: function() {
-			// Called when the subscription has been terminated by the server
-		},
+	  disconnected: function() {
+	    // Called when the subscription has been terminated by the server
+	  },
 
-		received: function(data) {
-			// Called when there's incoming data on the websocket for this channel
+	  received: function(data) {
+	    // Called when there's incoming data on the websocket for this channel
 			// game_data.active_nodes[0].group.firstChild.fillColor
 			console.log(data['origin'] + ' ' + data['target']);
 			var origin;
@@ -2181,7 +2215,7 @@ console.log('name: ' + userinfo.name);
 				console.log(target);
 				return;
 			}
-		}
+	  }
 	});
 
 	function take_action(origin, target) {
@@ -2444,68 +2478,6 @@ console.log('name: ' + userinfo.name);
 		}
 	}
 
-	function load_SVG(file, name, mirrors) {
-		var raw_file = new XMLHttpRequest();
-		raw_file.open("GET", file, true);
-		raw_file.onreadystatechange = function() {
-			if (raw_file.readyState === 4)
-				if (raw_file.status === 200 || raw_file.status == 0) {
-					var raw = raw_file.responseText;
-					var exp = /[\S\s]* d="([\S\s]*)"[\S\s]*/;
-					var data = raw.replace(exp, "$1");
-					game_data.icon_data[name] = data;
-					game_data.icons[name] = new scope.Path(data);
-					game_data.icons[name].visible = false;
-					if (typeof(mirrors) != 'undefined' && mirrors != null) {
-						var mirror, mirror_icon;
-						while (mirrors.length > 0) {
-							mirror = mirrors[0];
-							mirror_icon = new scope.Path(data);
-							mirror_icon.visible = false;
-							mirror_icon.scale(mirror.x_scale, mirror.y_scale);
-							game_data.icons[mirror.name] = mirror_icon;
-							game_data.icon_data[mirror.name] = mirror_icon.pathData;
-							mirrors.splice(0, 1);
-						}
-					}
-				}
-		}
-		raw_file.send(null);
-	}
-
-	function load_multi_SVG(file, name, mirrors) {
-		var raw_file = new XMLHttpRequest();
-		raw_file.open("GET", file, true);
-		raw_file.onreadystatechange = function() {
-			if (raw_file.readyState === 4)
-				if (raw_file.status === 200 || raw_file.status == 0) {
-					var raw = raw_file.responseText;
-					var exp = /[^d="]* d="([^"]*)"[^ d="]*/g;
-					var data = "";
-					raw.replace(exp, function(match, g1) {
-						data += g1;
-					});
-					game_data.icons[name] = new scope.CompoundPath(data);
-					game_data.icons[name].strokeWidth = 0;
-					game_data.icons[name].visible = false;
-					game_data.icon_data[name] = data;
-					if (typeof(mirrors) != 'undefined' && mirrors != null) {
-						var mirror, mirror_icon;
-						while (mirrors.length > 0) {
-							mirror = mirrors[0];
-							mirror_icon = new scope.CompoundPath(data);
-							mirror_icon.visible = false;
-							mirror_icon.scale(mirror.x_scale, mirror.y_scale);
-							game_data.icons[mirror.name] = mirror_icon;
-							game_data.icon_data[mirror.name] = mirror_icon.pathData;
-							mirrors.splice(0, 1);
-						}
-					}
-				}
-		}
-		raw_file.send(null);
-	}
-
 	function set_assets() {
 		var icon_up = new scope.Raster('assets/icons/001-arrow-up.png');
 		var icon_up_right = new scope.Raster('assets/icons/002-arrow-up-right.png');
@@ -2525,13 +2497,6 @@ console.log('name: ' + userinfo.name);
 		icon_left.visible = false;
 		icon_up_left.visible = false;
 		icon_attack.visible = false;
-		load_multi_SVG('assets/icons/048-back.svg', 'back',
-			[{ name:'move', x_scale: 1, y_scale: -1 }]);
-		load_multi_SVG('assets/icons/047-next.svg', 'right',
-			[{ name:'left', x_scale: -1, y_scale: 1 }]);
-		load_SVG('assets/icons/041-focus.svg', 'attack');
-		load_multi_SVG('assets/icons/043-connect.svg', 'connect');
-		load_multi_SVG('assets/icons/049-information.svg', 'node_info');
 	}
 
 	function init() {
@@ -2561,6 +2526,7 @@ console.log('name: ' + userinfo.name);
 			tick(event);
 		};
 		console.log("Ticking now...");
+		console.log(game_data);
 	}
 
 	init_debug();
