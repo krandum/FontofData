@@ -32,6 +32,8 @@ $(document).on('ready page:load', function() {
 		action_index: -1,
 		actions: [],
 		animations: [],
+		icon_data: {},
+		icons: {},
 		colors: {
 			0: { // Background
 				light: [61, 196, 255],
@@ -109,8 +111,6 @@ $(document).on('ready page:load', function() {
 		user.resources = 59362;
 		user.gem_placeholder = 1;
 		//MEOW
-		ui.hov_node = [];
-		ui.cur_node = [];
 		ui.color_palette = {
 			1: {//Ancient
 				primary: '#1B466B',
@@ -228,6 +228,8 @@ $(document).on('ready page:load', function() {
 			ui.card_spans[8].appendChild(document.createTextNode(ui.faction_names[card_node.faction_id]));
 			if (card_node.faction_id != 0)
 				ui.card_spans[9].style.backgroundImage = 'url(' + ui.faction_icons[card_node.faction_id] + ')';
+			else
+				ui.card_spans[9].style.backgroundImage = 'none';
 		};
 		ui.create_listeners = function() {
 			ui.tabs.children[0].addEventListener('click', function() {
@@ -1097,16 +1099,6 @@ $(document).on('ready page:load', function() {
 		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
-		if (typeof(target.node) != 'undefined' && target.node != null) {
-			// console.log("Setting base to null at theta");
-			// console.log(target);
-			// console.log(target.base);
-			// console.log(target.group.bounds.width);
-			// console.log(target.group.bounds.height);
-			// console.log(target.group.position.x);
-			// console.log(target.group.position.y);
-			target.base = null;
-		}
 		return false;
 	}
 
@@ -1172,103 +1164,61 @@ $(document).on('ready page:load', function() {
 	}
 
 	var pop_action_animation = function(target, sigma_frac, delta_frac) {
-		if (target.move.group.bounds.width < sigma_frac * target.move.base.width) {
-			target.move.group.bounds.width = sigma_frac * target.move.base.width;
-			target.move.group.bounds.height = sigma_frac * target.move.base.height;
+		var option;
+		for (cur_option in target) {
+			option = target[cur_option];
+			if (option.group.bounds.width < sigma_frac * option.base.width) {
+				option.group.bounds.width = sigma_frac * option.base.width;
+				option.group.bounds.height = sigma_frac * option.base.height;
+			}
+			option.group.position.x = option.base.x;
+			option.group.position.y = option.base.y;
 		}
-		target.move.group.position.x = target.move.base.x;
-		target.move.group.position.y = target.move.base.y;
-		if (target.attack.group.bounds.width < sigma_frac * target.attack.base.width) {
-			target.attack.group.bounds.width = sigma_frac * target.attack.base.width;
-			target.attack.group.bounds.height = sigma_frac * target.attack.base.height;
-		}
-		target.attack.group.position.x = target.attack.base.x;
-		target.attack.group.position.y = target.attack.base.y;
-		if (target.connect.group.bounds.width < sigma_frac * target.connect.base.width) {
-			target.connect.group.bounds.width = sigma_frac * target.connect.base.width;
-			target.connect.group.bounds.height = sigma_frac * target.connect.base.height;
-		}
-		target.connect.group.position.x = target.connect.base.x;
-		target.connect.group.position.y = target.connect.base.y;
 	}
 
 	var pop_action_stop = function(target) {
-		if (target.move.group.bounds.width < target.move.base.width) {
-			target.move.group.bounds.width = target.move.base.width;
-			target.move.group.bounds.height = target.move.base.height;
+		var option;
+		for (cur_option in target) {
+			option = target[cur_option];
+			if (option.group.bounds.width < option.base.width) {
+				option.group.bounds.width = option.base.width;
+				option.group.bounds.height = option.base.height;
+			}
+			option.group.position.x = option.base.x;
+			option.group.position.y = option.base.y;
 		}
-		target.move.group.position.x = target.move.base.x;
-		target.move.group.position.y = target.move.base.y;
-		if (target.attack.group.bounds.width < target.attack.base.width) {
-			target.attack.group.bounds.width = target.attack.base.width;
-			target.attack.group.bounds.height = target.attack.base.height;
-		}
-		target.attack.group.position.x = target.attack.base.x;
-		target.attack.group.position.y = target.attack.base.y;
-		if (target.connect.group.bounds.width < target.connect.base.width) {
-			target.connect.group.bounds.width = target.connect.base.width;
-			target.connect.group.bounds.height = target.connect.base.height;
-		}
-		target.connect.group.position.x = target.connect.base.x;
-		target.connect.group.position.y = target.connect.base.y;
 		return false;
 	}
 
 	var unpop_action_animation = function(target, sigma_frac, delta_frac) {
-		if (target.move.group.bounds.width > (1 - sigma_frac) * target.move.base.width) {
-			target.move.group.bounds.width = (1 - sigma_frac) * target.move.base.width;
-			target.move.group.bounds.height = (1 - sigma_frac) * target.move.base.height;
+		var option;
+		for (cur_option in target) {
+			option = target[cur_option];
+			if (option.group.bounds.width > (1 - sigma_frac) * option.base.width) {
+				option.group.bounds.width = (1 - sigma_frac) * option.base.width;
+				option.group.bounds.height = (1 - sigma_frac) * option.base.height;
+			}
+			option.group.position.x = option.base.x;
+			option.group.position.y = option.base.y;
 		}
-		target.move.group.position.x = target.move.base.x;
-		target.move.group.position.y = target.move.base.y;
-		if (target.attack.group.bounds.width > (1 - sigma_frac) * target.attack.base.width) {
-			target.attack.group.bounds.width = (1 - sigma_frac) * target.attack.base.width;
-			target.attack.group.bounds.height = (1 - sigma_frac) * target.attack.base.height;
-		}
-		target.attack.group.position.x = target.attack.base.x;
-		target.attack.group.position.y = target.attack.base.y;
-		if (target.connect.group.bounds.width > (1 - sigma_frac) * target.connect.base.width) {
-			target.connect.group.bounds.width = (1 - sigma_frac) * target.connect.base.width;
-			target.connect.group.bounds.height = (1 - sigma_frac) * target.connect.base.height;
-		}
-		target.connect.group.position.x = target.connect.base.x;
-		target.connect.group.position.y = target.connect.base.y;
 	}
 
 	var unpop_action_stop = function(target) {
-		if (target.move.group.bounds.width > 0) {
-			target.move.group.bounds.width = 0;
-			target.move.group.bounds.height = 0;
+		var option, index;
+		for (cur_option in target) {
+			option = target[cur_option];
+			if (option.group.bounds.width > 0) {
+				option.group.bounds.width = 0;
+				option.group.bounds.height = 0;
+			}
+			option.group.position.x = option.base.x;
+			option.group.position.y = option.base.y;
+			option.group.removeChildren();
+			option.group.remove();
+			index = game_data.actions.indexOf(option);
+			if (index != -1)
+				game_data.actions.splice(index, 1);
 		}
-		target.move.group.position.x = target.move.base.x;
-		target.move.group.position.y = target.move.base.y;
-		if (target.attack.group.bounds.width > 0) {
-			target.attack.group.bounds.width = 0;
-			target.attack.group.bounds.height = 0;
-		}
-		target.attack.group.position.x = target.attack.base.x;
-		target.attack.group.position.y = target.attack.base.y;
-		if (target.connect.group.bounds.width > 0) {
-			target.connect.group.bounds.width = 0;
-			target.connect.group.bounds.height = 0;
-		}
-		target.connect.group.position.x = target.connect.base.x;
-		target.connect.group.position.y = target.connect.base.y;
-		target.move.group.removeChildren();
-		target.move.group.remove();
-		target.attack.group.removeChildren();
-		target.attack.group.remove();
-		target.connect.group.removeChildren();
-		target.connect.group.remove();
-		var index = game_data.actions.indexOf(target.move);
-		if (typeof(index) != 'undefined' && index != null)
-			game_data.actions.splice(index, 1);
-		index = game_data.actions.indexOf(target.attack);
-		if (typeof(index) != 'undefined' && index != null)
-			game_data.actions.splice(index, 1);
-		index = game_data.actions.indexOf(target.connect);
-		if (typeof(index) != 'undefined' && index != null)
-			game_data.actions.splice(index, 1);
 		return false;
 	}
 
@@ -1340,7 +1290,7 @@ $(document).on('ready page:load', function() {
 				var k = 0;
 				while (i < ranges.length) {
 					var j = ranges[i].from;
-					while (j < ranges[i].to) {
+					while (j <= ranges[i].to) {
 						game_data.node_factions[j] = in_nodes[j]['faction_id'];
 						var cur_connections = {
 							dad: in_nodes[j]['dad'],
@@ -1590,7 +1540,9 @@ $(document).on('ready page:load', function() {
 			node: true,
 			move_target: null,
 			move_thickness: thickness,
-			left_pointed: leftie
+			left_pointed: leftie,
+			popped: false,
+			popper: false
 		};
 
 		out_node.onMouseEnter = function(event) {
@@ -1706,7 +1658,7 @@ $(document).on('ready page:load', function() {
 	function give_bits(num, from, amount, add) {
 		var bit_len = hob(num);
 		var tail_num = bit_len - from;
-		if (tail_num < 0 || tail_num > 4)
+		if (tail_num < 0 || tail_num > 5 - amount)
 			return -1;
 		var tail_mask = get_solid_mask(tail_num);
 		var head_mask = get_solid_mask(from) << (tail_num);
@@ -1763,11 +1715,7 @@ $(document).on('ready page:load', function() {
 				cur_node.move_position = target_position;
 				cur_node.move_value = cur_node.value;
 				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
-<<<<<<< HEAD
 				cur_node.popper = false;
-				cur_node.popped = false;
-=======
->>>>>>> ecbdea3371f2adf8edeaf306124424abf549aafa
 			}
 			i++;
 		}
@@ -1783,7 +1731,7 @@ $(document).on('ready page:load', function() {
 			}
 			ranges.push({
 				from: Math.pow(2, 5 - i) * target.value,
-				to: Math.pow(2, 5 - i) * target.value + amount
+				to: Math.pow(2, 5 - i) * target.value + amount - 1
 			});
 			i++;
 			amount /= 2;
@@ -1800,6 +1748,8 @@ $(document).on('ready page:load', function() {
 			game_data.buffer_nodes[0].move_position = relocs[i];
 			game_data.buffer_nodes[0].move_value = leftie * target.value + j;
 			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
+			game_data.buffer_nodes[0].popper = true;
+			game_data.buffer_nodes[0].popped = false;
 			game_data.buffer_nodes.splice(0, 1);
 			i++;
 			j++;
@@ -1815,6 +1765,8 @@ $(document).on('ready page:load', function() {
 	}
 
 	function move_back(amount) {
+		if (amount > 5)
+			return;
 		var base = game_data.global_root.value;
 		var new_base_value = base >> amount;
 		if (new_base_value <= 0)
@@ -1822,9 +1774,11 @@ $(document).on('ready page:load', function() {
 		var bit_base = hob(base);
 		var i = 0;
 		var add = 0;
+		var cur_base = base;
 		while (i < amount) {
-			add <<= 1;
-			add |= base & 1;
+			add |= (cur_base & (1 << (amount - i - 1))) >> (amount - i - 1);
+			if (i + 1 != amount)
+				add <<= 1;
 			i++;
 		}
 		i = 0;
@@ -1840,55 +1794,63 @@ $(document).on('ready page:load', function() {
 				cur_node.move_value = cur_node.value;
 				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
 				cur_node.popper = false;
-				cur_node.popped = false;
 			}
 			i++;
 		}
 		var relocs = [];
 		var ranges = [];
-		var total = 32;
-		var len = 16;
-		i = 0;
-		var off = base % 2 == 0 ? len : 0;
-		while (i <= 5) {
-			var j = off;
-			while (j < len + off) {
-				relocs.push(j + total);
-				j++;
-			}
-			ranges.push({
-				from: Math.pow(2, 5 - i) * new_base_value + off,
-				to: Math.pow(2, 5 - i) * new_base_value + len + off
-			});
-			i++;
-			total /= 2;
-			len /= 2;
-			if (len < 1) {
-				len = 1;
-				off = 0;
-			}
-			else
-				off = base % 2 == 0 ? len : 0;
+		var row_len = 32;
+		var gap_len = 32 >> amount;
+		var gap_start = 0;
+		var to_add;
+		var tmp_amount = amount, tmp_add = 16;
+		while (tmp_amount > 0) {
+			tmp_amount--;
+			to_add = ((add >> tmp_amount) & 1) * tmp_add;
+			gap_start += to_add;
+			tmp_add >>= 1;
 		}
 		i = 0;
-		off = base % 2 == 0 ? 16 : 0;
-		var leftie = relocs[0] - off;
-		var j = 0;
-		while (game_data.buffer_nodes.length > 0) {
-			if (relocs[i] - off < leftie) {
-				off /= 2;
-				if (off < 1 && off > 0)
-					off = 0;
-				leftie = relocs[i] - off;
-				j = 0;
+		while (i <= 5) {
+			var j = -1;
+			while (++j < row_len) {
+				if (j == gap_start)
+					j += gap_len;
+				if (j >= row_len)
+					break;
+				relocs.push({
+					value: j + row_len,
+					leftie: row_len
+				});
 			}
-			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
-			game_data.buffer_nodes[0].move_position = relocs[i];
-			game_data.buffer_nodes[0].move_value = leftie * new_base_value + j + off;
-			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
+			if (gap_start != 0)
+				ranges.push({
+					from: Math.pow(2, 5 - i) * new_base_value,
+					to: Math.pow(2, 5 - i) * new_base_value + gap_start - 1
+				});
+			if (gap_start + gap_len < row_len)
+				ranges.push({
+					from: Math.pow(2, 5 - i) * new_base_value + gap_start + gap_len,
+					to: Math.pow(2, 5 - i) * new_base_value + row_len - 1
+				});
+			i++;
+			row_len /= 2;
+			gap_len = Math.floor(gap_len / 2);
+			gap_start = Math.floor(gap_start / 2);
+		}
+		i = 0;
+		while (game_data.buffer_nodes.length > 0) {
+			game_data.buffer_nodes[0].move_target = game_data.active_nodes[
+				relocs[i].value - 1].relative_pos;
+			game_data.buffer_nodes[0].move_position = relocs[i].value;
+			game_data.buffer_nodes[0].move_value = relocs[i].leftie *
+				new_base_value + relocs[i].value % relocs[i].leftie;
+			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[
+				relocs[i].value - 1].group.firstChild.strokeWidth;
+			game_data.buffer_nodes[0].popper = true;
+			game_data.buffer_nodes[0].popped = false;
 			game_data.buffer_nodes.splice(0, 1);
 			i++;
-			j++;
 		}
 		i = 0;
 		while (i < game_data.active_nodes.length) {
@@ -1904,7 +1866,8 @@ $(document).on('ready page:load', function() {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		var prev_pos = game_data.old_root.group.position;
-		var i = -1, cur_node;
+		var i = -1;
+		var cur_node;
 		while (++i < game_data.active_nodes.length) {
 			cur_node = game_data.active_nodes[i];
 			if (cur_node.base == null) {
@@ -1926,7 +1889,7 @@ $(document).on('ready page:load', function() {
 					* (cur_node.move_target.size_dx * height - cur_node.base.width);
 				cur_node.group.bounds.height = cur_node.base.height + sigma_frac
 					* (cur_node.move_target.size_dy * height - cur_node.base.height);
-				cur_node.popper = false;
+				//cur_node.popper = false;
 			// }
 			// else {
 			// 	if (sigma_frac >= 0.5 && !cur_node.popped) {
@@ -1981,6 +1944,7 @@ $(document).on('ready page:load', function() {
 		var prev_pos = game_data.old_root.group.position;
 		while (i < game_data.active_nodes.length) {
 			var cur_node = game_data.active_nodes[i];
+			cur_node.popped = false;
 			cur_node.group.position.x = cur_node.move_target.x * width;
 			cur_node.group.position.y = cur_node.move_target.y * height;
 			cur_node.group.bounds.width = cur_node.move_target.size_dx * height;
@@ -2070,169 +2034,126 @@ $(document).on('ready page:load', function() {
 		target.options = null;
 	}
 
+	function make_option_group(center, option_rad, node_rad, theta, colors,
+		thickness, icon_name, value) {
+		var x = (1.8 * option_rad + node_rad) * Math.cos(theta);
+		var y = (1.8 * option_rad + node_rad) * -Math.sin(theta);
+		var point = new scope.Point(center.x + x, center.y + y);
+		var circle = new scope.Path.Circle(point, option_rad);
+		circle.strokeWidth = thickness;
+		circle.strokeColor = colors['line'];
+		circle.fillColor = colors['fill'];
+		var img = new scope.CompoundPath(game_data.icon_data[icon_name]);
+		img.visible = true;
+		img.fillColor = colors['num'];
+		var scale = Math.cos(Math.PI / 4) * 2;
+		img.bounds.height = option_rad * scale;
+		img.bounds.width = option_rad * scale;
+		img.position.x = point.x;
+		img.position.y = point.y;
+		var option = new scope.Group(circle, img);
+		var base = new scope.Rectangle();
+		base.x = option.position.x;
+		base.y = option.position.y;
+		base.width = option.bounds.width;
+		base.height = option.bounds.height;
+		option.bounds.width = 0.00001;
+		option.bounds.height = 0.00001;
+		var width = scope.view.size.width,
+			height = scope.view.size.height;
+		var relative_pos = {
+			x: base.x / width,
+			y: base.y / height,
+			size_dx: base.width / height,
+			size_dy: base.height / height
+		};
+		var out = {
+			group: option,
+			relative_pos: relative_pos,
+			base: base,
+			selected: false,
+			hovered: false,
+			grown: false,
+			value: value
+		};
+		return out;
+	}
+
 	function add_options(target) {
 		var colors = game_data.colors[game_data.node_factions[target.value].toString()];
 		var x_sign = target.value % 2 == 0 ? -1 : 1;
-		var ref_x = target.group.position.x;
-		var ref_y = target.group.position.y;
 		var ref_stroke_width = target.group.firstChild.strokeWidth;
-		var move_rad = target.group.bounds.width / 8;
-		var move_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
-		var move_y = (1.8 * move_rad + target.group.bounds.height / 2) / 2;
-		var move_point = new scope.Point(ref_x + move_x, ref_y + move_y);
-		var move_circle = new scope.Path.Circle(move_point, move_rad);
-		move_circle.strokeWidth = ref_stroke_width / 2;
-		move_circle.strokeColor = colors['line'];
-		move_circle.fillColor = colors['fill'];
-		var move_char = new scope.PointText(move_point);
-		move_char.position.x -= move_rad / 2;
-		move_char.fillColor = colors['num'];
-		move_char.content = 'M';
-		move_char.bounds.width = move_rad;
-		move_char.bounds.height = move_rad * 4 / 3;
-		var move_option = new scope.Group(move_circle, move_char);
-		var move_base = new scope.Rectangle();
-		move_base.x = move_option.position.x;
-		move_base.y = move_option.position.y;
-		move_base.width = move_option.bounds.width;
-		move_base.height = move_option.bounds.height;
-		move_option.bounds.width = 0.0001;
-		move_option.bounds.height = 0.0001;
-		var move_relative_pos = {
-			x: move_base.x / scope.view.size.width,
-			y: move_base.y / scope.view.size.height,
-			size_dx: move_base.width / scope.view.size.height,
-			size_dy: move_base.height / scope.view.size.height
-		};
-		var attack_rad = move_rad;
-		var attack_x = x_sign * (1.8 * attack_rad + target.group.bounds.width / 2);
-		var attack_y = 0;
-		var attack_point = new scope.Point(ref_x + attack_x, ref_y + attack_y);
-		var attack_circle = new scope.Path.Circle(attack_point, attack_rad);
-		attack_circle.strokeWidth = ref_stroke_width / 2;
-		attack_circle.strokeColor = colors['line'];
-		attack_circle.fillColor = colors['fill'];
-		var attack_img = new scope.Raster('assets/icons/009-crosshair.png');
-		attack_img.bounds.width = attack_rad * 2;
-		attack_img.bounds.height = attack_rad * 2;
-		attack_img.position.x = attack_point.x;
-		attack_img.position.y = attack_point.y;
-		var attack_option = new scope.Group(attack_circle, attack_img);
-		var attack_base = new scope.Rectangle();
-		attack_base.x = attack_option.position.x;
-		attack_base.y = attack_option.position.y;
-		attack_base.width = attack_option.bounds.width;
-		attack_base.height = attack_option.bounds.height;
-		attack_option.bounds.width = 0.0000001;
-		attack_option.bounds.height = 0.0000001;
-		var attack_relative_pos = {
-			x: attack_base.x / scope.view.size.width,
-			y: attack_base.y / scope.view.size.height,
-			size_dx: attack_base.width / scope.view.size.height,
-			size_dy: attack_base.height / scope.view.size.height
-		};
-		var connect_rad = move_rad;
-		var connect_x = x_sign * (1.8 * move_rad + target.group.bounds.width / 2) * Math.sqrt(3) / 2;
-		var connect_y = (1.8 * move_rad + target.group.bounds.height / 2) / -2;
-		var connect_point = new scope.Point(ref_x + connect_x, ref_y + connect_y);
-		var connect_circle = new scope.Path.Circle(connect_point, connect_rad);
-		connect_circle.strokeWidth = ref_stroke_width / 2;
-		connect_circle.strokeColor = colors['line'];
-		connect_circle.fillColor = colors['fill'];
-		var connect_char = new scope.PointText(connect_point);
-		connect_char.position.x -= connect_rad / 2;
-		connect_char.fillColor = colors['num'];
-		connect_char.content = 'C';
-		connect_char.bounds.width = connect_rad;
-		connect_char.bounds.height = connect_rad * 4 / 3;
-		var connect_option = new scope.Group(connect_circle, connect_char);
-		var connect_base = new scope.Rectangle();
-		connect_base.x = connect_option.position.x;
-		connect_base.y = connect_option.position.y;
-		connect_base.width = connect_option.bounds.width;
-		connect_base.height = connect_option.bounds.height;
-		connect_option.bounds.width = 0.0001;
-		connect_option.bounds.height = 0.0001;
-		var connect_relative_pos = {
-			x: connect_base.x / scope.view.size.width,
-			y: connect_base.y / scope.view.size.height,
-			size_dx: connect_base.width / scope.view.size.height,
-			size_dy: connect_base.height / scope.view.size.height
-		};
-		var options = {
-			target: target,
-			move: {
-				group: move_option,
-				relative_pos: move_relative_pos,
-				base: move_base,
-				selected: false,
-				hovered: false,
-				grown: false,
-				value: target.value
-			},
-			attack: {
-				group: attack_option,
-				relative_pos: attack_relative_pos,
-				base: attack_base,
-				selected: false,
-				hovered: false,
-				grown: false,
-				value: target.value
-			},
-			connect: {
-				group: connect_option,
-				relative_pos: connect_relative_pos,
-				base: connect_base,
-				selected: false,
-				hovered: false,
-				grown: false,
-				value: target.value
+		var small_rad = target.group.bounds.width / 8; // rad / 4
+		var big_rad = target.group.bounds.width / 2;
+		var theta_base = Math.PI * (target.value % 2 == 0 ? 1 : 0);
+		var options = {};
+		var theta, name;
+		if (target != game_data.global_root) {
+			name = 'move';
+		}
+		else {
+			name = 'back';
+		}
+		theta = theta_base + x_sign * 7 * Math.PI / 6;
+		if (target != game_data.global_root || game_data.global_root.value != 1) {
+			options.move = make_option_group(target.group.position, small_rad, big_rad,
+				theta, colors, ref_stroke_width / 2, name, target.value);
+			options.move.group.lastChild.strokeWidth = 1;
+			options.move.group.lastChild.strokeColor = colors['num'];
+			game_data.actions.push(options.move);
+			options.move.group.onMouseEnter = function(event) {
+				options.move.hovered = true;
+				grow_node(options.move);
 			}
-		};
-		game_data.actions.push(options.move);
+			options.move.group.onMouseLeave = function(event) {
+				options.move.hovered = false;
+				ungrow_node(options.move);
+			}
+			options.move.group.onClick = function(event) {
+				game_data.action_index = -1;
+				remove_options(target);
+				unselect_node(target);
+				var index = game_data.selected_nodes.indexOf(target);
+				game_data.selected_nodes.splice(index, 1);
+				if (target == game_data.global_root) {
+					move_back(1);
+				}
+				else {
+					move_to(target);
+				}
+			}
+		}
+		theta = Math.PI / 2;
+		options.attack = make_option_group(target.group.position, small_rad, big_rad,
+			theta, colors, ref_stroke_width / 2, 'attack', target.value);
+		theta = 2 * Math.PI / 3;
+		options.connect = make_option_group(target.group.position, small_rad, big_rad,
+			theta, colors, ref_stroke_width / 2, 'connect', target.value);
+		theta = Math.PI / 3;
+		options.node_info = make_option_group(target.group.position, small_rad, big_rad,
+			theta, colors, ref_stroke_width / 2, 'node_info', target.value);
 		game_data.actions.push(options.attack);
 		game_data.actions.push(options.connect);
-		move_option.onMouseEnter = function(event) {
-			options.move.hovered = true;
-			grow_node(options.move);
-		}
-		move_option.onMouseLeave = function(event) {
-			options.move.hovered = false;
-			ungrow_node(options.move);
-		}
-		move_option.onClick = function(event) {
-			game_data.action_index = -1;
-			remove_options(target);
-			unselect_node(target);
-			var index = game_data.selected_nodes.indexOf(target);
-			game_data.selected_nodes.splice(index, 1);
-			if (target == game_data.global_root) {
-				move_back(1);
-			}
-			else {
-				move_to(target);
-			}
-		}
-		attack_option.onMouseEnter = function(event) {
+		options.attack.group.onMouseEnter = function(event) {
 			options.attack.hovered = true;
 			grow_node(options.attack);
 		}
-		attack_option.onMouseLeave = function(event) {
+		options.attack.group.onMouseLeave = function(event) {
 			options.attack.hovered = false;
 			ungrow_node(options.attack);
 		}
-		attack_option.onClick = function(event) {
+		options.attack.group.onClick = function(event) {
 			select_action(options.attack);
 		}
-		connect_option.onMouseEnter = function(event) {
+		options.connect.group.onMouseEnter = function(event) {
 			options.connect.hovered = true;
 			grow_node(options.connect);
 		}
-		connect_option.onMouseLeave = function(event) {
+		options.connect.group.onMouseLeave = function(event) {
 			options.connect.hovered = false;
 			ungrow_node(options.connect);
 		}
-		connect_option.onClick = function(event) {
+		options.connect.group.onClick = function(event) {
 			select_action(options.connect);
 		}
 		// move_option.onClick = function(event) {
@@ -2577,6 +2498,68 @@ $(document).on('ready page:load', function() {
 		}
 	}
 
+	function load_SVG(file, name, mirrors) {
+		var raw_file = new XMLHttpRequest();
+		raw_file.open("GET", file, true);
+		raw_file.onreadystatechange = function() {
+			if (raw_file.readyState === 4)
+				if (raw_file.status === 200 || raw_file.status == 0) {
+					var raw = raw_file.responseText;
+					var exp = /[\S\s]* d="([\S\s]*)"[\S\s]*/;
+					var data = raw.replace(exp, "$1");
+					game_data.icon_data[name] = data;
+					game_data.icons[name] = new scope.Path(data);
+					game_data.icons[name].visible = false;
+					if (typeof(mirrors) != 'undefined' && mirrors != null) {
+						var mirror, mirror_icon;
+						while (mirrors.length > 0) {
+							mirror = mirrors[0];
+							mirror_icon = new scope.Path(data);
+							mirror_icon.visible = false;
+							mirror_icon.scale(mirror.x_scale, mirror.y_scale);
+							game_data.icons[mirror.name] = mirror_icon;
+							game_data.icon_data[mirror.name] = mirror_icon.pathData;
+							mirrors.splice(0, 1);
+						}
+					}
+				}
+		}
+		raw_file.send(null);
+	}
+
+	function load_multi_SVG(file, name, mirrors) {
+		var raw_file = new XMLHttpRequest();
+		raw_file.open("GET", file, true);
+		raw_file.onreadystatechange = function() {
+			if (raw_file.readyState === 4)
+				if (raw_file.status === 200 || raw_file.status == 0) {
+					var raw = raw_file.responseText;
+					var exp = /[^d="]* d="([^"]*)"[^ d="]*/g;
+					var data = "";
+					raw.replace(exp, function(match, g1) {
+						data += g1;
+					});
+					game_data.icons[name] = new scope.CompoundPath(data);
+					game_data.icons[name].strokeWidth = 0;
+					game_data.icons[name].visible = false;
+					game_data.icon_data[name] = data;
+					if (typeof(mirrors) != 'undefined' && mirrors != null) {
+						var mirror, mirror_icon;
+						while (mirrors.length > 0) {
+							mirror = mirrors[0];
+							mirror_icon = new scope.CompoundPath(data);
+							mirror_icon.visible = false;
+							mirror_icon.scale(mirror.x_scale, mirror.y_scale);
+							game_data.icons[mirror.name] = mirror_icon;
+							game_data.icon_data[mirror.name] = mirror_icon.pathData;
+							mirrors.splice(0, 1);
+						}
+					}
+				}
+		}
+		raw_file.send(null);
+	}
+
 	function set_assets() {
 		var icon_up = new scope.Raster('assets/icons/001-arrow-up.png');
 		var icon_up_right = new scope.Raster('assets/icons/002-arrow-up-right.png');
@@ -2596,6 +2579,13 @@ $(document).on('ready page:load', function() {
 		icon_left.visible = false;
 		icon_up_left.visible = false;
 		icon_attack.visible = false;
+		load_multi_SVG('assets/icons/048-back.svg', 'back',
+			[{ name:'move', x_scale: 1, y_scale: -1 }]);
+		load_multi_SVG('assets/icons/047-next.svg', 'right',
+			[{ name:'left', x_scale: -1, y_scale: 1 }]);
+		load_SVG('assets/icons/041-focus.svg', 'attack');
+		load_multi_SVG('assets/icons/043-connect.svg', 'connect');
+		load_multi_SVG('assets/icons/049-information.svg', 'node_info');
 	}
 
 	function init() {
