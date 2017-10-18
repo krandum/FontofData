@@ -20,12 +20,8 @@ class GameChannel < ApplicationCable::Channel
 	end
 
 	def update_node_test(data)
-		if  data['action_index'] == 1
-			status, origin, target = take_action(data['origin'], data['target'], 1)
-		end
-		if  data['action_index'] == 2
-			status, origin, target = take_action(data['origin'], data['target'], 4)
-		end
+		status, origin, target = take_action(data['origin'], data['target'], data['action_index'])
+		p [status, origin, target]
 		if status == 'success'
 			current_user.interactions.create!(effect_id: data['action_index'], origin_node_id: @origin.id, target_node_id: @target.id)
 			ActionCable.server.broadcast "game",
@@ -44,7 +40,7 @@ class GameChannel < ApplicationCable::Channel
 
 private
 
-	def take_action(origin_value, target_value, effect_id)
+	def take_action(origin_value, target_value, effect_name)
 		@origin = DataNode.where(value: origin_value).first
 		if @origin.nil?
 			@origin = DataNode.new(value: origin_value, faction_id: 1)
@@ -53,7 +49,8 @@ private
 		if @target.nil?
 			@target = DataNode.new(value: target_value, faction_id: 1)
 		end
-		effect = Effect.find(effect_id)
+		# effect = Effect.where(effect_name: effect_name).first
+		effect = Effect.find(effect_name) #tmperory effect_name == id
 
 		status = 'not_valid'
 		origin_status = 'same'
@@ -99,33 +96,33 @@ private
 				else
 					status = 'not_adjacent'
 				end
-			when 'give'
-				@origin.update_attribute(:faction_id, 1)
-				status = 'success'
-				origin_status = 'netrual'
-				target_status = 'self'
-			when 'swap'
-				tmp_ori_id = 1
-				tmp_targ_id = 1
-				unless @origin.id.nil?
-					tmp_ori_id = @origin.id
-				end
-				unless @target.id.nil?
-					tmp_targ_id = @target.id
-				end
-				if !@origin.id.nil?
-					@origin.update_attribute(:faction_id, tmp_targ_id)
-				elsif !@target.id.nil?
-					@origin = DataNode.create!(value: origin_value, faction_id: @target.faction_id)
-				end
-				if !@target.id.nil?
-					@target.update_attribute(:faction_id, tmp_ori_id)
-				elsif !@origin.id.nil?
-					@target = DataNode.create!(value: origin_value, faction_id: @origin.faction_id)
-				end
-				status = 'success'
-				origin_status = 'to_target'
-				target_status = 'to_origin'
+			# when 'give'
+			# 	@origin.update_attribute(:faction_id, 1)
+			# 	status = 'success'
+			# 	origin_status = 'netrual'
+			# 	target_status = 'self'
+			# when 'swap'
+			# 	tmp_ori_id = 1
+			# 	tmp_targ_id = 1
+			# 	unless @origin.id.nil?
+			# 		tmp_ori_id = @origin.id
+			# 	end
+			# 	unless @target.id.nil?
+			# 		tmp_targ_id = @target.id
+			# 	end
+			# 	if !@origin.id.nil?
+			# 		@origin.update_attribute(:faction_id, tmp_targ_id)
+			# 	elsif !@target.id.nil?
+			# 		@origin = DataNode.create!(value: origin_value, faction_id: @target.faction_id)
+			# 	end
+			# 	if !@target.id.nil?
+			# 		@target.update_attribute(:faction_id, tmp_ori_id)
+			# 	elsif !@origin.id.nil?
+			# 		@target = DataNode.create!(value: origin_value, faction_id: @origin.faction_id)
+			# 	end
+			# 	status = 'success'
+			# 	origin_status = 'to_target'
+			# 	target_status = 'to_origin'
 			else
 				status = 'invalid_action'
 			end
