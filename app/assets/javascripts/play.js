@@ -72,58 +72,46 @@ $(document).on('ready page:load', function() {
 		user_interface: {},
 		global_root: null,
 		old_root: null,
-		date: new Date()
+		date: new Date(),
+		card_set: false
 	};
 
 	var g_theta = game_data.tilt * Math.PI / 180;
 
-	// function make_ui() {
-	// 	var ui = game_data.user_interface;
-	//
-	// 	ui.card = {};
-	//
-	// 	ui.set_card = function() {
-	// 		// THINGS THAT WILL BE REPLACED WITH ACTUAL DATABASE REQUEST STUFF
-	//
-	// 		// END OF THOSE THINGS
-	// 	};
-	// 	ui.init = function() {
-	// 		ui.set_card();
-	// 	};
+	// Getting user information
+	// function get_user_info() {
+	// 	$.ajax({
+	// 		type: "GET",
+	// 		url: "request_userdata",
+	// 		data: {
+	// 				//current session user
+	// 		},
+	// 		datatype: "html",
+	// 		success: function (raw) {
+	// 			var data = JSON.parse(raw);
+	// 			var user_info = game_data.user_info;
+	// 			user_info.name = data['user']['name'];
+	// 			user_info.picture = data['user']['picture'];
+	// 			user_info.faction_id = data['user']['faction_id'];
+	// 			user_info.resources = data['user']['resources'];
+	// 			user_info.gem_placeholder = data['user']['gems'];
+	// 		},
+	// 		async: true
+	// 	});
 	// }
-// Getting user information
-// function get_user_info() {
-// 	$.ajax({
-// 		type: "GET",
-// 		url: "request_userdata",
-// 		data: {
-// 				//current session user
-// 		},
-// 		datatype: "html",
-// 		success: function (raw) {
-// 			var data = JSON.parse(raw);
-// 			var user_info = game_data.user_info;
-// 			user_info.name = data['user']['name'];
-// 			user_info.picture = data['user']['picture'];
-// 			user_info.faction_id = data['user']['faction_id'];
-// 			user_info.resources = data['user']['resources'];
-// 			user_info.gem_placeholder = data['user']['gems'];
-// 		},
-// 		async: true
-// 	});
-// }
 
 	function make_ui() {
 		var user = game_data.user_info;
 		var ui = game_data.user_interface;
 		//REMOVE WITH QUERY
-		var user_info = game_data.user_info;
 		user.name = "Namey McNamerson";
 		user.picture = 'assets/icons/032-cone.svg';
 		user.faction_id = 3;
 		user.resources = 59362;
 		user.gem_placeholder = 1;
 		//MEOW
+		ui.hov_node = [];
+		ui.cur_node = [];
 		ui.color_palette = {
 			1: {//Ancient
 				primary: '#1B466B',
@@ -155,7 +143,7 @@ $(document).on('ready page:load', function() {
 			}
 		};
 		ui.faction_icons = {//REPLACE WITH GRAPHIC ASSETS
-			1: null,
+			1: 'assets/icons/032-cone.svg',
 			2: 'assets/icons/placeholder-red_faction_icon.svg',
 			3: 'assets/icons/placeholder-green_faction_icon.svg',
 			4: 'assets/icons/placeholder-blue_faction_icon.svg'
@@ -222,8 +210,9 @@ $(document).on('ready page:load', function() {
 				6: document.getElementById('node_value'),
 				7: document.getElementById('node_contention'),
 				8: document.getElementById('faction_name'),
-				9: document.getElementById('faction_icon')
+				9: document.getElementsByClassName('faction_icon')[0]
 			}
+			// END OF THOSE THINGS
 			var span_num = 0;
 			while (++span_num < 9) {
 				cur_span = ui.card_spans[span_num];
@@ -231,17 +220,15 @@ $(document).on('ready page:load', function() {
 					cur_span.removeChild(cur_span.firstChild);
 				}
 			}
-			console.log(typeof(card_node.number))
-			ui.card_spans[1].appendChild(document.createTextNode(card_node.number));
+			ui.card_spans[1].appendChild(document.createTextNode(card_node.value));
 			ui.card_spans[2].appendChild(document.createTextNode(card_node.owner));
 			ui.card_spans[3].appendChild(document.createTextNode(card_node.tier));
 			ui.card_spans[4].appendChild(document.createTextNode(card_node.function));
-			ui.card_spans[5].appendChild(document.createTextNode(card_node.connections));
-			ui.card_spans[6].appendChild(document.createTextNode(card_node.value));
+			ui.card_spans[5].appendChild(document.createTextNode(card_node.connection_num));
+			ui.card_spans[6].appendChild(document.createTextNode(card_node.worth));
 			ui.card_spans[7].appendChild(document.createTextNode(card_node.contention));
 			ui.card_spans[8].appendChild(document.createTextNode(ui.faction_names[card_node.faction_id]));
-			ui.card_spans[9].src = ui.faction_icons[card_node.faction_id];
-			// END OF THOSE THINGS
+			ui.card_spans[9].style.backgroundImage = 'url(' + ui.faction_icons[card_node.faction_id] + ')';
 		};
 		ui.create_listeners = function() {
 			ui.tabs.children[0].addEventListener('click', function() {
@@ -261,18 +248,6 @@ $(document).on('ready page:load', function() {
 			ui.set_colors();
 			ui.set_bar();
 			ui.create_listeners();
-			//testing data
-			var card_node = {
-				number: '4',
-				owner: 'mwooden',
-				tier: '2',
-				function: 'Core',
-				connections: '2',
-				value: '5043',
-				contention: '0',
-				faction_id: '1'
-			};
-			ui.set_card(card_node);
 		};
 		ui.init();
 	}
@@ -1028,6 +1003,11 @@ $(document).on('ready page:load', function() {
 	}
 
 	function grow_node(target) {
+		if (target.node) {
+			if (!game_data.card_set)
+				game_data.card_set = true;
+			game_data.user_interface.set_card(target);
+		}
 		if (target.moving)
 			return;
 		if (!target.grown && (target.selected || target.hovered)) {
@@ -1048,6 +1028,15 @@ $(document).on('ready page:load', function() {
 			}
 			add_animation(target, ungrow_animation, ungrow_stop, 100);
 			target.grown = false;
+		}
+		if (target.node) {
+			if (game_data.card_set && game_data.selected_nodes.length > 0)
+				game_data.user_interface.set_card(game_data.selected_nodes[0]);
+			else {
+				if (game_data.card_set)
+					game_data.card_set = false;
+				game_data.user_interface.set_card(target);
+			}
 		}
 	}
 
@@ -1266,6 +1255,13 @@ $(document).on('ready page:load', function() {
 				i = 0;
 				while (i < 63) {
 					show_connections(game_data.active_nodes[i]);
+					game_data.node_connections[i] = cur_connections;
+					game_data.active_nodes[i].faction_id = in_nodes[i+1]['faction_id'];
+					game_data.active_nodes[i].owner = in_nodes[i+1]['owner'];
+					game_data.active_nodes[i].tier = in_nodes[i+1]['tier'];
+					game_data.active_nodes[i].connection_num = in_nodes[i+1]['connection_num'];
+					game_data.active_nodes[i].worth = in_nodes[i+1]['worth'];
+					game_data.active_nodes[i].contention = in_nodes[i+1]['contention'];
 					i++;
 				}
 				game_data.global_root = game_data.active_nodes[0];
@@ -1286,7 +1282,9 @@ $(document).on('ready page:load', function() {
 			success: function (raw) {
 				var data = JSON.parse(raw);
 				var in_nodes = data['nodes'];
+				console.log(in_nodes);
 				var i = 0;
+				var k = 0;
 				while (i < ranges.length) {
 					var j = ranges[i].from;
 					while (j < ranges[i].to) {
@@ -1296,10 +1294,25 @@ $(document).on('ready page:load', function() {
 							bro: in_nodes[j]['bro']
 						};
 						game_data.node_connections[j] = cur_connections;
+						k = -1;
+						while (++k < game_data.active_nodes.length) {
+							if (game_data.active_nodes[k].move_value == j)
+								break;
+						}
+						console.log(k,j);
+						if (k != game_data.active_nodes.length) {
+							game_data.active_nodes[k].faction_id = in_nodes[j]['faction_id'];
+							game_data.active_nodes[k].owner = in_nodes[j]['owner'];
+							game_data.active_nodes[k].tier = in_nodes[j]['tier'];
+							game_data.active_nodes[k].connection_num = in_nodes[j]['connection_num'];
+							game_data.active_nodes[k].worth = in_nodes[j]['worth'];
+							game_data.active_nodes[k].contention = in_nodes[j]['contention'];
+						}
 						j++;
 					}
 					i++;
 				}
+				console.log('after move:', game_data.active_nodes);
 				i = 0;
 				while (i < game_data.active_nodes.length) {
 					var cur_node = game_data.active_nodes[i];
@@ -1510,7 +1523,13 @@ $(document).on('ready page:load', function() {
 				dad: parent,
 				bro: brother
 			},
+			connection_num: null,
 			connections: null,
+			faction_id: null,
+			owner: null,
+			tier: null,
+			worth: null,
+			contention: null,
 			selected: false,
 			hovered: false,
 			grown: false,
@@ -2496,6 +2515,7 @@ $(document).on('ready page:load', function() {
 			tick(event);
 		};
 		console.log("Ticking now...");
+		console.log(game_data);
 	}
 
 	init_debug();
