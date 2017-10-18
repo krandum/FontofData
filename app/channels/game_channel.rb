@@ -21,7 +21,7 @@ class GameChannel < ApplicationCable::Channel
 
 	def update_node_test(data)
 		status, origin, target = take_action(data['origin'], data['target'], data['action_index'])
-
+		p [status, origin, target]
 		if status == 'success'
 			current_user.interactions.create!(effect_id: data['action_index'], origin_node_id: @origin.id, target_node_id: @target.id)
 			ActionCable.server.broadcast "game",
@@ -50,7 +50,7 @@ private
 			@target = DataNode.new(value: target_value, faction_id: 1)
 		end
 		# effect = Effect.where(effect_name: effect_name).first
-		effect = Effect.find(effect_name).first #tmperory effect_name == id
+		effect = Effect.find(effect_name) #tmperory effect_name == id
 
 		status = 'not_valid'
 		origin_status = 'same'
