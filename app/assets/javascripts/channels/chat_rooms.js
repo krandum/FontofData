@@ -1,4 +1,3 @@
-console.log(document);
 $(document).on('ready page:load', function() {
 	var messages, messages_to_bottom;
 	messages = $('#messages');

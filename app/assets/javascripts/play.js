@@ -1035,7 +1035,7 @@ $(document).on('ready page:load', function() {
 			else {
 				if (game_data.card_set)
 					game_data.card_set = false;
-				game_data.user_interface.set_card(target);
+				// TODO make card blank again
 			}
 		}
 	}
