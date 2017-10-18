@@ -149,6 +149,7 @@ $(document).on('ready page:load', function() {
 			4: 'assets/icons/placeholder-blue_faction_icon.svg'
 		};
 		ui.faction_names = {
+			0: '',
 			1: 'Neutral',
 			2: 'Rocks',
 			3: 'Elves',
@@ -200,7 +201,6 @@ $(document).on('ready page:load', function() {
 			ui.status_bar.children[1].firstChild.appendChild(document.createTextNode(user.name));
 		}
 		ui.set_card = function(card_node) {
-			// THINGS THAT WILL BE REPLACED WITH ACTUAL DATABASE REQUEST STUFF
 			ui.card_spans = {
 				1: document.getElementById('node_number'),
 				2: document.getElementById('node_owner'),
@@ -212,7 +212,6 @@ $(document).on('ready page:load', function() {
 				8: document.getElementById('faction_name'),
 				9: document.getElementsByClassName('faction_icon')[0]
 			}
-			// END OF THOSE THINGS
 			var span_num = 0;
 			while (++span_num < 9) {
 				cur_span = ui.card_spans[span_num];
@@ -1033,9 +1032,21 @@ $(document).on('ready page:load', function() {
 			if (game_data.card_set && game_data.selected_nodes.length > 0)
 				game_data.user_interface.set_card(game_data.selected_nodes[0]);
 			else {
-				if (game_data.card_set)
+				if (game_data.card_set) {
 					game_data.card_set = false;
 				// TODO make card blank again
+					var empty_card;
+					empty_card = {
+						value: "",
+						faction_id: 0,
+						owner: "",
+						tier: "",
+						connection_num: "",
+						worth: "",
+						contention: ""
+					}
+					game_data.user_interface.set_card(empty_card);
+				}
 			}
 		}
 	}
