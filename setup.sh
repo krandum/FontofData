@@ -8,7 +8,6 @@ while [ -z "$confirm_seed" ]; do
   elif [ $confirm_seed == "n" ]
 	then
   		printf "Skipping Seed."
-		bundle exec rails runner "load 'reset_dn.rb'"
 	else
 		$confirm_seed = ""
 	fi
