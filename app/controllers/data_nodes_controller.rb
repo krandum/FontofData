@@ -85,7 +85,7 @@ class DataNodesController < ApplicationController
 						'faction_id' => claimedNodes[i].faction_id,
 						'owner' => claimedNodes[i].user&.username,
 						'teir' => 1,
-						'connections' => claimedNodes[i].connections.count,
+						'connection_num' => claimedNodes[i].connections.count,
 						'worth' => 1000,
 						'contention' => 0
 					}
@@ -98,7 +98,7 @@ class DataNodesController < ApplicationController
 						'faction_id' => 1,
 						'owner' => "unclaimed",
 						'teir' => 1,
-						'connections' => 0,
+						'connection_num' => 0,
 						'worth' => 0,
 						'contention' => 0
 					}
