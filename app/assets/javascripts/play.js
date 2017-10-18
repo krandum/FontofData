@@ -1055,6 +1055,13 @@ $(document).on('ready page:load', function() {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		if (target.base == null) {
+			// console.log("Declaring base from null at delta");
+			// console.log(target);
+			// console.log(target.base);
+			// console.log(target.group.bounds.width);
+			// console.log(target.group.bounds.height);
+			// console.log(target.group.position.x);
+			// console.log(target.group.position.y);
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
@@ -1073,6 +1080,13 @@ $(document).on('ready page:load', function() {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		if (target.base == null) {
+			// console.log("Declaring base from null at epsilon");
+			// console.log(target);
+			// console.log(target.base);
+			// console.log(target.group.bounds.width);
+			// console.log(target.group.bounds.height);
+			// console.log(target.group.position.x);
+			// console.log(target.group.position.y);
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
@@ -1085,6 +1099,16 @@ $(document).on('ready page:load', function() {
 		}
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
+		if (typeof(target.node) != 'undefined' && target.node != null) {
+			// console.log("Setting base to null at theta");
+			// console.log(target);
+			// console.log(target.base);
+			// console.log(target.group.bounds.width);
+			// console.log(target.group.bounds.height);
+			// console.log(target.group.position.x);
+			// console.log(target.group.position.y);
+			target.base = null;
+		}
 		return false;
 	}
 
@@ -1092,6 +1116,13 @@ $(document).on('ready page:load', function() {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		if (target.base == null) {
+			// console.log("Declaring base from null at zeta");
+			// console.log(target);
+			// console.log(target.base);
+			// console.log(target.group.bounds.width);
+			// console.log(target.group.bounds.height);
+			// console.log(target.group.position.x);
+			// console.log(target.group.position.y);
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
@@ -1110,6 +1141,13 @@ $(document).on('ready page:load', function() {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		if (target.base == null) {
+			// console.log("Declaring base from null at eta");
+			// console.log(target);
+			// console.log(target.base);
+			// console.log(target.group.bounds.width);
+			// console.log(target.group.bounds.height);
+			// console.log(target.group.position.x);
+			// console.log(target.group.position.y);
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
@@ -1123,6 +1161,13 @@ $(document).on('ready page:load', function() {
 		target.group.position.x = target.base.x;
 		target.group.position.y = target.base.y;
 		if (typeof(target.node) != 'undefined' && target.node != null) {
+			// console.log("Setting base to null at iota");
+			// console.log(target);
+			// console.log(target.base);
+			// console.log(target.group.bounds.width);
+			// console.log(target.group.bounds.height);
+			// console.log(target.group.position.x);
+			// console.log(target.group.position.y);
 			target.base = null;
 		}
 		return false;
@@ -1654,6 +1699,7 @@ $(document).on('ready page:load', function() {
 				cur_node.move_value = cur_node.value;
 				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
 				cur_node.popper = false;
+				cur_node.popped = false;
 			}
 			i++;
 		}
@@ -1732,6 +1778,7 @@ $(document).on('ready page:load', function() {
 				cur_node.move_value = cur_node.value;
 				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
 				cur_node.popper = false;
+				cur_node.popped = false;
 			}
 			i++;
 		}
@@ -1804,18 +1851,20 @@ $(document).on('ready page:load', function() {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		var prev_pos = game_data.old_root.group.position;
-		var i = -1;
-		var cur_node;
+		var i = -1, cur_node;
 		while (++i < game_data.active_nodes.length) {
 			cur_node = game_data.active_nodes[i];
 			if (cur_node.base == null) {
+				// console.log("Making base not null at alpha");
+				// console.log(cur_node);
+				// console.log(cur_node.base);
 				cur_node.base = new scope.Rectangle();
 				cur_node.base.x = cur_node.relative_pos.x * width;
 				cur_node.base.y = cur_node.relative_pos.y * height;
 				cur_node.base.width = cur_node.relative_pos.size_dx * height;
 				cur_node.base.height = cur_node.relative_pos.size_dy * height;
 			}
-			if (!cur_node.popper) {
+			//if (typeof(cur_node.popper) == 'undefined' || !cur_node.popper) {
 				cur_node.group.position.x = cur_node.base.x + sigma_frac
 					* (cur_node.move_target.x * width - cur_node.base.x);
 				cur_node.group.position.y = cur_node.base.y + sigma_frac
@@ -1824,66 +1873,48 @@ $(document).on('ready page:load', function() {
 					* (cur_node.move_target.size_dx * height - cur_node.base.width);
 				cur_node.group.bounds.height = cur_node.base.height + sigma_frac
 					* (cur_node.move_target.size_dy * height - cur_node.base.height);
-			}
-			else {
-				if (sigma_frac >= 0.5 && !cur_node.popped) {
-					cur_node.popped = true;
-					cur_node.value = cur_node.move_value;
-					var leftie = cur_node.value % 2 == 0 ? false : true;
-					if (leftie != cur_node.left_pointed) {
-						cur_node.left_pointed = leftie;
-						cur_node.group.firstChild.scale(-1, 1);
-					}
-					var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
-					var num_digits = cur_node.value.toString().length;
-					cur_node.group.lastChild.content = cur_node.value;
-					cur_node.group.firstChild.strokeColor = node_color['line'];
-					cur_node.group.firstChild.fillColor = node_color['fill'];
-					cur_node.group.firstChild.strokeWidth = cur_node.move_thickness;
-					if (i < 31) {
-						var sine_size = cur_node.group.firstChild.bounds.width / 2.3;
-						var num_w = sine_size * (2 - 1 / num_digits);
-						var num_h = (num_w / num_digits) * 1.45;
-						cur_node.group.lastChild.visible = true;
-						cur_node.group.lastChild.fillColor = node_color['num'];
-						cur_node.group.lastChild.content = cur_node.value.toString();
-						cur_node.group.lastChild.bounds.width = num_w;
-						cur_node.group.lastChild.bounds.height = num_h;
-						cur_node.group.lastChild.bounds.x = cur_node.group.position.x - num_w / 2;
-						cur_node.group.lastChild.bounds.y = cur_node.group.position.y - num_h / 2;
-					}
-					else {
-						var dot_w = cur_node.group.firstChild.bounds.width * 0.7246377;
-						var dot_h = dot_w * 0.483333;
-						cur_node.group.lastChild.fillColor = node_color['num'];
-						cur_node.group.lastChild.content = "...";
-						cur_node.group.lastChild.bounds.width = dot_w;
-						cur_node.group.lastChild.bounds.height = dot_h;
-						cur_node.group.lastChild.bounds.x = cur_node.group.position.x - dot_w / 2;
-						cur_node.group.lastChild.bounds.y = cur_node.group.position.y - dot_h / 2;
-					}
-				}
-				if (cur_node.popped) {
-					cur_node.group.bounds.width = 2 * (sigma_frac - 0.5) *
-						cur_node.move_target.size_dx * height;
-					cur_node.group.bounds.height = 2 * (sigma_frac - 0.5) *
-						cur_node.move_target.size_dy * height;
-					cur_node.group.position.x = cur_node.move_target.x * width;
-					cur_node.group.position.y = cur_node.move_target.y * height;
-				}
-				else {
-					cur_node.group.bounds.width = 2 * (0.5 - sigma_frac) *
-						cur_node.base.width;
-					cur_node.group.bounds.height = 2 * (0.5 - sigma_frac) *
-						cur_node.base.height;
-					cur_node.group.position.x = cur_node.base.x;
-					cur_node.group.position.y = cur_node.base.y;
-				}
-			}
-			if (cur_node.group.bounds.width <= 0)
-				cur_node.group.bounds.width = 0.0001;
-			if (cur_node.group.bounds.height <= 0)
-				cur_node.group.bounds.height = 0.0001;
+				cur_node.popper = false;
+			// }
+			// else {
+			// 	if (sigma_frac >= 0.5 && !cur_node.popped) {
+			// 		// console.log("popping at ");
+			// 		// console.log(cur_node);
+			// 		cur_node.popped = true;
+			// 		cur_node.value = cur_node.move_value;
+			// 		var leftie = cur_node.value % 2 == 0 ? false : true;
+			// 		if (leftie != cur_node.left_pointed) {
+			// 			cur_node.left_pointed = leftie;
+			// 			cur_node.group.firstChild.scale(-1, 1);
+			// 		}
+			// 		var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
+			// 		cur_node.group.firstChild.strokeColor = node_color['line'];
+			// 		cur_node.group.firstChild.fillColor = node_color['fill'];
+			// 		cur_node.group.firstChild.strokeWidth = cur_node.move_thickness;
+			// 	}
+			// 	if (sigma_frac >= 0.5 || cur_node.popped) {
+			// 		cur_node.group.bounds.width = 2 * (sigma_frac - 0.5) *
+			// 			cur_node.move_target.size_dx * height;
+			// 		cur_node.group.bounds.height = 2 * (sigma_frac - 0.5) *
+			// 			cur_node.move_target.size_dy * height;
+			// 		cur_node.group.position.x = cur_node.move_target.x * width;
+			// 		cur_node.group.position.y = cur_node.move_target.y * height;
+			// 	}
+			// 	else {
+			// 		// console.log("Using base at beta with ");
+			// 		// console.log(cur_node);
+			// 		// console.log(cur_node.base);
+			// 		cur_node.group.bounds.width = 2 * (0.5 - sigma_frac) *
+			// 			cur_node.base.width;
+			// 		cur_node.group.bounds.height = 2 * (0.5 - sigma_frac) *
+			// 			cur_node.base.height;
+			// 		cur_node.group.position.x = cur_node.base.x;
+			// 		cur_node.group.position.y = cur_node.base.y;
+			// 	}
+			// }
+			// if (cur_node.group.bounds.width <= 0)
+			// 	cur_node.group.bounds.width = 0.0001;
+			// if (cur_node.group.bounds.height <= 0)
+			// 	cur_node.group.bounds.height = 0.0001;
 			cur_node.moving = true;
 		}
 		var new_pos = game_data.old_root.group.position;
@@ -1897,7 +1928,6 @@ $(document).on('ready page:load', function() {
 		var prev_pos = game_data.old_root.group.position;
 		while (i < game_data.active_nodes.length) {
 			var cur_node = game_data.active_nodes[i];
-			cur_node.popped = false;
 			cur_node.group.position.x = cur_node.move_target.x * width;
 			cur_node.group.position.y = cur_node.move_target.y * height;
 			cur_node.group.bounds.width = cur_node.move_target.size_dx * height;
@@ -1912,6 +1942,13 @@ $(document).on('ready page:load', function() {
 			var num_digits = cur_node.value.toString().length;
 			cur_node.relative_pos = cur_node.move_target;
 			cur_node.base = null;
+			// console.log("Setting base to null at gamma");
+			// console.log(cur_node);
+			// console.log(cur_node.base);
+			// console.log(cur_node.group.bounds.width);
+			// console.log(cur_node.group.bounds.height);
+			// console.log(cur_node.group.position.x);
+			// console.log(cur_node.group.position.y);
 			cur_node.rad = cur_node.group.firstChild.bounds.width / 2;
 			cur_node.group.lastChild.content = cur_node.value;
 			cur_node.moving = false;
