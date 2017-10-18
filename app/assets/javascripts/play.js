@@ -30,6 +30,7 @@ $(document).on('ready page:load', function() {
 		buffer_nodes: [],
 		selected_nodes: [],
 		action_index: -1,
+		action_name: "",
 		actions: [],
 		animations: [],
 		icon_data: {},
@@ -1243,11 +1244,10 @@ $(document).on('ready page:load', function() {
 				var i = 1;
 				while (i < 64) {
 					game_data.node_factions[i] = in_nodes[i]['faction_id'];
-					var cur_connections = {
+					game_data.node_connections[i] = {
 						dad: in_nodes[i]['dad'],
 						bro: in_nodes[i]['bro']
 					};
-					game_data.node_connections[i] = cur_connections;
 					i++;
 				}
 				game_data.active_nodes = build_nodes(6, scope.view.size.width,
@@ -1255,7 +1255,6 @@ $(document).on('ready page:load', function() {
 				i = 0;
 				while (i < 63) {
 					show_connections(game_data.active_nodes[i]);
-					game_data.node_connections[i] = cur_connections;
 					game_data.active_nodes[i].faction_id = in_nodes[i+1]['faction_id'];
 					game_data.active_nodes[i].owner = in_nodes[i+1]['owner'];
 					game_data.active_nodes[i].tier = in_nodes[i+1]['tier'];
@@ -2171,7 +2170,6 @@ $(document).on('ready page:load', function() {
 	  received: function(data) {
 	    // Called when there's incoming data on the websocket for this channel
 			// game_data.active_nodes[0].group.firstChild.fillColor
-			console.log(data['origin'] + ' ' + data['target']);
 			var origin;
 			var target;
 			for (i = 0;i < game_data.active_nodes.length; i++) {
@@ -2613,7 +2611,6 @@ $(document).on('ready page:load', function() {
 			tick(event);
 		};
 		console.log("Ticking now...");
-		console.log(game_data);
 	}
 
 	init_debug();
