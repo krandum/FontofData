@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
 
 	belongs_to :faction
 	has_many :data_nodes
+	has_many :interactions
 
 	has_many :owned_clusters, class_name: 'Cluster', as: :owner
 	has_many :cluster_memberships
