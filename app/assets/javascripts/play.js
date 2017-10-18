@@ -181,6 +181,7 @@ $(document).on('ready page:load', function() {
 			ui.quest_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.chat_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.chat_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.chat_pane.children[0].style.backgroundColor = ui.color_palette[user.faction_id].primary;
 			ui.status_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary, .75);
 			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
@@ -191,8 +192,8 @@ $(document).on('ready page:load', function() {
 			ui.tabs.children[1].style.borderColor = ui.color_palette[user.faction_id].accent;
 		};
 		ui.set_bar = function() {
-			console.log(user.picture);
 			ui.status_bar.children[0].style.backgroundImage = 'url(' + user.picture + ')';
+			ui.status_bar.children[0].style.backgroundRepeat = 'no-repeat';
 			ui.status_bar.children[1].firstChild.appendChild(document.createTextNode(user.name));
 		}
 		ui.set_card = function(card_node) {
