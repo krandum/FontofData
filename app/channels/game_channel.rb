@@ -24,10 +24,10 @@ class GameChannel < ApplicationCable::Channel
 			status, origin, target = take_action(data['origin'], data['target'], 1)
 		end
 		if  data['action_index'] == 2
-			status, origin, target = take_action(data['origin'], data['target'], 4)
+			status, origin, target = take_action(data['origin'], data['target'], 2)
 		end
 		if status == 'success'
-			current_user.interactions.create!(effect_id: data['action_index'], origin_node_id: @origin.id, target_node_id: @target.id)
+			# current_user.interactions.create!(effect_id: data['action_index'], origin_node_id: @origin.id, target_node_id: @target.id)
 			ActionCable.server.broadcast "game",
 				action_index: data['action_index'],
 				origin: data['origin'],
