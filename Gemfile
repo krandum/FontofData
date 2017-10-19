@@ -41,12 +41,15 @@ gem 'paperclip'
 gem 'redis'
 gem 'redis-namespace'
 
-gem 'passenger', '>= 5.0.25', require: 'phusion_passenger/rack_handler'
+gem 'unicorn'
 
 gem 'whenever', :require => false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+	gem 'capistrano-rails'
+	gem 'capistrano-rvm'
+	gem 'capistrano3-unicorn'
   gem 'byebug'
 end
 
