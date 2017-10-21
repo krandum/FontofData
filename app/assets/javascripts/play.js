@@ -70,6 +70,7 @@ $(document).on('ready page:load', function() {
 			}
 		},
 		background: {},
+		framework: [],
 		user_info: userinfo,
 		user_interface: {},
 		global_root: null,
@@ -161,12 +162,8 @@ $(document).on('ready page:load', function() {
 			var r = parseInt(hex.slice(1, 3), 16),
 			g = parseInt(hex.slice(3, 5), 16),
 			b = parseInt(hex.slice(5, 7), 16);
-
-			if (alpha) {
-				return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
-			} else {
-				return "rgb(" + r + ", " + g + ", " + b + ")";
-			}
+			if (alpha) return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+			else return "rgb(" + r + ", " + g + ", " + b + ")";
 		}
 		ui.set_colors = function() {
 			ui.card.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary, .75);
@@ -211,9 +208,8 @@ $(document).on('ready page:load', function() {
 			var span_num = 0;
 			while (++span_num < 9) {
 				cur_span = ui.card_spans[span_num];
-				while (cur_span.firstChild) {
+				while (cur_span.firstChild)
 					cur_span.removeChild(cur_span.firstChild);
-				}
 			}
 			ui.card_spans[1].appendChild(document.createTextNode(card_node.value));
 			ui.card_spans[2].appendChild(document.createTextNode(card_node.owner));
@@ -251,12 +247,11 @@ $(document).on('ready page:load', function() {
 	}
 
 	function make_background() {
-		var background = game_data.background;
-
-		var d_off = game_data.view_dist / Math.tan(-g_theta);
-		var h_off = d_off / Math.cos(-g_theta);
-		var num = 9;
-		var basis = (((d_off + 2*h - 40) / Math.cos(-g_theta)) - h_off) / num;
+		var background = game_data.background,
+		d_off = game_data.view_dist / Math.tan(-g_theta),
+		h_off = d_off / Math.cos(-g_theta),
+		num = 9,
+		basis = (((d_off + 2*h - 40) / Math.cos(-g_theta)) - h_off) / num;
 
 		background.y_range = { base: basis, range: basis / 3.1 };
 		background.y_range.base -= background.y_range.range;
@@ -282,10 +277,8 @@ $(document).on('ready page:load', function() {
 			point.triangles = [];
 			var i = row.points.length;
 			while (--i >= 0 && row.points[i].x > x);
-			if (++i == row.points.length)
-				row.points.push(point);
-			else
-				row.points.splice(i, 0, point);
+			if (++i == row.points.length) row.points.push(point);
+			else row.points.splice(i, 0, point);
 			return point;
 		};
 		function has_triangle(p1, p2, p3) {
@@ -335,13 +328,8 @@ $(document).on('ready page:load', function() {
 			path.strokeWidth = 1;
 			path.strokeJoin = "bevel";
 			path.sendToBack();
-			var triangle = {
-				path: path,
-				points: [p1, p2, p3],
-				base: base,
-				dir: dir,
-				cos: cos
-			};
+			var triangle = { path: path, points: [p1, p2, p3], base: base, dir: dir,
+				cos: cos, colored: false, node_dependencies: [] };
 			this.triangles.push(triangle);
 			p1.triangles.push(triangle);
 			p2.triangles.push(triangle);
@@ -378,8 +366,7 @@ $(document).on('ready page:load', function() {
 			}
 		}
 		background.add_row = function(base_y, y_mod) {
-			if (y_mod != 1 && y_mod != -1)
-				return;
+			if (y_mod != 1 && y_mod != -1) return;
 			var cur = { x: w, y: base_y, z: 0 };
 			var change = { x: 0, y: y_mod * this.y_range.mid, z: 0 };
 			change_actual_of_seen(cur, change);
@@ -390,36 +377,27 @@ $(document).on('ready page:load', function() {
 			change.y = this.y_range.range;
 			change_actual_of_seen(cur, change);
 			base.max = cur.y;
-			var row = {
-				base: base,
-				points: [],
-				left_above: -1,
-				left_below: -1,
-				right_above: -1,
-				right_below: -1
-			};
+			var row = { base: base, points: [], left_above: -1, left_below: -1,
+				right_above: -1, right_below: -1 };
 			var ref_row = null;
 			var row_index;
 			if (y_mod == -1) {
-				if (this.map.moved_top)
-					ref_row = this.rows[this.map.top];
+				if (this.map.moved_top) ref_row = this.rows[this.map.top];
 				this.map.moved_top = true;
 				this.map.top--;
 				this.rows[this.map.top] = row;
 				row_index = this.map.top;
 			}
 			else { // y_mod == 1
-				if (this.map.moved_top)
-					ref_row = this.rows[this.map.bot];
+				if (this.map.moved_top) ref_row = this.rows[this.map.bot];
 				this.map.moved_bot = true;
 				this.map.bot++;
 				this.rows[this.map.bot] = row;
 				row_index = this.map.bot;
 			}
 			cur.x = wl - (this.x_range.base + this.x_range.range / 2);
-			var cur_point = null, last_point, prev_z;
-			var left_ref = -1, right_ref = -1, last_left, last_right;
-			var cur_index = -1, last_index;
+			var cur_point = null, last_point, prev_z, left_ref = -1, right_ref = -1,
+				last_left, last_right, cur_index = -1, last_index;
 			change.z = 0;
 			while (cur.x < wh) {
 				last_point = cur_point;
@@ -428,8 +406,8 @@ $(document).on('ready page:load', function() {
 				change.x = Math.floor(Math.random() * this.x_range.range) + this.x_range.base;
 				change.y = Math.floor(Math.random() * this.y_range.range);
 				prev_z = change.z;
-					while (Math.abs(prev_z - change.z) < this.z_range.force)
-				change.z = Math.floor(Math.random() * this.z_range.range) - this.z_range.range / 2;
+				while (Math.abs(prev_z - change.z) < this.z_range.force)
+					change.z = Math.floor(Math.random() * this.z_range.range) - this.z_range.range / 2;
 				change_actual_of_seen(cur, change);
 				cur_point = this.add_point(row, cur.x, cur.y, cur.z);
 				cur_index = row.points.indexOf(cur_point);
@@ -443,14 +421,12 @@ $(document).on('ready page:load', function() {
 						x_dif(ref_row.points[right_ref], cur_point) < 0);
 					while (--left_ref >= 0 && x_dif(ref_row.points[left_ref], cur_point) > 0);
 					if (right_ref != ref_row.points.length && left_ref != -1) {
-						if (last_left == -1) {
+						if (last_left == -1)
 							this.add_triangle(cur_point, ref_row.points[left_ref],
 								ref_row.points[right_ref], row_index - y_mod, y_mod);
-						}
-						else if (last_left == left_ref && last_right == right_ref) {
+						else if (last_left == left_ref && last_right == right_ref)
 							this.add_triangle(cur_point, ref_row.points[right_ref],
 								last_point, row_index, -y_mod);
-						}
 						else if (last_right == left_ref) {
 							this.add_triangle(cur_point, ref_row.points[left_ref],
 								ref_row.points[right_ref], row_index - y_mod, y_mod);
@@ -476,31 +452,24 @@ $(document).on('ready page:load', function() {
 										this.add_triangle(last_point, ref_row.points[left_ref],
 											ref_row.points[last_right], row_index - y_mod, y_mod);
 									}
-									else {
+									else
 										this.add_triangle(cur_point, ref_row.points[left_ref],
 											ref_row.points[left_ref + 1], row_index - y_mod, y_mod);
-									}
 								}
 							}
 						}
 					}
-					else if (left_ref != -1 && last_right == left_ref) {
+					else if (left_ref != -1 && last_right == left_ref)
 						this.add_triangle(cur_point, last_point, ref_row.points[left_ref],
 							row_index, -y_mod);
-					}
 				}
 			}
 		};
 		background.remove_row = function(y_mod) {
 			var row, cur_point, cur_triangle, index;
-			if (y_mod == 1 && this.map.moved_top) {
-				row = this.rows[this.map.top];
-			}
-			else if (y_mod == -1 && this.map.moved_bot) {
-				row = this.rows[this.map.bot];
-			}
-			else
-				return;
+			if (y_mod == 1 && this.map.moved_top) row = this.rows[this.map.top];
+			else if (y_mod == -1 && this.map.moved_bot) row = this.rows[this.map.bot];
+			else return;
 			while (row.points.length > 0) {
 				cur_point = row.points[0];
 				while (cur_point.triangles.length > 0) {
@@ -527,8 +496,8 @@ $(document).on('ready page:load', function() {
 			}
 		};
 		background.set_edges = function() {
-			var cur = this.map.top - 1, cur_row;
-			var i, j, top_found, bot_found, cur_point, cur_triangle;
+			var cur = this.map.top - 1, cur_row, i, j, top_found, bot_found,
+				cur_point, cur_triangle;
 			while (++cur <= this.map.bot) {
 				cur_row = this.rows[cur];
 				cur_row.left_above = 0;
@@ -547,13 +516,10 @@ $(document).on('ready page:load', function() {
 						else if ((cur_triangle.base == cur && cur_triangle.dir == 1) ||
 							(cur_triangle.base == cur + 1 && cur_triangle.dir == -1))
 							bot_found = true;
-						else
-							console.log("weird left");
+						else console.log("weird left");
 					}
-					if (!top_found)
-						cur_row.left_above++;
-					if (!bot_found)
-						cur_row.left_below++;
+					if (!top_found) cur_row.left_above++;
+					if (!bot_found) cur_row.left_below++;
 				}
 				cur_row.right_above = cur_row.points.length - 1;
 				cur_row.right_below = cur_row.points.length - 1;
@@ -574,23 +540,17 @@ $(document).on('ready page:load', function() {
 						else
 							console.log("weird right");
 					}
-					if (!top_found)
-						cur_row.right_above--;
-					if (!bot_found)
-						cur_row.right_below--;
+					if (!top_found) cur_row.right_above--;
+					if (!bot_found) cur_row.right_below--;
 				}
 			}
 		}
 		background.trim_sides = function() {
-			var cur = this.map.top - 1, cur_row, cur_point, cur_triangle;
-			var i, j, top_found, bot_found;
-			var top_lim = 0;
-			var bot_lim = 1;
+			var cur = this.map.top - 1, cur_row, cur_point, cur_triangle, i, j,
+				top_found, bot_found, top_lim = 0, bot_lim = 1;
 			while (++cur <= this.map.bot) {
-				if (cur >= this.map.top + 1)
-					top_lim = -1;
-				if (cur >= this.map.bot)
-					bot_lim = 0;
+				if (cur >= this.map.top + 1) top_lim = -1;
+				if (cur >= this.map.bot) bot_lim = 0;
 				cur_row = this.rows[cur];
 				while (cur_row.points[0].x < wl) {
 					cur_point = cur_row.points[0];
@@ -609,7 +569,7 @@ $(document).on('ready page:load', function() {
 					cur_row.points.splice(0, 1);
 				}
 				if (cur_row.points.length <= 0)
-					console.log("PANIK - with top and removed. Check trim sides on make background");
+					console.log("PANIK - with top and removed. Check trim sides");
 				else {
 					while (cur_row.points[cur_row.points.length - 1].x > wh) {
 						cur_point = cur_row.points[cur_row.points.length - 1];
@@ -651,8 +611,7 @@ $(document).on('ready page:load', function() {
 					cur_row.right_above++;
 					cur_row.right_below++;
 				}
-				if (cur_row.points.length <= 0)
-					continue;
+				if (cur_row.points.length <= 0) continue;
 				while (cur_row.points[cur_row.points.length - 1].x < wh) {
 					prev_point = cur_row.points[cur_row.points.length - 1];
 					cur = { x: prev_point.x, y: cur_row.base.min, z: 0};
@@ -831,34 +790,34 @@ $(document).on('ready page:load', function() {
 				cur_triangle.path.segments[2].point.y = cur_triangle.points[2].y;
 			}
 			if (change.y > 0) {
-				while (this.rows[this.map.bot].base.mid > hh) {
+				while (this.rows[this.map.bot].base.mid > hh)
 					this.remove_row(-1);
-				}
-				while (this.rows[this.map.top].base.mid > this.y_fade) {
+				while (this.rows[this.map.top].base.mid > this.y_fade)
 					this.add_row(this.rows[this.map.top].base.mid, -1);
-				}
 				this.trim_sides();
 			}
 			else {
-				while (this.rows[this.map.bot].base.mid < hh) {
+				while (this.rows[this.map.bot].base.mid < hh)
 					this.add_row(this.rows[this.map.bot].base.mid, 1);
-				}
-				while (this.rows[this.map.top].base.mid < this.y_lim) {
+				while (this.rows[this.map.top].base.mid < this.y_lim)
 					this.remove_row(1);
-				}
 			}
 			this.set_edges();
 			this.fill_sides(frac);
 			this.set_edges();
 		};
+		// background.color_background() {
+		// 	var closest_nodes = function(point) {
+		// 	}
+		// 	var color_triangle = function(triangle) {
+		// 	}
+		// }
 		background.start = function() {
 			this.add_row(h, -1);
-			while (this.rows[this.map.top].base.mid > this.y_fade) {
+			while (this.rows[this.map.top].base.mid > this.y_fade)
 				this.add_row(this.rows[this.map.top].base.min, -1);
-			}
-			while (this.rows[this.map.bot].base.mid < hh) {
+			while (this.rows[this.map.bot].base.mid < hh)
 				this.add_row(this.rows[this.map.bot].base.max, 1);
-			}
 			this.set_edges();
 		};
 		background.start();
@@ -895,26 +854,22 @@ $(document).on('ready page:load', function() {
 	var f = game_data.fov;
 
 	function rotate_point(point, z) {
-		var ry, rz, rf;
 		var x = point.x - w;
 		var y = point.y - h;
-		ry = y * ca;
-		rz = y * sa;
-
-		rf = f / (d + rz);
+		var ry = y * ca;
+		var rz = y * sa;
+		var rf = f / (d + rz);
 		point.x = x * rf + w;
 		point.y = ry * rf + h;
 		return rz + z;
 	}
 
 	function unrotate_point(point, z) {
-		var rz;
 		var x = point.x - w;
 		var y = point.y - h;
-
 		point.y = y * d / (ca * f - sa * y);
 		point.x = (x / (f / (d + point.y * sa))) + w;
-		rz = point.y * sa;
+		var rz = point.y * sa;
 		point.y += h;
 		return z - rz;
 	}
@@ -927,11 +882,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function get_vector(p1, p2) {
-		var vector = {
-			x: p2.x - p1.x,
-			y: p2.y - p1.y,
-			z: p2.z - p1.z
-		};
+		var vector = { x: p2.x - p1.x, y: p2.y - p1.y, z: p2.z - p1.z };
 		return vector;
 	}
 
@@ -950,11 +901,7 @@ $(document).on('ready page:load', function() {
 
 	function normalize(vec) {
 		var magnitude = Math.sqrt(vec.x*vec.x + vec.y*vec.y + vec.z*vec.z);
-		var vector = {
-			x: vec.x / magnitude,
-			y: vec.y / magnitude,
-			z: vec.z / magnitude
-		};
+		var vector = { x: vec.x / magnitude, y: vec.y / magnitude, z: vec.z / magnitude };
 		return vector;
 	}
 
@@ -974,54 +921,47 @@ $(document).on('ready page:load', function() {
 	// }
 
 	function select_node(target) {
-		if (target.moving)
-			return;
+		if (target.moving) return;
 		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
 		var quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
-		target.group.shadowColor = node_color['glow'];
-		target.group.shadowBlur = quarter_size;
-		target.group.firstChild.strokeColor = node_color['selected'];
-		target.group.lastChild.fillColor = node_color['selected'];
+		target.circle.shadowColor = node_color['glow'];
+		target.circle.shadowBlur = quarter_size;
+		target.circle.strokeColor = node_color['selected'];
+		if (target.node) target.number.fillColor = node_color['selected'];
+		else target.image.fillColor = node_color['selected'];
 		target.selected = true;
 		grow_node(target);
 	}
 
 	function unselect_node(target) {
-		if (target.moving)
-			return;
+		if (target.moving) return;
 		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
-		target.group.shadowColor = 0;
-		target.group.shadowBlur = 0;
-		target.group.firstChild.strokeColor = node_color['line'];
-		target.group.lastChild.fillColor = node_color['num'];
+		target.circle.shadowColor = 0;
+		target.circle.shadowBlur = 0;
+		target.circle.strokeColor = node_color['line'];
+		if (target.node) target.number.fillColor = node_color['num'];
+		else target.image.fillColor = node_color['num'];
 		target.selected = false;
 		ungrow_node(target);
 	}
 
 	function grow_node(target) {
 		if (target.node) {
-			if (!game_data.card_set)
-				game_data.card_set = true;
+			if (!game_data.card_set) game_data.card_set = true;
 			game_data.user_interface.set_card(target);
 		}
-		if (target.moving)
-			return;
+		if (target.moving) return;
 		if (!target.grown && (target.selected || target.hovered)) {
-			if (has_animation(target)) {
-				remove_animations(target);
-			}
+			if (has_animation(target)) remove_animations(target);
 			add_animation(target, grow_animation, grow_stop, 100);
 			target.grown = true;
 		}
 	}
 
 	function ungrow_node(target) {
-		if (target.moving)
-			return;
+		if (target.moving) return;
 		if (target.grown && !target.selected && !target.hovered) {
-			if (has_animation(target)) {
-				remove_animations(target);
-			}
+			if (has_animation(target)) remove_animations(target);
 			add_animation(target, ungrow_animation, ungrow_stop, 100);
 			target.grown = false;
 		}
@@ -1032,16 +972,8 @@ $(document).on('ready page:load', function() {
 				if (game_data.card_set) {
 					game_data.card_set = false;
 				// TODO make card blank again
-					var empty_card;
-					empty_card = {
-						value: "",
-						faction_id: 0,
-						owner: "",
-						tier: "",
-						connection_num: "",
-						worth: "",
-						contention: ""
-					}
+					var empty_card = { value: "", faction_id: 0, owner: "", tier: "",
+						connection_num: "", worth: "", contention: "" };
 					game_data.user_interface.set_card(empty_card);
 				}
 			}
@@ -1052,50 +984,38 @@ $(document).on('ready page:load', function() {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		if (target.base == null) {
-			// console.log("Declaring base from null at delta");
-			// console.log(target);
-			// console.log(target.base);
-			// console.log(target.group.bounds.width);
-			// console.log(target.group.bounds.height);
-			// console.log(target.group.position.x);
-			// console.log(target.group.position.y);
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
 			target.base.x = target.relative_pos.x * width;
 			target.base.y = target.relative_pos.y * height;
 		}
-		if (target.group.bounds.width < (1 + 0.2 * sigma_frac) * target.base.width) {
-			target.group.bounds.width = (1 + 0.2 * sigma_frac) * target.base.width;
-			target.group.bounds.height = (1 + 0.2 * sigma_frac) * target.base.height;
+		if (target.circle.bounds.width < (1 + 0.2 * sigma_frac) * target.base.width) {
+			target.circle.bounds.width = (1 + 0.2 * sigma_frac) * target.base.width;
+			target.circle.bounds.height = (1 + 0.2 * sigma_frac) * target.base.height;
 		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
+		target.circle.position.x = target.base.x;
+		target.circle.position.y = target.base.y;
+		apply_fraction(target);
 	}
 
 	var grow_stop = function(target) {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		if (target.base == null) {
-			// console.log("Declaring base from null at epsilon");
-			// console.log(target);
-			// console.log(target.base);
-			// console.log(target.group.bounds.width);
-			// console.log(target.group.bounds.height);
-			// console.log(target.group.position.x);
-			// console.log(target.group.position.y);
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
 			target.base.x = target.relative_pos.x * width;
 			target.base.y = target.relative_pos.y * height;
 		}
-		if (target.group.bounds.width < 1.2 * target.base.width) {
-			target.group.bounds.width = 1.2 * target.base.width;
-			target.group.bounds.height = 1.2 * target.base.height;
+		if (target.circle.bounds.width < 1.2 * target.base.width) {
+			target.circle.bounds.width = 1.2 * target.base.width;
+			target.circle.bounds.height = 1.2 * target.base.height;
 		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
+		target.circle.position.x = target.base.x;
+		target.circle.position.y = target.base.y;
+		apply_fraction(target);
 		return false;
 	}
 
@@ -1103,60 +1023,40 @@ $(document).on('ready page:load', function() {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		if (target.base == null) {
-			// console.log("Declaring base from null at zeta");
-			// console.log(target);
-			// console.log(target.base);
-			// console.log(target.group.bounds.width);
-			// console.log(target.group.bounds.height);
-			// console.log(target.group.position.x);
-			// console.log(target.group.position.y);
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
 			target.base.x = target.relative_pos.x * width;
 			target.base.y = target.relative_pos.y * height;
 		}
-		if (target.group.bounds.width > (1.2 - 0.2 * sigma_frac) * target.base.width) {
-			target.group.bounds.width = (1.2 - 0.2 * sigma_frac) * target.base.width;
-			target.group.bounds.height = (1.2 - 0.2 * sigma_frac) * target.base.height;
+		if (target.circle.bounds.width > (1.2 - 0.2 * sigma_frac) * target.base.width) {
+			target.circle.bounds.width = (1.2 - 0.2 * sigma_frac) * target.base.width;
+			target.circle.bounds.height = (1.2 - 0.2 * sigma_frac) * target.base.height;
 		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
+		target.circle.position.x = target.base.x;
+		target.circle.position.y = target.base.y;
+		apply_fraction(target);
 	}
 
 	var ungrow_stop = function(target) {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
 		if (target.base == null) {
-			// console.log("Declaring base from null at eta");
-			// console.log(target);
-			// console.log(target.base);
-			// console.log(target.group.bounds.width);
-			// console.log(target.group.bounds.height);
-			// console.log(target.group.position.x);
-			// console.log(target.group.position.y);
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
 			target.base.x = target.relative_pos.x * width;
 			target.base.y = target.relative_pos.y * height;
 		}
-		if (target.group.bounds.width > target.base.width) {
-			target.group.bounds.width = target.base.width;
-			target.group.bounds.height = target.base.height;
+		if (target.circle.bounds.width > target.base.width) {
+			target.circle.bounds.width = target.base.width;
+			target.circle.bounds.height = target.base.height;
 		}
-		target.group.position.x = target.base.x;
-		target.group.position.y = target.base.y;
-		if (typeof(target.node) != 'undefined' && target.node != null) {
-			// console.log("Setting base to null at iota");
-			// console.log(target);
-			// console.log(target.base);
-			// console.log(target.group.bounds.width);
-			// console.log(target.group.bounds.height);
-			// console.log(target.group.position.x);
-			// console.log(target.group.position.y);
+		target.circle.position.x = target.base.x;
+		target.circle.position.y = target.base.y;
+		if (typeof(target.node) != 'undefined' && target.node != null)
 			target.base = null;
-		}
+		apply_fraction(target);
 		return false;
 	}
 
@@ -1164,12 +1064,13 @@ $(document).on('ready page:load', function() {
 		var option;
 		for (cur_option in target) {
 			option = target[cur_option];
-			if (option.group.bounds.width < sigma_frac * option.base.width) {
-				option.group.bounds.width = sigma_frac * option.base.width;
-				option.group.bounds.height = sigma_frac * option.base.height;
+			if (option.circle.bounds.width < sigma_frac * option.base.width) {
+				option.circle.bounds.width = sigma_frac * option.base.width;
+				option.circle.bounds.height = sigma_frac * option.base.height;
 			}
-			option.group.position.x = option.base.x;
-			option.group.position.y = option.base.y;
+			option.circle.position.x = option.base.x;
+			option.circle.position.y = option.base.y;
+			apply_fraction(option);
 		}
 	}
 
@@ -1177,12 +1078,13 @@ $(document).on('ready page:load', function() {
 		var option;
 		for (cur_option in target) {
 			option = target[cur_option];
-			if (option.group.bounds.width < option.base.width) {
-				option.group.bounds.width = option.base.width;
-				option.group.bounds.height = option.base.height;
+			if (option.circle.bounds.width < option.base.width) {
+				option.circle.bounds.width = option.base.width;
+				option.circle.bounds.height = option.base.height;
 			}
-			option.group.position.x = option.base.x;
-			option.group.position.y = option.base.y;
+			option.circle.position.x = option.base.x;
+			option.circle.position.y = option.base.y;
+			apply_fraction(option);
 		}
 		return false;
 	}
@@ -1191,12 +1093,13 @@ $(document).on('ready page:load', function() {
 		var option;
 		for (cur_option in target) {
 			option = target[cur_option];
-			if (option.group.bounds.width > (1 - sigma_frac) * option.base.width) {
-				option.group.bounds.width = (1 - sigma_frac) * option.base.width;
-				option.group.bounds.height = (1 - sigma_frac) * option.base.height;
+			if (option.circle.bounds.width > (1 - sigma_frac) * option.base.width) {
+				option.circle.bounds.width = (1 - sigma_frac) * option.base.width;
+				option.circle.bounds.height = (1 - sigma_frac) * option.base.height;
 			}
-			option.group.position.x = option.base.x;
-			option.group.position.y = option.base.y;
+			option.circle.position.x = option.base.x;
+			option.circle.position.y = option.base.y;
+			apply_fraction(option);
 		}
 	}
 
@@ -1204,56 +1107,40 @@ $(document).on('ready page:load', function() {
 		var option, index;
 		for (cur_option in target) {
 			option = target[cur_option];
-			if (option.group.bounds.width > 0) {
-				option.group.bounds.width = 0;
-				option.group.bounds.height = 0;
+			if (option.circle.bounds.width > 0) {
+				option.circle.bounds.width = 0;
+				option.circle.bounds.height = 0;
 			}
-			option.group.position.x = option.base.x;
-			option.group.position.y = option.base.y;
+			option.circle.position.x = option.base.x;
+			option.circle.position.y = option.base.y;
 			option.group.removeChildren();
 			option.group.remove();
 			index = game_data.actions.indexOf(option);
-			if (index != -1)
-				game_data.actions.splice(index, 1);
+			if (index != -1) game_data.actions.splice(index, 1);
+			apply_fraction(option);
 		}
 		return false;
 	}
-
-	// if (parseInt(navigator.appVersion) > 3) {
-	// 	canvas.onmousewheel = mouseDown;
-	// 	if (navigator.appName == "Netscape"
-	// 		&& parseInt(navigator.appVersion) == 4) {
-	// 		canvas.captureEvents(Event.MOUSEDOWN);
-	// 	}
-	// }
 
 	function get_initial_node_data() {
 		$.ajax({
 			type: "GET",
 			url: "request_nodes",
-			data: {
-				ranges: [{
-					from: 1,
-					to: 63
-				}]
-			},
+			data: { ranges: [{ from: 1, to: 63 }] },
 			datatype: "html",
 			success: function (raw) {
-				var data = JSON.parse(raw);
-				var in_nodes = data['nodes'];
-				var i = 1;
-				while (i < 64) {
+				var data = JSON.parse(raw), in_nodes = data['nodes'], i = 0;
+				while (++i < 64) {
 					game_data.node_factions[i] = in_nodes[i]['faction_id'];
 					game_data.node_connections[i] = {
 						dad: in_nodes[i]['dad'],
 						bro: in_nodes[i]['bro']
 					};
-					i++;
 				}
 				game_data.active_nodes = build_nodes(6, scope.view.size.width,
 					scope.view.size.height);
-				i = 0;
-				while (i < 63) {
+				i = -1;
+				while (++i < 63) {
 					show_connections(game_data.active_nodes[i]);
 					game_data.active_nodes[i].faction_id = in_nodes[i+1]['faction_id'];
 					game_data.active_nodes[i].owner = in_nodes[i+1]['owner'];
@@ -1261,7 +1148,6 @@ $(document).on('ready page:load', function() {
 					game_data.active_nodes[i].connection_num = in_nodes[i+1]['connection_num'];
 					game_data.active_nodes[i].worth = in_nodes[i+1]['worth'];
 					game_data.active_nodes[i].contention = in_nodes[i+1]['contention'];
-					i++;
 				}
 				game_data.global_root = game_data.active_nodes[0];
 				game_data.old_root = game_data.global_root;
@@ -1274,15 +1160,10 @@ $(document).on('ready page:load', function() {
 		$.ajax({
 			type: "GET",
 			url: "request_nodes",
-			data: {
-				ranges: ranges
-			},
+			data: { ranges: ranges },
 			datatype: "html",
 			success: function (raw) {
-				var data = JSON.parse(raw);
-				var in_nodes = data['nodes'];
-				var i = 0;
-				var k = 0;
+				var data = JSON.parse(raw), in_nodes = data['nodes'], i = 0, k = 0;
 				while (i < ranges.length) {
 					var j = ranges[i].from;
 					while (j <= ranges[i].to) {
@@ -1293,10 +1174,8 @@ $(document).on('ready page:load', function() {
 						};
 						game_data.node_connections[j] = cur_connections;
 						k = -1;
-						while (++k < game_data.active_nodes.length) {
-							if (game_data.active_nodes[k].move_value == j)
-								break;
-						}
+						while (++k < game_data.active_nodes.length)
+							if (game_data.active_nodes[k].move_value == j) break;
 						if (k != game_data.active_nodes.length) {
 							game_data.active_nodes[k].faction_id = in_nodes[j]['faction_id'];
 							game_data.active_nodes[k].owner = in_nodes[j]['owner'];
@@ -1309,13 +1188,12 @@ $(document).on('ready page:load', function() {
 					}
 					i++;
 				}
-				i = 0;
-				while (i < game_data.active_nodes.length) {
+				i = -1;
+				while (++i < game_data.active_nodes.length) {
 					var cur_node = game_data.active_nodes[i];
 					hide_connections(cur_node);
-					i++;
 				}
-				add_animation(null, move_nodes, confirm_moved_nodes, 1000);
+				add_animation(null, move_nodes, confirm_moved_nodes, 750);
 			}
 		});
 	}
@@ -1355,12 +1233,11 @@ $(document).on('ready page:load', function() {
 
 	function show_parent(parent, son) {
 		var son_sign = son.value % 2 == 0 ? 1 : -1;
-		var from = new scope.Point(parent.group.position.x, parent.group.position.y);
-		var to = new scope.Point(son.group.position.x, son.group.position.y);
+		var from = new scope.Point(parent.circle.position.x, parent.circle.position.y);
+		var to = new scope.Point(son.circle.position.x, son.circle.position.y);
 		var connection = new scope.Path.Line(from, to);
 		shorten_line(connection, parent.rad * 1.2, son.rad * 0.7);
-		connection.strokeWidth = (parent.group.firstChild.strokeWidth +
-			son.group.firstChild.strokeWidth) / 2;
+		connection.strokeWidth = (parent.circle.strokeWidth + son.circle.strokeWidth) / 2;
 		if (game_data.node_factions[parent.value] == game_data.node_factions[son.value]) {
 			var colors = game_data.colors[game_data.node_factions[parent.value].toString()];
 			connection.strokeColor = colors.line;
@@ -1374,12 +1251,11 @@ $(document).on('ready page:load', function() {
 
 	function show_brother(brother, sis) {
 		var sis_sign = sis.value % 2 == 0 ? 1 : -1;
-		var from = new scope.Point(brother.group.position.x, brother.group.position.y);
-		var to = new scope.Point(sis.group.position.x, sis.group.position.y);
+		var from = new scope.Point(brother.circle.position.x, brother.circle.position.y);
+		var to = new scope.Point(sis.circle.position.x, sis.circle.position.y);
 		var connection = new scope.Path.Line(from, to);
 		shorten_line(connection, brother.rad * 1.2, sis.rad * 1.2);
-		connection.strokeWidth = (brother.group.firstChild.strokeWidth +
-			sis.group.firstChild.strokeWidth) / 2;
+		connection.strokeWidth = (brother.circle.strokeWidth + sis.circle.strokeWidth) / 2;
 		if (game_data.node_factions[brother.value] == game_data.node_factions[sis.value]) {
 			var colors = game_data.colors[game_data.node_factions[brother.value].toString()];
 			connection.strokeColor = colors.line;
@@ -1394,33 +1270,24 @@ $(document).on('ready page:load', function() {
 	function show_connections(target) {
 		target.connection_values.dad = game_data.node_connections[target.value]['dad'];
 		target.connection_values.bro = game_data.node_connections[target.value]['bro'];
-		connection_dad = null;
-		connection_bro = null;
+		var connection_dad = null, connection_bro = null;
 		if (target.connection_values.dad != null) {
-			var dad = null
-			var j = 0;
-			while (j < game_data.active_nodes.length) {
+			var dad = null, j = -1;
+			while (++j < game_data.active_nodes.length)
 				if (game_data.active_nodes[j].value == target.connection_values.dad) {
 					dad = game_data.active_nodes[j];
 					break;
 				}
-				j++;
-			}
-			if (dad != null)
-				connection_dad = show_parent(dad, target);
+			if (dad != null) connection_dad = show_parent(dad, target);
 		}
 		if (target.connection_values.bro != null) {
-			var bro = null;
-			j = 0;
-			while (j < game_data.active_nodes.length) {
+			var bro = null, j = -1;
+			while (++j < game_data.active_nodes.length)
 				if (game_data.active_nodes[j].value == target.connection_values.bro) {
 					bro = game_data.active_nodes[j];
 					break;
 				}
-				j++;
-			}
-			if (bro != null)
-				connection_bro = show_brother(bro, target);
+			if (bro != null) connection_bro = show_brother(bro, target);
 		}
 		connections_group = new scope.Group(connection_dad, connection_bro);
 		target.connections = connections_group;
@@ -1430,64 +1297,68 @@ $(document).on('ready page:load', function() {
 		target.connections.remove();
 	}
 
+	function set_fraction(target) {
+		var small, big = target.circle;
+		if (target.node) small = target.number;
+		else small = target.image;
+		if (typeof(target.fraction) == 'undefined' || target.fraction == null) {
+			var size_ratio = new scope.Rectangle();
+			size_ratio.x = (big.position.x - small.bounds.point.x) / big.bounds.width;
+			size_ratio.y = (big.position.y - small.bounds.point.y) / big.bounds.height;
+			size_ratio.width = small.bounds.width / big.bounds.width;
+			size_ratio.height = small.bounds.height / big.bounds.height;
+			target.fraction = size_ratio;
+		}
+		else {
+			target.fraction.x = (big.position.x - small.bounds.point.x) / big.bounds.width;
+			target.fraction.y = (big.position.y - small.bounds.point.y) / big.bounds.height;
+			target.fraction.width = small.bounds.width / big.bounds.width;
+			target.fraction.height = small.bounds.height / big.bounds.height;
+		}
+	}
+
+	function apply_fraction(target) {
+		var small, big = target.circle;
+		if (target.node) small = target.number;
+		else small = target.image;
+		small.bounds.width = target.fraction.width * big.bounds.width;
+		small.bounds.height = target.fraction.height * big.bounds.height;
+		small.bounds.point.x = big.position.x - target.fraction.x * big.bounds.width;
+		small.bounds.point.y = big.position.y - target.fraction.y * big.bounds.height;
+	}
+
 	function get_node(elem, center, size, thickness, parent, brother) {
-		var num_digits = elem.toString().length;
-		var node_color = game_data.colors[game_data.node_factions[elem].toString()];
-		var half_size = size / 2;
-		var sine_size = size / 2.3;
-		var tan_size = size / 3.7;
-		var quarter_size = size / 4;
-		var basis = new scope.Path();
-		var p1, p2, p3, p4, p5, p6, p7;
-		var proper1, proper2, proper3, proper4;
-		var partial1, partial2;
-		if (elem % 2 == 0)
-		{
-			p1 = new scope.Point(center.x, center.y + half_size);
-			p2 = new scope.Point(center.x - half_size, center.y);
-			p3 = new scope.Point(center.x, center.y - half_size);
-			p4 = new scope.Point(center.x + half_size, center.y);
-			p5 = new scope.Point(center.x + sine_size, center.y + quarter_size);
-			p6 = new scope.Point(center.x + quarter_size, center.y + sine_size);
-			p7 = new scope.Point(center.x + sine_size, center.y + sine_size);
-			proper1 = new scope.Segment(p1, new scope.Point(size / 10, 0), new scope.Point(-tan_size, 0));
-			proper2 = new scope.Segment(p2, new scope.Point(0, tan_size), new scope.Point(0, -tan_size));
-			proper3 = new scope.Segment(p3, new scope.Point(-tan_size, 0), new scope.Point(tan_size, 0));
-			proper4 = new scope.Segment(p4, new scope.Point(0, -tan_size), new scope.Point(0, size/10));
-			partial1 = new scope.Segment(p5, new scope.Point(size/20, -size/12.5), new scope.Point(-size/25, size/16.7));
-			partial2 = new scope.Segment(p6, new scope.Point(size/16.7, -size/25), new scope.Point(-size/12.5, size/20));
-		}
-		else
-		{
-			p1 = new scope.Point(center.x, center.y + half_size);
-			p2 = new scope.Point(center.x + half_size, center.y);
-			p3 = new scope.Point(center.x, center.y - half_size);
-			p4 = new scope.Point(center.x - half_size, center.y);
-			p5 = new scope.Point(center.x - sine_size, center.y + quarter_size);
-			p6 = new scope.Point(center.x - quarter_size, center.y + sine_size);
-			p7 = new scope.Point(center.x - sine_size, center.y + sine_size);
-			proper1 = new scope.Segment(p1, new scope.Point(-size / 10, 0), new scope.Point(tan_size, 0));
-			proper2 = new scope.Segment(p2, new scope.Point(0, tan_size), new scope.Point(0, -tan_size));
-			proper3 = new scope.Segment(p3, new scope.Point(tan_size, 0), new scope.Point(-tan_size, 0));
-			proper4 = new scope.Segment(p4, new scope.Point(0, -tan_size), new scope.Point(0, size / 10));
-			partial1 = new scope.Segment(p5, new scope.Point(-size/20, -size/12.5), new scope.Point(size/25, size/16.7));
-			partial2 = new scope.Segment(p6, new scope.Point(-size/16.7, -size/25), new scope.Point(size/12.5, size/20));
-		}
-		basis.add(proper1);
-		basis.add(proper2);
-		basis.add(proper3);
-		basis.add(proper4);
-		basis.add(partial1);
-		basis.add(p7);
-		basis.add(partial2);
+		var num_digits = elem.toString().length,
+			node_color = game_data.colors[game_data.node_factions[elem].toString()],
+			half_size = size / 2, sine_size = size / 2.3, tan_size = size / 3.7,
+			quarter_size = size / 4, basis = new scope.Path(), x_sign = elem % 2 == 0 ? -1 : 1,
+			p1 = new scope.Point(center.x, center.y + half_size),
+			p2 = new scope.Point(center.x + x_sign * half_size, center.y),
+			p3 = new scope.Point(center.x, center.y - half_size),
+			p4 = new scope.Point(center.x - x_sign * half_size, center.y),
+			p5 = new scope.Point(center.x - x_sign * sine_size, center.y + quarter_size),
+			p6 = new scope.Point(center.x - x_sign * quarter_size, center.y + sine_size),
+			p7 = new scope.Point(center.x - x_sign * sine_size, center.y + sine_size),
+			proper1 = new scope.Segment(p1, new scope.Point(-x_sign * size / 10, 0),
+				new scope.Point(x_sign * tan_size, 0)),
+			proper2 = new scope.Segment(p2, new scope.Point(0, tan_size),
+				new scope.Point(0, -tan_size)),
+			proper3 = new scope.Segment(p3, new scope.Point(x_sign * tan_size, 0),
+				new scope.Point(-x_sign * tan_size, 0)),
+			proper4 = new scope.Segment(p4, new scope.Point(0, -tan_size),
+				new scope.Point(0, size / 10)),
+			partial1 = new scope.Segment(p5, new scope.Point(-x_sign * size / 20,
+				-size / 12.5), new scope.Point(x_sign * size/25, size / 16.7)),
+			partial2 = new scope.Segment(p6, new scope.Point(-x_sign * size / 16.7,
+				-size / 25), new scope.Point(x_sign * size / 12.5, size / 20));
+		basis.add(proper1, proper2, proper3, proper4, partial1, p7, partial2);
 		basis.closed = true;
 
 		basis.strokeWidth = thickness;
 		basis.strokeColor = node_color['line'];
 		basis.fillColor = node_color['fill'];
 
-		var num_w = sine_size * (2 - 1 / num_digits);
-		var num_h = (num_w / num_digits) * 1.4;
+		var num_w = sine_size * (2 - 1 / num_digits), num_h = (num_w / num_digits) * 1.4;
 		num = new scope.PointText(center);
 		num.fillColor = node_color['num'];
 		num.content = elem.toString();
@@ -1496,29 +1367,27 @@ $(document).on('ready page:load', function() {
 			size: [num_w, num_h]
 		});
 
-		var out_node = new scope.Group(basis, num);
-		var selected = false;
-		var myBounds = out_node.bounds;
-
-		var relative_pos = {
-			x: out_node.position.x / scope.view.size.width,
-			y: out_node.position.y / scope.view.size.height,
-			size_dx: out_node.bounds.width / scope.view.size.height,
-			size_dy: out_node.bounds.height / scope.view.size.height
+		var out_node = new scope.Group(basis, num), selected = false,
+			myBounds = out_node.bounds, relative_pos = {
+				x: basis.position.x / scope.view.size.width,
+				y: basis.position.y / scope.view.size.height,
+				size_dx: basis.bounds.width / scope.view.size.height,
+				size_dy: basis.bounds.height / scope.view.size.height
 		};
 
-		var leftie = elem % 2 == 0 ? false : true;
+		var leftie = elem % 2 != 0;
 
 		var total_node = {
 			value: elem,
 			position: elem,
 			group: out_node,
+			circle: basis,
+			number: num,
 			rad: half_size,
 			relative_pos: relative_pos,
-			connection_values: {
-				dad: parent,
-				bro: brother
-			},
+			popped: false,
+			popper: false,
+			connection_values: { dad: parent, bro: brother },
 			connection_num: null,
 			connections: null,
 			faction_id: null,
@@ -1535,22 +1404,25 @@ $(document).on('ready page:load', function() {
 			node: true,
 			move_target: null,
 			move_thickness: thickness,
-			left_pointed: leftie,
-			popped: false,
-			popper: false
+			left_pointed: leftie
 		};
 
 		out_node.onMouseEnter = function(event) {
+			if (total_node.moving) return;
 			total_node.hovered = true;
+			set_fraction(total_node);
 			grow_node(total_node);
 		}
 
 		out_node.onMouseLeave = function(event) {
+			if (total_node.moving) return;
 			total_node.hovered = false;
+			set_fraction(total_node);
 			ungrow_node(total_node);
 		}
 
 		out_node.onClick = function(event) {
+			if (total_node.moving) return;
 			check_selection(total_node);
 		}
 
@@ -1558,23 +1430,14 @@ $(document).on('ready page:load', function() {
 	}
 
 	function build_nodes(num_layers, width, height) {
-		var nodes = [];
-		var total_height = height * 25 / 33 - 54;
-		var bottom_y = height * 27 / 33 - 32;
-		var layer_height = total_height * 243 / 665;
-		var node_height = layer_height * 3 / 4;
-		var y = bottom_y - (layer_height / 2);
-		var point = new scope.Point();
-		var index = 1;
-		var i = 0;
-		var thickness = 5;
-		if (game_data.node_layer == null)
-		{
-			game_data.node_layer = new scope.Layer();
-		}
+		var nodes = [], total_height = height * 25 / 33 - 54,
+			bottom_y = height * 27 / 33 - 32, layer_height = total_height * 243 / 665,
+			node_height = layer_height * 3 / 4, y = bottom_y - (layer_height / 2),
+			point = new scope.Point(), index = 1, i = 0, thickness = 5;
+		if (game_data.node_layer == null) game_data.node_layer = new scope.Layer();
 		while (i < num_layers) {
-			var num_sub = Math.pow(2, i);
-			var j = 0;
+			var num_sub = Math.pow(2, i), j = 0;
+			var row = { y: y, len: num_sub, nodes: [] };
 			point.y = y;
 			point.x = (width / num_sub) / 2;
 			while (j < num_sub) {
@@ -1582,60 +1445,50 @@ $(document).on('ready page:load', function() {
 					game_data.node_connections[index]['dad'],
 					game_data.node_connections[index]['bro']);
 				if (i == num_layers - 1) {
-					var dot_w = new_node.group.bounds.width * 0.7246377;
+					var dot_w = new_node.circle.bounds.width * 0.7246377;
 					var dot_h = dot_w * 0.483333;
-					new_node.group.lastChild.content = "...";
-					new_node.group.lastChild.bounds.width = dot_w;
-					new_node.group.lastChild.bounds.height = dot_h;
-					new_node.group.lastChild.bounds.x = new_node.group.position.x - dot_w / 2;
-					new_node.group.lastChild.bounds.y = new_node.group.position.y - dot_h / 2;
-					new_node.group.firstChild.strokeWidth += 1;
+					new_node.number.content = "...";
+					new_node.number.bounds.width = dot_w;
+					new_node.number.bounds.height = dot_h;
+					new_node.number.bounds.x = new_node.circle.position.x - dot_w / 2;
+					new_node.number.bounds.y = new_node.circle.position.y - dot_h / 2;
+					new_node.circle.strokeWidth += 1;
 				}
 				nodes.push(new_node);
+				row.nodes.push({ x: point.x, node: new_node });
 				point.x += width / num_sub;
 				j++;
 				index++;
 			}
+			game_data.framework.push(row);
 			node_height /= 1.5;
 			y -= layer_height / 2;
 			layer_height = node_height * 4 / 3;
 			y -= layer_height / 2;
 			i++;
-			if (thickness > 1)
-			{
-				thickness--;
-			}
+			if (thickness > 1) thickness--;
 		}
 		return nodes;
 	}
 
 	function hob(num) {
-		if (!num)
-			return 0;
+		if (!num) return 0;
 		var out = 1;
-		while (num >>= 1)
-			out += 1;
+		while (num >>= 1) out += 1;
 		return out;
 	}
 
 	function get_solid_mask(len) {
-		if (len <= 0)
-			return 0;
-		var out = 1;
-		var i = 1;
-		while (i < len) {
-			out <<= 1;
-			out |= 1;
-			i++;
-		}
+		if (len <= 0) return 0;
+		var out = 1, i = 0;
+		while (++i < len) out = (out << 1) | 1;
 		return out;
 	}
 
 	function take_bits(num, from, amount, base) {
 		var bit_len = hob(num);
 		var tail_num = bit_len - from - amount;
-		if (tail_num < 0)
-			return -1;
+		if (tail_num < 0) return -1;
 		var tail_mask = get_solid_mask(tail_num);
 		var check_mask = get_solid_mask(amount);
 		var compare = base & check_mask;
@@ -1644,17 +1497,14 @@ $(document).on('ready page:load', function() {
 		var check = (num & check_mask) >> tail_num;
 		var tail = num & tail_mask;
 		var head = (num & head_mask) >> amount;
-		if (check != compare) {
-			return -1;
-		}
+		if (check != compare) return -1;
 		return head | tail;
 	}
 
 	function give_bits(num, from, amount, add) {
 		var bit_len = hob(num);
 		var tail_num = bit_len - from;
-		if (tail_num < 0 || tail_num > 5 - amount)
-			return -1;
+		if (tail_num < 0 || tail_num > 5 - amount) return -1;
 		var tail_mask = get_solid_mask(tail_num);
 		var head_mask = get_solid_mask(from) << (tail_num);
 		var tail = num & tail_mask;
@@ -1670,19 +1520,11 @@ $(document).on('ready page:load', function() {
 	}
 
 	function partition(arr, lo, hi) {
-		var pivot = arr[lo].position;
-		var i = lo - 1;
-		var j = hi + 1;
+		var pivot = arr[lo].position, i = lo - 1, j = hi + 1;
 		while (true) {
-			do {
-				i++;
-			} while (arr[i].position < pivot);
-			do {
-				j--;
-			} while (arr[j].position > pivot);
-			if (i >= j) {
-				return j;
-			}
+			do { i++; } while (arr[i].position < pivot);
+			do { j--; } while (arr[j].position > pivot);
+			if (i >= j) return j;
 			swap(arr, i, j);
 		}
 	}
@@ -1696,44 +1538,32 @@ $(document).on('ready page:load', function() {
 	}
 
 	function move_to(target) {
-		var bit_base = hob(game_data.global_root.position);
-		var bit_dif = hob(target.position) - bit_base;
-		var i = 0;
-		while (i < 63) {
-			var cur_node = game_data.active_nodes[i];
-			var target_position = take_bits(cur_node.position, bit_base, bit_dif, target.position);
-			if (target_position == -1) {
-				game_data.buffer_nodes.push(cur_node);
-			}
+		var bit_base = hob(game_data.global_root.position),
+			bit_dif = hob(target.position) - bit_base, i = -1;
+		while (++i < 63) {
+			var cur_node = game_data.active_nodes[i], target_position =
+				take_bits(cur_node.position, bit_base, bit_dif, target.position);
+			if (target_position == -1) game_data.buffer_nodes.push(cur_node);
 			else {
 				cur_node.move_target = game_data.active_nodes[target_position - 1].relative_pos;
 				cur_node.move_position = target_position;
 				cur_node.move_value = cur_node.value;
-				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
+				cur_node.move_thickness = game_data.active_nodes[target_position - 1].circle.strokeWidth;
 				cur_node.popper = false;
 			}
-			i++;
+			set_fraction(cur_node);
 		}
-		var relocs = []; // Stands for relocations. I don't know what to call it tbh
-		var ranges = [];
-		var amount = 32;
-		i = 0;
-		while (i < bit_dif) {
-			var j = 0;
-			while (j < amount) {
-				relocs.push(j + amount);
-				j++;
-			}
-			ranges.push({
-				from: Math.pow(2, 5 - i) * target.value,
-				to: Math.pow(2, 5 - i) * target.value + amount - 1
-			});
-			i++;
+		var relocs = [], ranges = [], amount = 32;
+		i = -1;
+		while (++i < bit_dif) {
+			var j = -1;
+			while (++j < amount) relocs.push(j + amount);
+			ranges.push({ from: Math.pow(2, 5 - i) * target.value,
+				to: Math.pow(2, 5 - i) * target.value + amount - 1 });
 			amount /= 2;
 		}
 		i = 0;
-		var leftie = relocs[0];
-		var j = 0;
+		var leftie = relocs[0], j = 0;
 		while (game_data.buffer_nodes.length > 0) {
 			if (relocs[i] < leftie) {
 				leftie = relocs[i];
@@ -1742,93 +1572,67 @@ $(document).on('ready page:load', function() {
 			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
 			game_data.buffer_nodes[0].move_position = relocs[i];
 			game_data.buffer_nodes[0].move_value = leftie * target.value + j;
-			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].group.firstChild.strokeWidth;
+			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1].circle.strokeWidth;
 			game_data.buffer_nodes[0].popper = true;
 			game_data.buffer_nodes[0].popped = false;
 			game_data.buffer_nodes.splice(0, 1);
 			i++;
 			j++;
 		}
-		i = 0;
-		while (i < game_data.active_nodes.length) {
+		i = -1;
+		while (++i < game_data.active_nodes.length)
 			game_data.active_nodes[i].position = game_data.active_nodes[i].move_position;
-			i++;
-		}
 		sort_active_nodes(game_data.active_nodes, 0, game_data.active_nodes.length - 1);
 		game_data.old_root = game_data.active_nodes[0];
 		get_more_node_data(ranges);
 	}
 
 	function move_back(amount) {
-		if (amount > 5)
-			return;
+		if (amount > 5) return;
 		var base = game_data.global_root.value;
 		var new_base_value = base >> amount;
-		if (new_base_value <= 0)
-			return;
-		var bit_base = hob(base);
-		var i = 0;
-		var add = 0;
-		var cur_base = base;
-		while (i < amount) {
+		if (new_base_value <= 0) return;
+		var bit_base = hob(base), i = -1, add = 0, cur_base = base;
+		while (++i < amount) {
 			add |= (cur_base & (1 << (amount - i - 1))) >> (amount - i - 1);
-			if (i + 1 != amount)
-				add <<= 1;
-			i++;
+			if (i + 1 != amount) add <<= 1;
 		}
-		i = 0;
-		while (i < 63) {
+		i = -1;
+		while (++i < 63) {
 			var cur_node = game_data.active_nodes[i];
 			var target_position = give_bits(cur_node.position, 1, amount, add);
-			if (target_position == -1) {
-				game_data.buffer_nodes.push(cur_node);
-			}
+			if (target_position == -1) game_data.buffer_nodes.push(cur_node);
 			else {
 				cur_node.move_target = game_data.active_nodes[target_position - 1].relative_pos;
 				cur_node.move_position = target_position;
 				cur_node.move_value = cur_node.value;
-				cur_node.move_thickness = game_data.active_nodes[target_position - 1].group.firstChild.strokeWidth;
+				cur_node.move_thickness = game_data.active_nodes[target_position - 1].circle.strokeWidth;
 				cur_node.popper = false;
 			}
-			i++;
+			set_fraction(cur_node);
 		}
-		var relocs = [];
-		var ranges = [];
-		var row_len = 32;
-		var gap_len = 32 >> amount;
-		var gap_start = 0;
-		var to_add;
-		var tmp_amount = amount, tmp_add = 16;
+		var relocs = [], ranges = [], row_len = 32, gap_len = 32 >> amount,
+			gap_start = 0, to_add, tmp_amount = amount, tmp_add = 16;
 		while (tmp_amount > 0) {
 			tmp_amount--;
 			to_add = ((add >> tmp_amount) & 1) * tmp_add;
 			gap_start += to_add;
 			tmp_add >>= 1;
 		}
-		i = 0;
-		while (i <= 5) {
+		i = -1;
+		while (++i <= 5) {
 			var j = -1;
 			while (++j < row_len) {
-				if (j == gap_start)
-					j += gap_len;
-				if (j >= row_len)
-					break;
-				relocs.push({
-					value: j + row_len,
-					leftie: row_len
-				});
+				if (j == gap_start) j += gap_len;
+				if (j >= row_len) break;
+				relocs.push({ value: j + row_len, leftie: row_len });
 			}
 			if (gap_start != 0)
-				ranges.push({
-					from: Math.pow(2, 5 - i) * new_base_value,
-					to: Math.pow(2, 5 - i) * new_base_value + gap_start - 1
-				});
+				ranges.push({ from: Math.pow(2, 5 - i) * new_base_value,
+					to: Math.pow(2, 5 - i) * new_base_value + gap_start - 1 });
 			if (gap_start + gap_len < row_len)
-				ranges.push({
-					from: Math.pow(2, 5 - i) * new_base_value + gap_start + gap_len,
-					to: Math.pow(2, 5 - i) * new_base_value + row_len - 1
-				});
-			i++;
+				ranges.push({ from: Math.pow(2, 5 - i) * new_base_value + gap_start + gap_len,
+					to: Math.pow(2, 5 - i) * new_base_value + row_len - 1 });
 			row_len /= 2;
 			gap_len = Math.floor(gap_len / 2);
 			gap_start = Math.floor(gap_start / 2);
@@ -1841,17 +1645,15 @@ $(document).on('ready page:load', function() {
 			game_data.buffer_nodes[0].move_value = relocs[i].leftie *
 				new_base_value + relocs[i].value % relocs[i].leftie;
 			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[
-				relocs[i].value - 1].group.firstChild.strokeWidth;
+				relocs[i].value - 1].circle.strokeWidth;
 			game_data.buffer_nodes[0].popper = true;
 			game_data.buffer_nodes[0].popped = false;
 			game_data.buffer_nodes.splice(0, 1);
 			i++;
 		}
-		i = 0;
-		while (i < game_data.active_nodes.length) {
+		i = -1;
+		while (++i < game_data.active_nodes.length)
 			game_data.active_nodes[i].position = game_data.active_nodes[i].move_position;
-			i++;
-		}
 		game_data.old_root = game_data.active_nodes[0];
 		sort_active_nodes(game_data.active_nodes, 0, game_data.active_nodes.length - 1);
 		get_more_node_data(ranges);
@@ -1860,138 +1662,152 @@ $(document).on('ready page:load', function() {
 	var move_nodes = function(target, sigma_frac, delta_frac) {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
-		var prev_pos = game_data.old_root.group.position;
+		var prev_pos = game_data.old_root.circle.position;
 		var i = -1;
 		var cur_node;
 		while (++i < game_data.active_nodes.length) {
 			cur_node = game_data.active_nodes[i];
+			cur_node.moving = true;
 			if (cur_node.base == null) {
-				// console.log("Making base not null at alpha");
-				// console.log(cur_node);
-				// console.log(cur_node.base);
 				cur_node.base = new scope.Rectangle();
 				cur_node.base.x = cur_node.relative_pos.x * width;
 				cur_node.base.y = cur_node.relative_pos.y * height;
 				cur_node.base.width = cur_node.relative_pos.size_dx * height;
 				cur_node.base.height = cur_node.relative_pos.size_dy * height;
 			}
-			//if (typeof(cur_node.popper) == 'undefined' || !cur_node.popper) {
-				cur_node.group.position.x = cur_node.base.x + sigma_frac
-					* (cur_node.move_target.x * width - cur_node.base.x);
-				cur_node.group.position.y = cur_node.base.y + sigma_frac
-					* (cur_node.move_target.y * height - cur_node.base.y);
-				cur_node.group.bounds.width = cur_node.base.width + sigma_frac
-					* (cur_node.move_target.size_dx * height - cur_node.base.width);
-				cur_node.group.bounds.height = cur_node.base.height + sigma_frac
-					* (cur_node.move_target.size_dy * height - cur_node.base.height);
-				//cur_node.popper = false;
-			// }
-			// else {
-			// 	if (sigma_frac >= 0.5 && !cur_node.popped) {
-			// 		// console.log("popping at ");
-			// 		// console.log(cur_node);
-			// 		cur_node.popped = true;
-			// 		cur_node.value = cur_node.move_value;
-			// 		var leftie = cur_node.value % 2 == 0 ? false : true;
-			// 		if (leftie != cur_node.left_pointed) {
-			// 			cur_node.left_pointed = leftie;
-			// 			cur_node.group.firstChild.scale(-1, 1);
-			// 		}
-			// 		var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
-			// 		cur_node.group.firstChild.strokeColor = node_color['line'];
-			// 		cur_node.group.firstChild.fillColor = node_color['fill'];
-			// 		cur_node.group.firstChild.strokeWidth = cur_node.move_thickness;
-			// 	}
-			// 	if (sigma_frac >= 0.5 || cur_node.popped) {
-			// 		cur_node.group.bounds.width = 2 * (sigma_frac - 0.5) *
-			// 			cur_node.move_target.size_dx * height;
-			// 		cur_node.group.bounds.height = 2 * (sigma_frac - 0.5) *
-			// 			cur_node.move_target.size_dy * height;
-			// 		cur_node.group.position.x = cur_node.move_target.x * width;
-			// 		cur_node.group.position.y = cur_node.move_target.y * height;
-			// 	}
-			// 	else {
-			// 		// console.log("Using base at beta with ");
-			// 		// console.log(cur_node);
-			// 		// console.log(cur_node.base);
-			// 		cur_node.group.bounds.width = 2 * (0.5 - sigma_frac) *
-			// 			cur_node.base.width;
-			// 		cur_node.group.bounds.height = 2 * (0.5 - sigma_frac) *
-			// 			cur_node.base.height;
-			// 		cur_node.group.position.x = cur_node.base.x;
-			// 		cur_node.group.position.y = cur_node.base.y;
-			// 	}
-			// }
-			// if (cur_node.group.bounds.width <= 0)
-			// 	cur_node.group.bounds.width = 0.0001;
-			// if (cur_node.group.bounds.height <= 0)
-			// 	cur_node.group.bounds.height = 0.0001;
-			cur_node.moving = true;
+			if (typeof(cur_node.popper) == 'undefined' || !cur_node.popper) {
+				cur_node.circle.position.x = cur_node.base.x + sigma_frac *
+					(cur_node.move_target.x * width - cur_node.base.x);
+				cur_node.circle.position.y = cur_node.base.y + sigma_frac *
+					(cur_node.move_target.y * height - cur_node.base.y);
+				cur_node.circle.bounds.width = cur_node.base.width + sigma_frac *
+					(cur_node.move_target.size_dx * height - cur_node.base.width);
+				cur_node.circle.bounds.height = cur_node.base.height + sigma_frac *
+					(cur_node.move_target.size_dy * height - cur_node.base.height);
+				apply_fraction(cur_node);
+				cur_node.popper = false;
+			}
+			else {
+				if (sigma_frac >= 0.5 && !cur_node.popped) {
+					cur_node.popped = true;
+					cur_node.value = cur_node.move_value;
+					var leftie = cur_node.value % 2 == 0 ? false : true;
+					if (leftie != cur_node.left_pointed) {
+						cur_node.left_pointed = leftie;
+						cur_node.circle.scale(-1, 1);
+					}
+					var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
+					var num_digits = cur_node.value.toString().length;
+					cur_node.number.content = cur_node.value;
+					cur_node.circle.strokeColor = node_color['line'];
+					cur_node.circle.fillColor = node_color['fill'];
+					cur_node.circle.strokeWidth = cur_node.move_thickness;
+					if (i < 31) {
+						var sine_size = cur_node.circle.bounds.width / 2.3;
+						var num_w = sine_size * (2 - 1 / num_digits);
+						var num_h = (num_w / num_digits) * 1.45;
+						cur_node.number.visible = true;
+						cur_node.number.fillColor = node_color['num'];
+						cur_node.number.content = cur_node.value.toString();
+						cur_node.number.bounds.width = num_w;
+						cur_node.number.bounds.height = num_h;
+						cur_node.number.bounds.x = cur_node.circle.position.x - num_w / 2;
+						cur_node.number.bounds.y = cur_node.circle.position.y - num_h / 2;
+					}
+					else {
+						var dot_w = cur_node.circle.bounds.width * 0.7246377;
+						var dot_h = dot_w * 0.483333;
+						cur_node.number.fillColor = node_color['num'];
+						cur_node.number.content = "...";
+						cur_node.number.bounds.width = dot_w;
+						cur_node.number.bounds.height = dot_h;
+						cur_node.number.bounds.x = cur_node.circle.position.x - dot_w / 2;
+						cur_node.number.bounds.y = cur_node.circle.position.y - dot_h / 2;
+					}
+					set_fraction(cur_node);
+				}
+				if (sigma_frac == 0.5) {
+					cur_node.circle.bounds.width = 0.0001;
+					cur_node.circle.bounds.height = 0.0001;
+					cur_node.circle.position.x = cur_node.move_target.x * width;
+					cur_node.circle.position.y = cur_node.move_target.y * height;
+				}
+				else if (sigma_frac > 0.5 || cur_node.popped) {
+					cur_node.circle.bounds.width = 2 * (sigma_frac - 0.5) *
+						cur_node.move_target.size_dx * height;
+					cur_node.circle.bounds.height = 2 * (sigma_frac - 0.5) *
+						cur_node.move_target.size_dy * height;
+					cur_node.circle.position.x = cur_node.move_target.x * width;
+					cur_node.circle.position.y = cur_node.move_target.y * height;
+				}
+				else {
+					cur_node.circle.bounds.width = 2 * (0.5 - sigma_frac) *
+						cur_node.base.width;
+					cur_node.circle.bounds.height = 2 * (0.5 - sigma_frac) *
+						cur_node.base.height;
+					cur_node.circle.position.x = cur_node.base.x;
+					cur_node.circle.position.y = cur_node.base.y;
+				}
+				apply_fraction(cur_node);
+			}
 		}
-		var new_pos = game_data.old_root.group.position;
+		var new_pos = game_data.old_root.circle.position;
 		game_data.background.move_to(prev_pos, new_pos, sigma_frac);
 	}
 
 	var confirm_moved_nodes = function(target) {
 		var width = scope.view.size.width;
 		var height = scope.view.size.height;
-		var i = 0;
-		var prev_pos = game_data.old_root.group.position;
-		while (i < game_data.active_nodes.length) {
+		var i = -1;
+		var prev_pos = game_data.old_root.circle.position;
+		while (++i < game_data.active_nodes.length) {
 			var cur_node = game_data.active_nodes[i];
 			cur_node.popped = false;
-			cur_node.group.position.x = cur_node.move_target.x * width;
-			cur_node.group.position.y = cur_node.move_target.y * height;
-			cur_node.group.bounds.width = cur_node.move_target.size_dx * height;
-			cur_node.group.bounds.height = cur_node.move_target.size_dy * height;
+			cur_node.circle.position.x = cur_node.move_target.x * width;
+			cur_node.circle.position.y = cur_node.move_target.y * height;
+			cur_node.circle.bounds.width = cur_node.move_target.size_dx * height;
+			cur_node.circle.bounds.height = cur_node.move_target.size_dy * height;
 			cur_node.value = cur_node.move_value;
 			var leftie = cur_node.value % 2 == 0 ? false : true;
 			if (leftie != cur_node.left_pointed) {
 				cur_node.left_pointed = leftie;
-				cur_node.group.firstChild.scale(-1, 1);
+				cur_node.circle.scale(-1, 1);
 			}
 			var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
 			var num_digits = cur_node.value.toString().length;
 			cur_node.relative_pos = cur_node.move_target;
 			cur_node.base = null;
-			// console.log("Setting base to null at gamma");
-			// console.log(cur_node);
-			// console.log(cur_node.base);
-			// console.log(cur_node.group.bounds.width);
-			// console.log(cur_node.group.bounds.height);
-			// console.log(cur_node.group.position.x);
-			// console.log(cur_node.group.position.y);
-			cur_node.rad = cur_node.group.firstChild.bounds.width / 2;
-			cur_node.group.lastChild.content = cur_node.value;
+			cur_node.rad = cur_node.circle.bounds.width / 2;
+			cur_node.number.content = cur_node.value;
 			cur_node.moving = false;
-			cur_node.group.firstChild.strokeColor = node_color['line'];
-			cur_node.group.firstChild.fillColor = node_color['fill'];
-			cur_node.group.firstChild.strokeWidth = cur_node.move_thickness;
+			cur_node.circle.strokeColor = node_color['line'];
+			cur_node.circle.fillColor = node_color['fill'];
+			cur_node.circle.strokeWidth = cur_node.move_thickness;
 			if (i < 31) {
-				var sine_size = cur_node.group.firstChild.bounds.width / 2.3;
+				var sine_size = cur_node.circle.bounds.width / 2.3;
 				var num_w = sine_size * (2 - 1 / num_digits);
 				var num_h = (num_w / num_digits) * 1.45;
-				cur_node.group.lastChild.visible = true;
-				cur_node.group.lastChild.fillColor = node_color['num'];
-				cur_node.group.lastChild.content = cur_node.value.toString();
-				cur_node.group.lastChild.bounds.width = num_w;
-				cur_node.group.lastChild.bounds.height = num_h;
-				cur_node.group.lastChild.bounds.x = cur_node.group.position.x - num_w / 2;
-				cur_node.group.lastChild.bounds.y = cur_node.group.position.y - num_h / 2;
+				cur_node.number.visible = true;
+				cur_node.number.fillColor = node_color['num'];
+				cur_node.number.content = cur_node.value.toString();
+				cur_node.number.bounds.width = num_w;
+				cur_node.number.bounds.height = num_h;
+				cur_node.number.bounds.x = cur_node.circle.position.x - num_w / 2;
+				cur_node.number.bounds.y = cur_node.circle.position.y - num_h / 2;
 			}
 			else {
-				var dot_w = cur_node.group.firstChild.bounds.width * 0.7246377;
+				var dot_w = cur_node.circle.bounds.width * 0.7246377;
 				var dot_h = dot_w * 0.483333;
-				cur_node.group.lastChild.fillColor = node_color['num'];
-				cur_node.group.lastChild.content = "...";
-				cur_node.group.lastChild.bounds.width = dot_w;
-				cur_node.group.lastChild.bounds.height = dot_h;
-				cur_node.group.lastChild.bounds.x = cur_node.group.position.x - dot_w / 2;
-				cur_node.group.lastChild.bounds.y = cur_node.group.position.y - dot_h / 2;
+				cur_node.number.fillColor = node_color['num'];
+				cur_node.number.content = "...";
+				cur_node.number.bounds.width = dot_w;
+				cur_node.number.bounds.height = dot_h;
+				cur_node.number.bounds.x = cur_node.circle.position.x - dot_w / 2;
+				cur_node.number.bounds.y = cur_node.circle.position.y - dot_h / 2;
 			}
-			i++;
+			set_fraction(cur_node);
 		}
-		var new_pos = game_data.old_root.group.position;
+		var new_pos = game_data.old_root.circle.position;
 		game_data.background.move_to(prev_pos, new_pos, 1);
 		i = 0;
 		while (i < game_data.active_nodes.length) {
@@ -2010,10 +1826,12 @@ $(document).on('ready page:load', function() {
 			while (i < 63) {
 				cur_node = game_data.active_nodes[i];
 				hide_connections(cur_node);
-				cur_node.group.position.x = cur_node.relative_pos.x * width;
-				cur_node.group.position.y = cur_node.relative_pos.y * height;
-				cur_node.group.bounds.width = cur_node.relative_pos.size_dx * height;
-				cur_node.group.bounds.height = cur_node.relative_pos.size_dy * height;
+				set_fraction(cur_node);
+				cur_node.circle.position.x = cur_node.relative_pos.x * width;
+				cur_node.circle.position.y = cur_node.relative_pos.y * height;
+				cur_node.circle.bounds.width = cur_node.relative_pos.size_dx * height;
+				cur_node.circle.bounds.height = cur_node.relative_pos.size_dy * height;
+				apply_fraction(cur_node);
 				i++;
 			}
 			i = 0;
@@ -2031,10 +1849,10 @@ $(document).on('ready page:load', function() {
 
 	function make_option_group(center, option_rad, node_rad, theta, colors,
 		thickness, icon_name, value) {
-		var x = (1.8 * option_rad + node_rad) * Math.cos(theta);
-		var y = (1.8 * option_rad + node_rad) * -Math.sin(theta);
-		var point = new scope.Point(center.x + x, center.y + y);
-		var circle = new scope.Path.Circle(point, option_rad);
+		var x = (1.8 * option_rad + node_rad) * Math.cos(theta),
+			y = (1.8 * option_rad + node_rad) * -Math.sin(theta),
+			point = new scope.Point(center.x + x, center.y + y),
+			circle = new scope.Path.Circle(point, option_rad);
 		circle.strokeWidth = thickness;
 		circle.strokeColor = colors['line'];
 		circle.fillColor = colors['fill'];
@@ -2046,17 +1864,13 @@ $(document).on('ready page:load', function() {
 		img.bounds.width = option_rad * scale;
 		img.position.x = point.x;
 		img.position.y = point.y;
-		var option = new scope.Group(circle, img);
-		var base = new scope.Rectangle();
-		base.x = option.position.x;
-		base.y = option.position.y;
-		base.width = option.bounds.width;
-		base.height = option.bounds.height;
-		option.bounds.width = 0.00001;
-		option.bounds.height = 0.00001;
-		var width = scope.view.size.width,
-			height = scope.view.size.height;
-		var relative_pos = {
+		var option = new scope.Group(circle, img), base = new scope.Rectangle();
+		base.x = circle.position.x;
+		base.y = circle.position.y;
+		base.width = circle.bounds.width;
+		base.height = circle.bounds.height;
+		var width = scope.view.size.width, height = scope.view.size.height,
+			relative_pos = {
 			x: base.x / width,
 			y: base.y / height,
 			size_dx: base.width / height,
@@ -2064,6 +1878,8 @@ $(document).on('ready page:load', function() {
 		};
 		var out = {
 			group: option,
+			circle: circle,
+			image: img,
 			relative_pos: relative_pos,
 			base: base,
 			selected: false,
@@ -2071,105 +1887,105 @@ $(document).on('ready page:load', function() {
 			grown: false,
 			value: value
 		};
+		set_fraction(out);
+		option.bounds.width = 0.00001;
+		option.bounds.height = 0.00001;
 		return out;
 	}
 
 	function add_options(target) {
 		var colors = game_data.colors[game_data.node_factions[target.value].toString()];
 		var x_sign = target.value % 2 == 0 ? -1 : 1;
-		var ref_stroke_width = target.group.firstChild.strokeWidth;
-		var small_rad = target.group.bounds.width / 8; // rad / 4
-		var big_rad = target.group.bounds.width / 2;
+		var ref_stroke_width = target.circle.strokeWidth;
+		var small_rad = target.circle.bounds.width / 8; // rad / 4
+		var big_rad = target.circle.bounds.width / 2;
 		var theta_base = Math.PI * (target.value % 2 == 0 ? 1 : 0);
 		var options = {};
 		var theta, name;
-		if (target != game_data.global_root) {
-			name = 'move';
-		}
-		else {
-			name = 'back';
-		}
+		if (target != game_data.global_root) name = 'move';
+		else name = 'back';
 		theta = theta_base + x_sign * 7 * Math.PI / 6;
 		if (target != game_data.global_root || game_data.global_root.value != 1) {
-			options.move = make_option_group(target.group.position, small_rad, big_rad,
+			options.move = make_option_group(target.circle.position, small_rad, big_rad,
 				theta, colors, ref_stroke_width / 2, name, target.value);
-			options.move.group.lastChild.strokeWidth = 1;
-			options.move.group.lastChild.strokeColor = colors['num'];
+			options.move.image.strokeWidth = 1;
+			options.move.image.strokeColor = colors['num'];
 			game_data.actions.push(options.move);
 			options.move.group.onMouseEnter = function(event) {
 				options.move.hovered = true;
+				set_fraction(options.move);
 				grow_node(options.move);
-			}
+			};
 			options.move.group.onMouseLeave = function(event) {
 				options.move.hovered = false;
+				set_fraction(options.move);
 				ungrow_node(options.move);
-			}
+			};
 			options.move.group.onClick = function(event) {
 				game_data.action_index = -1;
 				remove_options(target);
 				unselect_node(target);
 				var index = game_data.selected_nodes.indexOf(target);
 				game_data.selected_nodes.splice(index, 1);
-				if (target == game_data.global_root) {
-					move_back(1);
-				}
-				else {
-					move_to(target);
-				}
-			}
+				if (target == game_data.global_root) move_back(1);
+				else move_to(target);
+			};
 		}
 		theta = Math.PI / 2;
-		options.attack = make_option_group(target.group.position, small_rad, big_rad,
+		options.attack = make_option_group(target.circle.position, small_rad, big_rad,
 			theta, colors, ref_stroke_width / 2, 'attack', target.value);
 		theta = 2 * Math.PI / 3;
-		options.connect = make_option_group(target.group.position, small_rad, big_rad,
+		options.connect = make_option_group(target.circle.position, small_rad, big_rad,
 			theta, colors, ref_stroke_width / 2, 'connect', target.value);
 		theta = Math.PI / 3;
-		options.node_info = make_option_group(target.group.position, small_rad, big_rad,
+		options.node_info = make_option_group(target.circle.position, small_rad, big_rad,
 			theta, colors, ref_stroke_width / 2, 'node_info', target.value);
 		game_data.actions.push(options.attack);
 		game_data.actions.push(options.connect);
 		options.attack.group.onMouseEnter = function(event) {
 			options.attack.hovered = true;
+			set_fraction(options.attack);
 			grow_node(options.attack);
 		}
 		options.attack.group.onMouseLeave = function(event) {
 			options.attack.hovered = false;
+			set_fraction(options.attack);
 			ungrow_node(options.attack);
 		}
 		options.attack.group.onClick = function(event) {
+			set_fraction(options.attack);
 			select_action(options.attack);
 		}
 		options.connect.group.onMouseEnter = function(event) {
 			options.connect.hovered = true;
+			set_fraction(options.connect);
 			grow_node(options.connect);
 		}
 		options.connect.group.onMouseLeave = function(event) {
 			options.connect.hovered = false;
+			set_fraction(options.connect);
 			ungrow_node(options.connect);
 		}
 		options.connect.group.onClick = function(event) {
+			set_fraction(options.connect);
 			select_action(options.connect);
 		}
-		// move_option.onClick = function(event) {
-		// 	check_selection(move_option);
-		// }
 		target.options = options;
 		add_animation(options, pop_action_animation, pop_action_stop, 150);
 	}
 
 	App.game = App.cable.subscriptions.create("GameChannel", {
-	  connected: function() {
-	    // Called when the subscription is ready for use on the server
-	  },
+		connected: function() {
+			// Called when the subscription is ready for use on the server
+		},
 
-	  disconnected: function() {
-	    // Called when the subscription has been terminated by the server
-	  },
+		disconnected: function() {
+			// Called when the subscription has been terminated by the server
+		},
 
-	  received: function(data) {
-	    // Called when there's incoming data on the websocket for this channel
-			// game_data.active_nodes[0].group.firstChild.fillColor
+		received: function(data) {
+			// Called when there's incoming data on the websocket for this channel
+			// game_data.active_nodes[0].circle.fillColor
 			var origin;
 			var target;
 			for (i = 0;i < game_data.active_nodes.length; i++) {
@@ -2180,27 +1996,20 @@ $(document).on('ready page:load', function() {
 					target = game_data.active_nodes[i];
 				}
 			}
-			// console.log(origin);
-			// console.log(target);
-			// console.log(data['origin_change']);
-			// console.log(data['target_change']);
 			if (data['action_index'] == 1) {
-				// console.log("attack");
 				if (data['origin_change'] == 'to_target') {
 					game_data.node_factions[origin.value] = data['target_fac'];
 					var colors = game_data.colors[data['target_fac'].toString()];
-					origin.group.firstChild.strokeColor = colors.line;
-					origin.group.firstChild.fillColor = colors.fill;
-					origin.group.lastChild.fillColor = colors.num;
-					// console.log(colors);
+					origin.circle.strokeColor = colors.line;
+					origin.circle.fillColor = colors.fill;
+					origin.number.fillColor = colors.num;
 				}
 				if (data['target_change'] == 'to_origin') {
 					game_data.node_factions[target.value] = data['origin_fac'];
 					var colors = game_data.colors[data['origin_fac'].toString()];
-					target.group.firstChild.strokeColor = colors.line;
-					target.group.firstChild.fillColor = colors.fill;
-					target.group.lastChild.fillColor = colors.num;
-					// console.log(colors);
+					target.circle.strokeColor = colors.line;
+					target.circle.fillColor = colors.fill;
+					target.number.fillColor = colors.num;
 				}
 			}
 			if (origin.value == (target.value >> 1)) { // origin is dad
@@ -2225,20 +2034,18 @@ $(document).on('ready page:load', function() {
 			}
 			else {
 				console.log("could not find relationsip between: (1/3)");
-				console.log(origin);
-				console.log(target);
+				console.log(origin, target);
 				return;
 			}
-	  }
+		}
 	});
 
 	function take_action(origin, target) {
-		App.game.perform(
-			'update_node_test', {
-				action_index: game_data.action_index,
-				origin: origin.value,
-				target: target.value,
-			});
+		App.game.perform('update_node_test', {
+			action_index: game_data.action_index,
+			origin: origin.value,
+			target: target.value,
+		});
 
 		// if (game_data.action_index == 1) {
 		// 	$.ajax({
@@ -2274,16 +2081,16 @@ $(document).on('ready page:load', function() {
 		// 			// if (origin_change == 'to_target') {
 		// 			// 	game_data.node_factions[origin.value] = target_fac;
 		// 			// 	var colors = game_data.colors[target_fac.toString()];
-		// 			// 	origin.group.firstChild.strokeColor = colors.line;
-		// 			// 	origin.group.firstChild.fillColor = colors.fill;
-		// 			// 	origin.group.lastChild.fillColor = colors.num;
+		// 			// 	origin.circle.strokeColor = colors.line;
+		// 			// 	origin.circle.fillColor = colors.fill;
+		// 			// 	origin.number.fillColor = colors.num;
 		// 			// }
 		// 			// if (target_change == 'to_origin') {
 		// 			// 	game_data.node_factions[target.value] = origin_fac;
 		// 			// 	var colors = game_data.colors[origin_fac.toString()];
-		// 			// 	target.group.firstChild.strokeColor = colors.line;
-		// 			// 	target.group.firstChild.fillColor = colors.fill;
-		// 			// 	target.group.lastChild.fillColor = colors.num;
+		// 			// 	target.circle.strokeColor = colors.line;
+		// 			// 	target.circle.fillColor = colors.fill;
+		// 			// 	target.number.fillColor = colors.num;
 		// 			// }
 		// 			// if (origin.value == (target.value >> 1)) { // origin is dad
 		// 			// 	game_data.node_connections[target.value].dad = origin.value;
@@ -2373,8 +2180,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function check_selection(target) {
-		if (target.moving)
-			return;
+		if (target.moving) return;
 		if (!target.selected) {
 			select_node(target);
 			if (game_data.selected_nodes.length >= 1 && game_data.action_index != -1) {
@@ -2382,9 +2188,7 @@ $(document).on('ready page:load', function() {
 				take_action(game_data.selected_nodes[0], target);
 				remove_options(game_data.selected_nodes[0]);
 				setTimeout(function() {
-					game_data.selected_nodes.forEach(function(e) {
-						unselect_node(e);
-					});
+					game_data.selected_nodes.forEach(function(e) { unselect_node(e); });
 					game_data.selected_nodes.splice(0, game_data.selected_nodes.length);
 					game_data.action_index = -1;
 				}, 300);
@@ -2424,19 +2228,13 @@ $(document).on('ready page:load', function() {
 	}
 
 	function has_animation(target) {
-		var i = 0;
-		var len = game_data.animations.length;
-		while (i < len) {
-			if (target == game_data.animations[i].target)
-				return true;
-			i++;
-		}
+		var len = game_data.animations.length, i = -1;
+		while (++i < len) if (target == game_data.animations[i].target) return true;
 		return false;
 	}
 
 	function remove_animations(target) {
-		var i = -1;
-		var len = game_data.animations.length;
+		var len = game_data.animations.length, i = -1;
 		while (++i < len)
 			if (target == game_data.animations[i].target) {
 				game_data.animations.splice(i, 1);
@@ -2448,25 +2246,20 @@ $(document).on('ready page:load', function() {
 	function add_animation(target, fractional_render, last_render, length_ms) {
 		game_data.date = new Date();
 		var now = game_data.date.getTime();
-		var animation = {
-			target: target,
-			fractional_render: fractional_render,
-			last_render: last_render,
-			length: length_ms,
-			start: now,
-			last: now
-		};
+		var animation = { target: target, fractional_render: fractional_render,
+			last_render: last_render, length: length_ms, start: now, last: now };
 		game_data.animations.push(animation);
 	}
 
 	function tick(event) {
+		var len = game_data.animations.length;
+		if (len <= 0) return;
 		w = scope.view.size.width / 2;
 		h = scope.view.size.height / 2;
 		m = Math.min(w, h);
 		game_data.date = new Date();
 		var tick_time = game_data.date.getTime();
 		var i = 0;
-		var len = game_data.animations.length;
 		while (i < len) {
 			var anim = game_data.animations[i];
 			var total_timespan = tick_time - anim.start;
@@ -2482,13 +2275,9 @@ $(document).on('ready page:load', function() {
 					len--;
 					continue;
 				}
-				else {
-					anim.start += anim.length;
-				}
+				else anim.start += anim.length;
 			}
-			else {
-				anim.fractional_render(anim.target, sigma_frac, delta_frac);
-			}
+			else anim.fractional_render(anim.target, sigma_frac, delta_frac);
 			anim.last = tick_time;
 			i++;
 		}
@@ -2498,74 +2287,41 @@ $(document).on('ready page:load', function() {
 		var raw_file = new XMLHttpRequest();
 		raw_file.open("GET", file, true);
 		raw_file.onreadystatechange = function() {
-			if (raw_file.readyState === 4)
-				if (raw_file.status === 200 || raw_file.status == 0) {
-					var raw = raw_file.responseText;
-					var exp = /[\S\s]* d="([\S\s]*)"[\S\s]*/;
-					var data = raw.replace(exp, "$1");
-					game_data.icon_data[name] = data;
-					game_data.icons[name] = new scope.Path(data);
-					game_data.icons[name].visible = false;
-					if (typeof(mirrors) != 'undefined' && mirrors != null) {
-						var mirror, mirror_icon;
-						while (mirrors.length > 0) {
-							mirror = mirrors[0];
-							mirror_icon = new scope.Path(data);
-							mirror_icon.visible = false;
-							mirror_icon.scale(mirror.x_scale, mirror.y_scale);
-							game_data.icons[mirror.name] = mirror_icon;
-							game_data.icon_data[mirror.name] = mirror_icon.pathData;
-							mirrors.splice(0, 1);
-						}
+			if (raw_file.readyState === 4 && (raw_file.status === 200 || raw_file.status == 0)) {
+				var raw = raw_file.responseText, exp = /[^d="]* d="([^"]*)"[^ d="]*/g,
+					data = "";
+				raw.replace(exp, function(match, g1) { data += g1; });
+				game_data.icons[name] = new scope.CompoundPath(data);
+				game_data.icons[name].strokeWidth = 0;
+				game_data.icons[name].visible = false;
+				game_data.icon_data[name] = data;
+				if (typeof(mirrors) != 'undefined' && mirrors != null) {
+					var mirror, mirror_icon;
+					while (mirrors.length > 0) {
+						mirror = mirrors[0];
+						mirror_icon = new scope.CompoundPath(data);
+						mirror_icon.visible = false;
+						mirror_icon.scale(mirror.x_scale, mirror.y_scale);
+						game_data.icons[mirror.name] = mirror_icon;
+						game_data.icon_data[mirror.name] = mirror_icon.pathData;
+						mirrors.splice(0, 1);
 					}
 				}
-		}
-		raw_file.send(null);
-	}
-
-	function load_multi_SVG(file, name, mirrors) {
-		var raw_file = new XMLHttpRequest();
-		raw_file.open("GET", file, true);
-		raw_file.onreadystatechange = function() {
-			if (raw_file.readyState === 4)
-				if (raw_file.status === 200 || raw_file.status == 0) {
-					var raw = raw_file.responseText;
-					var exp = /[^d="]* d="([^"]*)"[^ d="]*/g;
-					var data = "";
-					raw.replace(exp, function(match, g1) {
-						data += g1;
-					});
-					game_data.icons[name] = new scope.CompoundPath(data);
-					game_data.icons[name].strokeWidth = 0;
-					game_data.icons[name].visible = false;
-					game_data.icon_data[name] = data;
-					if (typeof(mirrors) != 'undefined' && mirrors != null) {
-						var mirror, mirror_icon;
-						while (mirrors.length > 0) {
-							mirror = mirrors[0];
-							mirror_icon = new scope.CompoundPath(data);
-							mirror_icon.visible = false;
-							mirror_icon.scale(mirror.x_scale, mirror.y_scale);
-							game_data.icons[mirror.name] = mirror_icon;
-							game_data.icon_data[mirror.name] = mirror_icon.pathData;
-							mirrors.splice(0, 1);
-						}
-					}
-				}
-		}
+			}
+		};
 		raw_file.send(null);
 	}
 
 	function set_assets() {
-		var icon_up = new scope.Raster('assets/icons/001-arrow-up.png');
-		var icon_up_right = new scope.Raster('assets/icons/002-arrow-up-right.png');
-		var icon_right = new scope.Raster('assets/icons/003-arrow-right.png');
-		var icon_down_right = new scope.Raster('assets/icons/004-arrow-down-right.png');
-		var icon_down = new scope.Raster('assets/icons/005-arrow-down.png');
-		var icon_down_left = new scope.Raster('assets/icons/006-arrow-down-left.png');
-		var icon_left = new scope.Raster('assets/icons/007-arrow-left.png');
-		var icon_up_left = new scope.Raster('assets/icons/008-arrow-up-left.png');
-		var icon_attack = new scope.Raster('assets/icons/009-crosshair.png');
+		var icon_up = new scope.Raster('assets/icons/001-arrow-up.png'),
+			icon_up_right = new scope.Raster('assets/icons/002-arrow-up-right.png'),
+			icon_right = new scope.Raster('assets/icons/003-arrow-right.png'),
+			icon_down_right = new scope.Raster('assets/icons/004-arrow-down-right.png'),
+			icon_down = new scope.Raster('assets/icons/005-arrow-down.png'),
+			icon_down_left = new scope.Raster('assets/icons/006-arrow-down-left.png'),
+			icon_left = new scope.Raster('assets/icons/007-arrow-left.png'),
+			icon_up_left = new scope.Raster('assets/icons/008-arrow-up-left.png'),
+			icon_attack = new scope.Raster('assets/icons/009-crosshair.png');
 		icon_up.visible = false;
 		icon_up_right.visible = false;
 		icon_right.visible = false;
@@ -2575,13 +2331,14 @@ $(document).on('ready page:load', function() {
 		icon_left.visible = false;
 		icon_up_left.visible = false;
 		icon_attack.visible = false;
-		load_multi_SVG('assets/icons/048-back.svg', 'back',
+		load_SVG('assets/icons/048-back.svg', 'back',
 			[{ name:'move', x_scale: 1, y_scale: -1 }]);
-		load_multi_SVG('assets/icons/047-next.svg', 'right',
+		load_SVG('assets/icons/047-next.svg', 'right',
 			[{ name:'left', x_scale: -1, y_scale: 1 }]);
 		load_SVG('assets/icons/041-focus.svg', 'attack');
-		load_multi_SVG('assets/icons/043-connect.svg', 'connect');
-		load_multi_SVG('assets/icons/049-information.svg', 'node_info');
+		load_SVG('assets/icons/043-connect.svg', 'connect');
+		load_SVG('assets/icons/049-information.svg', 'node_info');
+		load_SVG('assets/icons/046-return.svg', 'return');
 	}
 
 	function init() {
