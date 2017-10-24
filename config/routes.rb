@@ -3,7 +3,6 @@ Rails.application.routes.draw do
 mount ActionCable.server => '/cable'
 
 resources :news_posts
-resources :news_posts
 resources :interactions
 resources :effects
 resources :factions

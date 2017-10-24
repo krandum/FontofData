@@ -1,6 +1,8 @@
-bundle exec rake db:drop
+brew install postgresql
+initdb /usr/local/var/postgres
+pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+which psql
+bundle
+bundle exec rake db:create:all
 bundle exec rake db:migrate
 sh setup.sh
-bundle exec rails runner "User.create!({username: \"Red\", email: \"red@red.com\", password: \"redred\", password_confirmation: \"redred\" })"
-bundle exec rails runner "User.create!({username: \"Blue\", email: \"blue@blue.com\", password: \"blueblue\", password_confirmation: \"blueblue\" })"
-bundle exec rails runner "User.create!({username: \"Green\", email: \"green@green.com\", password: \"greengreen\", password_confirmation: \"greengreen\" })"

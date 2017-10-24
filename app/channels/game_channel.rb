@@ -68,7 +68,7 @@ private
 							)
 						else
 							@target.update_attribute(:faction_id, @origin.faction_id)
-							@target.update_attribute(:user_id, @origin.user_id)
+							@target.update_attribute(:user_id, current_user.id)
 						end
 						status = 'success'
 						target_status = 'to_origin'

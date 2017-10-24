@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 	# :confirmable, :lockable, :timeoutable and :omniauthable
 	# Pablo removed: :recoverable, :trackable
 	validates :username, presence: true, length: {maximum: 255}, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]*\z/, message: "may only contain letters and numbers." }
-	devise :database_authenticatable, :registerable, :rememberable, :validatable
+	devise :database_authenticatable, :registerable, :rememberable, :validatable, :trackable
 	# before_create :default_faction
 
 	attr_accessor :login
@@ -33,6 +33,11 @@ class User < ActiveRecord::Base
 	def testfunc(thing)
 		puts thing
 		puts thing
+	end
+
+	def gaingold()
+		self.gold += [self.data_nodes.sum(:resource_generator), 1.0].max
+		self.save
 	end
 
 	private

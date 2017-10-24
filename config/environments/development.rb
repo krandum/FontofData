@@ -41,4 +41,10 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+	# config.force_ssl = true
+	# config.ssl_options = {  redirect: { status: 307, port: 3000 } }
+	# if config.force_ssl
+  # 	middleware.use ::ActionDispatch::SSL,config.ssl_options
+	# end
+
 end
