@@ -24,6 +24,8 @@ class PlayController < ApplicationController
 		# 	@classes.push(name)
 		# 	iter += 1
 		# end
+		@chat_room = ChatRoom.first
+		@message = Message.new
 		@user = User.find(current_user.id)
 	end
 end

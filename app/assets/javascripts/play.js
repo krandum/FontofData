@@ -157,30 +157,36 @@ $(document).on('ready page:load', function() {
 		ui.chat_pane = document.getElementsByClassName('chat_pane')[0];
 		ui.status_bar = document.getElementsByClassName('status_bar')[0];
 		ui.tabs = document.getElementsByClassName('tabs')[0];
+		ui.messages = document.getElementById('messages');
 
 		function hex_to_rgba(hex, alpha) {
 			var r = parseInt(hex.slice(1, 3), 16),
 			g = parseInt(hex.slice(3, 5), 16),
 			b = parseInt(hex.slice(5, 7), 16);
-			if (alpha) return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
-			else return "rgb(" + r + ", " + g + ", " + b + ")";
+
+			if (alpha) {
+				return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+			} else {
+				return "rgb(" + r + ", " + g + ", " + b + ")";
+			}
 		}
 		ui.set_colors = function() {
-			ui.card.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary, .75);
+			ui.card.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary);
 			ui.card.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.card.style.color = ui.color_palette[user.faction_id].highlight;
 			ui.card.children[2].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.card.children[2].style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.card.children[4].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.card.children[4].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.search_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis, .75);
+			ui.search_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis);
 			ui.search_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.quest_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.quest_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.chat_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.chat_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.chat_pane.children[0].style.backgroundColor = ui.color_palette[user.faction_id].primary;
-			ui.status_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary, .75);
+			ui.chat_pane.children[0].children[0].style.backgroundColor = ui.color_palette[user.faction_id].primary;
+			ui.status_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary);
 			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.status_bar.style.color = ui.color_palette[user.faction_id].highlight;
@@ -188,6 +194,7 @@ $(document).on('ready page:load', function() {
 			ui.tabs.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.tabs.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
 			ui.tabs.children[1].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.messages.style.color = ui.color_palette[user.faction_id].highlight;
 		};
 		ui.set_bar = function() {
 			ui.status_bar.children[0].style.backgroundImage = 'url(' + user.picture + ')';
@@ -209,8 +216,9 @@ $(document).on('ready page:load', function() {
 			var span_num = 0;
 			while (++span_num < 9) {
 				cur_span = ui.card_spans[span_num];
-				while (cur_span.firstChild)
+				while (cur_span.firstChild) {
 					cur_span.removeChild(cur_span.firstChild);
+				}
 			}
 			ui.card_spans[1].appendChild(document.createTextNode(card_node.value));
 			ui.card_spans[2].appendChild(document.createTextNode(card_node.owner));
