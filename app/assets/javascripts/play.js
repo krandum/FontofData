@@ -3,26 +3,25 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on('ready page:load', function() {
-	var play_check = document.getElementById('play');
-	if (typeof(play_check) == 'undefined' || play_check == null) {
+	let play_check = document.getElementById('play');
+	if (typeof(play_check) === 'undefined' || play_check === null) {
 		console.log('aborting play.js due to no element with id play');
 		return;
 	}
-	var canvas = document.getElementById("myCanvas");
 
-	var scope = new paper.PaperScope();
-	scope.setup(canvas);
+	let scope = new paper.PaperScope();
+	scope.setup("myCanvas");
 
-	var w = scope.view.size.width / 2;
-	var wl = -0.4 * w;
-	var wh = 2.4 * w;
-	var h = scope.view.size.height / 2;
-	var hh = 2.5 * h;
-	var m = Math.min(w, h);
+	let w = scope.view.size.width / 2;
+	let wl = -0.4 * w;
+	let wh = 2.4 * w;
+	let h = scope.view.size.height / 2;
+	let hh = 2.5 * h;
+	let m = Math.min(w, h);
 
-	var game_data = {
+	let game_data = {
 		fov: 400,
-		view_dist: 300,
+		view_dist: 342,
 		tilt: -23,
 		node_factions: [],
 		node_connections: [],
@@ -45,28 +44,32 @@ $(document).on('ready page:load', function() {
 				num: '#000000',
 				fill: '#cecece',
 				selected: '#000000',
-				glow: '#000000'
+				glow: '#000000',
+				background: '#C0C0C0'
 			},
 			2: { // Red Rocks
 				line: '#e52d00',
 				num: '#e52d00',
 				fill: '#faf9f9',
 				selected: '#ff8300',
-				glow: '#ff8300'
+				glow: '#ff8300',
+				background: '#E5522D'
 			},
 			3: { // Green Elves
 				line: '#3eb200',
 				num: '#3eb200',
 				fill: '#ffffd8',
 				selected: '#40ed4b',
-				glow: '#40ed4b'
+				glow: '#40ed4b',
+				background: '#5AE25F'
 			},
 			4: { // Blue Jellyfish
 				line: '#2188dd',
 				num: '#2188dd',
 				fill: '#C9f0ff',
 				selected: '#9428ab',
-				glow: '#9428ab'
+				glow: '#9428ab',
+				background: '#3B94DD'
 			}
 		},
 		background: {},
@@ -79,7 +82,7 @@ $(document).on('ready page:load', function() {
 		card_set: false
 	};
 
-	var g_theta = game_data.tilt * Math.PI / 180;
+	let g_theta = game_data.tilt * Math.PI / 180;
 
 	// Getting user information
 	// function get_user_info() {
@@ -91,8 +94,8 @@ $(document).on('ready page:load', function() {
 	// 		},
 	// 		datatype: "html",
 	// 		success: function (raw) {
-	// 			var data = JSON.parse(raw);
-	// 			var user_info = game_data.user_info;
+	// 			let data = JSON.parse(raw);
+	// 			let user_info = game_data.user_info;
 	// 			user_info.name = data['user']['name'];
 	// 			user_info.picture = data['user']['picture'];
 	// 			user_info.faction_id = data['user']['faction_id'];
@@ -104,8 +107,8 @@ $(document).on('ready page:load', function() {
 	// }
 
 	function make_ui() {
-		var user = game_data.user_info;
-		var ui = game_data.user_interface;
+		let user = game_data.user_info;
+		let ui = game_data.user_interface;
 		//REMOVE WITH QUERY
 		//MEOW
 		ui.color_palette = {
@@ -160,7 +163,7 @@ $(document).on('ready page:load', function() {
 		ui.messages = document.getElementById('messages');
 		console.log(ui.chat_pane.children);
 		function hex_to_rgba(hex, alpha) {
-			var r = parseInt(hex.slice(1, 3), 16),
+			let r = parseInt(hex.slice(1, 3), 16),
 			g = parseInt(hex.slice(3, 5), 16),
 			b = parseInt(hex.slice(5, 7), 16);
 
@@ -202,7 +205,7 @@ $(document).on('ready page:load', function() {
 			ui.status_bar.children[0].style.backgroundImage = 'url(' + user.picture + ')';
 			ui.status_bar.children[0].style.backgroundRepeat = 'no-repeat';
 			ui.status_bar.children[1].firstChild.appendChild(document.createTextNode(user.name));
-		}
+		};
 		ui.set_card = function(card_node) {
 			ui.card_spans = {
 				1: document.getElementById('node_number'),
@@ -256,7 +259,7 @@ $(document).on('ready page:load', function() {
 				ui.quest_pane.style.display = 'none';
 				ui.chat_pane.style.display = 'block';
 			});
-		}
+		};
 		ui.init = function() {
 			ui.set_colors();
 			ui.set_bar();
@@ -266,7 +269,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function make_background() {
-		var background = game_data.background,
+		let background = game_data.background,
 		d_off = game_data.view_dist / Math.tan(-g_theta),
 		h_off = d_off / Math.cos(-g_theta),
 		num = 9,
@@ -281,7 +284,7 @@ $(document).on('ready page:load', function() {
 		background.z_range = { range: basis, force: basis / 4.1 };
 		background.triangles = [];
 		background.y_fade = 40;
-		var shifter = { x: w, y: background.y_fade, z: 0 }, tmp;
+		let shifter = { x: w, y: background.y_fade, z: 0 }, tmp;
 		change_actual_of_seen(shifter, { x: 0, y: -background.y_range.mid, z: 0 });
 		background.y_lim = shifter.y;
 		shifter = { x: w, y: 2*h, z: 0};
@@ -290,54 +293,169 @@ $(document).on('ready page:load', function() {
 		background.light_ray = normalize({ x: 0.7, y: 0.5, z: 1 });
 		background.map = { top: 1, bot: 0, moved_top: false, moved_bot: false };
 		background.rows = [];
+		background.color_distance_threshold = 242.0;
+		background.factioned = false;
 
 		background.add_point = function(row, x, y, z) {
-			var point = { x: x, y: y, z: z };
+			let point = { x: x, y: y, z: z };
 			point.triangles = [];
-			var i = row.points.length;
-			while (--i >= 0 && row.points[i].x > x);
-			if (++i == row.points.length) row.points.push(point);
+			let i = row.points.length - 1;
+			while (i >= 0 && row.points[i].x > x) i--;
+			if (++i === row.points.length) row.points.push(point);
 			else row.points.splice(i, 0, point);
 			return point;
 		};
-		function has_triangle(p1, p2, p3) {
-			if (p1.x > p2.x){ tmp = p1; p1 = p2; p2 = tmp; }
-			if (p2.x > p3.x){ tmp = p2; p2 = p3; p3 = tmp; }
-			if (p1.y > p2.y){ tmp = p1; p1 = p2; p2 = tmp; }
-			var cur = -1;
-			while (++cur < p1.triangles.length) {
-				var cur_triangle = p1.triangles[cur];
-				if (cur_triangle.points[0] == p1 &&
-					cur_triangle.points[1] == p2 &&
-					cur_triangle.points[2] == p3)
-					return true;
+		// function has_triangle(p1, p2, p3) {
+		// 	if (p1.x > p2.x){ tmp = p1; p1 = p2; p2 = tmp; }
+		// 	if (p2.x > p3.x){ tmp = p2; p2 = p3; p3 = tmp; }
+		// 	if (p1.y > p2.y){ tmp = p1; p1 = p2; p2 = tmp; }
+		// 	let cur = -1;
+		// 	while (++cur < p1.triangles.length) {
+		// 		let cur_triangle = p1.triangles[cur];
+		// 		if (cur_triangle.points[0] === p1 &&
+		// 			cur_triangle.points[1] === p2 &&
+		// 			cur_triangle.points[2] === p3)
+		// 			return true;
+		// 	}
+		// 	return false;
+		// }
+		function point_color(point, cos, threshold) {
+			let frame = game_data.framework, num_rows = frame.length, row_len, left,
+				right, bottom = num_rows, top = -1, close_nodes = [];
+			while (--bottom >= 0 && frame[bottom].y < point.y);
+			while (++top < num_rows && frame[top].y > point.y);
+			if (top > 0 && top < num_rows) {
+				row_len = frame[top].len;
+				left = row_len;
+				right = -1;
+				while (--left >= 0 && frame[top].nodes[left].x > point.x);
+				while (++right < row_len && frame[top].nodes[right].x < point.x);
+				if (left >= 0) close_nodes.push(frame[top].nodes[left].node);
+				if (right < row_len) close_nodes.push(frame[top].nodes[right].node);
 			}
-			return false;
+			if (top === 0 || bottom === 0) close_nodes.push(frame[0].nodes[0].node);
+			if (bottom > 0 && bottom < num_rows) {
+				row_len = frame[bottom].len;
+				left = row_len;
+				right = -1;
+				while (--left >= 0 && frame[bottom].nodes[left].x > point.x);
+				while (++right < row_len && frame[bottom].nodes[right].x < point.x);
+				if (left >= 0) close_nodes.push(frame[bottom].nodes[left].node);
+				if (right < row_len) close_nodes.push(frame[bottom].nodes[right].node);
+			}
+			let node_colors = [], color, distance, p1 = { x: point.x, y: point.y },
+				p2, formatted_colors = [], cur_weight, total_weight = 0;
+			p1.z = unrotate_point(p1, 0);
+			while (close_nodes.length > 0) {
+				color = game_data.colors[game_data.node_factions[close_nodes[0].value].toString()]['background'];
+				p2 = { x: close_nodes[0].circle.position.x, y: close_nodes[0].circle.position.y };
+				p2.z = unrotate_point(p2, 0);
+				distance = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+				if (distance < threshold) {
+					cur_weight = 1 - (distance / threshold);
+					node_colors.push({ color: color_times_ratio(string_to_color(color), cos),
+						weight: cur_weight });
+					total_weight += cur_weight;
+				}
+				close_nodes.splice(0, 1);
+			}
+			if (total_weight < 1) {
+				node_colors.push({ color: color_times_ratio(0xFFFFFF, cos),
+					weight: 1 - total_weight });
+				total_weight = 1;
+			}
+			while (node_colors.length > 0) {
+				formatted_colors.push({ color: node_colors[0].color,
+					percentage: node_colors[0].weight / total_weight });
+				node_colors.splice(0, 1);
+			}
+			color = color_partial_combine(formatted_colors).toString(16);
+			while (color.length < 6) color = '0' + color;
+			return '#' + color;
 		}
+		function two_points(p1, p2, p3) {
+			let yd1 = Math.abs(p1.y - p2.y),
+				yd2 = Math.abs(p2.y - p3.y),
+				yd3 = Math.abs(p3.y - p1.y);
+			if (yd1 <= yd2 && yd1 <= yd3)
+				return [p3, { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 }];
+			else if (yd2 <= yd1 && yd2 <= yd3)
+				return [p1, { x: (p3.x + p2.x) / 2, y: (p3.y + p2.y) / 2 }];
+			else if (yd3 <= yd1 && yd3 <= yd2)
+				return [p2, { x: (p3.x + p1.x) / 2, y: (p3.y + p1.y) / 2 }];
+		}
+		function color_triangle(triangle, _) {
+			let [p1, p2] = two_points(triangle.points[0], triangle.points[1], triangle.points[2]);
+			let	c1 = point_color(p1, triangle.cos, _.color_distance_threshold),
+				c2 = point_color(p2, triangle.cos, _.color_distance_threshold);
+			let grad = new scope.Gradient([c1, c2]);
+			let color = new scope.Color(grad, new scope.Point(p1.x, p1.y),
+				new scope.Point(p2.x, p2.y));
+			triangle.path.fillColor = color;
+			triangle.path.strokeColor = color;
+		}
+		function set_triangle_target_color(triangle, _) {
+			let [p1, p2] = two_points(triangle.points[0], triangle.points[1], triangle.points[2]);
+			let	c1 = point_color(p1, triangle.cos, _.color_distance_threshold),
+				c2 = point_color(p2, triangle.cos, _.color_distance_threshold), base;
+			if (triangle.reached_target === true) {
+				base = {
+					from: triangle.path.fillColor.gradient.stops[0].color.toCSS(true),
+					to: triangle.path.fillColor.gradient.stops[1].color.toCSS(true)
+				};
+			}
+			else {
+				base = color_times_ratio(string_to_color(game_data.colors['1'].background),
+					triangle.cos);
+				base = { from: base, to: base };
+			}
+			triangle.target_color = { c1: c1, c2: c2,
+				p1: new scope.Point(p1.x, p1.y), p2: new scope.Point(p2.x, p2.y),
+				base: base };
+		}
+		function partial_color_triangle(triangle, frac) {
+			let target = triangle.target_color, base = target.base,
+				c1 = color_to_color_ratio(target.c1, base.from, frac).toString(16),
+				c2 = color_to_color_ratio(target.c2, base.to, frac).toString(16);
+			while (c1.length < 6) c1 = '0' + c1;
+			c1 = '#' + c1;
+			while (c2.length < 6) c2 = '0' + c2;
+			c2 = '#' + c2;
+			let grad = new scope.Gradient([c1, c2]);
+			let color = new scope.Color(grad, target.p1, target.p2);
+			triangle.path.fillColor = color;
+			triangle.path.strokeColor = color;
+		}
+		background.confirm_triangle_colors = function() {
+			let i = -1;
+			while (++i < this.triangles.length)
+				this.triangles[i].reached_target = true;
+		};
+		background.set_triangle_targets = function() {
+			let i = -1;
+			while (++i < this.triangles.length)
+				set_triangle_target_color(this.triangles[i], this);
+		};
+		background.color_background = function() {
+			let i = -1;
+			while (++i < this.triangles.length)
+				color_triangle(this.triangles[i], this);
+		};
+		background.partial_color_background = function(frac) {
+			let i = -1;
+			while (++i < this.triangles.length)
+				partial_color_triangle(this.triangles[i], frac);
+		};
 		background.add_triangle = function(p1, p2, p3, base, dir) {
-			var path = new scope.Path();
+			let path = new scope.Path();
 			if (p1.x > p2.x){ tmp = p1; p1 = p2; p2 = tmp; }
 			if (p2.x > p3.x){ tmp = p2; p2 = p3; p3 = tmp; }
 			if (p1.y > p2.y){ tmp = p1; p1 = p2; p2 = tmp; }
-			var edge1 = get_vector(p2, p1);
-			var edge2 = get_vector(p3, p1);
-			var normal = normalize(cross(edge1, edge2));
-			var theta = get_angle(normal, this.light_ray);
-			var cos = Math.cos(theta);
-			// Grayscale
-			var alpha = Math.floor(192 * cos);
-			var bit = alpha.toString(16);
-			var color = "#" + bit + bit + bit;
-			// Color gradient
-			// var c1 = game_data.colors['0'].light;
-			// var c2 = game_data.colors['0'].dark;
-			// var red = Math.floor((c1[0] - c2[0]) * cos) + c2[0];
-			// var green = Math.floor((c1[1] - c2[1]) * cos) + c2[1];
-			// var blue = Math.floor((c1[2] - c2[2]) * cos) + c2[2];
-			// var r_bit = red.toString(16);
-			// var g_bit = green.toString(16);
-			// var b_bit = blue.toString(16);
-			// var color = "#" + r_bit + g_bit + b_bit;
+			let edge1 = get_vector(p2, p1), edge2 = get_vector(p3, p1),
+				normal = normalize(cross(edge1, edge2)),
+				theta = get_angle(normal, this.light_ray), cos = Math.cos(theta),
+				alpha = Math.floor(192 * cos),
+				bit = alpha.toString(16), color = "#" + bit + bit + bit;
 			path.add(new scope.Segment(new scope.Point(p1.x, p1.y)));
 			path.add(new scope.Segment(new scope.Point(p2.x, p2.y)));
 			path.add(new scope.Segment(new scope.Point(p3.x, p3.y)));
@@ -347,8 +465,8 @@ $(document).on('ready page:load', function() {
 			path.strokeWidth = 1;
 			path.strokeJoin = "bevel";
 			path.sendToBack();
-			var triangle = { path: path, points: [p1, p2, p3], base: base, dir: dir,
-				cos: cos, colored: false, node_dependencies: [] };
+			let triangle = { path: path, points: [p1, p2, p3], base: base, dir: dir,
+				cos: cos, node_dependencies: [], target_color: color, reached_target: false };
 			this.triangles.push(triangle);
 			p1.triangles.push(triangle);
 			p2.triangles.push(triangle);
@@ -358,8 +476,8 @@ $(document).on('ready page:load', function() {
 		background.change_colors = function(light, dark) {
 			game_data.colors['0'].dark = dark;
 			game_data.colors['0'].light = light;
-			var i = -1, cur_triangle;
-			var red, green, blue, r_bit, g_bit, b_bit, color;
+			let i = -1, cur_triangle;
+			let red, green, blue, r_bit, g_bit, b_bit, color;
 			while (++i < this.triangles.length) {
 				cur_triangle = this.triangles[i];
 				red = Math.floor((light[0] - dark[0]) * cur_triangle.cos) + dark[0];
@@ -373,8 +491,8 @@ $(document).on('ready page:load', function() {
 				cur_triangle.path.strokeColor = color;
 			}
 		};
-		background.set_grayscale = function() {
-			var i = -1, cur_triangle, alpha, bit;
+		background.set_greyscale = function() {
+			let i = -1, cur_triangle, alpha, bit, color;
 			while (++i < this.triangles.length) {
 				cur_triangle = this.triangles[i];
 				alpha = Math.floor(192 * cur_triangle.cos);
@@ -383,24 +501,24 @@ $(document).on('ready page:load', function() {
 				cur_triangle.path.fillColor = color;
 				cur_triangle.path.strokeColor = color;
 			}
-		}
+		};
 		background.add_row = function(base_y, y_mod) {
-			if (y_mod != 1 && y_mod != -1) return;
-			var cur = { x: w, y: base_y, z: 0 };
-			var change = { x: 0, y: y_mod * this.y_range.mid, z: 0 };
+			if (y_mod !== 1 && y_mod !== -1) return;
+			let cur = { x: w, y: base_y, z: 0 };
+			let change = { x: 0, y: y_mod * this.y_range.mid, z: 0 };
 			change_actual_of_seen(cur, change);
-			var base = { mid: cur.y };
+			let base = { mid: cur.y };
 			change.y = -this.y_range.range / 2;
 			change_actual_of_seen(cur, change);
 			base.min = cur.y;
 			change.y = this.y_range.range;
 			change_actual_of_seen(cur, change);
 			base.max = cur.y;
-			var row = { base: base, points: [], left_above: -1, left_below: -1,
+			let row = { base: base, points: [], left_above: -1, left_below: -1,
 				right_above: -1, right_below: -1 };
-			var ref_row = null;
-			var row_index;
-			if (y_mod == -1) {
+			let ref_row = null;
+			let row_index;
+			if (y_mod === -1) {
 				if (this.map.moved_top) ref_row = this.rows[this.map.top];
 				this.map.moved_top = true;
 				this.map.top--;
@@ -415,7 +533,7 @@ $(document).on('ready page:load', function() {
 				row_index = this.map.bot;
 			}
 			cur.x = wl - (this.x_range.base + this.x_range.range / 2);
-			var cur_point = null, last_point, prev_z, left_ref = -1, right_ref = -1,
+			let cur_point = null, last_point, prev_z, left_ref = -1, right_ref = -1,
 				last_left, last_right, cur_index = -1, last_index;
 			change.z = 0;
 			while (cur.x < wh) {
@@ -431,7 +549,7 @@ $(document).on('ready page:load', function() {
 				cur_point = this.add_point(row, cur.x, cur.y, cur.z);
 				cur_index = row.points.indexOf(cur_point);
 				last_index = row.points.indexOf(last_point);
-				if (ref_row != null) {
+				if (ref_row !== null) {
 					last_left = left_ref;
 					last_right = right_ref;
 					right_ref = -1;
@@ -439,14 +557,14 @@ $(document).on('ready page:load', function() {
 					while (++right_ref < ref_row.points.length &&
 						x_dif(ref_row.points[right_ref], cur_point) < 0);
 					while (--left_ref >= 0 && x_dif(ref_row.points[left_ref], cur_point) > 0);
-					if (right_ref != ref_row.points.length && left_ref != -1) {
-						if (last_left == -1)
+					if (right_ref !== ref_row.points.length && left_ref !== -1) {
+						if (last_left === -1)
 							this.add_triangle(cur_point, ref_row.points[left_ref],
 								ref_row.points[right_ref], row_index - y_mod, y_mod);
-						else if (last_left == left_ref && last_right == right_ref)
+						else if (last_left === left_ref && last_right === right_ref)
 							this.add_triangle(cur_point, ref_row.points[right_ref],
 								last_point, row_index, -y_mod);
-						else if (last_right == left_ref) {
+						else if (last_right === left_ref) {
 							this.add_triangle(cur_point, ref_row.points[left_ref],
 								ref_row.points[right_ref], row_index - y_mod, y_mod);
 							this.add_triangle(cur_point, ref_row.points[left_ref],
@@ -455,7 +573,7 @@ $(document).on('ready page:load', function() {
 						else {
 							this.add_triangle(cur_point, ref_row.points[left_ref],
 								ref_row.points[right_ref], row_index - y_mod, y_mod);
-							if (left_ref - last_right == 1) {
+							if (left_ref - last_right === 1) {
 								this.add_triangle(cur_point, ref_row.points[last_right],
 									ref_row.points[left_ref], row_index - y_mod, y_mod);
 								this.add_triangle(cur_point, ref_row.points[last_right],
@@ -463,7 +581,7 @@ $(document).on('ready page:load', function() {
 							}
 							else {
 								while (--left_ref > last_right) {
-									if (left_ref - last_right == 1) {
+									if (left_ref - last_right === 1) {
 										this.add_triangle(cur_point, ref_row.points[left_ref],
 											ref_row.points[left_ref + 1], row_index - y_mod, y_mod);
 										this.add_triangle(cur_point, last_point,
@@ -478,16 +596,16 @@ $(document).on('ready page:load', function() {
 							}
 						}
 					}
-					else if (left_ref != -1 && last_right == left_ref)
+					else if (left_ref !== -1 && last_right === left_ref)
 						this.add_triangle(cur_point, last_point, ref_row.points[left_ref],
 							row_index, -y_mod);
 				}
 			}
 		};
 		background.remove_row = function(y_mod) {
-			var row, cur_point, cur_triangle, index;
-			if (y_mod == 1 && this.map.moved_top) row = this.rows[this.map.top];
-			else if (y_mod == -1 && this.map.moved_bot) row = this.rows[this.map.bot];
+			let row, cur_point, cur_triangle, index;
+			if (y_mod === 1 && this.map.moved_top) row = this.rows[this.map.top];
+			else if (y_mod === -1 && this.map.moved_bot) row = this.rows[this.map.bot];
 			else return;
 			while (row.points.length > 0) {
 				cur_point = row.points[0];
@@ -505,7 +623,7 @@ $(document).on('ready page:load', function() {
 				}
 				row.points.splice(0, 1);
 			}
-			if (y_mod == 1) {
+			if (y_mod === 1) {
 				delete this.rows[this.map.top];
 				this.map.top++;
 			}
@@ -515,7 +633,7 @@ $(document).on('ready page:load', function() {
 			}
 		};
 		background.set_edges = function() {
-			var cur = this.map.top - 1, cur_row, i, j, top_found, bot_found,
+			let cur = this.map.top - 1, cur_row, i, j, top_found, bot_found,
 				cur_point, cur_triangle;
 			while (++cur <= this.map.bot) {
 				cur_row = this.rows[cur];
@@ -529,11 +647,11 @@ $(document).on('ready page:load', function() {
 					j = -1;
 					while (++j < cur_point.triangles.length) {
 						cur_triangle = cur_point.triangles[j];
-						if ((cur_triangle.base == cur && cur_triangle.dir == -1) ||
-							(cur_triangle.base == cur - 1 && cur_triangle.dir == 1))
+						if ((cur_triangle.base === cur && cur_triangle.dir === -1) ||
+							(cur_triangle.base === cur - 1 && cur_triangle.dir === 1))
 							top_found = true;
-						else if ((cur_triangle.base == cur && cur_triangle.dir == 1) ||
-							(cur_triangle.base == cur + 1 && cur_triangle.dir == -1))
+						else if ((cur_triangle.base === cur && cur_triangle.dir === 1) ||
+							(cur_triangle.base === cur + 1 && cur_triangle.dir === -1))
 							bot_found = true;
 						else console.log("weird left");
 					}
@@ -550,11 +668,11 @@ $(document).on('ready page:load', function() {
 					j = -1;
 					while (++j < cur_point.triangles.length) {
 						cur_triangle = cur_point.triangles[j];
-						if ((cur_triangle.base == cur && cur_triangle.dir == -1) ||
-							(cur_triangle.base == cur - 1 && cur_triangle.dir == 1))
+						if ((cur_triangle.base === cur && cur_triangle.dir === -1) ||
+							(cur_triangle.base === cur - 1 && cur_triangle.dir === 1))
 							top_found = true;
-						else if ((cur_triangle.base == cur && cur_triangle.dir == 1) ||
-							(cur_triangle.base == cur + 1 && cur_triangle.dir == -1))
+						else if ((cur_triangle.base === cur && cur_triangle.dir === 1) ||
+							(cur_triangle.base === cur + 1 && cur_triangle.dir === -1))
 							bot_found = true;
 						else
 							console.log("weird right");
@@ -563,10 +681,10 @@ $(document).on('ready page:load', function() {
 					if (!bot_found) cur_row.right_below--;
 				}
 			}
-		}
+		};
 		background.trim_sides = function() {
-			var cur = this.map.top - 1, cur_row, cur_point, cur_triangle, i, j,
-				top_found, bot_found, top_lim = 0, bot_lim = 1;
+			let cur = this.map.top - 1, cur_row, cur_point, cur_triangle, top_lim = 0,
+				bot_lim = 1, index;
 			while (++cur <= this.map.bot) {
 				if (cur >= this.map.top + 1) top_lim = -1;
 				if (cur >= this.map.bot) bot_lim = 0;
@@ -611,8 +729,8 @@ $(document).on('ready page:load', function() {
 			}
 		};
 		background.fill_sides = function() {
-			var row_num = this.map.bot + 1, cur_row, prev_point, prev_z, cur;
-			var change = { z: 0 };
+			let row_num = this.map.bot + 1, cur_row, prev_point, prev_z, cur;
+			let change = { z: 0 };
 			while (--row_num >= this.map.top) {
 				cur_row = this.rows[row_num];
 				while (cur_row.points[0].x > wl) {
@@ -644,8 +762,8 @@ $(document).on('ready page:load', function() {
 				}
 			}
 			row_num = this.map.top; // Notice we skip the very top one
-			var above, left_edge, right_edge, left_ref, right_ref;
-			var cur_col, last_point;
+			let above, left_ref, right_ref, cur_col, last_point, du, dd, ur, dr, ul,
+				dl, ups, dns, uppy, cur_point;
 			while (++row_num <= this.map.bot) {
 				cur_row = this.rows[row_num];
 				above = this.rows[row_num - 1];
@@ -659,16 +777,16 @@ $(document).on('ready page:load', function() {
 						x_dif(above.points[right_ref], cur_point) < 0);
 					while (--left_ref >= 0 && x_dif(above.points[left_ref],
 						cur_point) > 0);
-					if (right_ref != above.points.length && left_ref != -1) {
-						if (cur_col == cur_row.left_above) {
-							if (right_ref == above.left_below) {
+					if (right_ref !== above.points.length && left_ref !== -1) {
+						if (cur_col === cur_row.left_above) {
+							if (right_ref === above.left_below) {
 								this.add_triangle(cur_point, above.points[left_ref],
 									above.points[right_ref], row_num - 1, 1);
 								above.left_below = left_ref;
 							}
 						}
-						else if (cur_col == cur_row.left_above - 1) {
-							if (right_ref == above.left_below) {
+						else if (cur_col === cur_row.left_above - 1) {
+							if (right_ref === above.left_below) {
 								this.add_triangle(cur_point, above.points[right_ref],
 									cur_row.points[cur_row.left_above], row_num, -1);
 								this.add_triangle(cur_point, above.points[left_ref],
@@ -676,24 +794,24 @@ $(document).on('ready page:load', function() {
 								above.left_below = left_ref;
 								cur_row.left_above = cur_col;
 							}
-							else if (left_ref == above.left_below) {
+							else if (left_ref === above.left_below) {
 								this.add_triangle(cur_point, cur_row.points[cur_row.left_above],
 									above.points[left_ref], row_num, -1);
 								cur_row.left_above = cur_col;
 							}
 							else {
-								var du = above.left_below - left_ref;
-								var dd = cur_row.left_above - cur_col;
+								du = above.left_below - left_ref;
+								dd = cur_row.left_above - cur_col;
 								while ((du > 0 || dd > 0) && du >= 0 && dd >= 0) {
-									var ur = above.points[above.left_below];
-									var dr = cur_row.points[cur_row.left_above];
-									var ul = above.points[above.left_below - 1];
-									var dl = cur_row.points[cur_row.left_above - 1];
-									var ups = [x_dif(ur, dr) > 0 && du > 0,
+									ur = above.points[above.left_below];
+									dr = cur_row.points[cur_row.left_above];
+									ul = above.points[above.left_below - 1];
+									dl = cur_row.points[cur_row.left_above - 1];
+									ups = [x_dif(ur, dr) > 0 && du > 0,
 										du > dd && du > 0, du > 0];
-									var dns = [x_dif(ur, dr) < 0 && dd > 0,
+									dns = [x_dif(ur, dr) < 0 && dd > 0,
 										du < dd && dd > 0, dd > 0];
-									var uppy = ((ups[0] && !dns[0]) || (ups[1] && !ups[0] && !ups[1]) ||
+									uppy = ((ups[0] && !dns[0]) || (ups[1] && !ups[0] && !ups[1]) ||
 										(ups[2] && !dns[0] && !dns[1] && !dns[2]));
 									if (uppy) {
 										this.add_triangle(ur, ul, dr, row_num - 1, 1);
@@ -720,16 +838,16 @@ $(document).on('ready page:load', function() {
 						x_dif(above.points[right_ref], cur_point) < 0);
 					while (--left_ref >= 0 && x_dif(above.points[left_ref],
 						cur_point) > 0);
-					if (right_ref != above.points.length && left_ref != -1) {
-						if (cur_col == cur_row.right_above) {
-							if (left_ref == above.right_below) {
+					if (right_ref !== above.points.length && left_ref !== -1) {
+						if (cur_col === cur_row.right_above) {
+							if (left_ref === above.right_below) {
 								this.add_triangle(cur_point, above.points[left_ref],
 									above.points[right_ref], row_num - 1, 1);
 								above.right_below = left_ref;
 							}
 						}
-						else if (cur_col == cur_row.right_above + 1) {
-							if (left_ref == above.right_below) {
+						else if (cur_col === cur_row.right_above + 1) {
+							if (left_ref === above.right_below) {
 								this.add_triangle(cur_point, above.points[left_ref],
 									cur_row.points[cur_row.right_above], row_num, -1);
 								this.add_triangle(cur_point, above.points[left_ref],
@@ -737,24 +855,24 @@ $(document).on('ready page:load', function() {
 								above.right_below = right_ref;
 								cur_row.right_above = cur_col;
 							}
-							else if (right_ref == above.right_below) {
+							else if (right_ref === above.right_below) {
 								this.add_triangle(cur_point, cur_row.points[cur_row.right_above],
 									above.points[right_ref], row_num, -1);
 								cur_row.right_above = cur_col;
 							}
 							else {
-								var du = right_ref - above.right_below; //above.left_below - left_ref;
-								var dd = cur_col - cur_row.right_above; //cur_row.left_above - cur_col;
+								du = right_ref - above.right_below; //above.left_below - left_ref;
+								dd = cur_col - cur_row.right_above; //cur_row.left_above - cur_col;
 								while ((du > 0 || dd > 0) && du >= 0 && dd >= 0) {
-									var ur = above.points[above.right_below + 1];
-									var dr = cur_row.points[cur_row.right_above + 1];
-									var ul = above.points[above.right_below];
-									var dl = cur_row.points[cur_row.right_above];
-									var ups = [x_dif(ul, dl) < 0 && du > 0, // potential change first greater
+									ur = above.points[above.right_below + 1];
+									dr = cur_row.points[cur_row.right_above + 1];
+									ul = above.points[above.right_below];
+									dl = cur_row.points[cur_row.right_above];
+									ups = [x_dif(ul, dl) < 0 && du > 0, // potential change first greater
 										du > dd && du > 0, du > 0];
-									var dns = [x_dif(ul, dl) > 0 && dd > 0,
+									dns = [x_dif(ul, dl) > 0 && dd > 0,
 										du < dd && dd > 0, dd > 0];
-									var uppy = ((ups[0] && !dns[0]) || (ups[1] && !ups[0] && !ups[1]) ||
+									uppy = ((ups[0] && !dns[0]) || (ups[1] && !ups[0] && !ups[1]) ||
 										(ups[2] && !dns[0] && !dns[1] && !dns[2]));
 									if (uppy) {
 										this.add_triangle(ur, ul, dl, row_num - 1, 1);
@@ -774,31 +892,31 @@ $(document).on('ready page:load', function() {
 			}
 		};
 		background.move_to = function(from, to, frac) {
-			var real_from = { x: from.x, y: from.y, z: 0 };
+			let real_from = { x: from.x, y: from.y, z: 0 };
 			real_from.z = unrotate_point(real_from, 0);
-			var real_to = { x: to.x, y: to.y, z: 0 };
+			let real_to = { x: to.x, y: to.y, z: 0 };
 			real_to.z = unrotate_point(real_to, 0);
-			var change = { x: real_to.x - real_from.x, y: real_to.y - real_from.y, z: 0 };
-			var cur_row = this.map.top - 1, cur_col, cur_base, cur_triangle, cur_point;
+			let change = { x: real_to.x - real_from.x, y: real_to.y - real_from.y, z: 0 };
+			let cur_row = this.map.top - 1, cur_col, cur_base, cur_triangle, cur_point;
 			while (++cur_row <= this.map.bot) {
 				cur_base = this.rows[cur_row].base;
 				shifter = { x: w, y: cur_base.min, z: 0 };
 				change_actual_of_seen(shifter, change);
-				cur_base.min = shifter.y
+				cur_base.min = shifter.y;
 				shifter = { x: w, y: cur_base.mid, z: 0 };
 				change_actual_of_seen(shifter, change);
-				cur_base.mid = shifter.y
+				cur_base.mid = shifter.y;
 				shifter = { x: w, y: cur_base.max, z: 0 };
 				change_actual_of_seen(shifter, change);
-				cur_base.max = shifter.y
+				cur_base.max = shifter.y;
 				cur_col = -1;
 				while (++cur_col < this.rows[cur_row].points.length)
 				{
-					cur_point = this.rows[cur_row].points[cur_col]
+					cur_point = this.rows[cur_row].points[cur_col];
 					change_actual_of_seen(cur_point, change);
 				}
 			}
-			var cur = -1;
+			let cur = -1;
 			while (++cur < this.triangles.length) {
 				cur_triangle = this.triangles[cur];
 				cur_triangle.path.segments[0].point.x = cur_triangle.points[0].x;
@@ -825,12 +943,6 @@ $(document).on('ready page:load', function() {
 			this.fill_sides(frac);
 			this.set_edges();
 		};
-		// background.color_background() {
-		// 	var closest_nodes = function(point) {
-		// 	}
-		// 	var color_triangle = function(triangle) {
-		// 	}
-		// }
 		background.start = function() {
 			this.add_row(h, -1);
 			while (this.rows[this.map.top].base.mid > this.y_fade)
@@ -842,10 +954,63 @@ $(document).on('ready page:load', function() {
 		background.start();
 	}
 
+	function string_to_color(str) {
+		str = str.slice(1);
+		return parseInt(str, 16);
+	}
+
+	function color_times_ratio(color, ratio) {
+		let red, green, blue;
+		red = Math.max(0, Math.min(0xFF, ((color & 0xFF0000) >> 16) * ratio));
+		green = Math.max(0, Math.min(0xFF, ((color & 0xFF00) >> 8) * ratio));
+		blue = Math.max(0, Math.min(0xFF, (color & 0xFF) * ratio));
+		return (red << 16) | (green << 8) | blue;
+	}
+
+	function color_partial_combine(colors) {
+		let red = 0, green = 0, blue = 0, i = -1, cur_color;
+		while (++i < colors.length) {
+			cur_color = colors[i];
+			red += ((cur_color.color & 0xFF0000) >> 16) * cur_color.percentage;
+			green += ((cur_color.color & 0xFF00) >> 8) * cur_color.percentage;
+			blue += (cur_color.color & 0xFF) * cur_color.percentage;
+		}
+		red = Math.max(0, Math.min(0xFF, parseInt(red)));
+		green = Math.max(0, Math.min(0xFF, parseInt(green)));
+		blue = Math.max(0, Math.min(0xFF, parseInt(blue)));
+		return (red << 16) | (green << 8) | blue;
+	}
+
+	function color_to_color_ratio(color1, color2, ratio) {
+		let red1, red2, red_out, green1, green2, green_out, blue1, blue2, blue_out;
+		if (typeof(color1) === 'string') color1 = string_to_color(color1);
+		if (typeof(color2) === 'string') color2 = string_to_color(color2);
+		red1 = (color1 & 0xFF0000) >> 16;
+		green1 = (color1 & 0xFF00) >> 8;
+		blue1 = color1 & 0xFF;
+		red2 = (color2 & 0xFF0000) >> 16;
+		green2 = (color2 & 0xFF00) >> 8;
+		blue2 = color2 & 0xFF;
+		red_out = parseInt(red1 * ratio + red2 * (1 - ratio));
+		green_out = parseInt(green1 * ratio + green2 * (1 - ratio));
+		blue_out = parseInt(blue1 * ratio + blue2 * (1 - ratio));
+		return (red_out << 16) | (green_out << 8) | blue_out;
+	}
+
+	let color_background_animation = function(target, sigma_frac) {
+		game_data.background.partial_color_background(sigma_frac);
+	};
+
+	let color_background_stop = function() {
+		game_data.background.partial_color_background(1);
+		game_data.background.confirm_triangle_colors();
+		return false;
+	};
+
 	function x_dif(p1, p2) {
 		p1.z = unrotate_point(p1, p1.z);
 		p2.z = unrotate_point(p2, p2.z);
-		var dif = p1.x - p2.x;
+		let dif = p1.x - p2.x;
 		p1.z = rotate_point(p1, p1.z);
 		p2.z = rotate_point(p2, p2.z);
 		return dif;
@@ -859,59 +1024,49 @@ $(document).on('ready page:load', function() {
 		point.z = rotate_point(point, point.z);
 	}
 
-	function change_seen_of_actual(point, change) {
-		point.z = rotate_point(point, point.z);
-		point.x += change.x;
-		point.y += change.y;
-		point.z += change.z;
-		point.z = unrotate_point(point, point.z);
-	}
-
-	var ca = Math.cos(g_theta);
-	var sa = Math.sin(g_theta);
-	var d = game_data.view_dist;
-	var f = game_data.fov;
+	let ca = Math.cos(g_theta);
+	let sa = Math.sin(g_theta);
+	let d = game_data.view_dist;
+	let f = game_data.fov;
 
 	function rotate_point(point, z) {
-		var x = point.x - w;
-		var y = point.y - h;
-		var ry = y * ca;
-		var rz = y * sa;
-		var rf = f / (d + rz);
+		let x = point.x - w;
+		let y = point.y - h;
+		let ry = y * ca;
+		let rz = y * sa;
+		let rf = f / (d + rz);
 		point.x = x * rf + w;
 		point.y = ry * rf + h;
 		return rz + z;
 	}
 
 	function unrotate_point(point, z) {
-		var x = point.x - w;
-		var y = point.y - h;
+		let x = point.x - w;
+		let y = point.y - h;
 		point.y = y * d / (ca * f - sa * y);
 		point.x = (x / (f / (d + point.y * sa))) + w;
-		var rz = point.y * sa;
+		let rz = point.y * sa;
 		point.y += h;
 		return z - rz;
 	}
 
 	function get_angle(vec1, vec2) {
-		var magn1 = Math.sqrt(vec1.x*vec1.x + vec1.y*vec1.y + vec1.z*vec1.z);
-		var magn2 = Math.sqrt(vec2.x*vec2.x + vec2.y*vec2.y + vec2.z*vec2.z);
-		var dot_product = dot(vec1, vec2) / (magn1 * magn2);
+		let magn1 = Math.sqrt(vec1.x*vec1.x + vec1.y*vec1.y + vec1.z*vec1.z);
+		let magn2 = Math.sqrt(vec2.x*vec2.x + vec2.y*vec2.y + vec2.z*vec2.z);
+		let dot_product = dot(vec1, vec2) / (magn1 * magn2);
 		return dot_product / (magn1 * magn2);
 	}
 
 	function get_vector(p1, p2) {
-		var vector = { x: p2.x - p1.x, y: p2.y - p1.y, z: p2.z - p1.z };
-		return vector;
+		return { x: p2.x - p1.x, y: p2.y - p1.y, z: p2.z - p1.z };
 	}
 
 	function cross(vec1, vec2) {
-		var vector = {
-			x: vec1.y * vec2.z - vec1.z * vec2.y,
-			y: vec1.z * vec2.x - vec1.x * vec2.z,
+		return {
+      x: vec1.y * vec2.z - vec1.z * vec2.y,
+      y: vec1.z * vec2.x - vec1.x * vec2.z,
 			z: vec1.x * vec2.y - vec1.y * vec2.x
 		};
-		return vector;
 	}
 
 	function dot(vec1, vec2) {
@@ -919,15 +1074,14 @@ $(document).on('ready page:load', function() {
 	}
 
 	function normalize(vec) {
-		var magnitude = Math.sqrt(vec.x*vec.x + vec.y*vec.y + vec.z*vec.z);
-		var vector = { x: vec.x / magnitude, y: vec.y / magnitude, z: vec.z / magnitude };
-		return vector;
+		let magnitude = Math.sqrt(vec.x*vec.x + vec.y*vec.y + vec.z*vec.z);
+		return { x: vec.x / magnitude, y: vec.y / magnitude, z: vec.z / magnitude };
 	}
 
 	// function mouseDown(e) {
 	// 	if (parseInt(navigator.appVersion) > 3) {
-	// 		var evt = e ? e : window.event;
-	// 		var delta = evt.wheelDelta ? evt.wheelDelta / 120
+	// 		let evt = e ? e : window.event;
+	// 		let delta = evt.wheelDelta ? evt.wheelDelta / 120
 	// 			: evt.detail ? -evt.detail : 0;
 	// 		/* For canvas scrolling */
 	// 		if (delta > 0) { // Scroll up
@@ -941,8 +1095,8 @@ $(document).on('ready page:load', function() {
 
 	function select_node(target) {
 		if (target.moving) return;
-		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
-		var quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
+		let node_color = game_data.colors[game_data.node_factions[target.value].toString()];
+		let quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
 		target.circle.shadowColor = node_color['glow'];
 		target.circle.shadowBlur = quarter_size;
 		target.circle.strokeColor = node_color['selected'];
@@ -954,7 +1108,7 @@ $(document).on('ready page:load', function() {
 
 	function unselect_node(target) {
 		if (target.moving) return;
-		var node_color = game_data.colors[game_data.node_factions[target.value].toString()];
+		let node_color = game_data.colors[game_data.node_factions[target.value].toString()];
 		target.circle.shadowColor = 0;
 		target.circle.shadowBlur = 0;
 		target.circle.strokeColor = node_color['line'];
@@ -991,7 +1145,7 @@ $(document).on('ready page:load', function() {
 				if (game_data.card_set) {
 					game_data.card_set = false;
 				// TODO make card blank again
-					var empty_card = { value: "", faction_id: 0, owner: "", tier: "",
+					let empty_card = { value: "", faction_id: 0, owner: "", tier: "",
 						connection_num: "", worth: "", contention: "" };
 					game_data.user_interface.set_card(empty_card);
 				}
@@ -999,10 +1153,10 @@ $(document).on('ready page:load', function() {
 		}
 	}
 
-	var grow_animation = function(target, sigma_frac, delta_frac) {
-		var width = scope.view.size.width;
-		var height = scope.view.size.height;
-		if (target.base == null) {
+	let grow_animation = function(target, sigma_frac) {
+		let width = scope.view.size.width;
+		let height = scope.view.size.height;
+		if (target.base === null) {
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
@@ -1016,12 +1170,12 @@ $(document).on('ready page:load', function() {
 		target.circle.position.x = target.base.x;
 		target.circle.position.y = target.base.y;
 		apply_fraction(target);
-	}
+	};
 
-	var grow_stop = function(target) {
-		var width = scope.view.size.width;
-		var height = scope.view.size.height;
-		if (target.base == null) {
+	let grow_stop = function(target) {
+		let width = scope.view.size.width;
+		let height = scope.view.size.height;
+		if (target.base === null) {
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
@@ -1036,12 +1190,12 @@ $(document).on('ready page:load', function() {
 		target.circle.position.y = target.base.y;
 		apply_fraction(target);
 		return false;
-	}
+	};
 
-	var ungrow_animation = function(target, sigma_frac, delta_frac) {
-		var width = scope.view.size.width;
-		var height = scope.view.size.height;
-		if (target.base == null) {
+	let ungrow_animation = function(target, sigma_frac) {
+		let width = scope.view.size.width;
+		let height = scope.view.size.height;
+		if (target.base === null) {
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
@@ -1055,12 +1209,12 @@ $(document).on('ready page:load', function() {
 		target.circle.position.x = target.base.x;
 		target.circle.position.y = target.base.y;
 		apply_fraction(target);
-	}
+	};
 
-	var ungrow_stop = function(target) {
-		var width = scope.view.size.width;
-		var height = scope.view.size.height;
-		if (target.base == null) {
+	let ungrow_stop = function(target) {
+		let width = scope.view.size.width;
+		let height = scope.view.size.height;
+		if (target.base === null) {
 			target.base = new scope.Rectangle();
 			target.base.width = target.relative_pos.size_dx * height;
 			target.base.height = target.relative_pos.size_dy * height;
@@ -1073,14 +1227,14 @@ $(document).on('ready page:load', function() {
 		}
 		target.circle.position.x = target.base.x;
 		target.circle.position.y = target.base.y;
-		if (typeof(target.node) != 'undefined' && target.node != null)
+		if (typeof(target.node) !== 'undefined' && target.node !== null)
 			target.base = null;
 		apply_fraction(target);
 		return false;
-	}
+	};
 
-	var pop_action_animation = function(target, sigma_frac, delta_frac) {
-		var option;
+	let pop_action_animation = function(target, sigma_frac) {
+		let option;
 		for (cur_option in target) {
 			option = target[cur_option];
 			if (option.circle.bounds.width < sigma_frac * option.base.width) {
@@ -1091,10 +1245,10 @@ $(document).on('ready page:load', function() {
 			option.circle.position.y = option.base.y;
 			apply_fraction(option);
 		}
-	}
+	};
 
-	var pop_action_stop = function(target) {
-		var option;
+	let pop_action_stop = function(target) {
+		let option;
 		for (cur_option in target) {
 			option = target[cur_option];
 			if (option.circle.bounds.width < option.base.width) {
@@ -1106,10 +1260,10 @@ $(document).on('ready page:load', function() {
 			apply_fraction(option);
 		}
 		return false;
-	}
+	};
 
-	var unpop_action_animation = function(target, sigma_frac, delta_frac) {
-		var option;
+	let unpop_action_animation = function(target, sigma_frac) {
+		let option;
 		for (cur_option in target) {
 			option = target[cur_option];
 			if (option.circle.bounds.width > (1 - sigma_frac) * option.base.width) {
@@ -1120,10 +1274,10 @@ $(document).on('ready page:load', function() {
 			option.circle.position.y = option.base.y;
 			apply_fraction(option);
 		}
-	}
+	};
 
-	var unpop_action_stop = function(target) {
-		var option, index;
+	let unpop_action_stop = function(target) {
+		let option, index;
 		for (cur_option in target) {
 			option = target[cur_option];
 			if (option.circle.bounds.width > 0) {
@@ -1135,11 +1289,11 @@ $(document).on('ready page:load', function() {
 			option.group.removeChildren();
 			option.group.remove();
 			index = game_data.actions.indexOf(option);
-			if (index != -1) game_data.actions.splice(index, 1);
+			if (index !== -1) game_data.actions.splice(index, 1);
 			apply_fraction(option);
 		}
 		return false;
-	}
+	};
 
 	function get_initial_node_data() {
 		$.ajax({
@@ -1148,7 +1302,7 @@ $(document).on('ready page:load', function() {
 			data: { ranges: [{ from: 1, to: 63 }] },
 			datatype: "html",
 			success: function (raw) {
-				var data = JSON.parse(raw), in_nodes = data['nodes'], i = 0;
+				let data = JSON.parse(raw), in_nodes = data['nodes'], i = 0;
 				while (++i < 64) {
 					game_data.node_factions[i] = in_nodes[i]['faction_id'];
 					game_data.node_connections[i] = {
@@ -1170,6 +1324,8 @@ $(document).on('ready page:load', function() {
 				}
 				game_data.global_root = game_data.active_nodes[0];
 				game_data.old_root = game_data.global_root;
+				game_data.background.set_triangle_targets();
+				add_animation(null, color_background_animation, color_background_stop, 750)
 			},
 			async: true
 		});
@@ -1182,20 +1338,19 @@ $(document).on('ready page:load', function() {
 			data: { ranges: ranges },
 			datatype: "html",
 			success: function (raw) {
-				var data = JSON.parse(raw), in_nodes = data['nodes'], i = 0, k = 0;
+				let data = JSON.parse(raw), in_nodes = data['nodes'], i = 0, k = 0;
 				while (i < ranges.length) {
-					var j = ranges[i].from;
+					let j = ranges[i].from;
 					while (j <= ranges[i].to) {
 						game_data.node_factions[j] = in_nodes[j]['faction_id'];
-						var cur_connections = {
-							dad: in_nodes[j]['dad'],
-							bro: in_nodes[j]['bro']
-						};
-						game_data.node_connections[j] = cur_connections;
+						game_data.node_connections[j] = {
+                            dad: in_nodes[j]['dad'],
+                            bro: in_nodes[j]['bro']
+                        };
 						k = -1;
 						while (++k < game_data.active_nodes.length)
-							if (game_data.active_nodes[k].move_value == j) break;
-						if (k != game_data.active_nodes.length) {
+							if (game_data.active_nodes[k].move_value === j) break;
+						if (k !== game_data.active_nodes.length) {
 							game_data.active_nodes[k].faction_id = in_nodes[j]['faction_id'];
 							game_data.active_nodes[k].owner = in_nodes[j]['owner'];
 							game_data.active_nodes[k].tier = in_nodes[j]['tier'];
@@ -1209,41 +1364,41 @@ $(document).on('ready page:load', function() {
 				}
 				i = -1;
 				while (++i < game_data.active_nodes.length) {
-					var cur_node = game_data.active_nodes[i];
+					let cur_node = game_data.active_nodes[i];
 					hide_connections(cur_node);
 				}
-				add_animation(null, move_nodes, confirm_moved_nodes, 750);
+				add_animation(null, move_nodes, confirm_moved_nodes, 600);
 			}
 		});
 	}
 
 	function shorten_line(line, start_trim, end_trim) {
-		var start = line.firstSegment.point;
-		var end = line.lastSegment.point;
-		var theta = Math.atan((start.y - end.y) / (start.x - end.x));
-		var x_sign = end.x > start.x ? 1 : -1;// from start to end
-		var new_start = new scope.Point(start.x + x_sign * Math.cos(theta) * start_trim,
+		let start = line.firstSegment.point;
+		let end = line.lastSegment.point;
+		let theta = Math.atan((start.y - end.y) / (start.x - end.x));
+		let x_sign = end.x > start.x ? 1 : -1;// from start to end
+		let new_start = new scope.Point(start.x + x_sign * Math.cos(theta) * start_trim,
 			start.y + x_sign * Math.sin(theta) * start_trim);
-		var new_end = new scope.Point(end.x - x_sign * Math.cos(theta) * end_trim,
+		let new_end = new scope.Point(end.x - x_sign * Math.cos(theta) * end_trim,
 			end.y - x_sign * Math.sin(theta) * end_trim);
 		line.firstSegment.point = new_start;
 		line.lastSegment.point = new_end;
 	}
 
 	function tug_of_war(line, ratio, start_faction, end_faction) {
-		var start = new scope.Point(line.firstSegment.point);
-		var end = new scope.Point(line.lastSegment.point);
-		var dx = Math.abs(start.x - end.x);
-		var dy = Math.abs(start.y - end.y);
-		var refx = Math.min(start.x, end.x);
-		var refy = Math.min(start.y, end.y);
-		var mid = new scope.Point(refx + dx * ratio, refy + dy * ratio);
-		var thick = line.strokeWidth;
+		let start = new scope.Point(line.firstSegment.point);
+		let end = new scope.Point(line.lastSegment.point);
+		let dx = Math.abs(start.x - end.x);
+		let dy = Math.abs(start.y - end.y);
+		let refx = Math.min(start.x, end.x);
+		let refy = Math.min(start.y, end.y);
+		let mid = new scope.Point(refx + dx * ratio, refy + dy * ratio);
+		let thick = line.strokeWidth;
 		line.remove();
-		var first = new scope.Path.Line(start, mid);
+		let first = new scope.Path.Line(start, mid);
 		first.strokeWidth = thick;
 		first.strokeColor = game_data.colors[start_faction.toString()].line;
-		var second= new scope.Path.Line(mid, end);
+		let second= new scope.Path.Line(mid, end);
 		second.strokeWidth = thick;
 		second.strokeColor = game_data.colors[end_faction.toString()].line;
 		line = new scope.Group(first, second);
@@ -1251,14 +1406,13 @@ $(document).on('ready page:load', function() {
 	}
 
 	function show_parent(parent, son) {
-		var son_sign = son.value % 2 == 0 ? 1 : -1;
-		var from = new scope.Point(parent.circle.position.x, parent.circle.position.y);
-		var to = new scope.Point(son.circle.position.x, son.circle.position.y);
-		var connection = new scope.Path.Line(from, to);
+		let from = new scope.Point(parent.circle.position.x, parent.circle.position.y);
+		let to = new scope.Point(son.circle.position.x, son.circle.position.y);
+		let connection = new scope.Path.Line(from, to);
 		shorten_line(connection, parent.rad * 1.2, son.rad * 0.7);
 		connection.strokeWidth = (parent.circle.strokeWidth + son.circle.strokeWidth) / 2;
-		if (game_data.node_factions[parent.value] == game_data.node_factions[son.value]) {
-			var colors = game_data.colors[game_data.node_factions[parent.value].toString()];
+		if (game_data.node_factions[parent.value] === game_data.node_factions[son.value]) {
+			let colors = game_data.colors[game_data.node_factions[parent.value].toString()];
 			connection.strokeColor = colors.line;
 		}
 		else {
@@ -1269,14 +1423,13 @@ $(document).on('ready page:load', function() {
 	}
 
 	function show_brother(brother, sis) {
-		var sis_sign = sis.value % 2 == 0 ? 1 : -1;
-		var from = new scope.Point(brother.circle.position.x, brother.circle.position.y);
-		var to = new scope.Point(sis.circle.position.x, sis.circle.position.y);
-		var connection = new scope.Path.Line(from, to);
+		let from = new scope.Point(brother.circle.position.x, brother.circle.position.y);
+		let to = new scope.Point(sis.circle.position.x, sis.circle.position.y);
+		let connection = new scope.Path.Line(from, to);
 		shorten_line(connection, brother.rad * 1.2, sis.rad * 1.2);
 		connection.strokeWidth = (brother.circle.strokeWidth + sis.circle.strokeWidth) / 2;
-		if (game_data.node_factions[brother.value] == game_data.node_factions[sis.value]) {
-			var colors = game_data.colors[game_data.node_factions[brother.value].toString()];
+		if (game_data.node_factions[brother.value] === game_data.node_factions[sis.value]) {
+			let colors = game_data.colors[game_data.node_factions[brother.value].toString()];
 			connection.strokeColor = colors.line;
 		}
 		else {
@@ -1289,27 +1442,28 @@ $(document).on('ready page:load', function() {
 	function show_connections(target) {
 		target.connection_values.dad = game_data.node_connections[target.value]['dad'];
 		target.connection_values.bro = game_data.node_connections[target.value]['bro'];
-		var connection_dad = null, connection_bro = null;
-		if (target.connection_values.dad != null) {
-			var dad = null, j = -1;
+		let connection_dad = null, connection_bro = null, j;
+		if (target.connection_values.dad !== null) {
+			let dad = null;
+			j = -1;
 			while (++j < game_data.active_nodes.length)
-				if (game_data.active_nodes[j].value == target.connection_values.dad) {
+				if (game_data.active_nodes[j].value === target.connection_values.dad) {
 					dad = game_data.active_nodes[j];
 					break;
 				}
-			if (dad != null) connection_dad = show_parent(dad, target);
+			if (dad !== null) connection_dad = show_parent(dad, target);
 		}
-		if (target.connection_values.bro != null) {
-			var bro = null, j = -1;
+		if (target.connection_values.bro !== null) {
+			let bro = null;
+			j = -1;
 			while (++j < game_data.active_nodes.length)
-				if (game_data.active_nodes[j].value == target.connection_values.bro) {
+				if (game_data.active_nodes[j].value === target.connection_values.bro) {
 					bro = game_data.active_nodes[j];
 					break;
 				}
-			if (bro != null) connection_bro = show_brother(bro, target);
+			if (bro !== null) connection_bro = show_brother(bro, target);
 		}
-		connections_group = new scope.Group(connection_dad, connection_bro);
-		target.connections = connections_group;
+		target.connections = new scope.Group(connection_dad, connection_bro);
 	}
 
 	function hide_connections(target) {
@@ -1317,11 +1471,11 @@ $(document).on('ready page:load', function() {
 	}
 
 	function set_fraction(target) {
-		var small, big = target.circle;
+		let small, big = target.circle;
 		if (target.node) small = target.number;
 		else small = target.image;
-		if (typeof(target.fraction) == 'undefined' || target.fraction == null) {
-			var size_ratio = new scope.Rectangle();
+		if (typeof(target.fraction) === 'undefined' || target.fraction === null) {
+			let size_ratio = new scope.Rectangle();
 			size_ratio.x = (big.position.x - small.bounds.point.x) / big.bounds.width;
 			size_ratio.y = (big.position.y - small.bounds.point.y) / big.bounds.height;
 			size_ratio.width = small.bounds.width / big.bounds.width;
@@ -1337,7 +1491,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function apply_fraction(target) {
-		var small, big = target.circle;
+		let small, big = target.circle;
 		if (target.node) small = target.number;
 		else small = target.image;
 		small.bounds.width = target.fraction.width * big.bounds.width;
@@ -1347,10 +1501,10 @@ $(document).on('ready page:load', function() {
 	}
 
 	function get_node(elem, center, size, thickness, parent, brother) {
-		var num_digits = elem.toString().length,
+		let num_digits = elem.toString().length,
 			node_color = game_data.colors[game_data.node_factions[elem].toString()],
 			half_size = size / 2, sine_size = size / 2.3, tan_size = size / 3.7,
-			quarter_size = size / 4, basis = new scope.Path(), x_sign = elem % 2 == 0 ? -1 : 1,
+			quarter_size = size / 4, basis = new scope.Path(), x_sign = elem % 2 === 0 ? -1 : 1,
 			p1 = new scope.Point(center.x, center.y + half_size),
 			p2 = new scope.Point(center.x + x_sign * half_size, center.y),
 			p3 = new scope.Point(center.x, center.y - half_size),
@@ -1370,15 +1524,15 @@ $(document).on('ready page:load', function() {
 				-size / 12.5), new scope.Point(x_sign * size/25, size / 16.7)),
 			partial2 = new scope.Segment(p6, new scope.Point(-x_sign * size / 16.7,
 				-size / 25), new scope.Point(x_sign * size / 12.5, size / 20));
-		basis.add(proper1, proper2, proper3, proper4, partial1, p7, partial2);
+		basis.addSegments([proper1, proper2, proper3, proper4, partial1, p7, partial2]);
 		basis.closed = true;
 
 		basis.strokeWidth = thickness;
 		basis.strokeColor = node_color['line'];
 		basis.fillColor = node_color['fill'];
 
-		var num_w = sine_size * (2 - 1 / num_digits), num_h = (num_w / num_digits) * 1.4;
-		num = new scope.PointText(center);
+		let num_w = sine_size * (2 - 1 / num_digits), num_h = (num_w / num_digits) * 1.4;
+		let num = new scope.PointText(center);
 		num.fillColor = node_color['num'];
 		num.content = elem.toString();
 		num.bounds = new scope.Rectangle({
@@ -1386,17 +1540,16 @@ $(document).on('ready page:load', function() {
 			size: [num_w, num_h]
 		});
 
-		var out_node = new scope.Group(basis, num), selected = false,
-			myBounds = out_node.bounds, relative_pos = {
+		let out_node = new scope.Group(basis, num), relative_pos = {
 				x: basis.position.x / scope.view.size.width,
 				y: basis.position.y / scope.view.size.height,
 				size_dx: basis.bounds.width / scope.view.size.height,
 				size_dy: basis.bounds.height / scope.view.size.height
 		};
 
-		var leftie = elem % 2 != 0;
+		let leftie = elem % 2 !== 0;
 
-		var total_node = {
+		let total_node = {
 			value: elem,
 			position: elem,
 			group: out_node,
@@ -1426,46 +1579,45 @@ $(document).on('ready page:load', function() {
 			left_pointed: leftie
 		};
 
-		out_node.onMouseEnter = function(event) {
+		out_node.onMouseEnter = function() {
 			if (total_node.moving) return;
 			total_node.hovered = true;
 			set_fraction(total_node);
 			grow_node(total_node);
-		}
+		};
 
-		out_node.onMouseLeave = function(event) {
+		out_node.onMouseLeave = function() {
 			if (total_node.moving) return;
 			total_node.hovered = false;
 			set_fraction(total_node);
 			ungrow_node(total_node);
-		}
+		};
 
-		out_node.onClick = function(event) {
+		out_node.onClick = function() {
 			if (total_node.moving) return;
 			check_selection(total_node);
-		}
+		};
 
 		return total_node;
 	}
 
 	function build_nodes(num_layers, width, height) {
-		var nodes = [], total_height = height * 25 / 33 - 54,
+		let nodes = [], total_height = height * 25 / 33 - 54,
 			bottom_y = height * 27 / 33 - 32, layer_height = total_height * 243 / 665,
 			node_height = layer_height * 3 / 4, y = bottom_y - (layer_height / 2),
-			point = new scope.Point(), index = 1, i = 0, thickness = 5;
-		if (game_data.node_layer == null) game_data.node_layer = new scope.Layer();
+			point = new scope.Point(0, 0), index = 1, i = 0, thickness = 5;
 		while (i < num_layers) {
-			var num_sub = Math.pow(2, i), j = 0;
-			var row = { y: y, len: num_sub, nodes: [] };
+			let num_sub = Math.pow(2, i), j = 0;
+			let row = { y: y, len: num_sub, nodes: [] };
 			point.y = y;
 			point.x = (width / num_sub) / 2;
 			while (j < num_sub) {
-				var new_node = get_node(index, point, node_height, thickness,
+				let new_node = get_node(index, point, node_height, thickness,
 					game_data.node_connections[index]['dad'],
 					game_data.node_connections[index]['bro']);
-				if (i == num_layers - 1) {
-					var dot_w = new_node.circle.bounds.width * 0.7246377;
-					var dot_h = dot_w * 0.483333;
+				if (i === num_layers - 1) {
+					let dot_w = new_node.circle.bounds.width * 0.7246377;
+					let dot_h = dot_w * 0.483333;
 					new_node.number.content = "...";
 					new_node.number.bounds.width = dot_w;
 					new_node.number.bounds.height = dot_h;
@@ -1490,56 +1642,68 @@ $(document).on('ready page:load', function() {
 		return nodes;
 	}
 
+	function update_framework() {
+		let i = -1, j = 0, k, frame = game_data.framework, cur_row;
+		while (++i < frame.length) {
+			cur_row = frame[i].nodes;
+			k = -1;
+			while (++k < cur_row.length) {
+				cur_row[k].node = game_data.active_nodes[j];
+				j++;
+			}
+		}
+	}
+
 	function hob(num) {
 		if (!num) return 0;
-		var out = 1;
+		let out = 1;
 		while (num >>= 1) out += 1;
 		return out;
 	}
 
 	function get_solid_mask(len) {
 		if (len <= 0) return 0;
-		var out = 1, i = 0;
+		let out = 1, i = 0;
 		while (++i < len) out = (out << 1) | 1;
 		return out;
 	}
 
 	function take_bits(num, from, amount, base) {
-		var bit_len = hob(num);
-		var tail_num = bit_len - from - amount;
+		let bit_len = hob(num);
+		let tail_num = bit_len - from - amount;
 		if (tail_num < 0) return -1;
-		var tail_mask = get_solid_mask(tail_num);
-		var check_mask = get_solid_mask(amount);
-		var compare = base & check_mask;
+		let tail_mask = get_solid_mask(tail_num);
+		let check_mask = get_solid_mask(amount);
+		let compare = base & check_mask;
 		check_mask <<= tail_num;
-		var head_mask = get_solid_mask(from) << (tail_num + amount);
-		var check = (num & check_mask) >> tail_num;
-		var tail = num & tail_mask;
-		var head = (num & head_mask) >> amount;
-		if (check != compare) return -1;
+		let head_mask = get_solid_mask(from) << (tail_num + amount);
+		let check = (num & check_mask) >> tail_num;
+		let tail = num & tail_mask;
+		let head = (num & head_mask) >> amount;
+		if (check !== compare) return -1;
 		return head | tail;
 	}
 
 	function give_bits(num, from, amount, add) {
-		var bit_len = hob(num);
-		var tail_num = bit_len - from;
+		let bit_len = hob(num);
+		let tail_num = bit_len - from;
 		if (tail_num < 0 || tail_num > 5 - amount) return -1;
-		var tail_mask = get_solid_mask(tail_num);
-		var head_mask = get_solid_mask(from) << (tail_num);
-		var tail = num & tail_mask;
-		var head = (num & head_mask) << amount;
-		var mid = add << tail_num;
+		let tail_mask = get_solid_mask(tail_num);
+		let head_mask = get_solid_mask(from) << (tail_num);
+		let tail = num & tail_mask;
+		let head = (num & head_mask) << amount;
+		let mid = add << tail_num;
 		return head | mid | tail;
 	}
 
 	function swap(arr, index1, index2) {
-		var tmp = arr[index1];
+		let tmp = arr[index1];
 		arr[index1] = arr[index2];
 		arr[index2] = tmp;
 	}
 
 	function partition(arr, lo, hi) {
-		var pivot = arr[lo].position, i = lo - 1, j = hi + 1;
+		let pivot = arr[lo].position, i = lo - 1, j = hi + 1;
 		while (true) {
 			do { i++; } while (arr[i].position < pivot);
 			do { j--; } while (arr[j].position > pivot);
@@ -1550,19 +1714,19 @@ $(document).on('ready page:load', function() {
 
 	function sort_active_nodes(arr, lo, hi) {
 		if (lo < hi) {
-			var pivot = partition(arr, lo, hi);
+			let pivot = partition(arr, lo, hi);
 			sort_active_nodes(arr, lo, pivot);
 			sort_active_nodes(arr, pivot + 1, hi);
 		}
 	}
 
 	function move_to(target) {
-		var bit_base = hob(game_data.global_root.position),
+		let bit_base = hob(game_data.global_root.position),
 			bit_dif = hob(target.position) - bit_base, i = -1;
 		while (++i < 63) {
-			var cur_node = game_data.active_nodes[i], target_position =
+			let cur_node = game_data.active_nodes[i], target_position =
 				take_bits(cur_node.position, bit_base, bit_dif, target.position);
-			if (target_position == -1) game_data.buffer_nodes.push(cur_node);
+			if (target_position === -1) game_data.buffer_nodes.push(cur_node);
 			else {
 				cur_node.move_target = game_data.active_nodes[target_position - 1].relative_pos;
 				cur_node.move_position = target_position;
@@ -1572,17 +1736,18 @@ $(document).on('ready page:load', function() {
 			}
 			set_fraction(cur_node);
 		}
-		var relocs = [], ranges = [], amount = 32;
+		let relocs = [], ranges = [], amount = 32, j;
 		i = -1;
 		while (++i < bit_dif) {
-			var j = -1;
+			j = -1;
 			while (++j < amount) relocs.push(j + amount);
 			ranges.push({ from: Math.pow(2, 5 - i) * target.value,
 				to: Math.pow(2, 5 - i) * target.value + amount - 1 });
 			amount /= 2;
 		}
 		i = 0;
-		var leftie = relocs[0], j = 0;
+		let leftie = relocs[0];
+		j = 0;
 		while (game_data.buffer_nodes.length > 0) {
 			if (relocs[i] < leftie) {
 				leftie = relocs[i];
@@ -1608,19 +1773,17 @@ $(document).on('ready page:load', function() {
 
 	function move_back(amount) {
 		if (amount > 5) return;
-		var base = game_data.global_root.value;
-		var new_base_value = base >> amount;
+		let base = game_data.global_root.value, new_base_value = base >> amount, add = 0, i = -1;
 		if (new_base_value <= 0) return;
-		var bit_base = hob(base), i = -1, add = 0, cur_base = base;
 		while (++i < amount) {
-			add |= (cur_base & (1 << (amount - i - 1))) >> (amount - i - 1);
-			if (i + 1 != amount) add <<= 1;
+			add |= (base & (1 << (amount - i - 1))) >> (amount - i - 1);
+			if (i + 1 !== amount) add <<= 1;
 		}
 		i = -1;
 		while (++i < 63) {
-			var cur_node = game_data.active_nodes[i];
-			var target_position = give_bits(cur_node.position, 1, amount, add);
-			if (target_position == -1) game_data.buffer_nodes.push(cur_node);
+			let cur_node = game_data.active_nodes[i];
+			let target_position = give_bits(cur_node.position, 1, amount, add);
+			if (target_position === -1) game_data.buffer_nodes.push(cur_node);
 			else {
 				cur_node.move_target = game_data.active_nodes[target_position - 1].relative_pos;
 				cur_node.move_position = target_position;
@@ -1630,7 +1793,7 @@ $(document).on('ready page:load', function() {
 			}
 			set_fraction(cur_node);
 		}
-		var relocs = [], ranges = [], row_len = 32, gap_len = 32 >> amount,
+		let relocs = [], ranges = [], row_len = 32, gap_len = 32 >> amount,
 			gap_start = 0, to_add, tmp_amount = amount, tmp_add = 16;
 		while (tmp_amount > 0) {
 			tmp_amount--;
@@ -1640,13 +1803,13 @@ $(document).on('ready page:load', function() {
 		}
 		i = -1;
 		while (++i <= 5) {
-			var j = -1;
+			let j = -1;
 			while (++j < row_len) {
-				if (j == gap_start) j += gap_len;
+				if (j === gap_start) j += gap_len;
 				if (j >= row_len) break;
 				relocs.push({ value: j + row_len, leftie: row_len });
 			}
-			if (gap_start != 0)
+			if (gap_start !== 0)
 				ranges.push({ from: Math.pow(2, 5 - i) * new_base_value,
 					to: Math.pow(2, 5 - i) * new_base_value + gap_start - 1 });
 			if (gap_start + gap_len < row_len)
@@ -1678,23 +1841,23 @@ $(document).on('ready page:load', function() {
 		get_more_node_data(ranges);
 	}
 
-	var move_nodes = function(target, sigma_frac, delta_frac) {
-		var width = scope.view.size.width;
-		var height = scope.view.size.height;
-		var prev_pos = game_data.old_root.circle.position;
-		var i = -1;
-		var cur_node;
+	function move_nodes(target, sigma_frac) {
+		let width = scope.view.size.width;
+		let height = scope.view.size.height;
+		let prev_pos = game_data.old_root.circle.position;
+		let i = -1;
+		let cur_node;
 		while (++i < game_data.active_nodes.length) {
 			cur_node = game_data.active_nodes[i];
 			cur_node.moving = true;
-			if (cur_node.base == null) {
+			if (cur_node.base === null) {
 				cur_node.base = new scope.Rectangle();
 				cur_node.base.x = cur_node.relative_pos.x * width;
 				cur_node.base.y = cur_node.relative_pos.y * height;
 				cur_node.base.width = cur_node.relative_pos.size_dx * height;
 				cur_node.base.height = cur_node.relative_pos.size_dy * height;
 			}
-			if (typeof(cur_node.popper) == 'undefined' || !cur_node.popper) {
+			if (typeof(cur_node.popper) === 'undefined' || !cur_node.popper) {
 				cur_node.circle.position.x = cur_node.base.x + sigma_frac *
 					(cur_node.move_target.x * width - cur_node.base.x);
 				cur_node.circle.position.y = cur_node.base.y + sigma_frac *
@@ -1710,21 +1873,21 @@ $(document).on('ready page:load', function() {
 				if (sigma_frac >= 0.5 && !cur_node.popped) {
 					cur_node.popped = true;
 					cur_node.value = cur_node.move_value;
-					var leftie = cur_node.value % 2 == 0 ? false : true;
-					if (leftie != cur_node.left_pointed) {
+					let leftie = cur_node.value % 2 !== 0;
+					if (leftie !== cur_node.left_pointed) {
 						cur_node.left_pointed = leftie;
 						cur_node.circle.scale(-1, 1);
 					}
-					var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
-					var num_digits = cur_node.value.toString().length;
+					let node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
+					let num_digits = cur_node.value.toString().length;
 					cur_node.number.content = cur_node.value;
 					cur_node.circle.strokeColor = node_color['line'];
 					cur_node.circle.fillColor = node_color['fill'];
 					cur_node.circle.strokeWidth = cur_node.move_thickness;
 					if (i < 31) {
-						var sine_size = cur_node.circle.bounds.width / 2.3;
-						var num_w = sine_size * (2 - 1 / num_digits);
-						var num_h = (num_w / num_digits) * 1.45;
+						let sine_size = cur_node.circle.bounds.width / 2.3;
+						let num_w = sine_size * (2 - 1 / num_digits);
+						let num_h = (num_w / num_digits) * 1.45;
 						cur_node.number.visible = true;
 						cur_node.number.fillColor = node_color['num'];
 						cur_node.number.content = cur_node.value.toString();
@@ -1734,8 +1897,8 @@ $(document).on('ready page:load', function() {
 						cur_node.number.bounds.y = cur_node.circle.position.y - num_h / 2;
 					}
 					else {
-						var dot_w = cur_node.circle.bounds.width * 0.7246377;
-						var dot_h = dot_w * 0.483333;
+						let dot_w = cur_node.circle.bounds.width * 0.7246377;
+						let dot_h = dot_w * 0.483333;
 						cur_node.number.fillColor = node_color['num'];
 						cur_node.number.content = "...";
 						cur_node.number.bounds.width = dot_w;
@@ -1745,7 +1908,7 @@ $(document).on('ready page:load', function() {
 					}
 					set_fraction(cur_node);
 				}
-				if (sigma_frac == 0.5) {
+				if (sigma_frac === 0.5) {
 					cur_node.circle.bounds.width = 0.0001;
 					cur_node.circle.bounds.height = 0.0001;
 					cur_node.circle.position.x = cur_node.move_target.x * width;
@@ -1770,30 +1933,30 @@ $(document).on('ready page:load', function() {
 				apply_fraction(cur_node);
 			}
 		}
-		var new_pos = game_data.old_root.circle.position;
+		let new_pos = game_data.old_root.circle.position;
 		game_data.background.move_to(prev_pos, new_pos, sigma_frac);
 	}
 
-	var confirm_moved_nodes = function(target) {
-		var width = scope.view.size.width;
-		var height = scope.view.size.height;
-		var i = -1;
-		var prev_pos = game_data.old_root.circle.position;
+	function confirm_moved_nodes() {
+		let width = scope.view.size.width;
+		let height = scope.view.size.height;
+		let i = -1;
+		let prev_pos = game_data.old_root.circle.position;
 		while (++i < game_data.active_nodes.length) {
-			var cur_node = game_data.active_nodes[i];
+			let cur_node = game_data.active_nodes[i];
 			cur_node.popped = false;
 			cur_node.circle.position.x = cur_node.move_target.x * width;
 			cur_node.circle.position.y = cur_node.move_target.y * height;
 			cur_node.circle.bounds.width = cur_node.move_target.size_dx * height;
 			cur_node.circle.bounds.height = cur_node.move_target.size_dy * height;
 			cur_node.value = cur_node.move_value;
-			var leftie = cur_node.value % 2 == 0 ? false : true;
-			if (leftie != cur_node.left_pointed) {
+			let leftie = cur_node.value % 2 !== 0;
+			if (leftie !== cur_node.left_pointed) {
 				cur_node.left_pointed = leftie;
 				cur_node.circle.scale(-1, 1);
 			}
-			var node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
-			var num_digits = cur_node.value.toString().length;
+			let node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
+			let num_digits = cur_node.value.toString().length;
 			cur_node.relative_pos = cur_node.move_target;
 			cur_node.base = null;
 			cur_node.rad = cur_node.circle.bounds.width / 2;
@@ -1803,9 +1966,9 @@ $(document).on('ready page:load', function() {
 			cur_node.circle.fillColor = node_color['fill'];
 			cur_node.circle.strokeWidth = cur_node.move_thickness;
 			if (i < 31) {
-				var sine_size = cur_node.circle.bounds.width / 2.3;
-				var num_w = sine_size * (2 - 1 / num_digits);
-				var num_h = (num_w / num_digits) * 1.45;
+				let sine_size = cur_node.circle.bounds.width / 2.3;
+				let num_w = sine_size * (2 - 1 / num_digits);
+				let num_h = (num_w / num_digits) * 1.45;
 				cur_node.number.visible = true;
 				cur_node.number.fillColor = node_color['num'];
 				cur_node.number.content = cur_node.value.toString();
@@ -1815,8 +1978,8 @@ $(document).on('ready page:load', function() {
 				cur_node.number.bounds.y = cur_node.circle.position.y - num_h / 2;
 			}
 			else {
-				var dot_w = cur_node.circle.bounds.width * 0.7246377;
-				var dot_h = dot_w * 0.483333;
+				let dot_w = cur_node.circle.bounds.width * 0.7246377;
+				let dot_h = dot_w * 0.483333;
 				cur_node.number.fillColor = node_color['num'];
 				cur_node.number.content = "...";
 				cur_node.number.bounds.width = dot_w;
@@ -1826,7 +1989,7 @@ $(document).on('ready page:load', function() {
 			}
 			set_fraction(cur_node);
 		}
-		var new_pos = game_data.old_root.circle.position;
+		let new_pos = game_data.old_root.circle.position;
 		game_data.background.move_to(prev_pos, new_pos, 1);
 		i = 0;
 		while (i < game_data.active_nodes.length) {
@@ -1834,14 +1997,16 @@ $(document).on('ready page:load', function() {
 			i++;
 		}
 		game_data.global_root = game_data.active_nodes[0];
+		update_framework();
+		game_data.background.set_triangle_targets();
+		add_animation(null, color_background_animation, color_background_stop, 400);
 		return false;
 	}
 
 	function set_resize() {
-		scope.view.onResize = function(event) {
-			var width = scope.view.size.width;
-			var height = scope.view.size.height;
-			var i = 0;
+		scope.view.onResize = function() {
+			let width = scope.view.size.width, height = scope.view.size.height,
+				i = 0, cur_node;
 			while (i < 63) {
 				cur_node = game_data.active_nodes[i];
 				hide_connections(cur_node);
@@ -1868,34 +2033,34 @@ $(document).on('ready page:load', function() {
 
 	function make_option_group(center, option_rad, node_rad, theta, colors,
 		thickness, icon_name, value) {
-		var x = (1.8 * option_rad + node_rad) * Math.cos(theta),
+		let x = (1.8 * option_rad + node_rad) * Math.cos(theta),
 			y = (1.8 * option_rad + node_rad) * -Math.sin(theta),
 			point = new scope.Point(center.x + x, center.y + y),
 			circle = new scope.Path.Circle(point, option_rad);
 		circle.strokeWidth = thickness;
 		circle.strokeColor = colors['line'];
 		circle.fillColor = colors['fill'];
-		var img = new scope.CompoundPath(game_data.icon_data[icon_name]);
+		let img = new scope.CompoundPath(game_data.icon_data[icon_name]);
 		img.visible = true;
 		img.fillColor = colors['num'];
-		var scale = Math.cos(Math.PI / 4) * 2;
+		let scale = Math.cos(Math.PI / 4) * 2;
 		img.bounds.height = option_rad * scale;
 		img.bounds.width = option_rad * scale;
 		img.position.x = point.x;
 		img.position.y = point.y;
-		var option = new scope.Group(circle, img), base = new scope.Rectangle();
+		let option = new scope.Group(circle, img), base = new scope.Rectangle();
 		base.x = circle.position.x;
 		base.y = circle.position.y;
 		base.width = circle.bounds.width;
 		base.height = circle.bounds.height;
-		var width = scope.view.size.width, height = scope.view.size.height,
+		let width = scope.view.size.width, height = scope.view.size.height,
 			relative_pos = {
 			x: base.x / width,
 			y: base.y / height,
 			size_dx: base.width / height,
 			size_dy: base.height / height
 		};
-		var out = {
+		let out = {
 			group: option,
 			circle: circle,
 			image: img,
@@ -1913,40 +2078,40 @@ $(document).on('ready page:load', function() {
 	}
 
 	function add_options(target) {
-		var colors = game_data.colors[game_data.node_factions[target.value].toString()];
-		var x_sign = target.value % 2 == 0 ? -1 : 1;
-		var ref_stroke_width = target.circle.strokeWidth;
-		var small_rad = target.circle.bounds.width / 8; // rad / 4
-		var big_rad = target.circle.bounds.width / 2;
-		var theta_base = Math.PI * (target.value % 2 == 0 ? 1 : 0);
-		var options = {};
-		var theta, name;
-		if (target != game_data.global_root) name = 'move';
+		let colors = game_data.colors[game_data.node_factions[target.value].toString()];
+		let x_sign = target.value % 2 === 0 ? -1 : 1;
+		let ref_stroke_width = target.circle.strokeWidth;
+		let small_rad = target.circle.bounds.width / 8; // rad / 4
+		let big_rad = target.circle.bounds.width / 2;
+		let theta_base = Math.PI * (target.value % 2 === 0 ? 1 : 0);
+		let options = {};
+		let theta, name;
+		if (target !== game_data.global_root) name = 'move';
 		else name = 'back';
 		theta = theta_base + x_sign * 7 * Math.PI / 6;
-		if (target != game_data.global_root || game_data.global_root.value != 1) {
+		if (target !== game_data.global_root || game_data.global_root.value !== 1) {
 			options.move = make_option_group(target.circle.position, small_rad, big_rad,
 				theta, colors, ref_stroke_width / 2, name, target.value);
 			options.move.image.strokeWidth = 1;
 			options.move.image.strokeColor = colors['num'];
 			game_data.actions.push(options.move);
-			options.move.group.onMouseEnter = function(event) {
+			options.move.group.onMouseEnter = function() {
 				options.move.hovered = true;
 				set_fraction(options.move);
 				grow_node(options.move);
 			};
-			options.move.group.onMouseLeave = function(event) {
+			options.move.group.onMouseLeave = function() {
 				options.move.hovered = false;
 				set_fraction(options.move);
 				ungrow_node(options.move);
 			};
-			options.move.group.onClick = function(event) {
+			options.move.group.onClick = function() {
 				game_data.action_index = -1;
 				remove_options(target);
 				unselect_node(target);
-				var index = game_data.selected_nodes.indexOf(target);
+				let index = game_data.selected_nodes.indexOf(target);
 				game_data.selected_nodes.splice(index, 1);
-				if (target == game_data.global_root) move_back(1);
+				if (target === game_data.global_root) move_back(1);
 				else move_to(target);
 			};
 		}
@@ -1961,34 +2126,34 @@ $(document).on('ready page:load', function() {
 			theta, colors, ref_stroke_width / 2, 'node_info', target.value);
 		game_data.actions.push(options.attack);
 		game_data.actions.push(options.connect);
-		options.attack.group.onMouseEnter = function(event) {
+		options.attack.group.onMouseEnter = function() {
 			options.attack.hovered = true;
 			set_fraction(options.attack);
 			grow_node(options.attack);
-		}
-		options.attack.group.onMouseLeave = function(event) {
+		};
+		options.attack.group.onMouseLeave = function() {
 			options.attack.hovered = false;
 			set_fraction(options.attack);
 			ungrow_node(options.attack);
-		}
-		options.attack.group.onClick = function(event) {
+		};
+		options.attack.group.onClick = function() {
 			set_fraction(options.attack);
 			select_action(options.attack);
-		}
-		options.connect.group.onMouseEnter = function(event) {
+		};
+		options.connect.group.onMouseEnter = function() {
 			options.connect.hovered = true;
 			set_fraction(options.connect);
 			grow_node(options.connect);
-		}
-		options.connect.group.onMouseLeave = function(event) {
+		};
+		options.connect.group.onMouseLeave = function() {
 			options.connect.hovered = false;
 			set_fraction(options.connect);
 			ungrow_node(options.connect);
-		}
-		options.connect.group.onClick = function(event) {
+		};
+		options.connect.group.onClick = function() {
 			set_fraction(options.connect);
 			select_action(options.connect);
-		}
+		};
 		target.options = options;
 		add_animation(options, pop_action_animation, pop_action_stop, 150);
 	}
@@ -2005,48 +2170,49 @@ $(document).on('ready page:load', function() {
 		received: function(data) {
 			// Called when there's incoming data on the websocket for this channel
 			// game_data.active_nodes[0].circle.fillColor
-			var origin;
-			var target;
+			let origin, target, colors, i;
 			for (i = 0;i < game_data.active_nodes.length; i++) {
-				if (game_data.active_nodes[i].value == data['origin']) {
+				if (game_data.active_nodes[i].value === data['origin']) {
 					origin = game_data.active_nodes[i];
 				}
-				if (game_data.active_nodes[i].value == data['target']) {
+				if (game_data.active_nodes[i].value === data['target']) {
 					target = game_data.active_nodes[i];
 				}
 			}
-			if (data['action_index'] == 1) {
-				if (data['origin_change'] == 'to_target') {
+			if (data['action_index'] === 1) {
+				if (data['origin_change'] === 'to_target') {
 					game_data.node_factions[origin.value] = data['target_fac'];
-					var colors = game_data.colors[data['target_fac'].toString()];
+					colors = game_data.colors[data['target_fac'].toString()];
 					origin.circle.strokeColor = colors.line;
 					origin.circle.fillColor = colors.fill;
 					origin.number.fillColor = colors.num;
 				}
-				if (data['target_change'] == 'to_origin') {
+				if (data['target_change'] === 'to_origin') {
 					game_data.node_factions[target.value] = data['origin_fac'];
-					var colors = game_data.colors[data['origin_fac'].toString()];
+					colors = game_data.colors[data['origin_fac'].toString()];
 					target.circle.strokeColor = colors.line;
 					target.circle.fillColor = colors.fill;
 					target.number.fillColor = colors.num;
 				}
+				game_data.background.set_triangle_targets();
+				add_animation(null, color_background_animation, color_background_stop, 400);
 			}
-			if (origin.value == (target.value >> 1)) { // origin is dad
+			if (origin.value === (target.value >> 1)) { // origin is dad
 				game_data.node_connections[target.value].dad = origin.value;
 				hide_connections(target);
 				show_connections(target);
 			}
-			else if (origin.value == (target.value - 1)) { // origin is bro
+			else if (origin.value === (target.value - 1)) { // origin is bro
 				game_data.node_connections[target.value].bro = origin.value;
 				hide_connections(target);
 				show_connections(target);
 			}
-			else if (target.value == (origin.value >> 1)) { // target is dad
+			else if (target.value === (origin.value >> 1)) { // target is dad
 				game_data.node_connections[origin.value].dad = target.value;
 				hide_connections(origin);
 				show_connections(origin);
 			}
-			else if (target.value == (origin.value - 1)) { // target is bro
+			else if (target.value === (origin.value - 1)) { // target is bro
 				game_data.node_connections[origin.value].bro = target.value;
 				hide_connections(origin);
 				show_connections(origin);
@@ -2054,7 +2220,6 @@ $(document).on('ready page:load', function() {
 			else {
 				console.log("could not find relationsip between: (1/3)");
 				console.log(origin, target);
-				return;
 			}
 		}
 	});
@@ -2063,146 +2228,15 @@ $(document).on('ready page:load', function() {
 		App.game.perform('update_node_test', {
 			action_index: game_data.action_index,
 			origin: origin.value,
-			target: target.value,
+			target: target.value
 		});
-
-		// if (game_data.action_index == 1) {
-		// 	$.ajax({
-		// 		type: "GET",
-		// 		url: "take_action",
-		// 		data: {
-		// 			origin: origin.value,
-		// 			target: target.value,
-		// 			effect: 1
-		// 		},
-		// 		datatype: "html",
-		// 		success: function (raw) {
-		// 			var data = JSON.parse(raw);
-		// 			if (data['status'] != 'success') {
-		// 				console.log(data);
-		// 				return;
-		// 			}
-		// 			App.game.perform(
-		// 				'update_node', {
-		// 					action_index: game_data.action_index,
-		// 					origin: origin.value,
-		// 					target: target.value,
-		// 					origin_fac: game_data.node_factions[origin.value],
-		// 					target_fac: game_data.node_factions[target.value],
-		// 					origin_change: data.origin,
-		// 					target_change: data.target
-		// 				});
-		// 			// var origin_fac = game_data.node_factions[origin.value];
-		// 			// var target_fac = game_data.node_factions[target.value];
-		// 			// var origin_change = data.origin;
-		// 			// var target_change = data.target;
-		// 			//
-		// 			// if (origin_change == 'to_target') {
-		// 			// 	game_data.node_factions[origin.value] = target_fac;
-		// 			// 	var colors = game_data.colors[target_fac.toString()];
-		// 			// 	origin.circle.strokeColor = colors.line;
-		// 			// 	origin.circle.fillColor = colors.fill;
-		// 			// 	origin.number.fillColor = colors.num;
-		// 			// }
-		// 			// if (target_change == 'to_origin') {
-		// 			// 	game_data.node_factions[target.value] = origin_fac;
-		// 			// 	var colors = game_data.colors[origin_fac.toString()];
-		// 			// 	target.circle.strokeColor = colors.line;
-		// 			// 	target.circle.fillColor = colors.fill;
-		// 			// 	target.number.fillColor = colors.num;
-		// 			// }
-		// 			// if (origin.value == (target.value >> 1)) { // origin is dad
-		// 			// 	game_data.node_connections[target.value].dad = origin.value;
-		// 			// 	hide_connections(target);
-		// 			// 	show_connections(target);
-		// 			// }
-		// 			// else if (origin.value == (target.value - 1)) { // origin is bro
-		// 			// 	game_data.node_connections[target.value].bro = origin.value;
-		// 			// 	hide_connections(target);
-		// 			// 	show_connections(target);
-		// 			// }
-		// 			// else if (target.value == (origin.value >> 1)) { // target is dad
-		// 			// 	game_data.node_connections[origin.value].dad = target.value;
-		// 			// 	hide_connections(origin);
-		// 			// 	show_connections(origin);
-		// 			// }
-		// 			// else if (target.value == (origin.value - 1)) { // target is bro
-		// 			// 	game_data.node_connections[origin.value].bro = target.value;
-		// 			// 	hide_connections(origin);
-		// 			// 	show_connections(origin);
-		// 			// }
-		// 			// else {
-		// 			// 	console.log("could not find relationsip between: (1/3)");
-		// 			// 	console.log(origin);
-		// 			// 	console.log(target);
-		// 			// 	return;
-		// 			// }
-		// 		}
-		// 	});
-		// }
-		// else if (game_data.action_index == 2) {
-		// 	$.ajax({
-		// 		type: "GET",
-		// 		url: "take_action",
-		// 		data: {
-		// 			origin: origin.value,
-		// 			target: target.value,
-		// 			effect: 4
-		// 		},
-		// 		datatype: "html",
-		// 		success: function (raw) {
-		// 			var data = JSON.parse(raw);
-		// 			if (data['status'] != 'success') {
-		// 				console.log(data);
-		// 				return;
-		// 			}
-		// 			App.game.perform(
-		// 				'update_node', {
-		// 					action: game_data.action_index,
-		// 					origin: origin.value,
-		// 					target: target.value,
-		// 					origin_fac: game_data.node_factions[origin.value],
-		// 					target_fac: game_data.node_factions[target.value],
-		// 					origin_change: data.origin,
-		// 					target_change: data.target
-		// 				});
-		// 			// if (origin.value == (target.value >> 1)) { // origin is dad
-		// 			// 	game_data.node_connections[target.value].dad = origin.value;
-		// 			// 	hide_connections(target);
-		// 			// 	show_connections(target);
-		// 			// }
-		// 			// else if (origin.value == (target.value - 1)) { // origin is bro
-		// 			// 	game_data.node_connections[target.value].bro = origin.value;
-		// 			// 	hide_connections(target);
-		// 			// 	show_connections(target);
-		// 			// }
-		// 			// else if (target.value == (origin.value >> 1)) { // target is dad
-		// 			// 	game_data.node_connections[origin.value].dad = target.value;
-		// 			// 	hide_connections(origin);
-		// 			// 	show_connections(origin);
-		// 			// }
-		// 			// else if (target.value == (origin.value - 1)) { // target is bro
-		// 			// 	game_data.node_connections[origin.value].bro = target.value;
-		// 			// 	hide_connections(origin);
-		// 			// 	show_connections(origin);
-		// 			// }
-		// 			// else {
-		// 			// 	console.log("could not find relationsip between: (1/3)");
-		// 			// 	console.log(origin);
-		// 			// 	console.log(target);
-		// 			// 	return;
-		// 			// }
-		// 		}
-		// 	});
-		// }
-
 	}
 
 	function check_selection(target) {
 		if (target.moving) return;
 		if (!target.selected) {
 			select_node(target);
-			if (game_data.selected_nodes.length >= 1 && game_data.action_index != -1) {
+			if (game_data.selected_nodes.length >= 1 && game_data.action_index !== -1) {
 				game_data.selected_nodes.push(target);
 				take_action(game_data.selected_nodes[0], target);
 				remove_options(game_data.selected_nodes[0]);
@@ -2225,8 +2259,8 @@ $(document).on('ready page:load', function() {
 		}
 		else {
 			unselect_node(target);
-			var index = game_data.selected_nodes.indexOf(target);
-			if (typeof(index) != 'undefined' && index != null)
+			let index = game_data.selected_nodes.indexOf(target);
+			if (typeof(index) !== 'undefined' && index !== null)
 				game_data.selected_nodes.splice(index, 1);
 			remove_options(target);
 			game_data.action_index = -1;
@@ -2239,7 +2273,7 @@ $(document).on('ready page:load', function() {
 			unselect_node(target);
 		}
 		else {
-			if (game_data.action_index != -1)
+			if (game_data.action_index !== -1)
 				unselect_node(game_data.actions[game_data.action_index]);
 			select_node(target);
 			game_data.action_index = game_data.actions.indexOf(target);
@@ -2247,49 +2281,48 @@ $(document).on('ready page:load', function() {
 	}
 
 	function has_animation(target) {
-		var len = game_data.animations.length, i = -1;
-		while (++i < len) if (target == game_data.animations[i].target) return true;
+		let len = game_data.animations.length, i = -1;
+		while (++i < len) if (target === game_data.animations[i].target) return true;
 		return false;
 	}
 
 	function remove_animations(target) {
-		var len = game_data.animations.length, i = -1;
+		let len = game_data.animations.length, i = -1;
 		while (++i < len)
-			if (target == game_data.animations[i].target) {
+			if (target === game_data.animations[i].target) {
 				game_data.animations.splice(i, 1);
 				len--;
-				continue;
 			}
 	}
 
 	function add_animation(target, fractional_render, last_render, length_ms) {
 		game_data.date = new Date();
-		var now = game_data.date.getTime();
-		var animation = { target: target, fractional_render: fractional_render,
+		let now = game_data.date.getTime();
+		let animation = { target: target, fractional_render: fractional_render,
 			last_render: last_render, length: length_ms, start: now, last: now };
 		game_data.animations.push(animation);
 	}
 
-	function tick(event) {
-		var len = game_data.animations.length;
+	function tick() {
+		let len = game_data.animations.length;
 		if (len <= 0) return;
 		w = scope.view.size.width / 2;
 		h = scope.view.size.height / 2;
 		m = Math.min(w, h);
 		game_data.date = new Date();
-		var tick_time = game_data.date.getTime();
-		var i = 0;
+		let tick_time = game_data.date.getTime();
+		let i = 0;
 		while (i < len) {
-			var anim = game_data.animations[i];
-			var total_timespan = tick_time - anim.start;
-			var current_timespan = tick_time - anim.last;
-			var sigma_frac = total_timespan / anim.length; // Total time spent
-			var delta_frac = current_timespan / anim.length; // Time since last tick
-			var survive = true;
+			let anim = game_data.animations[i];
+			let total_timespan = tick_time - anim.start;
+			let current_timespan = tick_time - anim.last;
+			let sigma_frac = total_timespan / anim.length; // Total time spent
+			let delta_frac = current_timespan / anim.length; // Time since last tick
+			let survive = true;
 			if (total_timespan >= anim.length) {
 				survive = anim.last_render(anim.target);
 				if (!survive) {
-					var index = game_data.animations.indexOf(anim);
+					let index = game_data.animations.indexOf(anim);
 					game_data.animations.splice(index, 1);
 					len--;
 					continue;
@@ -2303,19 +2336,19 @@ $(document).on('ready page:load', function() {
 	}
 
 	function load_SVG(file, name, mirrors) {
-		var raw_file = new XMLHttpRequest();
+		let raw_file = new XMLHttpRequest();
 		raw_file.open("GET", file, true);
 		raw_file.onreadystatechange = function() {
-			if (raw_file.readyState === 4 && (raw_file.status === 200 || raw_file.status == 0)) {
-				var raw = raw_file.responseText, exp = /[^d="]* d="([^"]*)"[^ d="]*/g,
+			if (raw_file.readyState === 4 && (raw_file.status === 200 || raw_file.status === 0)) {
+				let raw = raw_file.responseText, exp = /[^d="]* d="([^"]*)"[^ d="]*/g,
 					data = "";
 				raw.replace(exp, function(match, g1) { data += g1; });
 				game_data.icons[name] = new scope.CompoundPath(data);
 				game_data.icons[name].strokeWidth = 0;
 				game_data.icons[name].visible = false;
 				game_data.icon_data[name] = data;
-				if (typeof(mirrors) != 'undefined' && mirrors != null) {
-					var mirror, mirror_icon;
+				if (typeof(mirrors) !== 'undefined' && mirrors !== null) {
+					let mirror, mirror_icon;
 					while (mirrors.length > 0) {
 						mirror = mirrors[0];
 						mirror_icon = new scope.CompoundPath(data);
@@ -2332,7 +2365,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function set_assets() {
-		var icon_up = new scope.Raster('assets/icons/001-arrow-up.png'),
+		let icon_up = new scope.Raster('assets/icons/001-arrow-up.png'),
 			icon_up_right = new scope.Raster('assets/icons/002-arrow-up-right.png'),
 			icon_right = new scope.Raster('assets/icons/003-arrow-right.png'),
 			icon_down_right = new scope.Raster('assets/icons/004-arrow-down-right.png'),
@@ -2360,16 +2393,16 @@ $(document).on('ready page:load', function() {
 		load_SVG('assets/icons/046-return.svg', 'return');
 	}
 
-	function init() {
-		get_initial_node_data();
-		set_resize();
-		set_assets();
-		make_ui();
-		make_background();
-		scope.view.onFrame = function(event) {
-			tick(event);
-		};
-	}
+	// function init() {
+	// 	get_initial_node_data();
+	// 	set_resize();
+	// 	set_assets();
+	// 	make_ui();
+	// 	make_background();
+	// 	scope.view.onFrame = function(event) {
+	// 		tick(event);
+	// 	};
+	// }
 
 	function init_debug() {
 		console.log("Starting init...");
