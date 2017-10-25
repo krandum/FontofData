@@ -33,7 +33,7 @@ body.play {
 	width: 100%;
 	display: grid;
 	grid-template-columns: 7fr 6fr 1fr 13fr 8fr 6fr;
-	grid-template-rows: 54px 19fr 2fr 3fr 8fr;
+	grid-template-rows: 40px 19fr 1fr 2fr 10fr;
 	grid-template-areas:
 		"stat-bar stat-bar stat-bar stat-bar stat-bar stat-bar"
 		". . . . . ."
@@ -59,7 +59,11 @@ body.play {
 	grid-area: quest_tab;
 	width: 96%;
 	border-style: solid;
-	border-width: 2px 2px 0px 2px;
+	align-items: center;
+	justify-items: center;
+	text-align: center;
+	font-size: .9rem;
+	border-width: 2px 2px 2px 2px;//bottom border for deselected tab
 	border-radius: 10px 10px 0px 0px;
 	margin: 0px 0px -2px 0px;
 	z-index: 3;
@@ -67,9 +71,13 @@ body.play {
 
 .chat_tab {
 	grid-area: chat_tab;
-	border-style: solid;
 	width: 96%;
-	border-width: 2px 2px 2px 2px; //bottom border for deselected tab
+	border-style: solid;
+	align-items: center;
+	justify-items: center;
+	text-align: center;
+	font-size: .9rem;
+	border-width: 2px 2px 0px 2px;
 	border-radius: 10px 10px 0px 0px;
 	margin: 0px 0px -2px 0px;
 	z-index: 3;
@@ -89,13 +97,14 @@ body.play {
 	border-style: solid;
 	border-width: 0px 0px 2px 0px;
 	display: grid;
-	grid-template-columns: 1fr 48px 2fr 12fr 100fr;
-	grid-template-rows: 3px 48px 3px;
+	grid-template-columns: 3fr 34px 1fr 12fr 100fr;
+	grid-template-rows: 3px 34px 3px;
 	grid-template-areas:
 		". . . . ."
 		". profile_pic . username ."
 		". . . . .";
 	z-index: 2;
+	font-size: 1rem;
 }
 
 .profile_pic {
@@ -178,7 +187,7 @@ span#nodename {
 	font-weight: 300;
 }
 
-.faction_icon {
+#faction_icon_bg {
 	grid-area: faction_icon;
 	margin: 4px;
 	overflow: hidden;
@@ -186,6 +195,71 @@ span#nodename {
 	border-style: solid;
 	border-color: #094074;
 	border-width: 2px;
+	background-color: #BCDEFF;
+	position: absolute;
+	width: 85%;
+	height: 85%;
+	z-index: 1;
+}
+#faction_icon_n {
+	grid-area: faction_icon;
+	margin: 4px;
+	overflow: hidden;
+	border-radius: 50%;
+	border-style: solid;
+	border-color: #094074;
+	border-width: 2px;
+	background: image_url('icons/032-cone.svg');
+	display: none;
+	position: absolute;
+	width: 85%;
+	height: 85%;
+	z-index: 2;
+}
+#faction_icon_r {
+	grid-area: faction_icon;
+	margin: 4px;
+	overflow: hidden;
+	border-radius: 50%;
+	border-style: solid;
+	border-color: #094074;
+	border-width: 2px;
+	background: image_url('icons/placeholder-red_faction_icon.svg');
+	display: none;
+	position: absolute;
+	width: 85%;
+	height: 85%;
+	z-index: 2;
+}
+#faction_icon_g {
+	grid-area: faction_icon;
+	margin: 4px;
+	overflow: hidden;
+	border-radius: 50%;
+	border-style: solid;
+	border-color: #094074;
+	border-width: 2px;
+	background: image_url('icons/placeholder-green_faction_icon.svg');
+	display: none;
+	position: absolute;
+	width: 85%;
+	height: 85%;
+	z-index: 2;
+}
+#faction_icon_b {
+	grid-area: faction_icon;
+	margin: 4px;
+	overflow: hidden;
+	border-radius: 50%;
+	border-style: solid;
+	border-color: #094074;
+	border-width: 2px;
+	background: image_url('icons/placeholder-blue_faction_icon.svg');
+	display: none;
+	position: absolute;
+	width: 85%;
+	height: 85%;
+	z-index: 2;
 }
 
 .nodeinfo {

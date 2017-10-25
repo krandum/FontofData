@@ -158,7 +158,7 @@ $(document).on('ready page:load', function() {
 		ui.status_bar = document.getElementsByClassName('status_bar')[0];
 		ui.tabs = document.getElementsByClassName('tabs')[0];
 		ui.messages = document.getElementById('messages');
-
+		console.log(ui.chat_pane.children);
 		function hex_to_rgba(hex, alpha) {
 			var r = parseInt(hex.slice(1, 3), 16),
 			g = parseInt(hex.slice(3, 5), 16),
@@ -174,26 +174,28 @@ $(document).on('ready page:load', function() {
 			ui.card.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary);
 			ui.card.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.card.style.color = ui.color_palette[user.faction_id].highlight;
-			ui.card.children[2].style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.card.children[2].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.card.children[4].style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.card.children[4].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.card.children[6].style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.card.children[6].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.card.children[8].style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.card.children[8].style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.search_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis);
 			ui.search_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.quest_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.quest_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.chat_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.chat_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.chat_pane.children[0].style.backgroundColor = ui.color_palette[user.faction_id].primary;
-			ui.chat_pane.children[0].children[0].style.backgroundColor = ui.color_palette[user.faction_id].primary;
+			ui.chat_pane.children[1].style.backgroundColor = ui.color_palette[user.faction_id].primary;
+			ui.chat_pane.children[1].children[0].style.backgroundColor = ui.color_palette[user.faction_id].primary;
 			ui.status_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary);
 			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.status_bar.style.color = ui.color_palette[user.faction_id].highlight;
 			ui.tabs.children[0].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
 			ui.tabs.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.tabs.children[0].style.color = ui.color_palette[user.faction_id].highlight;
 			ui.tabs.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
 			ui.tabs.children[1].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.tabs.children[1].style.color = ui.color_palette[user.faction_id].highlight;
 			ui.messages.style.color = ui.color_palette[user.faction_id].highlight;
 		};
 		ui.set_bar = function() {
@@ -211,7 +213,7 @@ $(document).on('ready page:load', function() {
 				6: document.getElementById('node_value'),
 				7: document.getElementById('node_contention'),
 				8: document.getElementById('faction_name'),
-				9: document.getElementsByClassName('faction_icon')[0]
+				9: document.getElementsByClassName('faction_icon')
 			}
 			var span_num = 0;
 			while (++span_num < 9) {
@@ -228,10 +230,18 @@ $(document).on('ready page:load', function() {
 			ui.card_spans[6].appendChild(document.createTextNode(card_node.worth));
 			ui.card_spans[7].appendChild(document.createTextNode(card_node.contention));
 			ui.card_spans[8].appendChild(document.createTextNode(ui.faction_names[card_node.faction_id]));
-			if (card_node.faction_id != 0)
-				ui.card_spans[9].style.backgroundImage = 'url(' + ui.faction_icons[card_node.faction_id] + ')';
-			else
-				ui.card_spans[9].style.backgroundImage = 'none';
+			ui.card_spans[9][0].style.display = 'none';
+			ui.card_spans[9][0].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.card_spans[9][1].style.display = 'none';
+			ui.card_spans[9][1].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.card_spans[9][2].style.display = 'none';
+			ui.card_spans[9][2].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.card_spans[9][3].style.display = 'none';
+			ui.card_spans[9][3].style.borderColor = ui.color_palette[user.faction_id].accent;
+			if (card_node.faction_id != 0) {
+				console.log(card_node.faction_id);
+				ui.card_spans[9][card_node.faction_id - 1].style.display = 'block';
+			}
 		};
 		ui.create_listeners = function() {
 			ui.tabs.children[0].addEventListener('click', function() {
