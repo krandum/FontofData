@@ -2184,6 +2184,8 @@ $(document).on('ready page:load', function() {
 					target.circle.fillColor = colors.fill;
 					target.number.fillColor = colors.num;
 				}
+				game_data.background.set_triangle_targets();
+				add_animation(null, color_background_animation, color_background_stop, 400);
 			}
 			if (origin.value === (target.value >> 1)) { // origin is dad
 				game_data.node_connections[target.value].dad = origin.value;
