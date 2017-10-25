@@ -2,10 +2,18 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.chat_button {
+	display: none !important;
+}
+
+.card {
+	margin-bottom: -1px;
+	height: auto;
+}
 
 #messages {
-	max-height: 250px;
-	overflow-y: auto;
+	height: 100%;
+	overflow-y: scroll;
 	.avatar {
 		margin: 0.5rem;
 	}

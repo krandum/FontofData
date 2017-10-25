@@ -21,6 +21,7 @@ body.play {
 	height: 100%;
 	left: 2.5%;
 	background-color: white;
+	overflow: hidden;
 	display: grid;
 	justify-content: center;
 	align-items: center;
@@ -38,7 +39,8 @@ body.play {
 		". . . . . ."
 		"clusters . . . tabs tabs"
 		"search search . . quests quests"
-		"info info info . quests quests";
+		"info info info actionbar quests quests";
+	font-size: .75rem;
 	z-index: 1;
 }
 
@@ -98,7 +100,8 @@ body.play {
 
 .profile_pic {
 	grid-area: profile_pic;
-	overflow: hidden;
+	background-size: 100%;
+	overflow: none;
 	border-radius: 3px;
 	z-index: 3;
 }
@@ -117,6 +120,10 @@ body.play {
 
 .search_bar {
 	grid-area: search;
+	height: 100%;
+	width: 100%;
+	align-items: center;
+	justify-items: center;
 	background-color: rgba(153, 153, 153, .85);
 	border-color: #004299;
 	border-style: solid;
@@ -173,12 +180,9 @@ span#nodename {
 
 .faction_icon {
 	grid-area: faction_icon;
-	margin: 2px;
+	margin: 4px;
 	overflow: hidden;
 	border-radius: 50%;
-	background-size: 70.7%;
-	background-repeat: no-repeat;
-	background-position: 50%;
 	border-style: solid;
 	border-color: #094074;
 	border-width: 2px;
@@ -186,6 +190,17 @@ span#nodename {
 
 .nodeinfo {
 	grid-area: nodeinfo;
+	display: grid;
+	line-height: 100%;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-areas:
+	"field_owner"
+	"field_tier"
+	"field_function"
+	"field_connections"
+	"field_value"
+	"field_contention"
 }
 
 .cluster_info {
@@ -199,9 +214,36 @@ span#nodename {
 .chat_pane {
 	grid-area: quests;
 	border-style: solid;
+	overflow: hidden;
 	border-width: 2px 0px 0px 2px;
 	border-radius: 12px 0px 0px 0px;
 	z-index: 2;
+}
+
+.chat_frame {
+	height: 80%;
+	width: 95%;
+	margin: 8px 8px 0px 8px;
+	overflow: hidden;
+	border-radius: 3px;
+}
+
+.card {
+	background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.form-group {
+	grid-area: form;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.form-control {
+	margin-top: 3px;
+	height: 25px;
+	width: 95% !important;
 }
 
 .quest_pane {
@@ -210,4 +252,8 @@ span#nodename {
 	border-width: 2px 0px 0px 2px;
 	border-radius: 12px 0px 0px 0px;
 	z-index: 2;
+}
+
+.quest_li {
+
 }
