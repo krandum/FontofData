@@ -77,3 +77,104 @@ if DataNode.all.empty?
 	blueCluster.save
 
 end
+
+if Quest.all.empty?
+  quests = Quest.create([
+      {quest_name: 'leo', gem_reward: 1, required_nodes: [
+          2, 1,
+          5, 2,
+          6, 5,
+          6, 3,
+          3, 1,
+          12, 6,
+          13, 12
+      ]},
+			{quest_name: 'libra', gem_reward: 1, required_nodes: [
+					4, 2,
+          5, 4,
+          11, 5,
+          12, 11,
+          12, 6,
+          7, 6,
+          7, 3
+			]},
+			{quest_name: 'scorpio', gem_reward: 1, required_nodes: [
+					2, 1,
+          3, 1,
+          6, 3,
+          13, 6,
+          14, 13,
+          15, 14
+			]},
+			{quest_name: 'sagitarious', gem_reward: 1, required_nodes: [
+					5, 2,
+          5, 4,
+          11, 5,
+          6, 5,
+          7, 6,
+          14, 7,
+          7, 3
+			]},
+			{quest_name: 'aquarious', gem_reward: 1, required_nodes: [
+					4, 2,
+          5, 2,
+          6, 5,
+          6, 3,
+          7, 3
+			]},
+			{quest_name: 'pisces', gem_reward: 1, required_nodes: [
+					5, 2,
+          10, 5,
+          6, 5,
+          6, 3,
+          13, 6
+			]},
+			{quest_name: 'aries', gem_reward: 1, required_nodes: [
+					4, 2,
+          2, 1,
+          7, 3,
+          3, 1
+			]},
+			{quest_name: 'taurus', gem_reward: 1, required_nodes: [
+					10, 5,
+          5, 2,
+          2, 1,
+          13, 6,
+          6, 3,
+          3, 1
+			]},
+			{quest_name: 'gemini', gem_reward: 1, required_nodes: [
+					5, 4,
+          5, 2,
+          6, 5,
+          7, 6,
+          6, 3,
+          3, 2
+			]},
+			{quest_name: 'cancer', gem_reward: 1, required_nodes: [
+					10, 5,
+          11, 10,
+          11, 5,
+          12, 11,
+          3, 2,
+          7, 3,
+          7, 6,
+          6, 3
+			]},
+			{quest_name: 'virgo', gem_reward: 1, required_nodes: [
+					2, 1,
+          5, 2,
+          6, 5,
+          6, 3,
+          3, 1
+			]},
+			{quest_name: 'capricorn', gem_reward: 1, required_nodes: [
+					9, 4,
+          10, 9,
+          10, 5,
+          5, 2,
+          2, 1,
+          3, 1
+			]}
+                        ])
+end
