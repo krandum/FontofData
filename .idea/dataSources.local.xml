@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Rails FontofData: development" uuid="ee3f1f94-5878-477d-84ea-f910982803a9">
+      <database-info product="PostgreSQL" version="10.0" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.1.1">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <introspection-schemas>fontofdata_development:public</introspection-schemas>
+    </data-source>
+    <data-source name="Rails FontofData: production" uuid="837a10bd-c63e-4aef-b8fe-fcaf9f556302">
+      <database-info product="PostgreSQL" version="10.0" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.1.1">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <introspection-schemas>fontofdata_production:public</introspection-schemas>
+    </data-source>
+    <data-source name="Rails FontofData: test" uuid="4c817ef2-472c-4f49-8f15-32dd0253fe98">
+      <database-info product="PostgreSQL" version="10.0" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.1.1">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <introspection-schemas>fontofdata_test:public</introspection-schemas>
+    </data-source>
+  </component>
+</project>
