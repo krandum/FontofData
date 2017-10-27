@@ -29,30 +29,46 @@
 		<div class="clusters"></div>
 		<div class="quest_pane"></div>
 		<div class="search_bar">
-			<div>
-
-			</div>
+			<form class="search_form">
+				<input type="text" class="search_elem" placeholder="Go to Node">
+			</form>
 		</div>
 		<div id="info_pane">
 			<div class="nameplate"><span>Node: </span><span id="node_number"></span></div>
 			<div class="faction_name"><span id="faction_name"></span></div>
-			<div class="faction_icon"><img id="faction_icon"></img></div>
+			<div class="faction_icon" id="faction_icon_n"></div>
+			<div class="faction_icon" id="faction_icon_r"></div>
+			<div class="faction_icon" id="faction_icon_g"></div>
+			<div class="faction_icon" id="faction_icon_b"></div>
+			<div class="faction_icon" id="faction_icon_bg"></div>
 			<div class="nodeinfo">
-				<span>Owner: </span><span id="node_owner"></span><br>
-				<span>Tier: </span><span id="node_tier"></span><br>
-				<span>Function: </span><span id="node_function"></span><br>
-				<span>Connections: </span><span id="node_connections"></span><br>
-				<span>Value: </span><span id="node_value"></span><br>
-				<span>Contention: </span><span id="node_contention"></span>
+				<div style="grid-area: field_owner"><span>Owner: </span><span id="node_owner"></span><br></div>
+				<div style="grid-area: field_tier"><span>Tier: </span><span id="node_tier"></span><br></div>
+				<div style="grid-area: field_function"><span>Function: </span><span id="node_function"></span><br></div>
+				<div style="grid-area: field_connections"><span>Connections: </span><span id="node_connections"></span><br></div>
+				<div style="grid-area: field_value"><span>Value: </span><span id="node_value"></span><br></div>
+				<div style="grid-area: field_contention"><span>Contention: </span><span id="node_contention"></span></div>
 			</div>
 			<div class="cluster_info"></div>
 		</div>
 		<div class="tabs">
-			<div class="quest_tab"></div>
-			<div class="chat_tab"></div>
+			<div class="quest_tab"><div>Quests</div></div>
+			<div class="chat_tab"><div>Chat</div></div>
 		</div>
 		<div class="chat_pane">
-			<div class="chat_element"></div>
+			<div class="chat_options">
+			</div>
+			<div class="chat_frame">
+				<div id="messages" data-chat-room-id="<%= @chat_room.id %>">
+					<%= render @chat_room.messages %>
+				</div>
+			</div>
+			<%= form_for @message, url: '#' do |f| %>
+				<div class="form-group">
+					<%= f.text_area :body, class: 'form-control' %>
+					<%= f.submit "Post", class: 'btn chat_button' %>
+				</div>
+			<% end %>
 		</div>
 	</div>
 	<% end %>
