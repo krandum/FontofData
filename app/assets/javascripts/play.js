@@ -141,12 +141,6 @@ $(document).on('ready page:load', function() {
 				highlight: '#C9F0FF'
 			}
 		};
-		ui.faction_icons = {//REPLACE WITH GRAPHIC ASSETS
-			1: 'assets/icons/032-cone.svg',
-			2: 'assets/icons/placeholder-red_faction_icon.svg',
-			3: 'assets/icons/placeholder-green_faction_icon.svg',
-			4: 'assets/icons/placeholder-blue_faction_icon.svg'
-		};
 		ui.faction_names = {
 			0: '',
 			1: 'Neutral',
@@ -161,6 +155,7 @@ $(document).on('ready page:load', function() {
 		ui.status_bar = document.getElementsByClassName('status_bar')[0];
 		ui.tabs = document.getElementsByClassName('tabs')[0];
 		ui.messages = document.getElementById('messages');
+		ui.actionbar = document.getElementById('actionbar');
 		console.log(ui.chat_pane.children);
 		function hex_to_rgba(hex, alpha) {
 			let r = parseInt(hex.slice(1, 3), 16),
@@ -173,6 +168,24 @@ $(document).on('ready page:load', function() {
 				return "rgb(" + r + ", " + g + ", " + b + ")";
 			}
 		}
+		ui.set_actionbar_size = function() {
+			let i = 0;
+			while (i < 7) {
+				ui.actionbar.children[i].style.height = ui.actionbar.children[0].clientWidth + 'px';
+				ui.actionbar.children[i].style.width = ui.actionbar.children[0].clientWidth + 'px';
+				i++;
+			}
+		};
+		ui.set_actionbar = function() {
+			ui.actionbar.children[0].children[0].style.backgroundImage = 'url(assets/icons/048-back.svg)';
+			ui.actionbar.children[1].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
+			ui.actionbar.children[2].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
+			ui.actionbar.children[3].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
+			ui.actionbar.children[4].children[0].style.backgroundImage = 'url(assets/icons/045-orbit.svg)';
+			ui.actionbar.children[5].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
+			ui.actionbar.children[6].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
+			ui.set_actionbar_size();
+		};
 		ui.set_colors = function() {
 			ui.card.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary);
 			ui.card.style.borderColor = ui.color_palette[user.faction_id].accent;
@@ -189,6 +202,7 @@ $(document).on('ready page:load', function() {
 			ui.chat_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.chat_pane.children[1].style.backgroundColor = ui.color_palette[user.faction_id].primary;
 			ui.chat_pane.children[1].children[0].style.backgroundColor = ui.color_palette[user.faction_id].primary;
+			ui.messages.style.color = ui.color_palette[user.faction_id].highlight;
 			ui.status_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary);
 			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
@@ -199,7 +213,8 @@ $(document).on('ready page:load', function() {
 			ui.tabs.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
 			ui.tabs.children[1].style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.tabs.children[1].style.color = ui.color_palette[user.faction_id].highlight;
-			ui.messages.style.color = ui.color_palette[user.faction_id].highlight;
+			ui.actionbar.children[7].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
+			ui.actionbar.children[7].style.borderColor = ui.color_palette[user.faction_id].accent;
 		};
 		ui.set_bar = function() {
 			ui.status_bar.children[0].style.backgroundImage = 'url(' + user.picture + ')';
@@ -217,10 +232,10 @@ $(document).on('ready page:load', function() {
 				7: document.getElementById('node_contention'),
 				8: document.getElementById('faction_name'),
 				9: document.getElementsByClassName('faction_icon')
-			}
-			var span_num = 0;
+			};
+			let span_num = 0;
 			while (++span_num < 9) {
-				cur_span = ui.card_spans[span_num];
+				let cur_span = ui.card_spans[span_num];
 				while (cur_span.firstChild) {
 					cur_span.removeChild(cur_span.firstChild);
 				}
@@ -241,12 +256,12 @@ $(document).on('ready page:load', function() {
 			ui.card_spans[9][2].style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.card_spans[9][3].style.display = 'none';
 			ui.card_spans[9][3].style.borderColor = ui.color_palette[user.faction_id].accent;
-			if (card_node.faction_id != 0) {
-				console.log(card_node.faction_id);
+			if (card_node.faction_id !== 0) {
 				ui.card_spans[9][card_node.faction_id - 1].style.display = 'block';
 			}
 		};
 		ui.create_listeners = function() {
+			let buttons = ui.actionbar.children;
 			ui.tabs.children[0].addEventListener('click', function() {
 				ui.tabs.children[0].style.borderBottomWidth = '0px';
 				ui.tabs.children[1].style.borderBottomWidth = '2px';
@@ -259,11 +274,36 @@ $(document).on('ready page:load', function() {
 				ui.quest_pane.style.display = 'none';
 				ui.chat_pane.style.display = 'block';
 			});
+			window.addEventListener("resize", function(e) {
+				ui.set_actionbar_size();
+			});
+			buttons[0].addEventListener('click', function(e) {
+				//placeholder orbit back
+			});
+			buttons[1].addEventListener('click', function(e) {
+				//placeholder popup
+			});
+			buttons[2].addEventListener('click', function(e) {
+				//placeholder assignment screen
+			});
+			buttons[3].addEventListener('click', function(e) {
+				//placeholder deposit textarea
+			});
+			buttons[4].addEventListener('click', function(e) {
+				//placeholder link nodes
+			});
+			buttons[5].addEventListener('click', function(e) {
+				//placeholder connections?
+			});
+			buttons[6].addEventListener('click', function(e) {
+				//placeholder cancel
+			});
 		};
 		ui.init = function() {
 			ui.set_colors();
 			ui.set_bar();
 			ui.create_listeners();
+			ui.set_actionbar();
 		};
 		ui.init();
 	}
@@ -1146,7 +1186,7 @@ $(document).on('ready page:load', function() {
 					game_data.card_set = false;
 				// TODO make card blank again
 					let empty_card = { value: "", faction_id: 0, owner: "", tier: "",
-						connection_num: "", worth: "", contention: "" };
+						connection_num: "", function: "", worth: "", contention: "" };
 					game_data.user_interface.set_card(empty_card);
 				}
 			}
