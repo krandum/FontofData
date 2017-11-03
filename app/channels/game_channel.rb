@@ -147,7 +147,6 @@ private
 					end
 					begin
 						@origin.connections << @target
-						@target.connections << @origin
 						status = 'success'
 					rescue ActiveRecord::RecordNotUnique
 						status = 'connection_exists'

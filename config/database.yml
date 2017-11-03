@@ -1,22 +1,27 @@
 # PostgreSQL
-development:
+
+default: &default
   adapter: postgresql
   encoding: utf8
-  database: fontofdata_development
   host: localhost
+  username: <%= ENV['PSQL_USERNAME'] %>
+  password: <%= ENV['PSQL_PASSWORD'] %>
+
+
+development:
+  <<: *default
+  database: fontofdata_development
   pool: 5
   timeout: 5000
 
 test:
-  adapter: postgresql
-  encoding: utf8
+  <<: *default
   database: fontofdata_test
   pool: 5
   timeout: 5000
 
 production:
-  adapter: postgresql
-  encoding: utf8
+  <<: *default
   database: fontofdata_production
   pool: 5
   timeout: 5000
