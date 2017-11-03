@@ -33,14 +33,13 @@ class User < ActiveRecord::Base
     where(conditions).where(['lower(username) = :value OR lower(email) = :value', { value: login.strip.downcase }]).first
   end
 
-  def testfunc(thing)
-    puts thing
-    puts thing
-  end
-
-  def gaingold
+  def gain_gold
     self.gold += [data_nodes.sum(:resource_generator), 1.0].max
     save
+  end
+
+  def receive_quest
+    self.quests << Quest.find(rand(1..12))
   end
 
   private

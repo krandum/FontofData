@@ -71,7 +71,7 @@ class DataNodesController < ApplicationController
 		while (iter < num)
 			range = ranges[iter.to_s]
 			cur = range[:from].to_i
-			claimedNodes = DataNode.where(value: range[:from].to_i..range[:to].to_i).order(:value)
+			claimedNodes = DataNode.where(value: range[:from].to_i..range[:to].to_i).order(:value).includes(:connections)
 			p range[:from].to_i
 			p range[:to].to_i
 			p claimedNodes
@@ -89,10 +89,10 @@ class DataNodesController < ApplicationController
 						'worth' => 1000,
 						'contention' => 0
 					}
-					out['nodes'][cur]['bro'] = claimedNodes[i].connections.select{|x| x.value == cur - 1}
-					out['nodes'][cur]['dad'] = claimedNodes[i].connections.select{|x| x.value == cur >> 1}
-					# out['nodes'][cur]['bro'] = claimedNodes[i].connections.where(value: cur - 1).first.try(:value)
-					# out['nodes'][cur]['dad'] = claimedNodes[i].connections.where(value: cur >> 1).first.try(:value)
+					# out['nodes'][cur]['bro'] = claimedNodes[i].connections.select{|x| x.value == cur - 1}
+					# out['nodes'][cur]['dad'] = claimedNodes[i].connections.select{|x| x.value == cur >> 1}
+					out['nodes'][cur]['bro'] = claimedNodes[i].connections.where(value: cur - 1).first.try(:value)
+					out['nodes'][cur]['dad'] = claimedNodes[i].connections.where(value: cur >> 1).first.try(:value)
 					i += 1
 				else
 					out['nodes'][cur] = {

@@ -23,5 +23,10 @@ set :environment, "development"
 set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
 
 every 1.minute do
-	runner "User.first.gaingold"
+	runner "require 'tasks';Tasks.give_gold"
 end
+
+every :day, at: '12:00am' do
+	runner "require 'tasks';Tasks.give_quests"
+end
+
