@@ -38,8 +38,8 @@ gem 'devise'
 
 gem 'paperclip'
 
-gem 'redis'
-gem 'redis-namespace'
+gem 'redis', '~> 3.3.5'
+gem 'redis-namespace', '~> 1.5.3'
 
 gem 'unicorn'
 gem 'puma'
