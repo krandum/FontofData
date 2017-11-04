@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 bundle exec rake db:migrate
 printf "run rake db:seed? y/n: "
 while [ -z "$confirm_seed" ]; do
@@ -27,9 +28,11 @@ while [ -z "$confirm_admin" ]; do
 		  read email
 		done
 		printf "Password: "
+		stty -echo
 		while [ -z "$password" ]; do
-		  read -s password
+		  read password
 		done
+		stty echo
 		echo
 		bundle exec rails runner "User.create!({username: \"$username\", email: \"$email\", password: \"$password\", password_confirmation: \"$password\" })"
 		bundle exec rails runner "User.where(email: \"$email\").first.super_admin!"
