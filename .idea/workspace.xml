@@ -1,0 +1,1214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="569b3682-23e4-458b-80f3-6360e67e8aab" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dictionaries/palatorr.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/jsLinters/jslint.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Acorn.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/images/kyle-gregory-devaras-241280.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/ffi_c.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/lib/ffi_c.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/json-1.8.6/ext/json/ext/generator/generator.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/json-1.8.6/ext/json/ext/parser/parser.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/json-1.8.6/lib/json/ext/generator.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/json-1.8.6/lib/json/ext/parser.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/sqlite3_native.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/lib/sqlite3/sqlite3_native.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/websocket-driver-0.6.5/ext/websocket-driver/websocket_mask.so" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/websocket-driver-0.6.5/lib/websocket_mask.so" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/development.sqlite3" afterPath="$PROJECT_DIR$/db/development.sqlite3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/paperjs.zip" afterPath="$PROJECT_DIR$/node_modules/paper/dist/paperjs.zip" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/AbstractMemory.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/AbstractMemory.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/ArrayType.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/ArrayType.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Buffer.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Buffer.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Call.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Call.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/ClosurePool.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/ClosurePool.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/DataConverter.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/DataConverter.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/DynamicLibrary.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/DynamicLibrary.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Function.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Function.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/FunctionInfo.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/FunctionInfo.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/LastError.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/LastError.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/LongDouble.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/LongDouble.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/MappedType.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/MappedType.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/MemoryPointer.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/MemoryPointer.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/MethodHandle.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/MethodHandle.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Platform.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Platform.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Pointer.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Pointer.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Struct.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Struct.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/StructByReference.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/StructByReference.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/StructByValue.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/StructByValue.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/StructLayout.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/StructLayout.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Thread.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Thread.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Type.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Type.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Types.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Types.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Variadic.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Variadic.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/ffi.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/ffi.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/backup.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/backup.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/database.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/database.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/exception.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/exception.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/sqlite3.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/sqlite3.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/statement.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/statement.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/websocket-driver-0.6.5/ext/websocket-driver/websocket_mask.o" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/websocket-driver-0.6.5/ext/websocket-driver/websocket_mask.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.bundle/config" afterPath="$PROJECT_DIR$/.bundle/config" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Paper.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Paper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile" afterPath="$PROJECT_DIR$/Gemfile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile.lock" afterPath="$PROJECT_DIR$/Gemfile.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/application.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/application.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/play.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/play.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/play.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/play.css.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/play/index.html.erb" afterPath="$PROJECT_DIR$/app/views/play/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/development.log" afterPath="$PROJECT_DIR$/log/development.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify-incremental/README.md" afterPath="$PROJECT_DIR$/node_modules/browserify-incremental/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify-incremental/bin/cmd.js" afterPath="$PROJECT_DIR$/node_modules/browserify-incremental/bin/cmd.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify-incremental/index.js" afterPath="$PROJECT_DIR$/node_modules/browserify-incremental/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify-incremental/node_modules/JSONStream/package.json" afterPath="$PROJECT_DIR$/node_modules/browserify-incremental/node_modules/JSONStream/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify-incremental/package.json" afterPath="$PROJECT_DIR$/node_modules/browserify-incremental/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/bin/advanced.txt" afterPath="$PROJECT_DIR$/node_modules/browserify/bin/advanced.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/bin/args.js" afterPath="$PROJECT_DIR$/node_modules/browserify/bin/args.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/bin/cmd.js" afterPath="$PROJECT_DIR$/node_modules/browserify/bin/cmd.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/changelog.markdown" afterPath="$PROJECT_DIR$/node_modules/browserify/changelog.markdown" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/index.js" afterPath="$PROJECT_DIR$/node_modules/browserify/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/package.json" afterPath="$PROJECT_DIR$/node_modules/browserify/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/readme.markdown" afterPath="$PROJECT_DIR$/node_modules/browserify/readme.markdown" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/test/dedupe-deps.js" afterPath="$PROJECT_DIR$/node_modules/browserify/test/dedupe-deps.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/test/double_buffer.js" afterPath="$PROJECT_DIR$/node_modules/browserify/test/double_buffer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/test/global.js" afterPath="$PROJECT_DIR$/node_modules/browserify/test/global.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/browserify/test/leak.js" afterPath="$PROJECT_DIR$/node_modules/browserify/test/leak.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/CHANGELOG.md" afterPath="$PROJECT_DIR$/node_modules/paper/CHANGELOG.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/assets/js/paper.js" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/assets/js/paper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Color.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Color.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/CompoundPath.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/CompoundPath.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Curve.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Curve.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/CurveLocation.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/CurveLocation.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Event.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Event.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Gradient.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Gradient.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/GradientStop.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/GradientStop.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Group.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Group.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/HitResult.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/HitResult.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Item.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Item.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Key.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Key.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/KeyEvent.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/KeyEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Layer.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Layer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Line.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Line.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Matrix.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Matrix.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/MouseEvent.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/MouseEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PaperScope.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PaperScope.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PaperScript.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PaperScript.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Path.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Path.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PathItem.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PathItem.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Point.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Point.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PointText.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PointText.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Project.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Project.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Raster.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Raster.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Rectangle.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Rectangle.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Segment.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Segment.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Shape.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Shape.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Size.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Size.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Style.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Style.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/SymbolDefinition.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/SymbolDefinition.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/SymbolItem.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/SymbolItem.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/TextItem.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/TextItem.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Tool.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Tool.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/ToolEvent.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/ToolEvent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/View.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/View.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/global.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/global.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/index.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/docs/index.html" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/node/canvas.js" afterPath="$PROJECT_DIR$/node_modules/paper/dist/node/canvas.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/node/extend.js" afterPath="$PROJECT_DIR$/node_modules/paper/dist/node/extend.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/paper-core.js" afterPath="$PROJECT_DIR$/node_modules/paper/dist/paper-core.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/paper-core.min.js" afterPath="$PROJECT_DIR$/node_modules/paper/dist/paper-core.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/paper-full.js" afterPath="$PROJECT_DIR$/node_modules/paper/dist/paper-full.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/dist/paper-full.min.js" afterPath="$PROJECT_DIR$/node_modules/paper/dist/paper-full.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/BooleanOperations.js" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/BooleanOperations.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/RasterRemote.js" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/RasterRemote.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/paper/package.json" afterPath="$PROJECT_DIR$/node_modules/paper/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/bin/nokogiri" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/bin/nokogiri" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/bin/rails" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/bin/rails" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/bcrypt-3.1.11/ext/mri/Makefile" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/bcrypt-3.1.11/ext/mri/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Makefile" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/extconf.h" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/ffi-1.9.18/ext/ffi_c/extconf.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/nio4r-2.1.0/ext/nio4r/Makefile" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/nio4r-2.1.0/ext/nio4r/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/Makefile" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext/sqlite3/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/websocket-driver-0.6.5/ext/websocket-driver/Makefile" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/gems/websocket-driver-0.6.5/ext/websocket-driver/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/bcrypt-3.1.11.gemspec" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/bcrypt-3.1.11.gemspec" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/ffi-1.9.18.gemspec" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/ffi-1.9.18.gemspec" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/json-1.8.6.gemspec" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/json-1.8.6.gemspec" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/nio4r-2.1.0.gemspec" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/nio4r-2.1.0.gemspec" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/sqlite3-1.3.13.gemspec" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/sqlite3-1.3.13.gemspec" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/websocket-driver-0.6.5.gemspec" afterPath="$PROJECT_DIR$/vendor/bundle/ruby/2.4.0/specifications/websocket-driver-0.6.5.gemspec" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.bundle/" />
+    <ignored path="$PROJECT_DIR$/components/" />
+    <ignored path="$PROJECT_DIR$/public/system/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <ignored path="$PROJECT_DIR$/vendor/bundle/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="FontRepo" />
+  </component>
+  <component name="FileColors">
+    <fileColor scope="Non-Project Files (Material Default)" color="2E3C43" />
+    <fileColor scope="Non-Project Files (Material Darker)" color="323232" />
+    <fileColor scope="Non-Project Files (Material Lighter)" color="eae8e8" />
+    <fileColor scope="Non-Project Files (Material Palenight)" color="2f2e43" />
+  </component>
+  <component name="FileEditorManager">
+    <splitter split-orientation="vertical" split-proportion="0.6429131">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="play.js" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="320">
+                  <caret line="2697" column="22" lean-forward="true" selection-start-line="2697" selection-start-column="22" selection-end-line="2697" selection-end-column="22" />
+                  <folding>
+                    <element signature="e#9596#37280#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="index.html.erb" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/views/play/index.html.erb">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="759">
+                  <caret line="33" column="57" lean-forward="false" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="application.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/assets/javascripts/application.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="23">
+                  <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+                  <folding>
+                    <element signature="n#!!doc" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="play.css.scss" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/play.css.scss">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="23">
+                  <caret line="73" column="7" lean-forward="false" selection-start-line="73" selection-start-column="7" selection-end-line="73" selection-end-column="7" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>console.log</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Gemfile" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/application.js" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/play.css.scss" />
+        <option value="$PROJECT_DIR$/app/views/play/index.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/play.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <annotation-enable>false</annotation-enable>
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1228" />
+    <option name="y" value="23" />
+    <option name="width" value="1332" />
+    <option name="height" value="1336" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>Potentially confusing code constructsJavaScript</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>EmptyStatementBodyJS</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="FontRepo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FontRepo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FontRepo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FontRepo" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FontRepo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FontRepo" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FontRepo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FontRepo" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="javascripts" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="RailsProjectView" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
+    <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
+    <property name="javascript.nodejs.core.library.configured.version" value="8.5.0" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.path.for.package.stylelint" value="project" />
+    <property name="node.js.detected.package.stylelint" value="true" />
+    <property name="node.js.selected.package.stylelint" value="" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Development: FontRepo" type="RailsRunConfigurationType" factoryName="Rails">
+      <predefined_log_file id="RUBY_RAILS_SERVER" enabled="true" />
+      <module name="FontRepo" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3000" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="0.0.0.0" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="Default" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="development" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+    </configuration>
+    <configuration name="Production: FontRepo" type="RailsRunConfigurationType" factoryName="Rails">
+      <predefined_log_file id="RUBY_RAILS_SERVER" enabled="true" />
+      <module name="FontRepo" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3000" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="0.0.0.0" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="Default" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="production" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+    </configuration>
+    <configuration name="spec: FontRepo" type="RakeRunConfigurationType" factoryName="Rake">
+      <module name="FontRepo" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_NAME" VALUE="spec" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_ARGS" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_ATTACHED_TEST_FRAMEWORKS" VALUE=":rspec " />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_TRACE" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_DRYRUN" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_PREREQS" VALUE="false" />
+    </configuration>
+    <configuration name="test: FontRepo" type="RakeRunConfigurationType" factoryName="Rake">
+      <module name="FontRepo" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="RAILS_ENV" value="test" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_NAME" VALUE="test" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_ARGS" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_ATTACHED_TEST_FRAMEWORKS" VALUE=":test_unit " />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_TRACE" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_DRYRUN" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_PREREQS" VALUE="false" />
+    </configuration>
+    <list size="4">
+      <item index="0" class="java.lang.String" itemvalue="Rails.Development: FontRepo" />
+      <item index="1" class="java.lang.String" itemvalue="Rails.Production: FontRepo" />
+      <item index="2" class="java.lang.String" itemvalue="Rake.spec: FontRepo" />
+      <item index="3" class="java.lang.String" itemvalue="Rake.test: FontRepo" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SpringUtil" SPRING_PRE_LOADER_OPTION="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="569b3682-23e4-458b-80f3-6360e67e8aab" name="Default" comment="" />
+      <created>1508889381644</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1508889381644</updated>
+      <workItem from="1508889384639" duration="13151000" />
+      <workItem from="1508990012673" duration="759000" />
+      <workItem from="1508996384963" duration="152000" />
+      <workItem from="1508996942147" duration="227000" />
+      <workItem from="1508997254637" duration="49000" />
+      <workItem from="1509064681260" duration="12209000" />
+      <workItem from="1509085097863" duration="200000" />
+      <workItem from="1509824185824" duration="23139000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="50350000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1228" y="23" width="1332" height="1336" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18318318" sideWeight="0.7541112" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18480815" sideWeight="0.503003" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15896633" sideWeight="0.496997" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16632584" sideWeight="0.2458888" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967892" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="3" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#9596#37280#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/play/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="759">
+          <caret line="33" column="57" lean-forward="false" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/application.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#9596#37280#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/play/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="759">
+          <caret line="33" column="57" lean-forward="false" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/application.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#9596#37280#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32131">
+          <caret line="1397" column="72" lean-forward="true" selection-start-line="1397" selection-start-column="72" selection-end-line="1397" selection-end-column="72" />
+          <folding>
+            <element signature="e#9596#37280#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="16" column="59" lean-forward="false" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/play_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="6" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/play/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1166">
+          <caret line="54" column="38" lean-forward="true" selection-start-line="54" selection-start-column="38" selection-end-line="54" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://JavaScript-modules-diagram//Users/palatorr/Projects/FontRepo/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JavaScript-modules-diagram</ID>
+          <OriginalElement>$PROJECT_DIR$/app/assets/javascripts/play.js</OriginalElement>
+          <nodes />
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="612.0" y="499.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>All</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>Details</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="1374" column="53" lean-forward="true" selection-start-line="1374" selection-start-column="53" selection-end-line="1374" selection-end-column="53" />
+          <folding>
+            <element signature="e#9596#37280#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://RailsDependency/User">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>RailsDependency</ID>
+          <OriginalElement>User</OriginalElement>
+          <nodes>
+            <node x="1883.0" y="539.7844768170426">NewsPost</node>
+            <node x="653.0" y="228.05036027568912">User</node>
+            <node x="1038.0" y="630.4372650375939">ClusterMembership</node>
+            <node x="1505.5" y="387.5622650375939">ChatRoom</node>
+            <node x="1093.0" y="38.5">Interaction</node>
+            <node x="268.0" y="404.19047619047615">Cluster</node>
+            <node x="708.0" y="0.0">Effect</node>
+            <node x="1453.0" y="45.562265037593875">DataNode</node>
+            <node x="1098.0" y="428.3571428571428">Message</node>
+            <node x="0.0" y="307.19047619047615">Faction</node>
+            <node x="2207.0" y="466.8122650375939">ApplicationRecord</node>
+            <node x="1830.0" y="134.06226503759387">ConnectedNode</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="User" target="ChatRoom">
+              <point x="152.5" y="-35.5" />
+              <point x="1038.0" y="395.4982142857142" />
+              <point x="1343.0" y="395.4982142857142" />
+              <point x="1423.0" y="407.2289317042605" />
+              <point x="-96.0" y="-39.33333333333337" />
+            </edge>
+            <edge source="User" target="ClusterMembership">
+              <point x="152.5" y="177.5" />
+              <point x="-152.5" y="-12.75" />
+            </edge>
+            <edge source="Interaction" target="ApplicationRecord">
+              <point x="97.5" y="-39.333333333333314" />
+              <point x="1343.0" y="58.166666666666686" />
+              <point x="1423.0" y="17.858145363408426" />
+              <point x="2127.0" y="17.858145363408426" />
+              <point x="-72.0" y="-9.0625" />
+            </edge>
+            <edge source="Effect" target="ApplicationRecord">
+              <point x="97.5" y="-24.0" />
+              <point x="958.0" y="24.0" />
+              <point x="1038.0" y="14.008928571428555" />
+              <point x="2127.0" y="14.008928571428555" />
+              <point x="-72.0" y="-12.6875" />
+            </edge>
+            <edge source="Interaction" target="DataNode">
+              <point x="97.5" y="39.33333333333334" />
+              <point x="1343.0" y="136.83333333333334" />
+              <point x="1423.0" y="103.84797932330821" />
+              <point x="-148.5" y="-77.71428571428567" />
+            </edge>
+            <edge source="DataNode" target="DataNode">
+              <point x="-148.5" y="116.57142857142856" />
+              <point x="1433.0" y="298.13369360902243" />
+              <point x="1433.0" y="337.5622650375939" />
+              <point x="1527.25" y="337.5622650375939" />
+              <point x="-74.25" y="136.0" />
+            </edge>
+            <edge source="Cluster" target="ClusterMembership">
+              <point x="152.5" y="46.0" />
+              <point x="653.0" y="668.6872650375939" />
+              <point x="-152.5" y="12.75" />
+            </edge>
+            <edge source="Faction" target="User">
+              <point x="94.0" y="-20.25" />
+              <point x="268.0" y="382.69047619047615" />
+              <point x="573.0" y="382.69047619047615" />
+              <point x="-152.5" y="-170.39999999999992" />
+            </edge>
+            <edge source="Faction" target="Cluster">
+              <point x="94.0" y="60.75" />
+              <point x="-152.5" y="-0.0" />
+            </edge>
+            <edge source="User" target="Cluster">
+              <point x="-152.5" y="85.20000000000005" />
+              <point x="152.5" y="-15.333333333333314" />
+            </edge>
+            <edge source="ClusterMembership" target="ApplicationRecord">
+              <point x="152.5" y="-0.0" />
+              <point x="2127.0" y="655.9372650375939" />
+              <point x="-72.0" y="9.0625" />
+            </edge>
+            <edge source="User" target="Message">
+              <point x="152.5" y="35.5" />
+              <point x="-92.5" y="-0.0" />
+            </edge>
+            <edge source="Effect" target="Interaction">
+              <point x="97.5" y="24.0" />
+              <point x="958.0" y="72.0" />
+              <point x="1038.0" y="68.0" />
+              <point x="-97.5" y="-29.5" />
+            </edge>
+            <edge source="User" target="Interaction">
+              <point x="152.5" y="-177.5" />
+              <point x="1038.0" y="127.0" />
+              <point x="-97.5" y="29.5" />
+            </edge>
+            <edge source="ConnectedNode" target="DataNode">
+              <point x="-148.5" y="-31.666666666666686" />
+              <point x="148.5" y="-90.66666666666669" />
+            </edge>
+            <edge source="ConnectedNode" target="ApplicationRecord">
+              <point x="148.5" y="-0.0" />
+              <point x="-72.0" y="-5.4375" />
+            </edge>
+            <edge source="Message" target="ApplicationRecord">
+              <point x="92.5" y="32.0" />
+              <point x="1343.0" y="508.3571428571428" />
+              <point x="1423.0" y="529.2844768170426" />
+              <point x="2127.0" y="529.2844768170426" />
+              <point x="-72.0" y="1.8125" />
+            </edge>
+            <edge source="Cluster" target="ApplicationRecord">
+              <point x="152.5" y="76.66666666666674" />
+              <point x="653.0" y="691.9372650375939" />
+              <point x="2127.0" y="691.9372650375939" />
+              <point x="-72.0" y="12.6875" />
+            </edge>
+            <edge source="DataNode" target="Interaction">
+              <point x="-148.5" y="-116.5714285714285" />
+              <point x="1423.0" y="64.99083646616538" />
+              <point x="1343.0" y="97.5" />
+              <point x="97.5" y="-0.0" />
+            </edge>
+            <edge source="Cluster" target="DataNode">
+              <point x="152.5" y="-76.66666666666669" />
+              <point x="653.0" y="196.39088345864656" />
+              <point x="1343.0" y="196.39088345864656" />
+              <point x="1423.0" y="181.56226503759387" />
+              <point x="-148.5" y="-0.0" />
+            </edge>
+            <edge source="NewsPost" target="ApplicationRecord">
+              <point x="95.5" y="-0.0" />
+              <point x="2127.0" y="587.7844768170426" />
+              <point x="-72.0" y="5.4375" />
+            </edge>
+            <edge source="User" target="Faction">
+              <point x="-152.5" y="-85.19999999999993" />
+              <point x="573.0" y="393.69047619047615" />
+              <point x="268.0" y="393.69047619047615" />
+              <point x="94.0" y="20.25" />
+            </edge>
+            <edge source="User" target="NewsPost">
+              <point x="152.5" y="106.5" />
+              <point x="1038.0" y="587.7844768170426" />
+              <point x="-95.5" y="-0.0" />
+            </edge>
+            <edge source="Cluster" target="User">
+              <point x="152.5" y="15.333333333333371" />
+              <point x="-152.5" y="170.39999999999998" />
+            </edge>
+            <edge source="Message" target="ChatRoom">
+              <point x="92.5" y="-0.0" />
+              <point x="1343.0" y="476.3571428571428" />
+              <point x="1423.0" y="485.8955983709272" />
+              <point x="-96.0" y="39.333333333333314" />
+            </edge>
+            <edge source="ChatRoom" target="ApplicationRecord">
+              <point x="96.0" y="-0.0" />
+              <point x="2127.0" y="446.5622650375939" />
+              <point x="-72.0" y="-1.8125" />
+            </edge>
+            <edge source="ChatRoom" target="Message">
+              <point x="-96.0" y="-0.0" />
+              <point x="92.5" y="-32.0" />
+            </edge>
+            <edge source="DataNode" target="ConnectedNode">
+              <point x="148.5" y="90.66666666666669" />
+              <point x="-148.5" y="31.666666666666657" />
+            </edge>
+            <edge source="Faction" target="DataNode">
+              <point x="94.0" y="-60.75" />
+              <point x="268.0" y="166.99999999999997" />
+              <point x="1343.0" y="166.99999999999997" />
+              <point x="1423.0" y="142.70512218045104" />
+              <point x="-148.5" y="-38.85714285714283" />
+            </edge>
+            <edge source="User" target="DataNode">
+              <point x="152.5" y="-106.5" />
+              <point x="1038.0" y="263.54024122807016" />
+              <point x="1343.0" y="263.54024122807016" />
+              <point x="1423.0" y="220.4194078947367" />
+              <point x="-148.5" y="38.85714285714283" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="0.7158161113454238" x="1175.0" y="386.0" />
+          <SelectedNodes>
+            <node>Effect</node>
+          </SelectedNodes>
+          <Categories>
+            <Category>Migration fields</Category>
+            <Category>Association fields</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#9596#37280#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#9596#37280#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#9596#37280#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32131">
+          <caret line="1397" column="72" lean-forward="true" selection-start-line="1397" selection-start-column="72" selection-end-line="1397" selection-end-column="72" />
+          <folding>
+            <element signature="e#9596#37280#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="16" column="59" lean-forward="false" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/play_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="6" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://RailsDependency/User">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID />
+          <OriginalElement>User</OriginalElement>
+          <nodes>
+            <node x="1883.0" y="539.7844768170426">NewsPost</node>
+            <node x="653.0" y="228.05036027568912">User</node>
+            <node x="1038.0" y="630.4372650375939">ClusterMembership</node>
+            <node x="1505.5" y="387.5622650375939">ChatRoom</node>
+            <node x="1093.0" y="38.5">Interaction</node>
+            <node x="268.0" y="404.19047619047615">Cluster</node>
+            <node x="708.0" y="0.0">Effect</node>
+            <node x="1453.0" y="45.562265037593875">DataNode</node>
+            <node x="1098.0" y="428.3571428571428">Message</node>
+            <node x="0.0" y="307.19047619047615">Faction</node>
+            <node x="2207.0" y="466.8122650375939">ApplicationRecord</node>
+            <node x="1830.0" y="134.06226503759387">ConnectedNode</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="User" target="ChatRoom">
+              <point x="152.5" y="-35.5" />
+              <point x="1038.0" y="395.4982142857142" />
+              <point x="1343.0" y="395.4982142857142" />
+              <point x="1423.0" y="407.2289317042605" />
+              <point x="-96.0" y="-39.33333333333337" />
+            </edge>
+            <edge source="User" target="ClusterMembership">
+              <point x="152.5" y="177.5" />
+              <point x="-152.5" y="-12.75" />
+            </edge>
+            <edge source="Interaction" target="ApplicationRecord">
+              <point x="97.5" y="-39.333333333333314" />
+              <point x="1343.0" y="58.166666666666686" />
+              <point x="1423.0" y="17.858145363408426" />
+              <point x="2127.0" y="17.858145363408426" />
+              <point x="-72.0" y="-9.0625" />
+            </edge>
+            <edge source="Effect" target="ApplicationRecord">
+              <point x="97.5" y="-24.0" />
+              <point x="958.0" y="24.0" />
+              <point x="1038.0" y="14.008928571428555" />
+              <point x="2127.0" y="14.008928571428555" />
+              <point x="-72.0" y="-12.6875" />
+            </edge>
+            <edge source="Interaction" target="DataNode">
+              <point x="97.5" y="39.33333333333334" />
+              <point x="1343.0" y="136.83333333333334" />
+              <point x="1423.0" y="103.84797932330821" />
+              <point x="-148.5" y="-77.71428571428567" />
+            </edge>
+            <edge source="DataNode" target="DataNode">
+              <point x="-148.5" y="116.57142857142856" />
+              <point x="1433.0" y="298.13369360902243" />
+              <point x="1433.0" y="337.5622650375939" />
+              <point x="1527.25" y="337.5622650375939" />
+              <point x="-74.25" y="136.0" />
+            </edge>
+            <edge source="Cluster" target="ClusterMembership">
+              <point x="152.5" y="46.0" />
+              <point x="653.0" y="668.6872650375939" />
+              <point x="-152.5" y="12.75" />
+            </edge>
+            <edge source="Faction" target="User">
+              <point x="94.0" y="-20.25" />
+              <point x="268.0" y="382.69047619047615" />
+              <point x="573.0" y="382.69047619047615" />
+              <point x="-152.5" y="-170.39999999999992" />
+            </edge>
+            <edge source="Faction" target="Cluster">
+              <point x="94.0" y="60.75" />
+              <point x="-152.5" y="-0.0" />
+            </edge>
+            <edge source="User" target="Cluster">
+              <point x="-152.5" y="85.20000000000005" />
+              <point x="152.5" y="-15.333333333333314" />
+            </edge>
+            <edge source="ClusterMembership" target="ApplicationRecord">
+              <point x="152.5" y="-0.0" />
+              <point x="2127.0" y="655.9372650375939" />
+              <point x="-72.0" y="9.0625" />
+            </edge>
+            <edge source="User" target="Message">
+              <point x="152.5" y="35.5" />
+              <point x="-92.5" y="-0.0" />
+            </edge>
+            <edge source="Effect" target="Interaction">
+              <point x="97.5" y="24.0" />
+              <point x="958.0" y="72.0" />
+              <point x="1038.0" y="68.0" />
+              <point x="-97.5" y="-29.5" />
+            </edge>
+            <edge source="User" target="Interaction">
+              <point x="152.5" y="-177.5" />
+              <point x="1038.0" y="127.0" />
+              <point x="-97.5" y="29.5" />
+            </edge>
+            <edge source="ConnectedNode" target="DataNode">
+              <point x="-148.5" y="-31.666666666666686" />
+              <point x="148.5" y="-90.66666666666669" />
+            </edge>
+            <edge source="ConnectedNode" target="ApplicationRecord">
+              <point x="148.5" y="-0.0" />
+              <point x="-72.0" y="-5.4375" />
+            </edge>
+            <edge source="Message" target="ApplicationRecord">
+              <point x="92.5" y="32.0" />
+              <point x="1343.0" y="508.3571428571428" />
+              <point x="1423.0" y="529.2844768170426" />
+              <point x="2127.0" y="529.2844768170426" />
+              <point x="-72.0" y="1.8125" />
+            </edge>
+            <edge source="Cluster" target="ApplicationRecord">
+              <point x="152.5" y="76.66666666666674" />
+              <point x="653.0" y="691.9372650375939" />
+              <point x="2127.0" y="691.9372650375939" />
+              <point x="-72.0" y="12.6875" />
+            </edge>
+            <edge source="DataNode" target="Interaction">
+              <point x="-148.5" y="-116.5714285714285" />
+              <point x="1423.0" y="64.99083646616538" />
+              <point x="1343.0" y="97.5" />
+              <point x="97.5" y="-0.0" />
+            </edge>
+            <edge source="Cluster" target="DataNode">
+              <point x="152.5" y="-76.66666666666669" />
+              <point x="653.0" y="196.39088345864656" />
+              <point x="1343.0" y="196.39088345864656" />
+              <point x="1423.0" y="181.56226503759387" />
+              <point x="-148.5" y="-0.0" />
+            </edge>
+            <edge source="NewsPost" target="ApplicationRecord">
+              <point x="95.5" y="-0.0" />
+              <point x="2127.0" y="587.7844768170426" />
+              <point x="-72.0" y="5.4375" />
+            </edge>
+            <edge source="User" target="Faction">
+              <point x="-152.5" y="-85.19999999999993" />
+              <point x="573.0" y="393.69047619047615" />
+              <point x="268.0" y="393.69047619047615" />
+              <point x="94.0" y="20.25" />
+            </edge>
+            <edge source="User" target="NewsPost">
+              <point x="152.5" y="106.5" />
+              <point x="1038.0" y="587.7844768170426" />
+              <point x="-95.5" y="-0.0" />
+            </edge>
+            <edge source="Cluster" target="User">
+              <point x="152.5" y="15.333333333333371" />
+              <point x="-152.5" y="170.39999999999998" />
+            </edge>
+            <edge source="Message" target="ChatRoom">
+              <point x="92.5" y="-0.0" />
+              <point x="1343.0" y="476.3571428571428" />
+              <point x="1423.0" y="485.8955983709272" />
+              <point x="-96.0" y="39.333333333333314" />
+            </edge>
+            <edge source="ChatRoom" target="ApplicationRecord">
+              <point x="96.0" y="-0.0" />
+              <point x="2127.0" y="446.5622650375939" />
+              <point x="-72.0" y="-1.8125" />
+            </edge>
+            <edge source="ChatRoom" target="Message">
+              <point x="-96.0" y="-0.0" />
+              <point x="92.5" y="-32.0" />
+            </edge>
+            <edge source="DataNode" target="ConnectedNode">
+              <point x="148.5" y="90.66666666666669" />
+              <point x="-148.5" y="31.666666666666657" />
+            </edge>
+            <edge source="Faction" target="DataNode">
+              <point x="94.0" y="-60.75" />
+              <point x="268.0" y="166.99999999999997" />
+              <point x="1343.0" y="166.99999999999997" />
+              <point x="1423.0" y="142.70512218045104" />
+              <point x="-148.5" y="-38.85714285714283" />
+            </edge>
+            <edge source="User" target="DataNode">
+              <point x="152.5" y="-106.5" />
+              <point x="1038.0" y="263.54024122807016" />
+              <point x="1343.0" y="263.54024122807016" />
+              <point x="1423.0" y="220.4194078947367" />
+              <point x="-148.5" y="38.85714285714283" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="0.7158161113454238" x="1175.0" y="386.0" />
+          <SelectedNodes>
+            <node>Effect</node>
+          </SelectedNodes>
+          <Categories />
+          <SCOPE>All</SCOPE>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://JavaScript-modules-diagram//Users/palatorr/Projects/FontRepo/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JavaScript-modules-diagram</ID>
+          <OriginalElement>$PROJECT_DIR$/app/assets/javascripts/play.js</OriginalElement>
+          <nodes />
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="612.0" y="474.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>All</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>Details</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test_helper.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Gemfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="21" column="30" lean-forward="false" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/application.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/play/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="759">
+          <caret line="33" column="57" lean-forward="false" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/play.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="73" column="7" lean-forward="false" selection-start-line="73" selection-start-column="7" selection-end-line="73" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/play.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="2697" column="22" lean-forward="true" selection-start-line="2697" selection-start-column="22" selection-end-line="2697" selection-end-column="22" />
+          <folding>
+            <element signature="e#9596#37280#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
