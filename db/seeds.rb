@@ -26,25 +26,25 @@ end
 
 if DataNode.all.empty?
 	data_nodes = DataNode.create([
-		{ value: 4, faction_id: 3 },
-		{ value: 5, faction_id: 2 },
-		{ value: 6, faction_id: 2 },
-		{ value: 7, faction_id: 4 },
-		{ value: 8, faction_id: 3 },
-		{ value: 9, faction_id: 3 },
-		{ value: 10, faction_id: 3 },
-		{ value: 11, faction_id: 2 },
-		{ value: 12, faction_id: 2 },
-		{ value: 13, faction_id: 4 },
-		{ value: 14, faction_id: 4 },
-		{ value: 15, faction_id: 4 }
+		{ value: 4, faction_id: 3 , role: 1, worth: 5000},
+		{ value: 5, faction_id: 2 , role: 1, worth: 5000},
+		{ value: 6, faction_id: 2 , role: 1, worth: 5000},
+		{ value: 7, faction_id: 4 , role: 1, worth: 5000},
+		{ value: 8, faction_id: 3 , role: 1, worth: 5000},
+		{ value: 9, faction_id: 3 , role: 1, worth: 5000},
+		{ value: 10, faction_id: 3 , role: 1, worth: 5000},
+		{ value: 11, faction_id: 2 , role: 1, worth: 5000},
+		{ value: 12, faction_id: 2 , role: 1, worth: 5000},
+		{ value: 13, faction_id: 4 , role: 1, worth: 5000},
+		{ value: 14, faction_id: 4 , role: 1, worth: 5000},
+		{ value: 15, faction_id: 4 , role: 1, worth: 5000}
 	])
 
 	greenNodes = [DataNode.find(1), DataNode.find(5), DataNode.find(6), DataNode.find(7)]
 	begin
     greenNodes[0].connections << [greenNodes[1], greenNodes[2]]
-    greenNodes[1].connections << greenNodes[2].connections
-    greenNodes[2].connections << greenNodes[3].connections
+    greenNodes[1].connections << greenNodes[2]
+    greenNodes[2].connections << greenNodes[3]
 		# greenNodes[0].connections << [greenNodes[1], greenNodes[2]]
 		# greenNodes[1].connections << [greenNodes[0], greenNodes[2]]
 		# greenNodes[2].connections << [greenNodes[0], greenNodes[1], greenNodes[3]]
@@ -83,6 +83,20 @@ if DataNode.all.empty?
 	blueCluster.data_nodes << blueNodes
 	blueCluster.save
 
+end
+
+if ChatRoom.all.empty?
+	chat_rooms = ChatRoom.create([
+		{
+			title: 'red'
+		},
+		{
+			title: 'blue'
+		},
+		{
+			title: 'green'
+		}
+	])
 end
 
 if Quest.all.empty?
