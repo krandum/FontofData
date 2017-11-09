@@ -18,4 +18,5 @@
 //= require popper.js
 //= require cable
 //= require bootstrap.js
+//= require d3
 //= require_tree .

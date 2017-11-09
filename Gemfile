@@ -41,6 +41,7 @@ gem 'paperclip'
 gem 'redis', '~> 3.3.5'
 gem 'redis-namespace', '~> 1.5.3'
 
+gem 'd3-rails'
 gem 'unicorn'
 gem 'puma'
 
