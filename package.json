@@ -1,0 +1,34 @@
+{
+  "name": "FontRepo",
+  "version": "1.0.0",
+  "description": "== README",
+  "main": "gulpfile.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {
+    "acorn": "^0.5.0",
+    "browserify": "^14.5.0",
+    "browserify-incremental": "^3.1.1",
+    "canvas": "^1.6.7",
+    "palette": "^0.1.1",
+    "paper": "^0.11.5",
+    "paper-jsdom-canvas": "^0.11.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krandum/FontofData.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krandum/FontofData/issues"
+  },
+  "homepage": "https://github.com/krandum/FontofData#readme"
+}

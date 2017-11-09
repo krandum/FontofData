@@ -1,4 +1,0 @@
-#!/bin/bash
-set -e
-
-run bundle exec drake "-j$COMPILE_CONCURRENCY" test:node

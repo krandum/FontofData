@@ -49,27 +49,42 @@ body.play {
 	display: flex;
 	position: absolute;
 	top: 10vh;
-	left: calc((100vw - 80vmin) / 2);
+	left: calc(50vw - 40vmin);
 	height: 80%;
 	width: 80vmin;
 	-webkit-align-self: center;
 	align-self: center;
 	border-radius: 3%;
-	border: solid 2px rgba(0, 123, 255, 0.8);
-	background-color: rgba(128, 189, 255, 0.8);
+	border: solid 2px rgba(0, 123, 255, 0.95);
+	background-color: rgba(128, 189, 255, 0.95);
 	z-index: 5;
 }
 
-rect {
-	fill: none;
-	pointer-events: all;
-	z-index: 10;
+.node circle {
+	fill: #FFF;
 }
 
-circle {
+.node text {
+	font: 12px sans-serif;
+	font-weight: 600;
+	text-shadow: 0 2px 0 rgba(128, 189, 255, 0.8),
+		0 -2px 0 rgba(128, 189, 255, 0.8),
+		2px 0 0 rgba(128, 189, 255, 0.8),
+		-2px 0 0 rgba(128, 189, 255, 0.8);
+}
+
+.node--start circle {
+	fill: #FFDF00;
+}
+
+.node--explored circle {
+}
+
+.link {
 	fill: none;
-	stroke-width: 2.5px;
-	z-index: 10;
+	stroke: #555;
+	stroke-opacity: 0.95;
+	stroke-width: 2.3px;
 }
 
 .tabs {

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-npm init --yes
-npm install browserify browserify-incremental paper
+sudo npm init --yes
+sudo npm install browserify browserify-incremental paper
 uname_out="$(uname -s)"
 case "$uname_out" in
        Linux*)         machine=Linux;;
