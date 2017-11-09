@@ -13,5 +13,10 @@
       <auth-required>false</auth-required>
       <introspection-schemas>*:main</introspection-schemas>
     </data-source>
+    <data-source name="Rails FontRepo: test" uuid="1ec72ca3-808b-458f-bcb4-9c3958701eac">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <first-sync>true</first-sync>
+      <user-name>&lt;%= ENV['PSQL_USERNAME'] %&gt;</user-name>
+    </data-source>
   </component>
 </project>

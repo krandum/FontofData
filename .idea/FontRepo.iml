@@ -24,8 +24,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Paper" level="project" />
+    <orderEntry type="library" name="d3-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="paper-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="Paper" level="project" />
     <orderEntry type="module-library">
       <library name="actioncable (vbundled(5.1.4)) [path][gem]">
         <CLASSES>
@@ -189,6 +190,16 @@
         <SOURCES>
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/builder-3.2.3/lib" />
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/builder-3.2.3/rakelib" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="chronic (vbundled(0.10.2)) [path][gem]">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/chronic-0.10.2/lib" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/chronic-0.10.2/lib" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -543,6 +554,18 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library name="pg (vbundled(0.21.0)) [path][gem]">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/pg-0.21.0/ext" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/pg-0.21.0/lib" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/pg-0.21.0/ext" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/pg-0.21.0/lib" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="popper_js (vbundled(1.11.1)) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/popper_js-1.11.1/lib" />
@@ -821,22 +844,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="sqlite3 (vbundled(1.3.13)) [path][gem]">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/faq" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/lib" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/tasks" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/ext" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/faq" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/lib" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/sqlite3-1.3.13/tasks" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="thor (vbundled(0.20.0)) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/thor-0.20.0/bin" />
@@ -952,8 +959,21 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library name="whenever (vbundled(0.9.7)) [path][gem]">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/whenever-0.9.7/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/whenever-0.9.7/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/whenever-0.9.7/gemfiles" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/whenever-0.9.7/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/whenever-0.9.7/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.4.0/gems/whenever-0.9.7/gemfiles" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="bundler (v1.16.0.pre.2, rbenv: 2.4.2) [gem]" level="application" />
-    <orderEntry type="library" name="d3-DefinitelyTyped" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="0" />

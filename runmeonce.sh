@@ -1,6 +1,24 @@
-bundle exec rake db:drop
+#!/usr/bin/env bash
+npm init --yes
+npm install browserify browserify-incremental paper
+uname_out="$(uname -s)"
+case "$uname_out" in
+       Linux*)         machine=Linux;;
+       Darwin*)        machine=Mac;;
+       *)              machine="UKNOWN:${uname_out}"
+esac
+printf "Running setup for %s\n" "$uname_out"
+if [ ${machine} == Mac ]
+then
+	brew install postgresql
+	initdb /usr/local/var/postgres
+	pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+	which psql
+elif [ ${machine} == Linux ]
+then
+	sudo apt-get install postgresql postgresql-contrib libpq-dev
+fi
+bundle
+bundle exec rake db:create
 bundle exec rake db:migrate
 sh setup.sh
-bundle exec rails runner "User.create!({username: \"Red\", email: \"red@red.com\", password: \"redred\", password_confirmation: \"redred\" })"
-bundle exec rails runner "User.create!({username: \"Blue\", email: \"blue@blue.com\", password: \"blueblue\", password_confirmation: \"blueblue\" })"
-bundle exec rails runner "User.create!({username: \"Green\", email: \"green@green.com\", password: \"greengreen\", password_confirmation: \"greengreen\" })"

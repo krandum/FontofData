@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -38,10 +38,15 @@ gem 'devise'
 
 gem 'paperclip'
 
-gem 'redis'
-gem 'redis-namespace'
+gem 'redis', '~> 3.3.5'
+gem 'redis-namespace', '~> 1.5.3'
 
 gem 'unicorn'
+gem 'puma'
+
+gem 'pg'
+
+gem 'whenever', :require => false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

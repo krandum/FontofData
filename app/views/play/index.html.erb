@@ -52,6 +52,30 @@
 			</div>
 			<div class="cluster_info"></div>
 		</div>
+		<div id="actionbar">
+      <div class="action_button_container" id="action_button1">
+        <div class="action_button"></div>
+      </div>
+      <div class="action_button_container" id="action_button2">
+        <div class="action_button"></div>
+      </div>
+      <div class="action_button_container" id="action_button3">
+        <div class="action_button"></div>
+      </div>
+      <div class="action_button_container" id="action_button4">
+        <div class="action_button"></div>
+      </div>
+      <div class="action_button_container" id="action_button5">
+        <div class="action_button"></div>
+      </div>
+      <div class="action_button_container" id="action_button6">
+        <div class="action_button"></div>
+      </div>
+      <div class="action_button_container" id="action_button7">
+        <div class="action_button"></div>
+      </div>
+      <div class="actionbar_bg"></div>
+		</div>
 		<div class="tabs">
 			<div class="quest_tab"><div>Quests</div></div>
 			<div class="chat_tab"><div>Chat</div></div>
@@ -67,7 +91,7 @@
 			<%= form_for @message, url: '#' do |f| %>
 				<div class="form-group">
 					<%= f.text_area :body, class: 'form-control' %>
-					<%= f.submit "Post", class: 'btn chat_button' %>
+					<%= f.submit 'Post', class: 'btn chat_button' %>
 				</div>
 			<% end %>
 		</div>

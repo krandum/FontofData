@@ -8,16 +8,33 @@ class GameChannel < ApplicationCable::Channel
 		# Any cleanup needed when channel is unsubscribed
 	end
 
+  # variables: origin, target, action_index
 	def update_node(data)
-		ActionCable.server.broadcast "game",
-			action_index: data['action_index'],
-			origin: data['origin'],
-			target: data['target'],
-			origin_fac: data['origin_fac'],
-			target_fac: data['target_fac'],
-			origin_change: data['origin_change'],
-			target_change: data['target_change']
-	end
+    status, origin, target =
+			take_action(
+				data['origin'],
+				data['target'],
+				data['action_index']
+			)
+    if status == 'success'
+      current_user.interactions.create!(
+				effect_id: data['action_index'],
+				origin_node_id: @origin.id,
+				target_node_id: @target.id
+			)
+      ActionCable.server.broadcast "game",
+				action_index: data['action_index'],
+				origin: data['origin'],
+				target: data['target'],
+				origin_fac: @origin.faction_id,
+				target_fac: @target.faction_id,
+				origin_change: origin,
+				target_change: target
+    else
+      # code to handle invalid selections should go here
+      p status
+    end
+  end
 
 	def update_node_test(data)
 		status, origin, target = take_action(data['origin'], data['target'], data['action_index'])
@@ -36,7 +53,49 @@ class GameChannel < ApplicationCable::Channel
 				# code to handle invalid selections should go here
 				p status
 			end
-	end
+  end
+
+  def set_node(data)
+    target_node = DataNode.where(value: data['target']).first
+		target_node.role = data['role'] unless data['role'].nil?
+		target_node.user_id = data['user'] unless data['user'].nil?
+		target_node.cluster_core = data['cluster_core'] unless data['cluster_core'].nil?
+		target_node.resource_generator = data['resource_generator'] unless data['resource_generator'].nil?
+		target_node.faction_id = data['faction'] unless data['faction'].nil?
+		target_node.worth = data['worth'] unless data['worth'].nil?
+  end
+
+  # variables: target, resources
+  def add_worth_node(data)
+    target_node = DataNode.where(value: data['target']).first
+    target_node.worth += data['resources']
+    target_node.save
+  end
+
+	# variables: head, tail, resources,	percentage,	friction,	speed
+  def set_connection(data)
+    target_connection = DataNode
+                          .includes(connected_nodes: [:connection])
+                          .where(value: data['head']).first.connected_nodes
+													.select { |x| x.connection.value == data['tail'] }
+                          .first
+		target_connection.update_connection( {
+			'worth' => data['resources'],
+			'percentage' => data['percentage'],
+			'friction' => data['friction'],
+			'speed' => data['speed']
+		} )
+  end
+
+  # variables: head, tail, resources
+  def add_worth_connection
+    # TODO: simplify this query and make connections store node's values or contemplate making connections a separate table completely
+    target_connection = DataNode
+                          .includes(connected_nodes: [:connection])
+                          .where(value: data['head']).first.connected_nodes.select{ |x| x.connection.value == data['tail'] }
+                          .first
+    target_connection.update_connection({'worth' => data['resources']})
+  end
 
 private
 
@@ -68,7 +127,7 @@ private
 							)
 						else
 							@target.update_attribute(:faction_id, @origin.faction_id)
-							@target.update_attribute(:user_id, @origin.user_id)
+							@target.update_attribute(:user_id, current_user.id)
 						end
 						status = 'success'
 						target_status = 'to_origin'
@@ -88,7 +147,6 @@ private
 					end
 					begin
 						@origin.connections << @target
-						@target.connections << @origin
 						status = 'success'
 					rescue ActiveRecord::RecordNotUnique
 						status = 'connection_exists'
