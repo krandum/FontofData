@@ -2628,25 +2628,13 @@ $(document).on('ready page:load', function() {
 			}
 			if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
 				depths[cur_depth] = { lines: [] };
-			if (b !== -1 && !(typeof(lines[cur_line + 1]) !== 'undefined'
-					&& lines[cur_line + 1] !== null
-					&& typeof(lines[cur_line + 1].nodes[cur_depth]) !== 'undefined'
-					&& lines[cur_line + 1].nodes[cur_depth] !== null
-					&& lines[cur_line + 1].nodes[cur_depth].value === b)) {
-				try {
-					console.log(b, lines[cur_line + 1].nodes[cur_depth], lines[cur_line + 1].nodes[cur_depth].value,
-						cur_line, cur_depth);
-					console.log(typeof(lines[cur_line + 1]) !== 'undefined',
-						lines[cur_line + 1] !== null,
-						typeof(lines[cur_line + 1].nodes[cur_depth]) !== 'undefined',
-						lines[cur_line + 1].nodes[cur_depth] !== null,
-						lines[cur_line + 1].nodes[cur_depth].value !== b);
-				} catch (e) {
-					if (e instanceof TypeError) {
-						console.log(b, cur_line, cur_depth);
-						console.log("Caught but displayed");
-					}
-				}
+			i = -1;
+			let branch_off = false;
+			while (++i < depths[cur_depth].lines.length) {
+				cur_node = lines[depths[cur_depth].lines[i]].nodes[cur_depth];
+				if (cur_node.value === b) branch_off = true;
+			}
+			if (b !== -1 && !branch_off) {
 				if (typeof(lines[cur_line + 1]) === 'undefined' || lines[cur_line + 1] === null) {
 					lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
 					lines.lines.push(cur_line + 1);
@@ -2675,6 +2663,7 @@ $(document).on('ready page:load', function() {
 				lines[cur_line + 1].nodes[cur_depth] = node;
 				data.push(node);
 			}
+			cur_node = lines[cur_line].nodes[cur_depth];
 			if (typeof(cur_node) !== 'undefined' && cur_node !== null && cur_node.value === a) {
 				cur_val = a;
 				cur_id = cur_node.id;
@@ -2765,7 +2754,7 @@ $(document).on('ready page:load', function() {
 			depth_counts = context.depth_counts, root = stratify(data),
 			center = root.data;
 		let link = g.selectAll(".link")
-			.data(tree(root).links(), function (d) { return d.source.id + d.target.id })
+			.data(tree(root).links(), function (d) { return d.source.id + "/" + d.target.id })
 			.enter().append("path")
 			.attr("class", "link")
 			.attr("d", d3.linkVertical()
@@ -2806,7 +2795,7 @@ $(document).on('ready page:load', function() {
 			.attr("dy", 3)
 			.attr("y", function () { return 16; })
 			.style("text-anchor", function() { return "middle"; })
-			.text(function (d) { return d.id.substring(d.id.lastIndexOf(".") + 2); });
+			.text(function (d) { return d.data.value.toString(); });
 		let clicker = function(d) {
 			this.parentNode.appendChild(this);
 			center = d.data;
@@ -2825,7 +2814,7 @@ $(document).on('ready page:load', function() {
 			depth_counts = context.depth_counts;
 			root = stratify(data);
 			let temp = g.selectAll(".link")
-				.data(tree(root).links(), function (d) { return d.source.id + d.target.id });
+				.data(tree(root).links(), function (d) { return d.source.id + "/" + d.target.id });
 			temp.transition().duration(450)
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
@@ -2881,7 +2870,7 @@ $(document).on('ready page:load', function() {
 			temp = g.selectAll(".node").data(root.descendants(), function(d) {return d.id});
 			temp.transition().duration(450)
 				.attr("transform", function(d) { return "translate(" + d.x + ", " + d.y + ")"; });
-			temp.select("text").text(function (d) { return d.id.substring(d.id.lastIndexOf(".") + 2); });
+			temp.select("text").text(function (d) { return d.data.value.toString(); });
 			node = temp.enter().append("g")
 				.attr("class", function (d) {
 					let out_class = "node";
@@ -2900,7 +2889,7 @@ $(document).on('ready page:load', function() {
 				.attr("dy", 3)
 				.attr("y", function() { return 16; })
 				.style("text-anchor", function() { return "middle"; })
-				.text(function (d) { return d.id.substring(d.id.lastIndexOf(".") + 2); })
+				.text(function (d) { return d.data.value.toString(); })
 				.style("opacity", 0)
 				.transition().delay(150)
 				.transition()
