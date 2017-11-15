@@ -106,6 +106,28 @@ $(document).on('ready page:load', function() {
 	// 	});
 	// }
 
+	App.game = App.cable.subscriptions.create("GameChannel", {
+		connected: function() {
+			// Called when the subscription is ready for use on the server
+		},
+
+		disconnected: function() {
+			// Called when the subscription has been terminated by the server
+		},
+
+		received: function(data) {
+			// Called when there's incoming data on the websocket for this channel
+			if (data['function_call'] == 'take_action') {
+				take_action(data);
+			}
+			if (data['function_call'] == 'bla') {
+				console.log("eyy");
+			}
+			else
+				console.log("invalid call");
+		}
+	});
+
 	function make_ui() {
 		let user = game_data.user_info;
 		let ui = game_data.user_interface;
@@ -2207,78 +2229,64 @@ $(document).on('ready page:load', function() {
 		add_animation(options, pop_action_animation, pop_action_stop, 150);
 	}
 
-	App.game = App.cable.subscriptions.create("GameChannel", {
-		connected: function() {
-			// Called when the subscription is ready for use on the server
-		},
+	function take_action(data) {
+		// App.game.perform('update_node', {
+		// 	action_index: game_data.action_index,
+		// 	origin: origin.value,
+		// 	target: target.value
+		// });
 
-		disconnected: function() {
-			// Called when the subscription has been terminated by the server
-		},
-
-		received: function(data) {
-			// Called when there's incoming data on the websocket for this channel
-			// game_data.active_nodes[0].circle.fillColor
-			let origin, target, colors, i;
-			for (i = 0;i < game_data.active_nodes.length; i++) {
-				if (game_data.active_nodes[i].value === data['origin']) {
-					origin = game_data.active_nodes[i];
-				}
-				if (game_data.active_nodes[i].value === data['target']) {
-					target = game_data.active_nodes[i];
-				}
+		let origin, target, colors, i;
+		for (i = 0;i < game_data.active_nodes.length; i++) {
+			if (game_data.active_nodes[i].value === data['origin']) {
+				origin = game_data.active_nodes[i];
 			}
-			if (data['action_index'] === 1) {
-				if (data['origin_change'] === 'to_target') {
-					game_data.node_factions[origin.value] = data['target_fac'];
-					colors = game_data.colors[data['target_fac'].toString()];
-					origin.circle.strokeColor = colors.line;
-					origin.circle.fillColor = colors.fill;
-					origin.number.fillColor = colors.num;
-				}
-				if (data['target_change'] === 'to_origin') {
-					game_data.node_factions[target.value] = data['origin_fac'];
-					colors = game_data.colors[data['origin_fac'].toString()];
-					target.circle.strokeColor = colors.line;
-					target.circle.fillColor = colors.fill;
-					target.number.fillColor = colors.num;
-				}
-				game_data.background.set_triangle_targets();
-				add_animation(null, color_background_animation, color_background_stop, 400);
-			}
-			if (origin.value === (target.value >> 1)) { // origin is dad
-				game_data.node_connections[target.value].dad = origin.value;
-				hide_connections(target);
-				show_connections(target);
-			}
-			else if (origin.value === (target.value - 1)) { // origin is bro
-				game_data.node_connections[target.value].bro = origin.value;
-				hide_connections(target);
-				show_connections(target);
-			}
-			else if (target.value === (origin.value >> 1)) { // target is dad
-				game_data.node_connections[origin.value].dad = target.value;
-				hide_connections(origin);
-				show_connections(origin);
-			}
-			else if (target.value === (origin.value - 1)) { // target is bro
-				game_data.node_connections[origin.value].bro = target.value;
-				hide_connections(origin);
-				show_connections(origin);
-			}
-			else {
-				console.log("could not find relationsip between: (1/3)");
-				console.log(origin, target);
+			if (game_data.active_nodes[i].value === data['target']) {
+				target = game_data.active_nodes[i];
 			}
 		}
-	});
-
-	function take_action(origin, target) {
-		App.game.perform('update_node_test', {
-			action_index: game_data.action_index,
-			origin: origin.value,
-			target: target.value
-		});
+		if (data['action_index'] === 1) {
+			if (data['origin_change'] === 'to_target') {
+				game_data.node_factions[origin.value] = data['target_fac'];
+				colors = game_data.colors[data['target_fac'].toString()];
+				origin.circle.strokeColor = colors.line;
+				origin.circle.fillColor = colors.fill;
+				origin.number.fillColor = colors.num;
+			}
+			if (data['target_change'] === 'to_origin') {
+				game_data.node_factions[target.value] = data['origin_fac'];
+				colors = game_data.colors[data['origin_fac'].toString()];
+				target.circle.strokeColor = colors.line;
+				target.circle.fillColor = colors.fill;
+				target.number.fillColor = colors.num;
+			}
+			game_data.background.set_triangle_targets();
+			add_animation(null, color_background_animation, color_background_stop, 400);
+		}
+		if (origin.value === (target.value >> 1)) { // origin is dad
+			game_data.node_connections[target.value].dad = origin.value;
+			hide_connections(target);
+			show_connections(target);
+		}
+		else if (origin.value === (target.value - 1)) { // origin is bro
+			game_data.node_connections[target.value].bro = origin.value;
+			hide_connections(target);
+			show_connections(target);
+		}
+		else if (target.value === (origin.value >> 1)) { // target is dad
+			game_data.node_connections[origin.value].dad = target.value;
+			hide_connections(origin);
+			show_connections(origin);
+		}
+		else if (target.value === (origin.value - 1)) { // target is bro
+			game_data.node_connections[origin.value].bro = target.value;
+			hide_connections(origin);
+			show_connections(origin);
+		}
+		else {
+			console.log("could not find relationsip between: (1/3)");
+			console.log(origin, target);
+		}
 	}
 
 	function check_selection(target) {
@@ -2287,7 +2295,12 @@ $(document).on('ready page:load', function() {
 			select_node(target);
 			if (game_data.selected_nodes.length >= 1 && game_data.action_index !== -1) {
 				game_data.selected_nodes.push(target);
-				take_action(game_data.selected_nodes[0], target);
+				// take_action(game_data.selected_nodes[0], target);
+				App.game.perform('update_node', {
+					action_index: game_data.action_index,
+					origin: game_data.selected_nodes[0].value,
+					target: target.value
+				});
 				remove_options(game_data.selected_nodes[0]);
 				setTimeout(function() {
 					game_data.selected_nodes.forEach(function(e) { unselect_node(e); });
