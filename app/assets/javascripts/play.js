@@ -2442,144 +2442,476 @@ $(document).on('ready page:load', function() {
 		load_SVG('assets/icons/046-return.svg', 'return');
 	}
 
-	// function next_orbit(num) {
-	// 	if (num % 2 === 0) return [num / 2, 2];
-	// 	return [(num * 3 + 1) / 2, 1];
-	// }
-	//
-	// function prev_orbits(num) {
-	// 	let a = num * 2, b = (num * 2 - 1) % 3 === 0 ? (num * 2 - 1) / 3 : -1;
-	// 	return [a, b];
-	// }
-	//
-	// function add_to_id(cur_id, num, type_char) {
-	// 	if (cur_id === null) return type_char + num.toString();
-	// 	return cur_id + "." + type_char + num.toString();
-	// }
-	//
-	// function build_object(num) {
-	// 	let out = [], cur_val = num, cur_id = add_to_id(null, num, 'b'), a, b,
-	// 		cur_depth = 0, line_counts = [{ num: 0, amount: 7, branch: [] }],
-	// 		depth_counts = [{ num: 0, lines: [0] }, { num: -1, lines: [0] },
-	// 			{ num: -2, lines: [0] }, { num: -3, lines: [0] }];
-	// 	// branch is an array of {}
-	// 	out.push({ id: cur_id, value: num });
-	// 	while (++cur_depth <= 3) {
-	// 		[a, b] = prev_orbits(cur_val);
-	// 		if (b !== -1) out.push({ id: add_to_id(cur_id, b, 's'), value: b });
-	// 		cur_id = add_to_id(cur_id, a, 'u');
-	// 		out.push({ id: cur_id, value: a });
-	// 		cur_val = a;
-	// 	}
-	// 	cur_depth = -1;
-	// 	cur_id = add_to_id(null, num, 'b');
-	// 	cur_val = num;
-	// 	while (++cur_depth < 3) {
-	// 		[a, b] = next_orbit(cur_val);
-	// 		if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
-	// 		else cur_id = add_to_id(cur_id, a, 'c');
-	// 		out.push({ id: cur_id, value: a });
-	// 		cur_val = a;
-	// 	}
-	// 	out.columns = ["id", "value"];
-	// 	return { data: out, line_counts: line_counts, depth_counts: depth_counts };
-	// }
-	//
-	// function setup_sandbox() {
-	// 	let ma = 80, start_nums = [34, 140],
-	// 		bounding = document.getElementById("sandbox").getBoundingClientRect(),
-	// 		width = bounding.width, height = bounding.height,
-	// 		svg = d3.select("#sandbox").append("svg")
-	// 			.attr("width", width).attr("height", height),
-	// 		tree = d3.tree().size([width, height - 2 * ma]),
-	// 		g = svg.append("g").attr("transform", "translate(0, " + ma / 2 + ")"),
-	// 		stratify = d3.stratify()
-	// 			.parentId(function (d) { return d.id.substring(0, d.id.lastIndexOf(".")); }),
-	// 		frac = 48, total = build_object(start_nums[1]),
-	// 		data = total.data, line_counts = total.line_counts,
-	// 		depth_counts = total.depth_counts, root = stratify(data);
-	// 	// line counts is an array of {num: #, amount: #, source_depth: [#,#]}
-	// 	// depth_counts is an array of {num: #, lines: [#,#]}
-	// 	let link = g.selectAll(".link")
-	// 		.data(tree(root).links())
-	// 		.enter().append("path")
-	// 			.attr("class", "link")
-	// 			.attr("d", d3.linkVertical()
-	// 				.source(function (d) {
-	// 					let ups = (d.source.id.match(/u/g)||[]).length,
-	// 						splits = (d.source.id.match(/s/g)||[]).length,
-	// 						downs = (d.source.id.match(/d/g)||[]).length,
-	// 						converge = (d.source.id.match(/c/g)||[]).length;
-	// 					d.source.y = height / 2 + (downs + converge - ups - splits) * frac;
-	// 					d.source.x = width / 2 + splits * frac;
-	// 					return [d.source.x, d.source.y];
-	// 				})
-	// 				.target(function (d) {
-	// 					let ups = (d.target.id.match(/u/g)||[]).length,
-	// 						splits = (d.target.id.match(/s/g)||[]).length,
-	// 						downs = (d.target.id.match(/d/g)||[]).length,
-	// 						converge = (d.target.id.match(/c/g)||[]).length;
-	// 					d.target.y = height / 2 + (downs + converge - ups - splits) * frac;
-	// 					d.target.x = width / 2 + splits * frac;
-	// 					return [d.target.x, d.target.y];
-	// 				}))
-	// 			.style("stroke", function (d) {
-	// 				let highlight_char = d.target.id.charAt(d.target.id.lastIndexOf('.') + 1);
-	// 				switch (highlight_char) {
-	// 					case 'u':
-	// 					case 'd':
-	// 						return "#22E";
-	// 					case 's':
-	// 					case 'c':
-	// 						return "#E22";
-	// 				}
-	// 			});
-	// 	let node = g.selectAll(".node")
-	// 		.data(root.descendants())
-	// 		.enter().append("g")
-	// 			.attr("class", function (d) {
-	// 				let out_class = "node";
-	// 				if (d.data.value === start_nums[0] || d.data.value === start_nums[1])
-	// 					out_class += " node--start";
-	// 				return out_class;
-	// 			})
-	// 			.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
-	// 	node.append("circle")
-	// 		.attr("r", 7);
-	// 	node.append("text")
-	// 		.attr("dy", 3)
-	// 		.attr("y", function () { return 16; })
-	// 		.style("text-anchor", function() { return "middle"; })
-	// 		.text(function (d) { return d.id.substring(d.id.lastIndexOf(".") + 2); });
-	// 	g.selectAll(".node circle")
-	// 		.on("click", function() {
-	// 			this.parentNode.appendChild(this);
-	// 			let b_r = this.getBoundingClientRect(), x = b_r.x + b_r.width / 2, y = b_r.y + b_r.height / 2,
-	// 				dx = x - width / 2, dy = y - height / 2;
-	// 			d3.select(this)
-	// 				.style("pointer-events", "none")
-	// 				.transition().duration(750)
-	// 				.attrTween("stroke-width", function() { return d3.interpolateNumber(0, 3); })
-	// 				.attrTween("stroke", function(d, i) {
-	// 					this.parentNode.appendChild(this);
-	// 					let color = d3.style(d3.select(this)._groups[0][i], "fill");
-	// 					return d3.interpolateRgb(color, "black");
-	// 				});
-	// 			node.transition().duration(750).ease(d3.easeCubic)
-	// 				.attr("transform", function(d) {
-	// 					let cur_d_r = this.getBoundingClientRect(),
-	// 						cur_x = cur_d_r.x + cur_d_r.width / 2,
-	// 						cur_y = cur_d_r.y + cur_d_r.height / 2;
-	// 					d.x0 = cur_x - dx;
-	// 					d.y0 = cur_y - dy;
-	// 					return "translate(" + d.x0 + ", " + d.y0 + ")";
-	// 				});
-	// 			link.transition().duration(750).ease(d3.easeCubic)
-	// 				.attr("d", d3.linkVertical()
-	// 					.source(function (d) { return [d.source.x0, d.source.y0]; })
-	// 					.target(function (d) { return [d.target.x0, d.target.y0]; }));
-	// 		});
-	// }
+	function next_orbit(num) {
+		if (num % 2 === 0) return [num / 2, 2];
+		return [(num * 3 + 1) / 2, 1];
+	}
+
+	function prev_orbits(num) {
+		let a = num * 2, b = ((num * 2 - 1) % 3 === 0) ? (num * 2 - 1) / 3 : -1;
+		return [a, b];
+	}
+
+	function add_to_id(cur_id, num, type_char) {
+		if (cur_id === null) return type_char + num.toString();
+		return cur_id + "." + type_char + num.toString();
+	}
+
+	function build_object(num) {
+		let out = [], cur_val = num, cur_id = add_to_id(null, num, 'b'), a, b,
+			cur_depth = 0, line_counts = [], depth_counts = [], node, cur_stamp;
+		depth_counts[0] = { lines: [0] };
+		depth_counts[-1] = { lines: [0] };
+		depth_counts[-2] = { lines: [0] };
+		depth_counts[-3] = { lines: [0] };
+		line_counts[0] = { amount: 7, branch: [{ source_depth: -4, source_line: 0,
+			height: 3 }], nodes: [] };
+		node = { id: cur_id, value: num, depth: 0, line: 0, stamp: 0 };
+		cur_stamp = 0;
+		line_counts[0].nodes[0] = node;
+		line_counts.lines = [0];
+		out.push(node);
+		while (++cur_depth <= 3) {
+			[a, b] = prev_orbits(cur_val);
+			depth_counts[cur_depth] = { lines: [] };
+			if (b !== -1) {
+				if (typeof(line_counts[1]) === 'undefined' || line_counts[1] === null) {
+					line_counts[1] = { amount: 0, branch: [], nodes: [] };
+					line_counts.lines.push(1);
+				}
+				line_counts[1].amount++;
+				line_counts[1].branch.push({ source_depth: cur_depth - 1, source_line: 0,
+					height: cur_depth });
+				depth_counts[cur_depth].lines.push(1);
+				node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
+					line: 1, stamp: ++cur_stamp };
+				line_counts[1].nodes[cur_depth] = node;
+				out.push(node);
+			}
+			cur_id = add_to_id(cur_id, a, 'u');
+			node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
+			line_counts[0].nodes[cur_depth] = node;
+			out.push(node);
+			depth_counts[cur_depth].lines.push(0);
+			cur_val = a;
+		}
+		cur_depth = 0;
+		cur_id = add_to_id(null, num, 'b');
+		cur_val = num;
+		while (--cur_depth >= -3) {
+			[a, b] = next_orbit(cur_val);
+			if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
+			else cur_id = add_to_id(cur_id, a, 'c');
+			node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
+			line_counts[0].nodes[cur_depth] = node;
+			out.push(node);
+			cur_val = a;
+		}
+		out.columns = ["id", "value", "depth", "line", "stamp"];
+		return { data: out, line_counts: line_counts, depth_counts: depth_counts,
+			cur_stamp: cur_stamp };
+	}
+
+	function move_everything_above(context, line, depth) {
+		let arr = context.line_counts, i = -1, branch_index = -1, cur, j, n_cur,
+			avoid_arr = [], k, skip, cur_branch;
+		while (++i < arr.lines.length) {
+			cur = arr[arr.lines[i]];
+			j = -1;
+			while (++j < cur.branch.length) {
+				k = -1;
+				skip = false;
+				cur_branch = cur.branch[j];
+				while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
+				if (skip) continue;
+				if (cur_branch.source_depth > depth && cur_branch.source_line === line) {
+					avoid_arr.push(cur_branch);
+					move_everything_above(context, arr.lines[i], cur_branch.source_depth);
+				}
+			}
+		}
+		arr = context.line_counts[line].branch;
+		i = -1;
+		let next = line + 1;
+		while (++i < arr.length) {
+			cur = arr[i];
+			if (depth >= cur.source_depth && depth < cur.height) branch_index = i;
+		}
+		i = -1;
+		let branch = context.line_counts[line].branch[branch_index];
+		while (++i < context.data.length) {
+			cur = context.data[i];
+			if (cur.line === line && cur.depth > depth && cur.depth <= branch.height) {
+				if (typeof(context.line_counts[next]) === 'undefined' ||
+					context.line_counts[next] === null) {
+					context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
+					context.line_counts.lines.push(next);
+				}
+				n_cur = context.line_counts[next].nodes[cur.depth];
+				if (typeof(n_cur) !== 'undefined' && n_cur !== null) {
+					j = -1;
+					while (++j < context.line_counts[next].branch.length) {
+						cur_branch = context.line_counts[next].branch[j];
+						if (cur_branch.source_depth < cur.depth &&
+							cur_branch.height >= cur.depth) {
+							move_everything_above(context, next, cur_branch.source_depth);
+						}
+						if (typeof(context.line_counts[next]) === 'undefined' ||
+							context.line_counts[next] === null) break;
+					}
+				}
+				if (typeof(context.line_counts[next]) === 'undefined' ||
+					context.line_counts[next] === null) {
+					context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
+					context.line_counts.lines.push(next);
+				}
+				cur.line = next;
+				context.line_counts[line].amount--;
+				context.line_counts[next].amount++;
+				context.line_counts[next].nodes[cur.depth] = cur;
+				context.line_counts[line].nodes[cur.depth] = null;
+				context.depth_counts[cur.depth].lines.splice(
+					context.depth_counts[cur.depth].lines.indexOf(line), 1, next);
+			}
+		}
+		if (branch.source_depth === depth) {
+			context.line_counts[next].branch.push(branch);
+			context.line_counts[line].branch.splice(branch_index, 1);
+		}
+		else if (branch.source_depth < depth) {
+			context.line_counts[next].branch.push({ source_depth: depth,
+				source_line: line, height: branch.height });
+			branch.height = depth;
+		}
+		if (context.line_counts[line].amount === 0) {
+			context.line_counts[line] = null;
+			context.line_counts.lines.splice(context.line_counts.lines.indexOf(line), 1);
+		}
+	}
+
+	function expand_context_at(context, node_data) {
+		let num = node_data.value, cur_depth = node_data.depth, cur_line = node_data.line,
+			source_index = -1, i = -1, j, cur, ceiling = null, cur_id = node_data.id,
+			depths = context.depth_counts, lines = context.line_counts, n_cur,
+			data = context.data, arr = lines[cur_line].branch, a, b, cur_val, node,
+			cur_stamp = context.cur_stamp;
+		while (++i < arr.length) {
+			cur = arr[i];
+			if (cur_depth > cur.source_depth && cur_depth <= cur.height)
+				source_index = i;
+			else if (ceiling === null && cur.source_depth >= cur_depth)
+				ceiling = cur.source_depth + 1;
+			else if (ceiling !== null && cur.source_depth >= cur_depth
+				&& cur.source_depth + 1 < ceiling) ceiling = cur.source_depth + 1;
+		}
+		if (source_index === -1) throw new Error("Failure to update context");
+		let needed = 4, cur_node;
+		cur_val = num;
+		while (--needed > 0) {
+			cur_depth++;
+			cur_node = lines[cur_line].nodes[cur_depth];
+			[a, b] = prev_orbits(cur_val);
+			if (typeof(cur_node) !== 'undefined' && cur_node !== null) {
+				if (cur_node.value === b) {
+					move_everything_above(context, cur_line, cur_depth - 1);
+				}
+				else if (cur_node.value !== a) {
+					move_everything_above(context, cur_line, arr[source_index].source_depth);
+					cur_line++;
+					arr = lines[cur_line].branch;
+					source_index = -1;
+					i = -1;
+					while (++i < arr.length) if (node_data.depth > arr[i].source_depth
+						&& node_data.depth <= arr[i].height) source_index = i;
+					if (source_index === -1) throw new Error("Failure to update context");
+				}
+			}
+			if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
+				depths[cur_depth] = { lines: [] };
+			if (b !== -1 && !(typeof(lines[cur_line + 1]) !== 'undefined'
+					&& lines[cur_line + 1] !== null
+					&& typeof(lines[cur_line + 1].nodes[cur_depth]) !== 'undefined'
+					&& lines[cur_line + 1].nodes[cur_depth] !== null
+					&& lines[cur_line + 1].nodes[cur_depth].value === b)) {
+				try {
+					console.log(b, lines[cur_line + 1].nodes[cur_depth], lines[cur_line + 1].nodes[cur_depth].value,
+						cur_line, cur_depth);
+					console.log(typeof(lines[cur_line + 1]) !== 'undefined',
+						lines[cur_line + 1] !== null,
+						typeof(lines[cur_line + 1].nodes[cur_depth]) !== 'undefined',
+						lines[cur_line + 1].nodes[cur_depth] !== null,
+						lines[cur_line + 1].nodes[cur_depth].value !== b);
+				} catch (e) {
+					if (e instanceof TypeError) {
+						console.log(b, cur_line, cur_depth);
+						console.log("Caught but displayed");
+					}
+				}
+				if (typeof(lines[cur_line + 1]) === 'undefined' || lines[cur_line + 1] === null) {
+					lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
+					lines.lines.push(cur_line + 1);
+				}
+				if (typeof(lines[cur_line + 1].nodes[cur_depth]) !== 'undefined' &&
+					lines[cur_line + 1].nodes[cur_depth] !== null) {
+					j = -1;
+					while (++j < lines[cur_line + 1].branch.length) {
+						n_cur = lines[cur_line + 1].branch[j];
+						if (n_cur.source_depth < cur_depth && cur_depth <= n_cur.height)
+							move_everything_above(context, cur_line + 1, n_cur.source_depth);
+						if (typeof(lines[cur_line + 1]) === 'undefined' ||
+							lines[cur_line + 1] === null) break;
+					}
+				}
+				if (typeof(lines[cur_line + 1]) === 'undefined'|| lines[cur_line + 1] === null) {
+					lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
+					lines.lines.push(cur_line + 1);
+				}
+				lines[cur_line + 1].amount++;
+				lines[cur_line + 1].branch.push({ source_depth: cur_depth - 1,
+					source_line: cur_line, height: cur_depth });
+				depths[cur_depth].lines.push(cur_line + 1);
+				node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
+					line: cur_line + 1, stamp: ++cur_stamp };
+				lines[cur_line + 1].nodes[cur_depth] = node;
+				data.push(node);
+			}
+			if (typeof(cur_node) !== 'undefined' && cur_node !== null && cur_node.value === a) {
+				cur_val = a;
+				cur_id = cur_node.id;
+				continue;
+			}
+			cur_id = add_to_id(cur_id, a, 'u');
+			depths[cur_depth].lines.push(cur_line);
+			cur_val = a;
+			lines[cur_line].amount++;
+			arr[source_index].height++;
+			node = { id: cur_id, value: a, depth: cur_depth, line: cur_line, stamp: ++cur_stamp };
+			lines[cur_line].nodes[cur_depth] = node;
+			data.push(node);
+		}
+		cur_depth = node_data.depth;
+		if (node_data.value === 1 || (typeof(depths[cur_depth - 3]) !== 'undefined' &&
+			depths[cur_depth - 3] !== null && depths[cur_depth - 3].lines.length > 0)) {
+			context.cur_stamp = cur_stamp;
+			console.log(context);
+			return;
+		}
+		cur_depth = node_data.depth;
+		cur_line = node_data.line;
+		cur_id = node_data.id;
+		cur_val = num;
+		needed = 4;
+		i = -1;
+		arr = lines[cur_line].branch;
+		source_index = -1;
+		while (++i < arr.length) {
+			cur = arr[i];
+			if (cur_depth > cur.source_depth && cur_depth <= cur.height)
+				source_index = i;
+		}
+		if (source_index === -1) throw new Error("Late failure to update context");
+		while (--needed > 0) {
+			cur_depth--;
+			if (typeof(depths[cur_depth]) !== 'undefined' && depths[cur_depth] !== null) {
+				if (arr[source_index].source_depth <= cur_depth &&
+					arr[source_index].source_line !== cur_line) {
+					cur_line = arr[source_index].source_line;
+					i = -1;
+					arr = lines[cur_line].branch;
+					source_index = -1;
+					while (++i < arr.length) {
+						cur = arr[i];
+						if (cur_depth > cur.source_depth && cur_depth <= cur.height)
+							source_index = i;
+					}
+					if (source_index === -1) throw new Error("Late failure to update context");
+				}
+				cur = lines[cur_line].nodes[cur_depth];
+				cur_id = cur.id;
+				cur_val = cur.value;
+			}
+			else {
+				if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
+					depths[cur_depth] = { lines: [] };
+				[a, b] = next_orbit(cur_val);
+				if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
+				else cur_id = add_to_id(cur_id, a, 'c');
+				depths[cur_depth].lines.push(cur_line);
+				lines[cur_line].amount++;
+				arr[source_index].source_depth--;
+				node = { id: cur_id, value: a, depth: cur_depth, line: cur_line, stamp: ++cur_stamp };
+				lines[0].nodes[cur_depth] = node;
+				data.push(node);
+				cur_val = a;
+			}
+			if (cur_val === 1) break;
+		}
+		context.cur_stamp = cur_stamp;
+		console.log(context);
+	}
+
+	function setup_sandbox() {
+		let ma = 0, start_nums = [35, 36],
+			bounding = document.getElementById("sandbox").getBoundingClientRect(),
+			width = bounding.width, height = bounding.height,
+			svg = d3.select("#sandbox").append("svg")
+				.attr("width", width).attr("height", height),
+			tree = d3.tree().size([width, height - 2 * ma]),
+			g = svg.append("g").attr("transform", "translate(0, " + ma / 2 + ")"),
+			stratify = d3.stratify()
+				.parentId(function (d) { return d.id.substring(0, d.id.lastIndexOf(".")); }),
+			frac = 42, context = build_object(start_nums[1]),
+			data = context.data, line_counts = context.line_counts,
+			depth_counts = context.depth_counts, root = stratify(data),
+			center = root.data;
+		let link = g.selectAll(".link")
+			.data(tree(root).links(), function (d) { return d.source.id + d.target.id })
+			.enter().append("path")
+			.attr("class", "link")
+			.attr("d", d3.linkVertical()
+				.source(function (d) {
+					d.source.y = height / 2 - d.source.data.depth * frac;
+					d.source.x = width / 2 + d.source.data.line * frac;
+					return [d.source.x, d.source.y];
+				})
+				.target(function (d) {
+					d.target.y = height / 2 - d.target.data.depth * frac;
+					d.target.x = width / 2 + d.target.data.line * frac;
+					return [d.target.x, d.target.y];
+				}))
+			.style("stroke", function (d) {
+				let highlight_char = d.target.id.charAt(d.target.id.lastIndexOf('.') + 1);
+				switch (highlight_char) {
+					case 'u':
+					case 'd':
+						return "#22E";
+					case 's':
+					case 'c':
+						return "#E22";
+				}
+			});
+		let node = g.selectAll(".node")
+			.data(root.descendants())
+			.enter().append("g")
+			.attr("class", function (d) {
+				let out_class = "node";
+				if (d.data.value === start_nums[0] || d.data.value === start_nums[1])
+					out_class += " node--start";
+				return out_class;
+			})
+			.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+		node.append("circle")
+			.attr("r", 7);
+		node.append("text")
+			.attr("dy", 3)
+			.attr("y", function () { return 16; })
+			.style("text-anchor", function() { return "middle"; })
+			.text(function (d) { return d.id.substring(d.id.lastIndexOf(".") + 2); });
+		let clicker = function(d) {
+			this.parentNode.appendChild(this);
+			center = d.data;
+			d3.select(this)
+				.style("pointer-events", "none")
+				.transition().duration(450)
+				.attrTween("stroke-width", function() { return d3.interpolateNumber(0, 3); })
+				.attrTween("stroke", function(d, i) {
+					this.parentNode.appendChild(this);
+					let color = d3.style(d3.select(this)._groups[0][i], "fill");
+					return d3.interpolateRgb(color, "black");
+				});
+			expand_context_at(context, d.data);
+			data = context.data;
+			line_counts = context.line_counts;
+			depth_counts = context.depth_counts;
+			root = stratify(data);
+			let temp = g.selectAll(".link")
+				.data(tree(root).links(), function (d) { return d.source.id + d.target.id });
+			temp.transition().duration(450)
+				.attr("d", d3.linkVertical()
+					.source(function (d) {
+						d.source.y = height / 2 - (d.source.data.depth - center.depth) * frac;
+						d.source.x = width / 2 + (d.source.data.line - center.line) * frac;
+						return [d.source.x, d.source.y];
+					})
+					.target(function (d) {
+						d.target.y = height / 2 - (d.target.data.depth - center.depth) * frac;
+						d.target.x = width / 2 + (d.target.data.line - center.line) * frac;
+						return [d.target.x, d.target.y];
+					}))
+				.style("stroke", function (d) {
+					let highlight_char = d.target.id.charAt(d.target.id.lastIndexOf('.') + 1);
+					switch (highlight_char) {
+						case 'u':
+						case 'd':
+							return "#22E";
+						case 's':
+						case 'c':
+							return "#E22";
+					}
+				});
+			link = temp.enter().append("path")
+				.attr("class", "link")
+				.attr("d", d3.linkVertical()
+					.source(function (d) {
+						d.source.y = height / 2 - (d.source.data.depth - center.depth) * frac;
+						d.source.x = width / 2 + (d.source.data.line - center.line) * frac;
+						return [d.source.x, d.source.y];
+					})
+					.target(function (d) {
+						d.target.y = height / 2 - (d.target.data.depth - center.depth) * frac;
+						d.target.x = width / 2 + (d.target.data.line - center.line) * frac;
+						return [d.target.x, d.target.y];
+					}))
+				.style("stroke", function (d) {
+					let highlight_char = d.target.id.charAt(d.target.id.lastIndexOf('.') + 1);
+					switch (highlight_char) {
+						case 'u':
+						case 'd':
+							return "#22E";
+						case 's':
+						case 'c':
+							return "#E22";
+					}
+				})
+				.style("stroke-opacity", 0)
+				.transition().delay(150)
+				.transition()
+					.duration(200)
+					.style("stroke-opacity", 1);
+			temp = g.selectAll(".node").data(root.descendants(), function(d) {return d.id});
+			temp.transition().duration(450)
+				.attr("transform", function(d) { return "translate(" + d.x + ", " + d.y + ")"; });
+			temp.select("text").text(function (d) { return d.id.substring(d.id.lastIndexOf(".") + 2); });
+			node = temp.enter().append("g")
+				.attr("class", function (d) {
+					let out_class = "node";
+					if (d.data.value === start_nums[0] || d.data.value === start_nums[1])
+						out_class += " node--start";
+					return out_class;
+				})
+				.attr("transform", function (d) { return "translate(" + d.x + ", " + d.y + ")"; });
+			node.append("circle").attr("r", 7)
+				.style("fill-opacity", 0)
+				.transition().delay(150)
+				.transition()
+					.duration(200)
+					.style("fill-opacity", 1);
+			node.append("text")
+				.attr("dy", 3)
+				.attr("y", function() { return 16; })
+				.style("text-anchor", function() { return "middle"; })
+				.text(function (d) { return d.id.substring(d.id.lastIndexOf(".") + 2); })
+				.style("opacity", 0)
+				.transition().delay(150)
+				.transition()
+					.duration(200)
+					.style("opacity", 1);
+			g.selectAll(".node circle")
+				.on("click", clicker);
+		};
+		g.selectAll(".node circle")
+			.on("click", clicker);
+	}
 
 	// function init() {
 	// 	get_initial_node_data();
@@ -2604,7 +2936,7 @@ $(document).on('ready page:load', function() {
 		console.log("Making background...");
 		make_background();
 		console.log("Setting up Connection Sandbox");
-		//setup_sandbox();
+		setup_sandbox();
 		console.log("Canvas resize set up");
 		scope.view.onFrame = function(event) {
 			tick(event);
