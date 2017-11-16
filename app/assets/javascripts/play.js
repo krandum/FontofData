@@ -274,7 +274,7 @@ $(document).on('ready page:load', function() {
 				ui.quest_pane.style.display = 'none';
 				ui.chat_pane.style.display = 'block';
 			});
-			window.addEventListener("resize", function(e) {
+			window.addEventListener("resize", function() {
 				ui.set_actionbar_size();
 			});
 			buttons[0].addEventListener('click', function(e) {
@@ -1285,63 +1285,71 @@ $(document).on('ready page:load', function() {
 	};
 
 	let pop_action_animation = function(target, sigma_frac) {
-		let option;
+		let option, cur_option;
 		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.circle.bounds.width < sigma_frac * option.base.width) {
-				option.circle.bounds.width = sigma_frac * option.base.width;
-				option.circle.bounds.height = sigma_frac * option.base.height;
+			if (target.hasOwnProperty(cur_option)) {
+				option = target[cur_option];
+				if (option.circle.bounds.width < sigma_frac * option.base.width) {
+					option.circle.bounds.width = sigma_frac * option.base.width;
+					option.circle.bounds.height = sigma_frac * option.base.height;
+				}
+				option.circle.position.x = option.base.x;
+				option.circle.position.y = option.base.y;
+				apply_fraction(option);
 			}
-			option.circle.position.x = option.base.x;
-			option.circle.position.y = option.base.y;
-			apply_fraction(option);
 		}
 	};
 
 	let pop_action_stop = function(target) {
-		let option;
+		let option, cur_option;
 		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.circle.bounds.width < option.base.width) {
-				option.circle.bounds.width = option.base.width;
-				option.circle.bounds.height = option.base.height;
+			if (target.hasOwnProperty(cur_option)) {
+				option = target[cur_option];
+				if (option.circle.bounds.width < option.base.width) {
+					option.circle.bounds.width = option.base.width;
+					option.circle.bounds.height = option.base.height;
+				}
+				option.circle.position.x = option.base.x;
+				option.circle.position.y = option.base.y;
+				apply_fraction(option);
 			}
-			option.circle.position.x = option.base.x;
-			option.circle.position.y = option.base.y;
-			apply_fraction(option);
 		}
 		return false;
 	};
 
 	let unpop_action_animation = function(target, sigma_frac) {
-		let option;
+		let option, cur_option;
 		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.circle.bounds.width > (1 - sigma_frac) * option.base.width) {
-				option.circle.bounds.width = (1 - sigma_frac) * option.base.width;
-				option.circle.bounds.height = (1 - sigma_frac) * option.base.height;
+			if (target.hasOwnProperty(cur_option)) {
+				option = target[cur_option];
+				if (option.circle.bounds.width > (1 - sigma_frac) * option.base.width) {
+					option.circle.bounds.width = (1 - sigma_frac) * option.base.width;
+					option.circle.bounds.height = (1 - sigma_frac) * option.base.height;
+				}
+				option.circle.position.x = option.base.x;
+				option.circle.position.y = option.base.y;
+				apply_fraction(option);
 			}
-			option.circle.position.x = option.base.x;
-			option.circle.position.y = option.base.y;
-			apply_fraction(option);
 		}
 	};
 
 	let unpop_action_stop = function(target) {
-		let option, index;
+		let option, index, cur_option;
 		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.circle.bounds.width > 0) {
-				option.circle.bounds.width = 0;
-				option.circle.bounds.height = 0;
+			if (target.hasOwnProperty(cur_option)) {
+				option = target[cur_option];
+				if (option.circle.bounds.width > 0) {
+					option.circle.bounds.width = 0;
+					option.circle.bounds.height = 0;
+				}
+				option.circle.position.x = option.base.x;
+				option.circle.position.y = option.base.y;
+				option.group.removeChildren();
+				option.group.remove();
+				index = game_data.actions.indexOf(option);
+				if (index !== -1) game_data.actions.splice(index, 1);
+				apply_fraction(option);
 			}
-			option.circle.position.x = option.base.x;
-			option.circle.position.y = option.base.y;
-			option.group.removeChildren();
-			option.group.remove();
-			index = game_data.actions.indexOf(option);
-			if (index !== -1) game_data.actions.splice(index, 1);
-			apply_fraction(option);
 		}
 		return false;
 	};
@@ -2442,6 +2450,12 @@ $(document).on('ready page:load', function() {
 		load_SVG('assets/icons/046-return.svg', 'return');
 	}
 
+	d3.selection.prototype.moveToFront = function() {
+		return this.each(function(){
+			this.parentNode.appendChild(this);
+		})
+	};
+
 	function next_orbit(num) {
 		if (num % 2 === 0) return [num / 2, 2];
 		return [(num * 3 + 1) / 2, 1];
@@ -2790,13 +2804,14 @@ $(document).on('ready page:load', function() {
 			})
 			.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
 		node.append("circle")
-			.attr("r", 7);
+			.attr("r", 7)
+			.attr("d", function(d) { d3.select(this).moveToFront(); return d; });
 		node.append("text")
 			.attr("dy", 3)
 			.attr("y", function () { return 16; })
 			.style("text-anchor", function() { return "middle"; })
 			.text(function (d) { return d.data.value.toString(); });
-		let clicker = function(d) {
+		function clicker(d) {
 			this.parentNode.appendChild(this);
 			center = d.data;
 			d3.select(this)
@@ -2818,13 +2833,13 @@ $(document).on('ready page:load', function() {
 			temp.transition().duration(450)
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
-						d.source.y = height / 2 - (d.source.data.depth - center.depth) * frac;
-						d.source.x = width / 2 + (d.source.data.line - center.line) * frac;
+						d.source.y = height / 2 - d.source.data.depth * frac;
+						d.source.x = width / 2 + d.source.data.line * frac;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
-						d.target.y = height / 2 - (d.target.data.depth - center.depth) * frac;
-						d.target.x = width / 2 + (d.target.data.line - center.line) * frac;
+						d.target.y = height / 2 - d.target.data.depth * frac;
+						d.target.x = width / 2 + d.target.data.line * frac;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -2842,13 +2857,13 @@ $(document).on('ready page:load', function() {
 				.attr("class", "link")
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
-						d.source.y = height / 2 - (d.source.data.depth - center.depth) * frac;
-						d.source.x = width / 2 + (d.source.data.line - center.line) * frac;
+						d.source.y = height / 2 - d.source.data.depth * frac;
+						d.source.x = width / 2 + d.source.data.line * frac;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
-						d.target.y = height / 2 - (d.target.data.depth - center.depth) * frac;
-						d.target.x = width / 2 + (d.target.data.line - center.line) * frac;
+						d.target.y = height / 2 - d.target.data.depth * frac;
+						d.target.x = width / 2 + d.target.data.line * frac;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -2871,15 +2886,19 @@ $(document).on('ready page:load', function() {
 			temp.transition().duration(450)
 				.attr("transform", function(d) { return "translate(" + d.x + ", " + d.y + ")"; });
 			temp.select("text").text(function (d) { return d.data.value.toString(); });
-			node = temp.enter().append("g")
+			node = temp.enter()
+				.append("g")
 				.attr("class", function (d) {
 					let out_class = "node";
 					if (d.data.value === start_nums[0] || d.data.value === start_nums[1])
 						out_class += " node--start";
 					return out_class;
 				})
-				.attr("transform", function (d) { return "translate(" + d.x + ", " + d.y + ")"; });
+				.attr("transform", function (d) { return "translate(" + d.x + ", " + d.y + ")"; })
+				.attr("d", function(d) { d3.select(this).moveToFront(); return d; });
+			temp.attr("d", function(d) { d3.select(this).moveToFront(); return d; });
 			node.append("circle").attr("r", 7)
+				.attr("d", function(d) { d3.select(this).moveToFront(); return d; })
 				.style("fill-opacity", 0)
 				.transition().delay(150)
 				.transition()
@@ -2897,7 +2916,9 @@ $(document).on('ready page:load', function() {
 					.style("opacity", 1);
 			g.selectAll(".node circle")
 				.on("click", clicker);
-		};
+		}
+		let zoomed = function() { g.attr("transform", d3.event.transform); };
+		svg.call(d3.zoom().scaleExtent([1 / 2, 8]) .on("zoom", zoomed));
 		g.selectAll(".node circle")
 			.on("click", clicker);
 	}
