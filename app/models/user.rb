@@ -19,6 +19,9 @@ class User < ActiveRecord::Base
 	has_many :cluster_memberships
 	has_many :clusters, through: :cluster_memberships
 
+	has_many :proved_connections
+	has_many :proved, through: :proved_connections, source: :connected_node
+
 	has_many :quest_logs
 	has_many :quests, through: :quest_logs
 

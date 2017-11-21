@@ -103,48 +103,23 @@ class GameChannel < ApplicationCable::Channel
 		# effect = Effect.where(effect_name: effect_name).first
 		effect = Effect.find(effect_name) #tmperory effect_name == id
 
-		status = 'not_valid'
-		origin_status = 'same'
-		target_status = 'same'
+		@status = 'not_valid'
+		@origin_status = 'same'
+		@target_status = 'same'
 
 		if valid?(@origin, @target, effect)
 			case effect.effect_name
 			when 'attack'
 				if nodes_adjacent?(origin_value, target_value)
-					if !@origin.connections.where(value: target_value).empty?
-						if @target.id.nil?
-							@target = current_user.data_nodes.create!(
-								value: target_value,
-								faction_id: @origin.faction_id
-							)
-						else
-							@target.update_attribute(:faction_id, @origin.faction_id)
-							@target.update_attribute(:user_id, current_user.id)
-						end
-						status = 'success'
-						target_status = 'to_origin'
-					else
-						status = 'not_connected'
-					end
+					action_attack(origin_value, target_value)
 				else
-					status = 'not_adjacent'
+					@status = 'not_adjacent'
 				end
 			when 'connect'
 				if nodes_adjacent?(origin_value, target_value)
-					if @target.id.nil?
-						@target.save
-					end
-					if @origin.id.nil?
-						@origin.save
-					end
-					begin
-						@origin.connections << @target
-						status = 'success'
-					rescue ActiveRecord::RecordNotUnique
-						status = 'connection_exists'
-					end
+					action_connect
 				else
-					status = 'not_adjacent'
+					@status = 'not_adjacent'
 				end
 				# when 'give'
 				# 	@origin.update_attribute(:faction_id, 1)
@@ -174,10 +149,46 @@ class GameChannel < ApplicationCable::Channel
 				# 	origin_status = 'to_target'
 				# 	target_status = 'to_origin'
 			else
-				status = 'invalid_action'
+				@status = 'invalid_action'
 			end
 		end
-		[status, origin_status, target_status]
+		[@status, @origin_status, @target_status]
+	end
+
+	def action_attack(origin_value, target_value)
+		if !@origin.connections.where(value: target_value).empty?
+			if @target.id.nil?
+				@target = current_user.data_nodes.create!(
+					value: target_value,
+					faction_id: @origin.faction_id
+				)
+			else
+				@target.update_attribute(:faction_id, @origin.faction_id)
+				@target.update_attribute(:user_id, current_user.id)
+			end
+			@status = 'success'
+			@target_status = 'to_origin'
+		else
+			@status = 'not_connected'
+		end
+	end
+
+	def action_connect
+		if @target.id.nil?
+			@target.save
+		end
+		if @origin.id.nil?
+			@origin.save
+		end
+		if @origin.connections.where(id: @target).empty?
+			@origin.connections << @target
+			@status = 'success'
+		elsif @user.proved.where(data_node_id: @origin.id, connection_id: @target.id).empty?
+			@user.proved << @origin.connected_nodes.where(connection_id: @target.id)
+			@status = 'success'
+		else
+			@status = 'connection_exists'
+		end
 	end
 
 	def get_masks(effect)
