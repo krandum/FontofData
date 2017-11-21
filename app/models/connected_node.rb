@@ -1,9 +1,13 @@
 class ConnectedNode < ApplicationRecord
+	after_create :init_values
 	after_create :create_inverse, unless: :has_inverse?
 	after_destroy :destroy_inverse, if: :has_inverse?
 
 	belongs_to :data_node
 	belongs_to :connection, class_name: 'DataNode'
+
+	has_many :proved_connections
+	has_many :users, through: :proved_connections
 
 	#use to set connection values
 	def update_connection(params)
@@ -78,6 +82,12 @@ class ConnectedNode < ApplicationRecord
 	def create_inverse
 		self.class.create(inverse_options)
 		self.connection_type = 1
+		self.save
+	end
+
+	def init_values
+		self.s_value = DataNode.find(self.data_node_id).value
+		self.i_value = DataNode.find(self.connection_id).value
 		self.save
 	end
 
