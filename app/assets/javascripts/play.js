@@ -355,7 +355,7 @@ $(document).on('ready page:load', function() {
 		background.light_ray = normalize({ x: 0.7, y: 0.5, z: 1 });
 		background.map = { top: 1, bot: 0, moved_top: false, moved_bot: false };
 		background.rows = [];
-		background.color_distance_threshold = 242.0;
+		background.color_distance_threshold = 342.0;
 		background.factioned = false;
 
 		background.add_point = function(row, x, y, z) {
@@ -2766,8 +2766,12 @@ $(document).on('ready page:load', function() {
 		console.log(context);
 	}
 
-	function setup_sandbox() {
-		let ma = 0, start_nums = [35, 36],
+	function log_data(a, b, path) {
+
+	}
+
+	function setup_connection(a, b) {
+		let ma = 0, start_nums = [a, b],
 			bounding = document.getElementById("sandbox").getBoundingClientRect(),
 			width = bounding.width, height = bounding.height,
 			svg = d3.select("#sandbox").append("svg")
@@ -2776,7 +2780,7 @@ $(document).on('ready page:load', function() {
 			g = svg.append("g").attr("transform", "translate(0, " + ma / 2 + ")"),
 			stratify = d3.stratify()
 				.parentId(function (d) { return d.id.substring(0, d.id.lastIndexOf(".")); }),
-			frac = 42, context = build_object(start_nums[1]),
+			frac = 42, context = build_object(start_nums[0]),
 			data = context.data, line_counts = context.line_counts,
 			depth_counts = context.depth_counts, root = stratify(data),
 			center = root.data;
@@ -2813,6 +2817,7 @@ $(document).on('ready page:load', function() {
 				let out_class = "node";
 				if (d.data.value === start_nums[0] || d.data.value === start_nums[1])
 					out_class += " node--start";
+				if (d.data.value === 1) out_class += " node--one";
 				return out_class;
 			})
 			.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
@@ -2825,6 +2830,7 @@ $(document).on('ready page:load', function() {
 			.style("text-anchor", function() { return "middle"; })
 			.text(function (d) { return d.data.value.toString(); });
 		function clicker(d) {
+			if (d.data.value === 1) return;
 			this.parentNode.appendChild(this);
 			center = d.data;
 			d3.select(this)
@@ -2838,9 +2844,20 @@ $(document).on('ready page:load', function() {
 				});
 			expand_context_at(context, d.data);
 			data = context.data;
+			console.log(data);
+			let i = -1;
+			while (++i < data.length) {
+				if (data[i].value === b) {
+					console.log("FOUND IT");
+				}
+			}
 			line_counts = context.line_counts;
 			depth_counts = context.depth_counts;
-			root = stratify(data);
+			try { root = stratify(data); }
+			catch (error) {
+				console.log(root, data, error);
+				throw new Error("Bigger error");
+			}
 			let temp = g.selectAll(".link")
 				.data(tree(root).links(), function (d) { return d.source.id + "/" + d.target.id });
 			temp.transition().duration(450)
@@ -2905,6 +2922,7 @@ $(document).on('ready page:load', function() {
 					let out_class = "node";
 					if (d.data.value === start_nums[0] || d.data.value === start_nums[1])
 						out_class += " node--start";
+					if (d.data.value === 1) out_class += " node--one";
 					return out_class;
 				})
 				.attr("transform", function (d) { return "translate(" + d.x + ", " + d.y + ")"; })
@@ -2929,11 +2947,23 @@ $(document).on('ready page:load', function() {
 					.style("opacity", 1);
 			g.selectAll(".node circle")
 				.on("click", clicker);
+			g.selectAll(".node circle")
+				.on("mouseover", function() { d3.select(this).style("cursor", "pointer"); });
+			g.selectAll(".node circle")
+				.on("mouseout", function() { d3.select(this).style("cursor", "default"); });
 		}
 		let zoomed = function() { g.attr("transform", d3.event.transform); };
 		svg.call(d3.zoom().scaleExtent([1 / 2, 8]) .on("zoom", zoomed));
 		g.selectAll(".node circle")
 			.on("click", clicker);
+		g.selectAll(".node circle")
+			.on("mouseover", function() { d3.select(this).style("cursor", "pointer"); });
+		g.selectAll(".node circle")
+			.on("mouseout", function() { d3.select(this).style("cursor", "default"); });
+		return function() {
+			g.selectAll(".node").remove();
+			g.selectAll(".link").remove();
+		};
 	}
 
 	// function init() {
@@ -2959,7 +2989,7 @@ $(document).on('ready page:load', function() {
 		console.log("Making background...");
 		make_background();
 		console.log("Setting up Connection Sandbox");
-		setup_sandbox();
+		setup_connection(46, 47);
 		console.log("Canvas resize set up");
 		scope.view.onFrame = function(event) {
 			tick(event);
