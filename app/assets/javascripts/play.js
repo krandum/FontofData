@@ -106,6 +106,28 @@ $(document).on('ready page:load', function() {
 	// 	});
 	// }
 
+	App.game = App.cable.subscriptions.create("GameChannel", {
+		connected: function() {
+			// Called when the subscription is ready for use on the server
+		},
+
+		disconnected: function() {
+			// Called when the subscription has been terminated by the server
+		},
+
+		received: function(data) {
+			// Called when there's incoming data on the websocket for this channel
+			if (data['function_call'] == 'take_action') {
+				take_action(data);
+			}
+			if (data['function_call'] == 'bla') {
+				console.log("eyy");
+			}
+			else
+				console.log("invalid call");
+		}
+	});
+
 	function make_ui() {
 		let user = game_data.user_info;
 		let ui = game_data.user_interface;
@@ -276,6 +298,7 @@ $(document).on('ready page:load', function() {
 		};
 		ui.create_listeners = function() {
 			let buttons = ui.actionbar.children;
+<<<<<<< HEAD
 			window.addEventListener("resize", function(e) {
 				ui.set_ui_size();
 			});
@@ -287,6 +310,22 @@ $(document).on('ready page:load', function() {
 				if (e.keyCode === 81) {
 					ui.window_container.children[0].classList.toggle('hidden');
 				}
+=======
+			ui.tabs.children[0].addEventListener('click', function() {
+				ui.tabs.children[0].style.borderBottomWidth = '0px';
+				ui.tabs.children[1].style.borderBottomWidth = '2px';
+				ui.quest_pane.style.display = 'block';
+				ui.chat_pane.style.display = 'none';
+			});
+			ui.tabs.children[1].addEventListener('click', function() {
+				ui.tabs.children[0].style.borderBottomWidth = '2px';
+				ui.tabs.children[1].style.borderBottomWidth = '0px';
+				ui.quest_pane.style.display = 'none';
+				ui.chat_pane.style.display = 'block';
+			});
+			window.addEventListener("resize", function() {
+				ui.set_actionbar_size();
+>>>>>>> c22f0265776593c9643fffadec68d40e1374f907
 			});
 			buttons[0].addEventListener('click', function(e) {
 				//placeholder orbit back
@@ -347,7 +386,7 @@ $(document).on('ready page:load', function() {
 		background.light_ray = normalize({ x: 0.7, y: 0.5, z: 1 });
 		background.map = { top: 1, bot: 0, moved_top: false, moved_bot: false };
 		background.rows = [];
-		background.color_distance_threshold = 242.0;
+		background.color_distance_threshold = 342.0;
 		background.factioned = false;
 
 		background.add_point = function(row, x, y, z) {
@@ -1299,63 +1338,71 @@ $(document).on('ready page:load', function() {
 	};
 
 	let pop_action_animation = function(target, sigma_frac) {
-		let option;
+		let option, cur_option;
 		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.circle.bounds.width < sigma_frac * option.base.width) {
-				option.circle.bounds.width = sigma_frac * option.base.width;
-				option.circle.bounds.height = sigma_frac * option.base.height;
+			if (target.hasOwnProperty(cur_option)) {
+				option = target[cur_option];
+				if (option.circle.bounds.width < sigma_frac * option.base.width) {
+					option.circle.bounds.width = sigma_frac * option.base.width;
+					option.circle.bounds.height = sigma_frac * option.base.height;
+				}
+				option.circle.position.x = option.base.x;
+				option.circle.position.y = option.base.y;
+				apply_fraction(option);
 			}
-			option.circle.position.x = option.base.x;
-			option.circle.position.y = option.base.y;
-			apply_fraction(option);
 		}
 	};
 
 	let pop_action_stop = function(target) {
-		let option;
+		let option, cur_option;
 		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.circle.bounds.width < option.base.width) {
-				option.circle.bounds.width = option.base.width;
-				option.circle.bounds.height = option.base.height;
+			if (target.hasOwnProperty(cur_option)) {
+				option = target[cur_option];
+				if (option.circle.bounds.width < option.base.width) {
+					option.circle.bounds.width = option.base.width;
+					option.circle.bounds.height = option.base.height;
+				}
+				option.circle.position.x = option.base.x;
+				option.circle.position.y = option.base.y;
+				apply_fraction(option);
 			}
-			option.circle.position.x = option.base.x;
-			option.circle.position.y = option.base.y;
-			apply_fraction(option);
 		}
 		return false;
 	};
 
 	let unpop_action_animation = function(target, sigma_frac) {
-		let option;
+		let option, cur_option;
 		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.circle.bounds.width > (1 - sigma_frac) * option.base.width) {
-				option.circle.bounds.width = (1 - sigma_frac) * option.base.width;
-				option.circle.bounds.height = (1 - sigma_frac) * option.base.height;
+			if (target.hasOwnProperty(cur_option)) {
+				option = target[cur_option];
+				if (option.circle.bounds.width > (1 - sigma_frac) * option.base.width) {
+					option.circle.bounds.width = (1 - sigma_frac) * option.base.width;
+					option.circle.bounds.height = (1 - sigma_frac) * option.base.height;
+				}
+				option.circle.position.x = option.base.x;
+				option.circle.position.y = option.base.y;
+				apply_fraction(option);
 			}
-			option.circle.position.x = option.base.x;
-			option.circle.position.y = option.base.y;
-			apply_fraction(option);
 		}
 	};
 
 	let unpop_action_stop = function(target) {
-		let option, index;
+		let option, index, cur_option;
 		for (cur_option in target) {
-			option = target[cur_option];
-			if (option.circle.bounds.width > 0) {
-				option.circle.bounds.width = 0;
-				option.circle.bounds.height = 0;
+			if (target.hasOwnProperty(cur_option)) {
+				option = target[cur_option];
+				if (option.circle.bounds.width > 0) {
+					option.circle.bounds.width = 0;
+					option.circle.bounds.height = 0;
+				}
+				option.circle.position.x = option.base.x;
+				option.circle.position.y = option.base.y;
+				option.group.removeChildren();
+				option.group.remove();
+				index = game_data.actions.indexOf(option);
+				if (index !== -1) game_data.actions.splice(index, 1);
+				apply_fraction(option);
 			}
-			option.circle.position.x = option.base.x;
-			option.circle.position.y = option.base.y;
-			option.group.removeChildren();
-			option.group.remove();
-			index = game_data.actions.indexOf(option);
-			if (index !== -1) game_data.actions.splice(index, 1);
-			apply_fraction(option);
 		}
 		return false;
 	};
@@ -2223,78 +2270,64 @@ $(document).on('ready page:load', function() {
 		add_animation(options, pop_action_animation, pop_action_stop, 150);
 	}
 
-	App.game = App.cable.subscriptions.create("GameChannel", {
-		connected: function() {
-			// Called when the subscription is ready for use on the server
-		},
+	function take_action(data) {
+		// App.game.perform('update_node', {
+		// 	action_index: game_data.action_index,
+		// 	origin: origin.value,
+		// 	target: target.value
+		// });
 
-		disconnected: function() {
-			// Called when the subscription has been terminated by the server
-		},
-
-		received: function(data) {
-			// Called when there's incoming data on the websocket for this channel
-			// game_data.active_nodes[0].circle.fillColor
-			let origin, target, colors, i;
-			for (i = 0;i < game_data.active_nodes.length; i++) {
-				if (game_data.active_nodes[i].value === data['origin']) {
-					origin = game_data.active_nodes[i];
-				}
-				if (game_data.active_nodes[i].value === data['target']) {
-					target = game_data.active_nodes[i];
-				}
+		let origin, target, colors, i;
+		for (i = 0;i < game_data.active_nodes.length; i++) {
+			if (game_data.active_nodes[i].value === data['origin']) {
+				origin = game_data.active_nodes[i];
 			}
-			if (data['action_index'] === 1) {
-				if (data['origin_change'] === 'to_target') {
-					game_data.node_factions[origin.value] = data['target_fac'];
-					colors = game_data.colors[data['target_fac'].toString()];
-					origin.circle.strokeColor = colors.line;
-					origin.circle.fillColor = colors.fill;
-					origin.number.fillColor = colors.num;
-				}
-				if (data['target_change'] === 'to_origin') {
-					game_data.node_factions[target.value] = data['origin_fac'];
-					colors = game_data.colors[data['origin_fac'].toString()];
-					target.circle.strokeColor = colors.line;
-					target.circle.fillColor = colors.fill;
-					target.number.fillColor = colors.num;
-				}
-				game_data.background.set_triangle_targets();
-				add_animation(null, color_background_animation, color_background_stop, 400);
-			}
-			if (origin.value === (target.value >> 1)) { // origin is dad
-				game_data.node_connections[target.value].dad = origin.value;
-				hide_connections(target);
-				show_connections(target);
-			}
-			else if (origin.value === (target.value - 1)) { // origin is bro
-				game_data.node_connections[target.value].bro = origin.value;
-				hide_connections(target);
-				show_connections(target);
-			}
-			else if (target.value === (origin.value >> 1)) { // target is dad
-				game_data.node_connections[origin.value].dad = target.value;
-				hide_connections(origin);
-				show_connections(origin);
-			}
-			else if (target.value === (origin.value - 1)) { // target is bro
-				game_data.node_connections[origin.value].bro = target.value;
-				hide_connections(origin);
-				show_connections(origin);
-			}
-			else {
-				console.log("could not find relationsip between: (1/3)");
-				console.log(origin, target);
+			if (game_data.active_nodes[i].value === data['target']) {
+				target = game_data.active_nodes[i];
 			}
 		}
-	});
-
-	function take_action(origin, target) {
-		App.game.perform('update_node_test', {
-			action_index: game_data.action_index,
-			origin: origin.value,
-			target: target.value
-		});
+		if (data['action_index'] === 1) {
+			if (data['origin_change'] === 'to_target') {
+				game_data.node_factions[origin.value] = data['target_fac'];
+				colors = game_data.colors[data['target_fac'].toString()];
+				origin.circle.strokeColor = colors.line;
+				origin.circle.fillColor = colors.fill;
+				origin.number.fillColor = colors.num;
+			}
+			if (data['target_change'] === 'to_origin') {
+				game_data.node_factions[target.value] = data['origin_fac'];
+				colors = game_data.colors[data['origin_fac'].toString()];
+				target.circle.strokeColor = colors.line;
+				target.circle.fillColor = colors.fill;
+				target.number.fillColor = colors.num;
+			}
+			game_data.background.set_triangle_targets();
+			add_animation(null, color_background_animation, color_background_stop, 400);
+		}
+		if (origin.value === (target.value >> 1)) { // origin is dad
+			game_data.node_connections[target.value].dad = origin.value;
+			hide_connections(target);
+			show_connections(target);
+		}
+		else if (origin.value === (target.value - 1)) { // origin is bro
+			game_data.node_connections[target.value].bro = origin.value;
+			hide_connections(target);
+			show_connections(target);
+		}
+		else if (target.value === (origin.value >> 1)) { // target is dad
+			game_data.node_connections[origin.value].dad = target.value;
+			hide_connections(origin);
+			show_connections(origin);
+		}
+		else if (target.value === (origin.value - 1)) { // target is bro
+			game_data.node_connections[origin.value].bro = target.value;
+			hide_connections(origin);
+			show_connections(origin);
+		}
+		else {
+			console.log("could not find relationsip between: (1/3)");
+			console.log(origin, target);
+		}
 	}
 
 	function check_selection(target) {
@@ -2303,7 +2336,12 @@ $(document).on('ready page:load', function() {
 			select_node(target);
 			if (game_data.selected_nodes.length >= 1 && game_data.action_index !== -1) {
 				game_data.selected_nodes.push(target);
-				take_action(game_data.selected_nodes[0], target);
+				// take_action(game_data.selected_nodes[0], target);
+				App.game.perform('update_node', {
+					action_index: game_data.action_index,
+					origin: game_data.selected_nodes[0].value,
+					target: target.value
+				});
 				remove_options(game_data.selected_nodes[0]);
 				setTimeout(function() {
 					game_data.selected_nodes.forEach(function(e) { unselect_node(e); });
@@ -2457,6 +2495,12 @@ $(document).on('ready page:load', function() {
 		load_SVG('assets/icons/049-information.svg', 'node_info');
 		load_SVG('assets/icons/046-return.svg', 'return');
 	}
+
+	d3.selection.prototype.moveToFront = function() {
+		return this.each(function(){
+			this.parentNode.appendChild(this);
+		})
+	};
 
 	function next_orbit(num) {
 		if (num % 2 === 0) return [num / 2, 2];
@@ -2755,8 +2799,12 @@ $(document).on('ready page:load', function() {
 		console.log(context);
 	}
 
-	function setup_sandbox() {
-		let ma = 0, start_nums = [35, 36],
+	function log_data(a, b, path) {
+
+	}
+
+	function setup_connection(a, b) {
+		let ma = 0, start_nums = [a, b],
 			bounding = document.getElementById("sandbox").getBoundingClientRect(),
 			width = bounding.width, height = bounding.height,
 			svg = d3.select("#sandbox").append("svg")
@@ -2765,7 +2813,7 @@ $(document).on('ready page:load', function() {
 			g = svg.append("g").attr("transform", "translate(0, " + ma / 2 + ")"),
 			stratify = d3.stratify()
 				.parentId(function (d) { return d.id.substring(0, d.id.lastIndexOf(".")); }),
-			frac = 42, context = build_object(start_nums[1]),
+			frac = 42, context = build_object(start_nums[0]),
 			data = context.data, line_counts = context.line_counts,
 			depth_counts = context.depth_counts, root = stratify(data),
 			center = root.data;
@@ -2802,17 +2850,20 @@ $(document).on('ready page:load', function() {
 				let out_class = "node";
 				if (d.data.value === start_nums[0] || d.data.value === start_nums[1])
 					out_class += " node--start";
+				if (d.data.value === 1) out_class += " node--one";
 				return out_class;
 			})
 			.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
 		node.append("circle")
-			.attr("r", 7);
+			.attr("r", 7)
+			.attr("d", function(d) { d3.select(this).moveToFront(); return d; });
 		node.append("text")
 			.attr("dy", 3)
 			.attr("y", function () { return 16; })
 			.style("text-anchor", function() { return "middle"; })
 			.text(function (d) { return d.data.value.toString(); });
-		let clicker = function(d) {
+		function clicker(d) {
+			if (d.data.value === 1) return;
 			this.parentNode.appendChild(this);
 			center = d.data;
 			d3.select(this)
@@ -2826,21 +2877,32 @@ $(document).on('ready page:load', function() {
 				});
 			expand_context_at(context, d.data);
 			data = context.data;
+			console.log(data);
+			let i = -1;
+			while (++i < data.length) {
+				if (data[i].value === b) {
+					console.log("FOUND IT");
+				}
+			}
 			line_counts = context.line_counts;
 			depth_counts = context.depth_counts;
-			root = stratify(data);
+			try { root = stratify(data); }
+			catch (error) {
+				console.log(root, data, error);
+				throw new Error("Bigger error");
+			}
 			let temp = g.selectAll(".link")
 				.data(tree(root).links(), function (d) { return d.source.id + "/" + d.target.id });
 			temp.transition().duration(450)
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
-						d.source.y = height / 2 - (d.source.data.depth - center.depth) * frac;
-						d.source.x = width / 2 + (d.source.data.line - center.line) * frac;
+						d.source.y = height / 2 - d.source.data.depth * frac;
+						d.source.x = width / 2 + d.source.data.line * frac;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
-						d.target.y = height / 2 - (d.target.data.depth - center.depth) * frac;
-						d.target.x = width / 2 + (d.target.data.line - center.line) * frac;
+						d.target.y = height / 2 - d.target.data.depth * frac;
+						d.target.x = width / 2 + d.target.data.line * frac;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -2858,13 +2920,13 @@ $(document).on('ready page:load', function() {
 				.attr("class", "link")
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
-						d.source.y = height / 2 - (d.source.data.depth - center.depth) * frac;
-						d.source.x = width / 2 + (d.source.data.line - center.line) * frac;
+						d.source.y = height / 2 - d.source.data.depth * frac;
+						d.source.x = width / 2 + d.source.data.line * frac;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
-						d.target.y = height / 2 - (d.target.data.depth - center.depth) * frac;
-						d.target.x = width / 2 + (d.target.data.line - center.line) * frac;
+						d.target.y = height / 2 - d.target.data.depth * frac;
+						d.target.x = width / 2 + d.target.data.line * frac;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -2887,15 +2949,20 @@ $(document).on('ready page:load', function() {
 			temp.transition().duration(450)
 				.attr("transform", function(d) { return "translate(" + d.x + ", " + d.y + ")"; });
 			temp.select("text").text(function (d) { return d.data.value.toString(); });
-			node = temp.enter().append("g")
+			node = temp.enter()
+				.append("g")
 				.attr("class", function (d) {
 					let out_class = "node";
 					if (d.data.value === start_nums[0] || d.data.value === start_nums[1])
 						out_class += " node--start";
+					if (d.data.value === 1) out_class += " node--one";
 					return out_class;
 				})
-				.attr("transform", function (d) { return "translate(" + d.x + ", " + d.y + ")"; });
+				.attr("transform", function (d) { return "translate(" + d.x + ", " + d.y + ")"; })
+				.attr("d", function(d) { d3.select(this).moveToFront(); return d; });
+			temp.attr("d", function(d) { d3.select(this).moveToFront(); return d; });
 			node.append("circle").attr("r", 7)
+				.attr("d", function(d) { d3.select(this).moveToFront(); return d; })
 				.style("fill-opacity", 0)
 				.transition().delay(150)
 				.transition()
@@ -2913,9 +2980,23 @@ $(document).on('ready page:load', function() {
 					.style("opacity", 1);
 			g.selectAll(".node circle")
 				.on("click", clicker);
-		};
+			g.selectAll(".node circle")
+				.on("mouseover", function() { d3.select(this).style("cursor", "pointer"); });
+			g.selectAll(".node circle")
+				.on("mouseout", function() { d3.select(this).style("cursor", "default"); });
+		}
+		let zoomed = function() { g.attr("transform", d3.event.transform); };
+		svg.call(d3.zoom().scaleExtent([1 / 2, 8]) .on("zoom", zoomed));
 		g.selectAll(".node circle")
 			.on("click", clicker);
+		g.selectAll(".node circle")
+			.on("mouseover", function() { d3.select(this).style("cursor", "pointer"); });
+		g.selectAll(".node circle")
+			.on("mouseout", function() { d3.select(this).style("cursor", "default"); });
+		return function() {
+			g.selectAll(".node").remove();
+			g.selectAll(".link").remove();
+		};
 	}
 
 	// function init() {
@@ -2941,7 +3022,7 @@ $(document).on('ready page:load', function() {
 		console.log("Making background...");
 		make_background();
 		console.log("Setting up Connection Sandbox");
-		setup_sandbox();
+		setup_connection(46, 47);
 		console.log("Canvas resize set up");
 		scope.view.onFrame = function(event) {
 			tick(event);
