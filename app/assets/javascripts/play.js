@@ -150,13 +150,15 @@ $(document).on('ready page:load', function() {
 		};
 		ui.card = document.getElementById('info_pane');
 		ui.search_bar = document.getElementsByClassName('search_bar')[0];
-		ui.quest_pane = document.getElementsByClassName('quest_pane')[0];
 		ui.chat_pane = document.getElementsByClassName('chat_pane')[0];
 		ui.status_bar = document.getElementsByClassName('status_bar')[0];
-		ui.tabs = document.getElementsByClassName('tabs')[0];
 		ui.messages = document.getElementById('messages');
 		ui.actionbar = document.getElementById('actionbar');
-		console.log(ui.chat_pane.children);
+		ui.minimap = document.getElementById('minimap');
+		ui.second_map = document.getElementById('second_map');
+		ui.window_container = document.getElementById('window_container');
+		ui.exit_buttons = document.getElementsByClassName('window_exit_button');
+		console.log(user);
 		function hex_to_rgba(hex, alpha) {
 			let r = parseInt(hex.slice(1, 3), 16),
 			g = parseInt(hex.slice(3, 5), 16),
@@ -168,23 +170,25 @@ $(document).on('ready page:load', function() {
 				return "rgb(" + r + ", " + g + ", " + b + ")";
 			}
 		}
-		ui.set_actionbar_size = function() {
+		ui.set_ui_size = function() {
 			let i = 0;
 			while (i < 7) {
 				ui.actionbar.children[i].style.height = ui.actionbar.children[0].clientWidth + 'px';
 				ui.actionbar.children[i].style.width = ui.actionbar.children[0].clientWidth + 'px';
 				i++;
 			}
+			ui.minimap.style.height = ui.minimap.clientWidth + 'px';
+			ui.second_map.style.height = ui.second_map.clientWidth +'px';
 		};
 		ui.set_actionbar = function() {
 			ui.actionbar.children[0].children[0].style.backgroundImage = 'url(assets/icons/048-back.svg)';
 			ui.actionbar.children[1].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
-			ui.actionbar.children[2].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
+			ui.actionbar.children[2].children[0].style.backgroundImage = 'url(assets/icons/044-goto.svg)';
 			ui.actionbar.children[3].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
 			ui.actionbar.children[4].children[0].style.backgroundImage = 'url(assets/icons/045-orbit.svg)';
-			ui.actionbar.children[5].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
-			ui.actionbar.children[6].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
-			ui.set_actionbar_size();
+			ui.actionbar.children[5].children[0].style.backgroundImage = 'url(assets/icons/043-connect.svg)';
+			ui.actionbar.children[6].children[0].style.backgroundImage = 'url(assets/icons/035-sign.svg)';
+			ui.set_ui_size();
 		};
 		ui.set_colors = function() {
 			ui.card.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary);
@@ -192,12 +196,8 @@ $(document).on('ready page:load', function() {
 			ui.card.style.color = ui.color_palette[user.faction_id].highlight;
 			ui.card.children[6].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.card.children[6].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.card.children[8].style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.card.children[8].style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.search_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis);
 			ui.search_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.quest_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.quest_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.chat_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.chat_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.chat_pane.children[1].style.backgroundColor = ui.color_palette[user.faction_id].primary;
@@ -207,19 +207,24 @@ $(document).on('ready page:load', function() {
 			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.status_bar.style.color = ui.color_palette[user.faction_id].highlight;
-			ui.tabs.children[0].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
-			ui.tabs.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.tabs.children[0].style.color = ui.color_palette[user.faction_id].highlight;
-			ui.tabs.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
-			ui.tabs.children[1].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.tabs.children[1].style.color = ui.color_palette[user.faction_id].highlight;
 			ui.actionbar.children[7].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
 			ui.actionbar.children[7].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.actionbar.children[8].style.backgroundColor =  ui.color_palette[user.faction_id].highlight;
+			ui.actionbar.children[8].style.borderColor =  ui.color_palette[user.faction_id].basis;
+			ui.minimap.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.minimap.style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.second_map.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.second_map.style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.window_container.children[0].style.backgroundColor = ui.color_palette[user.faction_id].primary;
+			ui.window_container.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.window_container.children[0].style.color = ui.color_palette[user.faction_id].highlight;
 		};
 		ui.set_bar = function() {
 			ui.status_bar.children[0].style.backgroundImage = 'url(' + user.picture + ')';
 			ui.status_bar.children[0].style.backgroundRepeat = 'no-repeat';
 			ui.status_bar.children[1].firstChild.appendChild(document.createTextNode(user.name));
+			ui.status_bar.children[3].firstChild.appendChild(document.createTextNode(user.gem_placeholder));
+			ui.status_bar.children[5].firstChild.appendChild(document.createTextNode(user.resources));
 		};
 		ui.set_card = function(card_node) {
 			ui.card_spans = {
@@ -260,22 +265,28 @@ $(document).on('ready page:load', function() {
 				ui.card_spans[9][card_node.faction_id - 1].style.display = 'block';
 			}
 		};
+		ui.close_windows = function() {
+			let i = 0;
+			while (i < 2) {
+				if (ui.window_container.children[i].classList.contains('hidden') == false) {
+					ui.window_container.children[i].classList.add('hidden');
+				}
+				i++;
+			}
+		};
 		ui.create_listeners = function() {
 			let buttons = ui.actionbar.children;
-			ui.tabs.children[0].addEventListener('click', function() {
-				ui.tabs.children[0].style.borderBottomWidth = '0px';
-				ui.tabs.children[1].style.borderBottomWidth = '2px';
-				ui.quest_pane.style.display = 'block';
-				ui.chat_pane.style.display = 'none';
-			});
-			ui.tabs.children[1].addEventListener('click', function() {
-				ui.tabs.children[0].style.borderBottomWidth = '2px';
-				ui.tabs.children[1].style.borderBottomWidth = '0px';
-				ui.quest_pane.style.display = 'none';
-				ui.chat_pane.style.display = 'block';
-			});
 			window.addEventListener("resize", function(e) {
-				ui.set_actionbar_size();
+				ui.set_ui_size();
+			});
+			window.addEventListener('keydown', function(e) {
+				console.log(e.keyCode);
+				if (e.keyCode === 27) {
+					ui.close_windows();
+				}
+				if (e.keyCode === 81) {
+					ui.window_container.children[0].classList.toggle('hidden');
+				}
 			});
 			buttons[0].addEventListener('click', function(e) {
 				//placeholder orbit back
@@ -287,16 +298,19 @@ $(document).on('ready page:load', function() {
 				//placeholder assignment screen
 			});
 			buttons[3].addEventListener('click', function(e) {
-				//placeholder deposit textarea
+				ui.actionbar.children[8].classList.toggle("hidden");
 			});
 			buttons[4].addEventListener('click', function(e) {
-				//placeholder link nodes
+				ui.window_container.children[1].classList.toggle('hidden');
 			});
 			buttons[5].addEventListener('click', function(e) {
 				//placeholder connections?
 			});
 			buttons[6].addEventListener('click', function(e) {
 				//placeholder cancel
+			});
+			ui.exit_buttons[0].addEventListener('click', function(e) {
+				ui.exit_buttons[0].parentNode.classList.add('hidden');
 			});
 		};
 		ui.init = function() {
@@ -1372,6 +1386,8 @@ $(document).on('ready page:load', function() {
 					game_data.active_nodes[i].connection_num = in_nodes[i+1]['connection_num'];
 					game_data.active_nodes[i].worth = in_nodes[i+1]['worth'];
 					game_data.active_nodes[i].contention = in_nodes[i+1]['contention'];
+					if (game_data.active_nodes[i].owner = 'null')
+						game_data.active_nodes[i].owner = 'Unclaimed';
 				}
 				game_data.global_root = game_data.active_nodes[0];
 				game_data.old_root = game_data.global_root;
