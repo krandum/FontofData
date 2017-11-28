@@ -1490,7 +1490,7 @@ $(document).on('ready page:load', function() {
 		let from = new scope.Point(parent.circle.position.x, parent.circle.position.y);
 		let to = new scope.Point(son.circle.position.x, son.circle.position.y);
 		let connection = new scope.Path.Line(from, to);
-		shorten_line(connection, parent.rad * 1.2, son.rad * 0.7);
+		shorten_line(connection, parent.rad * 1.15, son.rad * 1.25);
 		connection.strokeWidth = (parent.circle.strokeWidth + son.circle.strokeWidth) / 2;
 		if (game_data.node_factions[parent.value] === game_data.node_factions[son.value]) {
 			let colors = game_data.colors[game_data.node_factions[parent.value].toString()];
@@ -1523,23 +1523,23 @@ $(document).on('ready page:load', function() {
 	function show_connections(target) {
 		target.connection_values.dad = game_data.node_connections[target.value]['dad'];
 		target.connection_values.bro = game_data.node_connections[target.value]['bro'];
-		let connection_dad = null, connection_bro = null, j;
+		let connection_dad = null, connection_bro = null, i;
 		if (target.connection_values.dad !== null) {
 			let dad = null;
-			j = -1;
-			while (++j < game_data.active_nodes.length)
-				if (game_data.active_nodes[j].value === target.connection_values.dad) {
-					dad = game_data.active_nodes[j];
+			i = -1;
+			while (++i < game_data.active_nodes.length)
+				if (game_data.active_nodes[i].value === target.connection_values.dad) {
+					dad = game_data.active_nodes[i];
 					break;
 				}
 			if (dad !== null) connection_dad = show_parent(dad, target);
 		}
 		if (target.connection_values.bro !== null) {
 			let bro = null;
-			j = -1;
-			while (++j < game_data.active_nodes.length)
-				if (game_data.active_nodes[j].value === target.connection_values.bro) {
-					bro = game_data.active_nodes[j];
+			i = -1;
+			while (++i < game_data.active_nodes.length)
+				if (game_data.active_nodes[i].value === target.connection_values.bro) {
+					bro = game_data.active_nodes[i];
 					break;
 				}
 			if (bro !== null) connection_bro = show_brother(bro, target);
@@ -1607,11 +1607,9 @@ $(document).on('ready page:load', function() {
 				-size / 25), new scope.Point(x_sign * size / 12.5, size / 20));
 		basis.addSegments([proper1, proper2, proper3, proper4, partial1, p7, partial2]);
 		basis.closed = true;
-
 		basis.strokeWidth = thickness;
 		basis.strokeColor = node_color['line'];
 		basis.fillColor = node_color['fill'];
-
 		let num_w = sine_size * (2 - 1 / num_digits), num_h = (num_w / num_digits) * 1.4;
 		let num = new scope.PointText(center);
 		num.fillColor = node_color['num'];
@@ -1620,16 +1618,12 @@ $(document).on('ready page:load', function() {
 			point: [center.x - num_w / 2, center.y - num_h / 2],
 			size: [num_w, num_h]
 		});
-
 		let out_node = new scope.Group(basis, num), relative_pos = {
 				x: basis.position.x / scope.view.size.width,
 				y: basis.position.y / scope.view.size.height,
 				size_dx: basis.bounds.width / scope.view.size.height,
 				size_dy: basis.bounds.height / scope.view.size.height
 		};
-
-		let leftie = elem % 2 !== 0;
-
 		let total_node = {
 			value: elem,
 			position: elem,
@@ -1657,28 +1651,24 @@ $(document).on('ready page:load', function() {
 			node: true,
 			move_target: null,
 			move_thickness: thickness,
-			left_pointed: leftie
+			left_pointed: elem % 2 !== 0
 		};
-
 		out_node.onMouseEnter = function() {
 			if (total_node.moving) return;
 			total_node.hovered = true;
 			set_fraction(total_node);
 			grow_node(total_node);
 		};
-
 		out_node.onMouseLeave = function() {
 			if (total_node.moving) return;
 			total_node.hovered = false;
 			set_fraction(total_node);
 			ungrow_node(total_node);
 		};
-
 		out_node.onClick = function() {
 			if (total_node.moving) return;
 			check_selection(total_node);
 		};
-
 		return total_node;
 	}
 
@@ -3161,7 +3151,7 @@ $(document).on('ready page:load', function() {
 		console.log("Making background...");
 		make_background();
 		console.log("Setting up Connection Sandbox");
-		setup_connection(44, 45);
+		//setup_connection(44, 45);
 		console.log("Canvas resize set up");
 		scope.view.onFrame = function(event) {
 			tick(event);
