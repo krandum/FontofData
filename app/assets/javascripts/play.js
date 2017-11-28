@@ -150,7 +150,7 @@ $(document).on('ready page:load', function() {
 			},
 			3: {//Elves
 				primary: '#588401',
-				secondary: '#3EB200',
+				secondary: '#005e16',
 				basis: '#352E09',
 				accent: '#40ED4B',
 				highlight: '#FFFFD8'
@@ -170,17 +170,26 @@ $(document).on('ready page:load', function() {
 			3: 'Elves',
 			4: 'Jellyfish'
 		};
+		ui.asset_paths = {
+			0: '',
+			1: 'assets/neutral/',
+			2: 'assets/red/',
+			3: 'assets/green/',
+			4: 'assets/blue/'
+		};
 		ui.card = document.getElementById('info_pane');
 		ui.search_bar = document.getElementsByClassName('search_bar')[0];
 		ui.chat_pane = document.getElementsByClassName('chat_pane')[0];
 		ui.status_bar = document.getElementsByClassName('status_bar')[0];
 		ui.messages = document.getElementById('messages');
 		ui.actionbar = document.getElementById('actionbar');
+		ui.buttons = ui.actionbar.children[0].children;
+		ui.prompt = document.getElementById('actionbar_prompt');
 		ui.minimap = document.getElementById('minimap');
 		ui.second_map = document.getElementById('second_map');
 		ui.window_container = document.getElementById('window_container');
 		ui.exit_buttons = document.getElementsByClassName('window_exit_button');
-		console.log(user);
+		ui.info_window = ui.window_container.children[0];
 		function hex_to_rgba(hex, alpha) {
 			let r = parseInt(hex.slice(1, 3), 16),
 			g = parseInt(hex.slice(3, 5), 16),
@@ -194,22 +203,33 @@ $(document).on('ready page:load', function() {
 		}
 		ui.set_ui_size = function() {
 			let i = 0;
+			let width = parseInt(ui.actionbar.clientWidth / 7 * .95) - 2;
 			while (i < 7) {
-				ui.actionbar.children[i].style.height = ui.actionbar.children[0].clientWidth + 'px';
-				ui.actionbar.children[i].style.width = ui.actionbar.children[0].clientWidth + 'px';
+				ui.buttons[i].style.height = width + 'px';
+				ui.buttons[i].style.width = width + 'px';
 				i++;
 			}
+			console.log(ui.info_window.children[1].children[0].clientHeight);
+			ui.info_window.children[1].children[0].style.width = ui.info_window.children[1].children[0].clientHeight + 'px';
+			ui.prompt.style.fontSize = parseFloat(ui.prompt.clientHeight * .6 / 10).toFixed(1) + 'rem';
 			ui.minimap.style.height = ui.minimap.clientWidth + 'px';
 			ui.second_map.style.height = ui.second_map.clientWidth +'px';
 		};
-		ui.set_actionbar = function() {
-			ui.actionbar.children[0].children[0].style.backgroundImage = 'url(assets/icons/048-back.svg)';
-			ui.actionbar.children[1].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
-			ui.actionbar.children[2].children[0].style.backgroundImage = 'url(assets/icons/044-goto.svg)';
-			ui.actionbar.children[3].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
-			ui.actionbar.children[4].children[0].style.backgroundImage = 'url(assets/icons/045-orbit.svg)';
-			ui.actionbar.children[5].children[0].style.backgroundImage = 'url(assets/icons/043-connect.svg)';
-			ui.actionbar.children[6].children[0].style.backgroundImage = 'url(assets/icons/035-sign.svg)';
+		ui.init_actionbar = function() {
+			ui.buttons[0].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/orbit_forward.svg)';
+			ui.buttons[1].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/placeholder.svg)';
+			ui.buttons[2].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/044-goto.svg)';
+			ui.buttons[3].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/placeholder.svg)';
+			ui.buttons[4].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/043-connect.svg)';
+			ui.buttons[5].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/045-orbit.svg)';
+			ui.buttons[6].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/035-sign.svg)';
+			ui.buttons[0].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[1].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[2].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[3].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[4].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[5].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[6].style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.set_ui_size();
 		};
 		ui.set_colors = function() {
@@ -229,17 +249,20 @@ $(document).on('ready page:load', function() {
 			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.status_bar.style.color = ui.color_palette[user.faction_id].highlight;
-			ui.actionbar.children[7].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
-			ui.actionbar.children[7].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.actionbar.children[8].style.backgroundColor =  ui.color_palette[user.faction_id].highlight;
-			ui.actionbar.children[8].style.borderColor =  ui.color_palette[user.faction_id].basis;
+			ui.actionbar.children[0].style.backgroundColor =  ui.color_palette[user.faction_id].secondary;
+			ui.actionbar.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.actionbar.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].highlight;
+			ui.actionbar.children[1].style.borderColor =  ui.color_palette[user.faction_id].basis;
 			ui.minimap.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.minimap.style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.second_map.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.second_map.style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.window_container.children[0].style.backgroundColor = ui.color_palette[user.faction_id].primary;
-			ui.window_container.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.window_container.children[0].style.color = ui.color_palette[user.faction_id].highlight;
+			ui.info_window.style.backgroundColor = ui.color_palette[user.faction_id].primary;
+			ui.info_window.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.info_window.style.color = ui.color_palette[user.faction_id].highlight;
+			ui.prompt.style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.prompt.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.prompt.style.color = ui.color_palette[user.faction_id].highlight;
 		};
 		ui.set_bar = function() {
 			ui.status_bar.children[0].style.backgroundImage = 'url(' + user.picture + ')';
@@ -287,67 +310,93 @@ $(document).on('ready page:load', function() {
 				ui.card_spans[9][card_node.faction_id - 1].style.display = 'block';
 			}
 		};
-		ui.close_windows = function() {
+		ui.set_info_window = function(node) {
+			ui.info_window.style.backgroundColor = ui.color_palette[node.faction_id].primary;
+			ui.info_window.style.borderColor = ui.color_palette[node.faction_id].accent;
+			ui.info_window.style.color = ui.color_palette[node.faction_id].highlight;
+			ui.info_window.children[1].firstChild.firstChild.appendChild(document.createTextNode(node.value));
+			ui.info_window.children[3].firstChild.appendChild(document.createTextNode(node.owner));
+			ui.info_window.children[4].firstChild.appendChild(document.createTextNode(node.cluster));
+		};
+		ui.close_windows = function(num) {
 			let i = 0;
 			while (i < 2) {
-				if (ui.window_container.children[i].classList.contains('hidden') == false) {
+				if (ui.window_container.children[i].classList.contains('hidden') == false && i !== num) {
 					ui.window_container.children[i].classList.add('hidden');
 				}
 				i++;
+				if (num === 0) {
+					// ui.info_window.children[1].firstChild.firstChild.removeChild(ui.info_window.children[1].firstChild.firstChild);
+					// ui.info_window.children[3].firstChild.removeChild(ui.info_window.children[3].firstChild.firstChild);
+					// ui.info_window.children[4].firstChild.removeChild(ui.info_window.children[4].firstChild.firstChild);
+				}
 			}
 		};
+		ui.show_prompt = function(text) {
+			return function() {
+				ui.prompt.firstChild.appendChild(document.createTextNode(text));
+				console.log(ui.actionbar.children);
+			}
+		}
+		ui.clear_prompt = function() {
+			ui.prompt.firstChild.removeChild(ui.prompt.firstChild.firstChild);
+		}
 		ui.create_listeners = function() {
-			let buttons = ui.actionbar.children;
-<<<<<<< HEAD
 			window.addEventListener("resize", function(e) {
 				ui.set_ui_size();
 			});
 			window.addEventListener('keydown', function(e) {
-				console.log(e.keyCode);
-				if (e.keyCode === 27) {
-					ui.close_windows();
+				if (document.activeElement.type !== 'textarea') {
+					if (e.keyCode === 27) {
+						ui.close_windows();
+					}
+					if (e.keyCode === 73) {
+						ui.close_windows(0);
+						ui.info_window.classList.toggle('hidden');
+						ui.set_ui_size();
+					}
+					if (e.keyCode === 67) {
+						ui.close_windows(1);
+						ui.window_container.children[1].classList.toggle('hidden');
+						ui.set_ui_size();
+					}
 				}
-				if (e.keyCode === 81) {
-					ui.window_container.children[0].classList.toggle('hidden');
-				}
-=======
-			ui.tabs.children[0].addEventListener('click', function() {
-				ui.tabs.children[0].style.borderBottomWidth = '0px';
-				ui.tabs.children[1].style.borderBottomWidth = '2px';
-				ui.quest_pane.style.display = 'block';
-				ui.chat_pane.style.display = 'none';
 			});
-			ui.tabs.children[1].addEventListener('click', function() {
-				ui.tabs.children[0].style.borderBottomWidth = '2px';
-				ui.tabs.children[1].style.borderBottomWidth = '0px';
-				ui.quest_pane.style.display = 'none';
-				ui.chat_pane.style.display = 'block';
-			});
-			window.addEventListener("resize", function() {
-				ui.set_actionbar_size();
->>>>>>> c22f0265776593c9643fffadec68d40e1374f907
-			});
-			buttons[0].addEventListener('click', function(e) {
+			ui.buttons[0].addEventListener('click', function(e) {
 				//placeholder orbit back
 			});
-			buttons[1].addEventListener('click', function(e) {
+			ui.buttons[0].addEventListener('mouseenter', ui.show_prompt('Move back one Node.'));
+			ui.buttons[0].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[1].addEventListener('click', function(e) {
 				//placeholder popup
 			});
-			buttons[2].addEventListener('click', function(e) {
+			ui.buttons[1].addEventListener('mouseenter', ui.show_prompt('Move forward one Node.'));
+			ui.buttons[1].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[2].addEventListener('click', function(e) {
 				//placeholder assignment screen
 			});
-			buttons[3].addEventListener('click', function(e) {
+			ui.buttons[2].addEventListener('mouseenter', ui.show_prompt('Assignment window. (A)'));
+			ui.buttons[2].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[3].addEventListener('click', function(e) {
 				ui.actionbar.children[8].classList.toggle("hidden");
 			});
-			buttons[4].addEventListener('click', function(e) {
+			ui.buttons[3].addEventListener('mouseenter', ui.show_prompt('Invest in this Node.'));
+			ui.buttons[3].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[4].addEventListener('click', function(e) {
 				ui.window_container.children[1].classList.toggle('hidden');
 			});
-			buttons[5].addEventListener('click', function(e) {
+			ui.buttons[4].addEventListener('mouseenter', ui.show_prompt('Link to another Node'));
+			ui.buttons[4].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[5].addEventListener('click', function(e) {
 				//placeholder connections?
 			});
-			buttons[6].addEventListener('click', function(e) {
+			ui.buttons[5].addEventListener('mouseenter', ui.show_prompt('Connections window.'));
+			ui.buttons[5].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[6].addEventListener('click', function(e) {
 				//placeholder cancel
 			});
+			ui.buttons[6].addEventListener('mouseenter', ui.show_prompt('Show Node info. (I)'));
+			ui.buttons[6].addEventListener('mouseleave', ui.clear_prompt);
 			ui.exit_buttons[0].addEventListener('click', function(e) {
 				ui.exit_buttons[0].parentNode.classList.add('hidden');
 			});
@@ -356,7 +405,8 @@ $(document).on('ready page:load', function() {
 			ui.set_colors();
 			ui.set_bar();
 			ui.create_listeners();
-			ui.set_actionbar();
+			ui.init_actionbar();
+			ui.set_ui_size();
 		};
 		ui.init();
 	}

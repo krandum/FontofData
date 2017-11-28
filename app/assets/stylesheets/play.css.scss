@@ -1,6 +1,7 @@
 
 html {
 	height: 100%;
+	font-size: 62.5%;
 }
 
 span {
@@ -32,97 +33,39 @@ body.play {
 	height: 100%;
 	width: 100%;
 	display: grid;
-	grid-template-columns: 7fr 6fr 1fr 13fr 8fr 6fr;
-	grid-template-rows: 40px 19fr 1fr 2fr 6fr 4fr;
+	grid-template-columns: 11fr 2fr 1fr 14fr 10fr;
+	grid-template-rows: 40px 12fr 7fr 1fr 4fr 5fr 5fr;
 	grid-template-areas:
-	"stat-bar stat-bar stat-bar stat-bar stat-bar stat-bar"
-	". . . . . ."
-	"clusters . . . tabs tabs"
-	"search search . . quests quests"
-	"info info info . quests quests"
-	"info info info actionbar quests quests";
-	font-size: .75rem;
+	"stat-bar stat-bar stat-bar stat-bar stat-bar"
+    ". . . . ."
+	". . . . minimap"
+	"search . . . minimap"
+	"info . . . minimap"
+	"chat chat chat actionbar minimap"
+	"chat chat chat actionbar minimap";
+	font-size: 1.2rem;
 	z-index: 1;
 }
 
-.connection_pane {
-	display: flex;
-	position: absolute;
-	top: 10vh;
-	left: calc(50vw - 40vmin);
-	height: 80%;
-	width: 80vmin;
-	-webkit-align-self: center;
-	align-self: center;
-	border-radius: 3%;
-	border: solid 2px rgba(0, 123, 255, 0.95);
-	background-color: rgba(128, 189, 255, 0.95);
-	z-index: 5;
+.minimap_container {
+  grid-area: minimap;
+  display: flex;
+  flex-flow: column-reverse;
 }
 
-.node circle {
-	fill: #FFF;
+#minimap {
+  width: 100%;
+  border-width: 2px 0 0 2px;
+  border-style: solid;
+  z-index: 2;
 }
 
-.node text {
-	font: 12px sans-serif;
-	font-weight: 600;
-	text-shadow: 0 2px 0 rgba(128, 189, 255, 0.8),
-		0 -2px 0 rgba(128, 189, 255, 0.8),
-		2px 0 0 rgba(128, 189, 255, 0.8),
-		-2px 0 0 rgba(128, 189, 255, 0.8);
-}
-
-.node--start circle {
-	fill: #FFDF00;
-}
-
-.node--explored circle {
-}
-
-.link {
-	fill: none;
-	stroke: #555;
-	stroke-opacity: 0.95;
-	stroke-width: 2.3px;
-}
-
-.tabs {
-	grid-area: tabs;
-	width: 100%;
-	height: 100%;
-	display: grid;
-	grid-template-columns: 10px 1fr 1fr 1fr;
-	grid-template-rows: 1fr;
-	grid-template-areas:
-	". quest_tab chat_tab .";
-}
-
-.quest_tab {
-	grid-area: quest_tab;
-	width: 96%;
-	align-items: center;
-	justify-items: center;
-	text-align: center;
-	font-size: .9rem;
-	border: 2px solid;
-	border-radius: 10px 10px 0px 0px;
-	margin: 0px 0px -2px 0px;
-	z-index: 3;
-}
-
-.chat_tab {
-	grid-area: chat_tab;
-	width: 96%;
-	border-style: solid;
-	align-items: center;
-	justify-items: center;
-	text-align: center;
-	font-size: .9rem;
-	border-width: 2px 2px 0 2px;
-	border-radius: 10px 10px 0 0;
-	margin: 0px 0px -2px 0px;
-	z-index: 3;
+#second_map {
+  width: 60%;
+  align-self: flex-end;
+  border-width: 2px 0 0 2px;
+  border-style: solid;
+  z-index: 2;
 }
 
 .myCanvas {
@@ -135,17 +78,18 @@ body.play {
 .status_bar {
 	grid-area: stat-bar;
 	background-color: rgba(0, 66, 153, 0.65);
-	border: 0 solid #004299;
-	border-bottom-width: 2px;
+	border-color: #004299;
+	border-style: solid;
+	border-width: 0px 0px 2px 0px;
 	display: grid;
-	grid-template-columns: 3fr 34px 1fr 12fr 100fr;
+	grid-template-columns: 3fr 34px 1fr 12fr 80fr 10fr 10fr;
 	grid-template-rows: 3px 34px 3px;
 	grid-template-areas:
-	". . . . ."
-	". profile_pic . username ."
-	". . . . .";
+	". . . . . . ."
+	". profile_pic . username . packet_field key_field"
+	". . . . . . .";
 	z-index: 2;
-	font-size: 1rem;
+	font-size: 1.6rem;
 }
 
 .profile_pic {
@@ -162,6 +106,18 @@ body.play {
 	justify-self: center;
 }
 
+.key_field {
+  grid-area: key_field;
+  align-self: center;
+  justify-self: center;
+}
+
+.packet_field {
+  grid-area: packet_field;
+  align-self: center;
+  justify-self: center;
+}
+
 .clusters {
 	grid-area: clusters;
 	display: none;
@@ -174,12 +130,19 @@ body.play {
 	width: 100%;
 	align-items: center;
 	justify-items: center;
+    padding-left: 2%;
 	background-color: rgba(153, 153, 153, .85);
 	border-color: #004299;
 	border-style: solid;
 	border-width: 2px 2px 0px 0px;
 	border-radius: 0px 12px 0px 0px;
 	z-index: 2;
+}
+.search_elem {
+  resize: none;
+  width: 96%;
+  justify-self: center;
+  align-self: center;
 }
 
 #info_pane {
@@ -191,11 +154,11 @@ body.play {
 	border-style: solid;
 	border-width: 2px 2px 0px 0px;
 	border-radius: 0px 12px 0px 0px;
-	grid-template-columns: 1fr 10fr 1fr 8fr 48px;
-	grid-template-rows: 48px auto;
+	grid-template-columns: 1fr 10fr 1fr 8fr 40px;
+	grid-template-rows: 40px auto;
 	grid-template-areas:
 	". nameplate . faction_name faction_icon"
-	". nodeinfo . cluster_info cluster_info";
+	". nodeinfo nodeinfo nodeinfo .";
 	z-index: 2;
 }
 
@@ -327,18 +290,22 @@ span#nodename {
 }
 
 .chat_pane {
-	grid-area: quests;
+	grid-area: chat;
 	border-style: solid;
 	overflow: hidden;
-	border-width: 2px 0px 0px 2px;
-	border-radius: 12px 0px 0px 0px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: column nowrap;
+	border-width: 2px 2px 0px 0px;
+	border-radius: 0 12px 0 0;
 	z-index: 2;
 }
 
 .chat_frame {
-	height: 80%;
+	height: 95%;
 	width: 95%;
-	margin: 8px 8px 0px 8px;
+	margin-top: 8px;
 	overflow: hidden;
 	border-radius: 3px;
 }
@@ -348,17 +315,15 @@ span#nodename {
 }
 
 .form-group {
-	grid-area: form;
 	display: flex;
 	flex-flow: row nowrap;
-	justify-content: space-around;
 	align-items: center;
+	margin: 1% 0 1% 0 !important;
 }
 
 .form-control {
 	margin-top: 3px;
 	height: 25px;
-	width: 95% !important;
 }
 
 .quest_pane {
@@ -377,58 +342,197 @@ span#nodename {
 	grid-area: actionbar;
 	clear: left;
 	z-index: 3;
-    position: relative;
-    display: grid;
-    overflow: hidden;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 2fr 4fr;
-    grid-template-areas:
-      ". button2_popup . button4_popup . . ."
-      "button1 button2 button3 button4 button5 button6 button7";
+	position: relative;
+	display: grid;
+	overflow: hidden;
+	grid-template-columns: 1fr;
+	grid-template-rows: 6fr 2fr 4fr;
+	grid-template-areas:
+	"popup"
+	"prompt"
+	"buttons";
 }
 .action_button_container {
-  	height: 100%;
-    width: 80%;
-    padding-top: 2px;
-    justify-self: center;
-    align-self: center;
-    z-index: 2;
+	height: 100%;
+	width: 95%;
+	padding: 2px;
+	border: 2px solid;
+	z-index: 2;
 }
 .action_button {
-    width: 100%;
-    height: 100%;
-    background-size: 100% 100%;
-    z-index: 3;
+	width: 100%;
+	height: 100%;
+	background-size: 100% 100%;
+	z-index: 3;
+	pointer-events: all;
 }
 .actionbar_bg {
-    width: 100%;
-    height: 100%;
-    grid-column: col1-start/col7-end;
-    grid-row: 2;
-    border-top: 2px solid;
-    position: absolute;
-    z-index: 1;
+	width: 100%;
+	height: 100%;
+	grid-area: buttons;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	border-top: 2px solid;
+	position: absolute;
+	z-index: 1;
 }
-#action_button1{
-  grid-area: button1;
-  margin-left: 7.5%;
+#actionbar_prompt{
+	grid-area: prompt;
+	text-align: center;
+	border-top: 2px solid;
+	font-size: 1.3rem;
 }
-#action_button2{
-  grid-area: button2;
+.button4_textarea {
+	grid-area: popup;
+	resize: none;
+	height: 90%;
 }
-#action_button3{
-  grid-area: button3;
+
+#window_container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	padding: 10%;
+	pointer-events: none;
+	z-index: 4;
 }
-#action_button4{
-  grid-area: button4;
+
+.info_window {
+	width: 100%;
+	height: 100%;
+	border-radius: 12px;
+	border: 3px solid;
+	display: grid;
+	pointer-events: all;
+	grid-template-rows: 1fr 2fr 1fr 1fr 6fr;
+	grid-template-columns: 2fr 1fr 1fr 2fr;
+	grid-template-areas:
+	". node_icon node_icon exit_button"
+	"faction_icon node_icon node_icon assignment_icon"
+	"faction_icon owner owner assignment_icon"
+	"time_owned cluster cluster assignment_power"
+	"contention contention connections connections"
 }
-#action_button5{
-  grid-area: button5;
+.window_exit_button {
+	grid-area: exit_button;
+	height: 25px;
+	width: 25px;
+	justify-self: flex-end;
+	background-image: image_url('icons/011-close.svg');
 }
-#action_button6{
-  grid-area: button6;
+.info_node_icon {
+	grid-area: node_icon;
+	border: 1px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
-#action_button7{
-  grid-area: button7;
-  margin-right: 7.5%;
+.info_faction_icon {
+	grid-area: faction_icon;
+	border: 1px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.info_assignment_icon {
+	grid-area: assignment_icon;
+	border: 1px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.info_owner {
+	grid-area: owner;
+	border: 1px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.info_cluster {
+	grid-area: cluster;
+	border: 1px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.info_time_owned {
+	grid-area: time_owned;
+	border: 1px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.info_assignment_power {
+	grid-area: assignment_power;
+	border: 1px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.info_contention {
+	grid-area: contention;
+	border: 1px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.info_connections {
+	grid-area: connections;
+	border: 1px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.node_icon_holder {
+	border-radius: 50%;
+	height: 100%;
+	border: 2px solid black;
+}
+
+.connection_pane {
+	display: flex;
+	position: absolute;
+	top: 10vh;
+	left: calc(50vw - 40vmin);
+	height: 80%;
+	width: 80vmin;
+	-webkit-align-self: center;
+	align-self: center;
+	pointer-events: all;
+	border-radius: 3%;
+	border: solid 2px rgba(0, 123, 255, 0.95);
+	background-color: rgba(128, 189, 255, 0.95);
+	z-index: 5;
+}
+
+.node circle {
+	fill: #FFF;
+}
+
+.node text {
+	font: 12px sans-serif;
+	font-weight: 600;
+	text-shadow: 0 2px 0 rgba(128, 189, 255, 0.8),
+	0 -2px 0 rgba(128, 189, 255, 0.8),
+	2px 0 0 rgba(128, 189, 255, 0.8),
+	-2px 0 0 rgba(128, 189, 255, 0.8);
+}
+
+.node--start circle {
+	fill: #FFDF00;
+}
+
+.node--explored circle {
+}
+
+.link {
+	fill: none;
+	stroke: #555;
+	stroke-opacity: 0.95;
+	stroke-width: 2.3px;
+}
+
+.hidden {
+	display: none !important;
 }
