@@ -17,7 +17,7 @@ end
 if Effect.all.empty?
 	effects = Effect.create([
 		{ effect_name: 'attack', clearence_value: 25000 },
-		{ effect_name: 'connect', clearence_value: 20000 }
+		{ effect_name: 'connect', clearence_value: 00000 }
 		# { effect_name: 'give', clearence_value: 20001 },
 		# { effect_name: 'swap', clearence_value: 00001 },
 

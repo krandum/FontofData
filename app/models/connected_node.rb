@@ -72,6 +72,14 @@ class ConnectedNode < ApplicationRecord
 		end
 	end
 
+	def update_speed
+		@inverse = self.inverse
+		self.speed = self.worth * 0.0001 * self.multiplier
+		@inverse.speed = @inverse.worth * 0.0001 * @inverse.multiplier
+		save
+		@inverse.save
+	end
+
 	private
 
 	def capture

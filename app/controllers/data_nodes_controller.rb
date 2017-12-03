@@ -85,14 +85,22 @@ class DataNodesController < ApplicationController
 						'faction_id' => claimedNodes[i].faction_id,
 						'owner' => claimedNodes[i].user&.username,
 						'teir' => 1,
-						'connection_num' => 0, #claimedNodes[i].connections.count,
 						'worth' => 1000,
 						'contention' => 0
 					}
-					out['nodes'][cur]['bro'] = claimedNodes[i].connections.select{|x| x.value == cur - 1}.first.try(:value)
-					out['nodes'][cur]['dad'] = claimedNodes[i].connections.select{|x| x.value == cur >> 1}.first.try(:value)
-					# out['nodes'][cur]['bro'] = claimedNodes[i].connections.where(value: cur - 1).first.try(:value)
-					# out['nodes'][cur]['dad'] = claimedNodes[i].connections.where(value: cur >> 1).first.try(:value)
+					# out['nodes'][cur]['bro'] = claimedNodes[i].connections.select{|x| x.value == cur - 1}.first.try(:value)
+					# out['nodes'][cur]['dad'] = claimedNodes[i].connections.select{|x| x.value == cur >> 1}.first.try(:value)
+
+					out['nodes'][cur]['dad'] = get_connection_info(claimedNodes[i].connected_nodes.where(i_value: cur >> 1).first)
+					out['nodes'][cur]['bro'] = get_connection_info(claimedNodes[i].connected_nodes.where(i_value: cur - 1).first)
+					# out['nodes'][cur]['dad'] = {
+					# 	'value' => claimedNodes[i].connections.select{ |x| x.value == cur >> 1 }.first.try(:value),
+					# 	'completions' => []
+					# }
+					# out['nodes'][cur]['dad'] = {
+					# 	'value' => claimedNodes[i].connections.select{ |x| x.value == cur - 1 }.first.try(:value),
+					#   'completions' => []
+					# }
 					i += 1
 				else
 					out['nodes'][cur] = {
@@ -100,7 +108,6 @@ class DataNodesController < ApplicationController
 						'faction_id' => 1,
 						'owner' => 'unclaimed',
 						'teir' => 1,
-						'connection_num' => 0,
 						'worth' => 0,
 						'contention' => 0
 					}
@@ -120,6 +127,26 @@ class DataNodesController < ApplicationController
 
 	private
 	# Use callbacks to share common setup or constraints between actions.
+
+	def get_connection_info(connection)
+		unless connection.nil?
+			{
+				'value' => connection.connection.value,
+				'completions' => [{
+					'percentage' => connection.self_percentage,
+					'faction_id' => connection.data_node.faction_id,
+					'speed' => connection.self_speed
+					}, {
+					'percentage' => connection.inverse_percentage,
+					'faction_id' => connection.connection.faction_id,
+					'speed' => connection.inverse_speed
+				}],
+			}
+		else
+			nil
+		end
+	end
+
 	def set_data_node
 		@data_node = DataNode.find(params[:id])
 	end

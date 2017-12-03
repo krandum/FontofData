@@ -106,6 +106,12 @@ $(document).on('ready page:load', function() {
 	// 	});
 	// }
 
+    // How to call actioncable functions from channels/game_channel.rb
+    // App.game.perform('example_function', {
+    //     example_var1: example_val1,
+    //     example_var2: example_val2,
+    //     ...
+    // });
 	App.game = App.cable.subscriptions.create("GameChannel", {
 		connected: function() {
 			// Called when the subscription is ready for use on the server
@@ -119,9 +125,6 @@ $(document).on('ready page:load', function() {
 			// Called when there's incoming data on the websocket for this channel
 			if (data['function_call'] == 'take_action') {
 				take_action(data);
-			}
-			if (data['function_call'] == 'bla') {
-				console.log("eyy");
 			}
 			else
 				console.log("invalid call");
@@ -2853,6 +2856,11 @@ $(document).on('ready page:load', function() {
 	}
 
 	function log_data(a, b, path) {
+        app.game.perform('log_data', {
+            val_a: a,
+            val_b: b,
+            path: path
+        });
 	}
 
 	function setup_connection(a, b) {
