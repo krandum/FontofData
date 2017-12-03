@@ -6,7 +6,7 @@
 		faction_id: <%= current_user.faction_id %>,
 		resources: '<%= current_user.gold %>',
 		gem_placeholder: '<%= current_user.gems %>',
-    proved: <%= current_user.proved.pluck(:s_value, :i_value) %>
+		proved: <%= current_user.proved.pluck(:s_value, :i_value) %>
 	};
 	<% end %>
 	<% if current_user.faction_id == 1 %>
@@ -23,16 +23,44 @@
 	<% else %>
 	<div class='local wrap play_grid'>
 		<canvas class="myCanvas" id="myCanvas" resize></canvas>
+		<div id="window_container">
+			<div class="info_window hidden">
+				<div class="window_exit_button"></div>
+				<div class="info_node_icon">
+					<div class="node_icon_holder">
+						<span></span>
+					</div>
+				</div>
+				<div class="info_faction_icon">
+					<div id="info_faction_icon_n" class="info_node_icon hidden"></div>
+					<div id="info_faction_icon_r" class="info_node_icon hidden"></div>
+					<div id="info_faction_icon_g" class="info_node_icon hidden"></div>
+					<div id="info_faction_icon_b" class="info_node_icon hidden"></div>
+				</div>
+				<div class="info_assignment_icon"></div>
+				<div class="info_owner">
+					<span></span>
+				</div>
+				<div class="info_cluster">
+					<span></span>
+				</div>
+				<div class="info_time_owned"></div>
+				<div class="info_assignment_power"></div>
+				<div class="info_contention"></div>
+				<div class="info_connections"></div>
+			</div>
+		</div>
 		<div class="status_bar">
 			<div class="profile_pic"></div>
 			<div class="username"><span></span></div>
+			<div class="key_img"></div>
+			<div class="key_field"><span></span></div>
+			<div class="packet_img"></div>
+			<div class="packet_field"><span></span></div>
 		</div>
 		<div class="clusters"></div>
-		<div class="quest_pane"></div>
 		<div class="search_bar">
-			<form class="search_form">
-				<input type="text" class="search_elem" placeholder="Go to Node">
-			</form>
+			<textarea rows="1" class="search_elem" placeholder="Go to Node"></textarea>
 		</div>
 		<div id="info_pane">
 			<div class="nameplate"><span>Node: </span><span id="node_number"></span></div>
@@ -50,35 +78,37 @@
 				<div style="grid-area: field_value"><span>Value: </span><span id="node_value"></span><br></div>
 				<div style="grid-area: field_contention"><span>Contention: </span><span id="node_contention"></span></div>
 			</div>
-			<div class="cluster_info"></div>
+		</div>
+		<div class="minimap_container">
+			<div id="minimap"></div>
+			<div id="second_map"></div>
 		</div>
 		<div id="actionbar">
-      <div class="action_button_container" id="action_button1">
-        <div class="action_button"></div>
-      </div>
-      <div class="action_button_container" id="action_button2">
-        <div class="action_button"></div>
-      </div>
-      <div class="action_button_container" id="action_button3">
-        <div class="action_button"></div>
-      </div>
-      <div class="action_button_container" id="action_button4">
-        <div class="action_button"></div>
-      </div>
-      <div class="action_button_container" id="action_button5">
-        <div class="action_button"></div>
-      </div>
-      <div class="action_button_container" id="action_button6">
-        <div class="action_button"></div>
-      </div>
-      <div class="action_button_container" id="action_button7">
-        <div class="action_button"></div>
-      </div>
-      <div class="actionbar_bg"></div>
-		</div>
-		<div class="tabs">
-			<div class="quest_tab"><div>Quests</div></div>
-			<div class="chat_tab"><div>Chat</div></div>
+			<div class="actionbar_bg">
+				<div class="action_button_container" id="action_button1">
+					<div class="action_button"></div>
+				</div>
+				<div class="action_button_container" id="action_button2">
+					<div class="action_button"></div>
+				</div>
+				<div class="action_button_container" id="action_button3">
+					<div class="action_button"></div>
+				</div>
+				<div class="action_button_container" id="action_button4">
+					<div class="action_button"></div>
+				</div>
+				<div class="action_button_container" id="action_button5">
+					<div class="action_button"></div>
+				</div>
+				<div class="action_button_container" id="action_button6">
+					<div class="action_button"></div>
+				</div>
+				<div class="action_button_container" id="action_button7">
+					<div class="action_button"></div>
+				</div>
+			</div>
+			<textarea class="button4_textarea hidden" rows="1"></textarea>
+			<div class="promptclass" id="actionbar_prompt"><span></span></div>
 		</div>
 		<div class="chat_pane">
 			<div class="chat_options">
@@ -89,10 +119,10 @@
 				</div>
 			</div>
 			<%= form_for @message, url: '#' do |f| %>
-				<div class="form-group">
-					<%= f.text_area :body, class: 'form-control' %>
-					<%= f.submit 'Post', class: 'btn chat_button' %>
-				</div>
+			<div class="form-group">
+				<%= f.text_area :body, class: 'form-control' %>
+				<%= f.submit 'Post', class: 'btn chat_button' %>
+			</div>
 			<% end %>
 		</div>
 	</div>

@@ -12,74 +12,38 @@ $(document).on('ready page:load', function() {
 	let scope = new paper.PaperScope();
 	scope.setup("myCanvas");
 
-	let w = scope.view.size.width / 2;
-	let wl = -0.4 * w;
-	let wh = 2.4 * w;
-	let h = scope.view.size.height / 2;
-	let hh = 2.5 * h;
-	let m = Math.min(w, h);
-
+	let w = scope.view.size.width / 2, wl = -0.4 * w, wh = 2.4 * w,
+		h = scope.view.size.height / 2, hh = 2.5 * h, m = Math.min(w, h);
 	let game_data = {
-		fov: 400,
-		view_dist: 342,
-		tilt: -23,
-		node_factions: [],
-		node_connections: [],
-		active_nodes: [],
-		buffer_nodes: [],
-		selected_nodes: [],
-		action_index: -1,
-		action_name: "",
-		actions: [],
-		animations: [],
-		icon_data: {},
-		icons: {},
+		fov: 400, view_dist: 342, tilt: -23, node_factions: [], node_connections: [],
+		active_nodes: [], buffer_nodes: [], selected_nodes: [], action_index: -1,
+		action_name: "", actions: [], animations: [], icon_data: {}, icons: {},
 		colors: {
-			0: { // Background
-				light: [61, 196, 255],
-				dark: [35, 82, 175]
-			},
+			0: { /*Background*/ light: [61, 196, 255], dark: [35, 82, 175] },
 			1: { // Neutral
-				line: '#000000',
-				num: '#000000',
-				fill: '#cecece',
-				selected: '#000000',
-				glow: '#000000',
-				background: '#C0C0C0'
+				line: '#000000', num: '#000000',
+				fill: '#cecece', selected: '#000000',
+				glow: '#000000', background: '#C0C0C0'
 			},
 			2: { // Red Rocks
-				line: '#e52d00',
-				num: '#e52d00',
-				fill: '#faf9f9',
-				selected: '#ff8300',
-				glow: '#ff8300',
-				background: '#E5522D'
+				line: '#e52d00', num: '#e52d00',
+				fill: '#faf9f9', selected: '#ff8300',
+				glow: '#ff8300', background: '#E5522D'
 			},
 			3: { // Green Elves
-				line: '#3eb200',
-				num: '#3eb200',
-				fill: '#ffffd8',
-				selected: '#40ed4b',
-				glow: '#40ed4b',
-				background: '#5AE25F'
+				line: '#3eb200', num: '#3eb200',
+				fill: '#ffffd8', selected: '#40ed4b',
+				glow: '#40ed4b', background: '#5AE25F'
 			},
 			4: { // Blue Jellyfish
-				line: '#2188dd',
-				num: '#2188dd',
-				fill: '#C9f0ff',
-				selected: '#9428ab',
-				glow: '#9428ab',
-				background: '#3B94DD'
+				line: '#2188dd', num: '#2188dd',
+				fill: '#C9f0ff', selected: '#9428ab',
+				glow: '#9428ab', background: '#3B94DD'
 			}
 		},
-		background: {},
-		framework: [],
-		user_info: userinfo,
-		user_interface: {},
-		global_root: null,
-		old_root: null,
-		date: new Date(),
-		card_set: false
+		background: {}, framework: [], user_info: userinfo, user_interface: {},
+		global_root: null, old_root: null, date: new Date(), card_set: false,
+		positions: []
 	};
 
 	let g_theta = game_data.tilt * Math.PI / 180;
@@ -150,7 +114,7 @@ $(document).on('ready page:load', function() {
 			},
 			3: {//Elves
 				primary: '#588401',
-				secondary: '#3EB200',
+				secondary: '#005e16',
 				basis: '#352E09',
 				accent: '#40ED4B',
 				highlight: '#FFFFD8'
@@ -170,15 +134,26 @@ $(document).on('ready page:load', function() {
 			3: 'Elves',
 			4: 'Jellyfish'
 		};
+		ui.asset_paths = {
+			0: '',
+			1: 'assets/neutral/',
+			2: 'assets/red/',
+			3: 'assets/green/',
+			4: 'assets/blue/'
+		};
 		ui.card = document.getElementById('info_pane');
 		ui.search_bar = document.getElementsByClassName('search_bar')[0];
-		ui.quest_pane = document.getElementsByClassName('quest_pane')[0];
 		ui.chat_pane = document.getElementsByClassName('chat_pane')[0];
 		ui.status_bar = document.getElementsByClassName('status_bar')[0];
-		ui.tabs = document.getElementsByClassName('tabs')[0];
 		ui.messages = document.getElementById('messages');
 		ui.actionbar = document.getElementById('actionbar');
-		console.log(ui.chat_pane.children);
+		ui.buttons = ui.actionbar.children[0].children;
+		ui.prompt = document.getElementById('actionbar_prompt');
+		ui.minimap = document.getElementById('minimap');
+		ui.second_map = document.getElementById('second_map');
+		ui.window_container = document.getElementById('window_container');
+		ui.exit_buttons = document.getElementsByClassName('window_exit_button');
+		ui.info_window = ui.window_container.children[0];
 		function hex_to_rgba(hex, alpha) {
 			let r = parseInt(hex.slice(1, 3), 16),
 			g = parseInt(hex.slice(3, 5), 16),
@@ -190,23 +165,36 @@ $(document).on('ready page:load', function() {
 				return "rgb(" + r + ", " + g + ", " + b + ")";
 			}
 		}
-		ui.set_actionbar_size = function() {
+		ui.set_ui_size = function() {
 			let i = 0;
+			let width = parseInt(ui.actionbar.clientWidth / 7 * .95) - 2;
 			while (i < 7) {
-				ui.actionbar.children[i].style.height = ui.actionbar.children[0].clientWidth + 'px';
-				ui.actionbar.children[i].style.width = ui.actionbar.children[0].clientWidth + 'px';
+				ui.buttons[i].style.height = width + 'px';
+				ui.buttons[i].style.width = width + 'px';
 				i++;
 			}
+			console.log(ui.info_window.children[1].children[0].clientHeight);
+			ui.info_window.children[1].children[0].style.width = ui.info_window.children[1].children[0].clientHeight + 'px';
+			ui.prompt.style.fontSize = parseFloat(ui.prompt.clientHeight * .6 / 10).toFixed(1) + 'rem';
+			ui.minimap.style.height = ui.minimap.clientWidth + 'px';
+			ui.second_map.style.height = ui.second_map.clientWidth +'px';
 		};
-		ui.set_actionbar = function() {
-			ui.actionbar.children[0].children[0].style.backgroundImage = 'url(assets/icons/048-back.svg)';
-			ui.actionbar.children[1].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
-			ui.actionbar.children[2].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
-			ui.actionbar.children[3].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
-			ui.actionbar.children[4].children[0].style.backgroundImage = 'url(assets/icons/045-orbit.svg)';
-			ui.actionbar.children[5].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
-			ui.actionbar.children[6].children[0].style.backgroundImage = 'url(assets/icons/032-cone.svg)';
-			ui.set_actionbar_size();
+		ui.init_actionbar = function() {
+			ui.buttons[0].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/orbit_forward.svg)';
+			ui.buttons[1].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/placeholder.svg)';
+			ui.buttons[2].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/044-goto.svg)';
+			ui.buttons[3].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/placeholder.svg)';
+			ui.buttons[4].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/043-connect.svg)';
+			ui.buttons[5].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/045-orbit.svg)';
+			ui.buttons[6].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/035-sign.svg)';
+			ui.buttons[0].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[1].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[2].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[3].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[4].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[5].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.buttons[6].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.set_ui_size();
 		};
 		ui.set_colors = function() {
 			ui.card.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary);
@@ -214,12 +202,8 @@ $(document).on('ready page:load', function() {
 			ui.card.style.color = ui.color_palette[user.faction_id].highlight;
 			ui.card.children[6].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.card.children[6].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.card.children[8].style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.card.children[8].style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.search_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis);
 			ui.search_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.quest_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.quest_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.chat_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.chat_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.chat_pane.children[1].style.backgroundColor = ui.color_palette[user.faction_id].primary;
@@ -230,19 +214,27 @@ $(document).on('ready page:load', function() {
 			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
 			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
 			ui.status_bar.style.color = ui.color_palette[user.faction_id].highlight;
-			ui.tabs.children[0].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
-			ui.tabs.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.tabs.children[0].style.color = ui.color_palette[user.faction_id].highlight;
-			ui.tabs.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
-			ui.tabs.children[1].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.tabs.children[1].style.color = ui.color_palette[user.faction_id].highlight;
-			ui.actionbar.children[7].style.backgroundColor =  ui.color_palette[user.faction_id].basis;
-			ui.actionbar.children[7].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.actionbar.children[0].style.backgroundColor =  ui.color_palette[user.faction_id].secondary;
+			ui.actionbar.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.actionbar.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].highlight;
+			ui.actionbar.children[1].style.borderColor =  ui.color_palette[user.faction_id].basis;
+			ui.minimap.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.minimap.style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.second_map.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.second_map.style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.info_window.style.backgroundColor = ui.color_palette[user.faction_id].primary;
+			ui.info_window.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.info_window.style.color = ui.color_palette[user.faction_id].highlight;
+			ui.prompt.style.backgroundColor = ui.color_palette[user.faction_id].basis;
+			ui.prompt.style.borderColor = ui.color_palette[user.faction_id].accent;
+			ui.prompt.style.color = ui.color_palette[user.faction_id].highlight;
 		};
 		ui.set_bar = function() {
 			ui.status_bar.children[0].style.backgroundImage = 'url(' + user.picture + ')';
 			ui.status_bar.children[0].style.backgroundRepeat = 'no-repeat';
 			ui.status_bar.children[1].firstChild.appendChild(document.createTextNode(user.name));
+			ui.status_bar.children[3].firstChild.appendChild(document.createTextNode(user.gem_placeholder));
+			ui.status_bar.children[5].firstChild.appendChild(document.createTextNode(user.resources));
 		};
 		ui.set_card = function(card_node) {
 			ui.card_spans = {
@@ -283,50 +275,103 @@ $(document).on('ready page:load', function() {
 				ui.card_spans[9][card_node.faction_id - 1].style.display = 'block';
 			}
 		};
+		ui.set_info_window = function(node) {
+			ui.info_window.style.backgroundColor = ui.color_palette[node.faction_id].primary;
+			ui.info_window.style.borderColor = ui.color_palette[node.faction_id].accent;
+			ui.info_window.style.color = ui.color_palette[node.faction_id].highlight;
+			ui.info_window.children[1].firstChild.firstChild.appendChild(document.createTextNode(node.value));
+			ui.info_window.children[3].firstChild.appendChild(document.createTextNode(node.owner));
+			ui.info_window.children[4].firstChild.appendChild(document.createTextNode(node.cluster));
+		};
+		ui.close_windows = function(num) {
+			let i = 0;
+			while (i < 2) {
+				if (ui.window_container.children[i].classList.contains('hidden') == false && i !== num) {
+					ui.window_container.children[i].classList.add('hidden');
+				}
+				i++;
+				if (num === 0) {
+					// ui.info_window.children[1].firstChild.firstChild.removeChild(ui.info_window.children[1].firstChild.firstChild);
+					// ui.info_window.children[3].firstChild.removeChild(ui.info_window.children[3].firstChild.firstChild);
+					// ui.info_window.children[4].firstChild.removeChild(ui.info_window.children[4].firstChild.firstChild);
+				}
+			}
+		};
+		ui.show_prompt = function(text) {
+			return function() {
+				ui.prompt.firstChild.appendChild(document.createTextNode(text));
+				console.log(ui.actionbar.children);
+			}
+		}
+		ui.clear_prompt = function() {
+			ui.prompt.firstChild.removeChild(ui.prompt.firstChild.firstChild);
+		}
 		ui.create_listeners = function() {
-			let buttons = ui.actionbar.children;
-			ui.tabs.children[0].addEventListener('click', function() {
-				ui.tabs.children[0].style.borderBottomWidth = '0px';
-				ui.tabs.children[1].style.borderBottomWidth = '2px';
-				ui.quest_pane.style.display = 'block';
-				ui.chat_pane.style.display = 'none';
+			window.addEventListener("resize", function(e) {
+				ui.set_ui_size();
 			});
-			ui.tabs.children[1].addEventListener('click', function() {
-				ui.tabs.children[0].style.borderBottomWidth = '2px';
-				ui.tabs.children[1].style.borderBottomWidth = '0px';
-				ui.quest_pane.style.display = 'none';
-				ui.chat_pane.style.display = 'block';
+			window.addEventListener('keydown', function(e) {
+				if (document.activeElement.type !== 'textarea') {
+					if (e.keyCode === 27) {
+						ui.close_windows();
+					}
+					if (e.keyCode === 73) {
+						ui.close_windows(0);
+						ui.info_window.classList.toggle('hidden');
+						ui.set_ui_size();
+					}
+					if (e.keyCode === 67) {
+						ui.close_windows(1);
+						ui.window_container.children[1].classList.toggle('hidden');
+						ui.set_ui_size();
+					}
+				}
 			});
-			window.addEventListener("resize", function() {
-				ui.set_actionbar_size();
-			});
-			buttons[0].addEventListener('click', function(e) {
+			ui.buttons[0].addEventListener('click', function(e) {
 				//placeholder orbit back
 			});
-			buttons[1].addEventListener('click', function(e) {
+			ui.buttons[0].addEventListener('mouseenter', ui.show_prompt('Move back one Node.'));
+			ui.buttons[0].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[1].addEventListener('click', function(e) {
 				//placeholder popup
 			});
-			buttons[2].addEventListener('click', function(e) {
+			ui.buttons[1].addEventListener('mouseenter', ui.show_prompt('Move forward one Node.'));
+			ui.buttons[1].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[2].addEventListener('click', function(e) {
 				//placeholder assignment screen
 			});
-			buttons[3].addEventListener('click', function(e) {
-				//placeholder deposit textarea
+			ui.buttons[2].addEventListener('mouseenter', ui.show_prompt('Assignment window. (A)'));
+			ui.buttons[2].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[3].addEventListener('click', function(e) {
+				ui.actionbar.children[8].classList.toggle("hidden");
 			});
-			buttons[4].addEventListener('click', function(e) {
-				//placeholder link nodes
+			ui.buttons[3].addEventListener('mouseenter', ui.show_prompt('Invest in this Node.'));
+			ui.buttons[3].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[4].addEventListener('click', function(e) {
+				ui.window_container.children[1].classList.toggle('hidden');
 			});
-			buttons[5].addEventListener('click', function(e) {
+			ui.buttons[4].addEventListener('mouseenter', ui.show_prompt('Link to another Node'));
+			ui.buttons[4].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[5].addEventListener('click', function(e) {
 				//placeholder connections?
 			});
-			buttons[6].addEventListener('click', function(e) {
+			ui.buttons[5].addEventListener('mouseenter', ui.show_prompt('Connections window.'));
+			ui.buttons[5].addEventListener('mouseleave', ui.clear_prompt);
+			ui.buttons[6].addEventListener('click', function(e) {
 				//placeholder cancel
+			});
+			ui.buttons[6].addEventListener('mouseenter', ui.show_prompt('Show Node info. (I)'));
+			ui.buttons[6].addEventListener('mouseleave', ui.clear_prompt);
+			ui.exit_buttons[0].addEventListener('click', function(e) {
+				ui.exit_buttons[0].parentNode.classList.add('hidden');
 			});
 		};
 		ui.init = function() {
 			ui.set_colors();
 			ui.set_bar();
 			ui.create_listeners();
-			ui.set_actionbar();
+			ui.init_actionbar();
+			ui.set_ui_size();
 		};
 		ui.init();
 	}
@@ -1173,27 +1218,28 @@ $(document).on('ready page:load', function() {
 		let node_color = game_data.colors[game_data.node_factions[target.value].toString()];
 		let quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
 		target.circle.shadowColor = node_color['glow'];
-		target.circle.shadowBlur = quarter_size;
 		target.circle.strokeColor = node_color['selected'];
 		if (target.node) target.number.fillColor = node_color['selected'];
 		else target.image.fillColor = node_color['selected'];
 		target.selected = true;
 		grow_node(target);
+		highlight_connections(target);
 	}
 
 	function unselect_node(target) {
 		if (target.moving) return;
 		let node_color = game_data.colors[game_data.node_factions[target.value].toString()];
-		target.circle.shadowColor = 0;
-		target.circle.shadowBlur = 0;
+		target.circle.shadowColor = new scope.Color(node_color['line']) * 0.4;
 		target.circle.strokeColor = node_color['line'];
 		if (target.node) target.number.fillColor = node_color['num'];
 		else target.image.fillColor = node_color['num'];
 		target.selected = false;
 		ungrow_node(target);
+		highlight_connections(target);
 	}
 
 	function grow_node(target) {
+		target.group.bringToFront();
 		if (target.node) {
 			if (!game_data.card_set) game_data.card_set = true;
 			game_data.user_interface.set_card(target);
@@ -1404,6 +1450,8 @@ $(document).on('ready page:load', function() {
 					game_data.active_nodes[i].connection_num = in_nodes[i+1]['connection_num'];
 					game_data.active_nodes[i].worth = in_nodes[i+1]['worth'];
 					game_data.active_nodes[i].contention = in_nodes[i+1]['contention'];
+					if (game_data.active_nodes[i].owner = 'null')
+						game_data.active_nodes[i].owner = 'Unclaimed';
 				}
 				game_data.global_root = game_data.active_nodes[0];
 				game_data.old_root = game_data.global_root;
@@ -1427,9 +1475,9 @@ $(document).on('ready page:load', function() {
 					while (j <= ranges[i].to) {
 						game_data.node_factions[j] = in_nodes[j]['faction_id'];
 						game_data.node_connections[j] = {
-                            dad: in_nodes[j]['dad'],
-                            bro: in_nodes[j]['bro']
-                        };
+							dad: in_nodes[j]['dad'],
+							bro: in_nodes[j]['bro']
+						};
 						k = -1;
 						while (++k < game_data.active_nodes.length)
 							if (game_data.active_nodes[k].move_value === j) break;
@@ -1471,35 +1519,38 @@ $(document).on('ready page:load', function() {
 	function tug_of_war(line, ratio, start_faction, end_faction) {
 		let start = new scope.Point(line.firstSegment.point),
 			end = new scope.Point(line.lastSegment.point),
-			dx = Math.abs(start.x - end.x), dy = Math.abs(start.y - end.y),
-			refx = Math.min(start.x, end.x), refy = Math.min(start.y, end.y),
-			mid = new scope.Point(refx + dx * ratio, refy + dy * ratio),
-			thick = line.strokeWidth;
-		line.remove();
-		let first = new scope.Path.Line(start, mid);
-		first.strokeWidth = thick;
-		first.strokeColor = game_data.colors[start_faction.toString()].line;
-		let second= new scope.Path.Line(mid, end);
-		second.strokeWidth = thick;
-		second.strokeColor = game_data.colors[end_faction.toString()].line;
-		line = new scope.Group(first, second);
-		return line;
+			start_color = game_data.colors[start_faction].line,
+			end_color = game_data.colors[end_faction].line,
+			dark_start = start_color * 0.4;
+		line.strokeCap = 'round';
+		line.shadowColor = dark_start;
+		line._shadow = line.shadowColor;
+		line.shadowBlur = 5;
+		line.strokeColor = {
+			gradient: { stops: [[start_color, ratio - 0.05], [end_color, ratio + 0.05]] },
+			origin: start, destination: end
+		};
 	}
 
 	function show_parent(parent, son) {
 		let from = new scope.Point(parent.circle.position.x, parent.circle.position.y);
 		let to = new scope.Point(son.circle.position.x, son.circle.position.y);
 		let connection = new scope.Path.Line(from, to);
-		shorten_line(connection, parent.rad * 1.15, son.rad * 1.25);
-		connection.strokeWidth = (parent.circle.strokeWidth + son.circle.strokeWidth) / 2;
+		shorten_line(connection, parent.rad * 1.25, son.rad * 1.35);
+		connection.strokeWidth = (parent.circle.strokeWidth + son.circle.strokeWidth) / 2.5;
 		if (game_data.node_factions[parent.value] === game_data.node_factions[son.value]) {
 			let colors = game_data.colors[game_data.node_factions[parent.value].toString()];
+			connection.strokeCap = 'round';
+			connection.shadowColor = new scope.Color(colors.line) * 0.4;
+			connection._shadow = connection.shadowColor;
+			connection.shadowBlur = 5;
 			connection.strokeColor = colors.line;
 		}
 		else {
-			connection = tug_of_war(connection, 0.5, game_data.node_factions[parent.value],
+			tug_of_war(connection, 0.5, game_data.node_factions[parent.value],
 				game_data.node_factions[son.value]);
 		}
+		connection.sendToBack();
 		return connection;
 	}
 
@@ -1507,16 +1558,21 @@ $(document).on('ready page:load', function() {
 		let from = new scope.Point(brother.circle.position.x, brother.circle.position.y);
 		let to = new scope.Point(sis.circle.position.x, sis.circle.position.y);
 		let connection = new scope.Path.Line(from, to);
-		shorten_line(connection, brother.rad * 1.2, sis.rad * 1.2);
-		connection.strokeWidth = (brother.circle.strokeWidth + sis.circle.strokeWidth) / 2;
+		shorten_line(connection, brother.rad * 1.3, sis.rad * 1.3);
+		connection.strokeWidth = (brother.circle.strokeWidth + sis.circle.strokeWidth) / 2.5;
 		if (game_data.node_factions[brother.value] === game_data.node_factions[sis.value]) {
 			let colors = game_data.colors[game_data.node_factions[brother.value].toString()];
+			connection.strokeCap = 'round';
+			connection.shadowColor = new scope.Color(colors.line) * 0.4;
+			connection._shadow = connection.shadowColor;
+			connection.shadowBlur = 5;
 			connection.strokeColor = colors.line;
 		}
 		else {
 			connection = tug_of_war(connection, 0.5, game_data.node_factions[brother.value],
 				game_data.node_factions[sis.value]);
 		}
+		connection.sendToBack();
 		return connection;
 	}
 
@@ -1549,6 +1605,39 @@ $(document).on('ready page:load', function() {
 
 	function hide_connections(target) {
 		target.connections.remove();
+	}
+
+	function highlight_line(line) {
+		if (typeof(line) === 'undefined' || line === null) return;
+		if (line._selected === true) {
+			line.shadowColor = line._shadow;
+			line.shadowBlur = 3;
+			line._selected = false;
+		}
+		else {
+			line.shadowColor = "#CCC";
+			line.shadowBlur = 2;
+			line._selected = true;
+		}
+	}
+
+	function highlight_connections(target) {
+		let links = [], cur_node, i = -1, color = target.circle.strokeColor;
+		while (++i < game_data.active_nodes.length) {
+			cur_node = game_data.active_nodes[i];
+			if (cur_node.connection_values.dad === target.value)
+				links.push(cur_node.connections.firstChild);
+			else if (cur_node.connection_values.bro === target.value)
+				links.push(cur_node.connections.lastChild);
+		}
+		if (target.connection_values.dad !== null)
+			highlight_line(target.connections.firstChild);
+		if (target.connection_values.bro !== null)
+			highlight_line(target.connections.lastChild);
+		i = -1;
+		while (++i < links.length) highlight_line(links[i]);
+		console.log(target);
+		console.log(game_data);
 	}
 
 	function set_fraction(target) {
@@ -1610,6 +1699,9 @@ $(document).on('ready page:load', function() {
 		basis.strokeWidth = thickness;
 		basis.strokeColor = node_color['line'];
 		basis.fillColor = node_color['fill'];
+		basis.shadowColor = new scope.Color(node_color['line']) * 0.4;
+		basis._shadow = basis.shadowColor;
+		basis.shadowBlur = thickness * 5;
 		let num_w = sine_size * (2 - 1 / num_digits), num_h = (num_w / num_digits) * 1.4;
 		let num = new scope.PointText(center);
 		num.fillColor = node_color['num'];
@@ -1625,32 +1717,12 @@ $(document).on('ready page:load', function() {
 				size_dy: basis.bounds.height / scope.view.size.height
 		};
 		let total_node = {
-			value: elem,
-			position: elem,
-			group: out_node,
-			circle: basis,
-			number: num,
-			rad: half_size,
-			relative_pos: relative_pos,
-			popped: false,
-			popper: false,
-			connection_values: { dad: parent, bro: brother },
-			connection_num: null,
-			connections: null,
-			faction_id: null,
-			owner: null,
-			tier: null,
-			worth: null,
-			contention: null,
-			selected: false,
-			hovered: false,
-			grown: false,
-			moving: false,
-			base: null,
-			options: null,
-			node: true,
-			move_target: null,
-			move_thickness: thickness,
+			value: elem, position: elem, group: out_node, circle: basis, number: num,
+			rad: half_size, relative_pos: relative_pos, popped: false, popper: false,
+			connection_values: { dad: parent, bro: brother }, connection_num: null,
+			connections: null, faction_id: null, owner: null, tier: null, worth: null,
+			contention: null, selected: false, hovered: false, grown: false, moving: false,
+			base: null, options: null, node: true, move_target: null, move_thickness: thickness,
 			left_pointed: elem % 2 !== 0
 		};
 		out_node.onMouseEnter = function() {
@@ -1686,6 +1758,7 @@ $(document).on('ready page:load', function() {
 				let new_node = get_node(index, point, node_height, thickness,
 					game_data.node_connections[index]['dad'],
 					game_data.node_connections[index]['bro']);
+				game_data.positions[new_node.position] = new_node.relative_pos;
 				if (i === num_layers - 1) {
 					let dot_w = new_node.circle.bounds.width * 0.7246377;
 					let dot_h = dot_w * 0.483333;
@@ -1824,7 +1897,8 @@ $(document).on('ready page:load', function() {
 				leftie = relocs[i];
 				j = 0;
 			}
-			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
+			game_data.buffer_nodes[0].move_target =
+				game_data.positions[game_data.active_nodes[relocs[i] - 1].position];
 			game_data.buffer_nodes[0].move_position = relocs[i];
 			game_data.buffer_nodes[0].move_value = leftie * target.value + j;
 			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1]
@@ -1893,8 +1967,8 @@ $(document).on('ready page:load', function() {
 		}
 		i = 0;
 		while (game_data.buffer_nodes.length > 0) {
-			game_data.buffer_nodes[0].move_target = game_data.active_nodes[
-				relocs[i].value - 1].relative_pos;
+			game_data.buffer_nodes[0].move_target =
+				game_data.positions[game_data.active_nodes[relocs[i].value - 1].position];
 			game_data.buffer_nodes[0].move_position = relocs[i].value;
 			game_data.buffer_nodes[0].move_value = relocs[i].leftie *
 				new_base_value + relocs[i].value % relocs[i].leftie;
@@ -2017,10 +2091,10 @@ $(document).on('ready page:load', function() {
 		while (++i < game_data.active_nodes.length) {
 			let cur_node = game_data.active_nodes[i];
 			cur_node.popped = false;
-			cur_node.circle.position.x = cur_node.move_target.x * width;
-			cur_node.circle.position.y = cur_node.move_target.y * height;
 			cur_node.circle.bounds.width = cur_node.move_target.size_dx * height;
 			cur_node.circle.bounds.height = cur_node.move_target.size_dy * height;
+			cur_node.circle.position.x = cur_node.move_target.x * width;
+			cur_node.circle.position.y = cur_node.move_target.y * height;
 			cur_node.value = cur_node.move_value;
 			let leftie = cur_node.value % 2 !== 0;
 			if (leftie !== cur_node.left_pointed) {
@@ -2037,6 +2111,9 @@ $(document).on('ready page:load', function() {
 			cur_node.circle.strokeColor = node_color['line'];
 			cur_node.circle.fillColor = node_color['fill'];
 			cur_node.circle.strokeWidth = cur_node.move_thickness;
+			cur_node.circle.shadowColor = new scope.Color(node_color['line']) * 0.4;
+			cur_node.circle._shadow = cur_node.circle.shadowColor;
+			cur_node.circle.shadowBlur = cur_node.move_thickness * 5;
 			if (i < 31) {
 				let sine_size = cur_node.circle.bounds.width / 2.3;
 				let num_w = sine_size * (2 - 1 / num_digits);
@@ -2187,45 +2264,6 @@ $(document).on('ready page:load', function() {
 				else move_to(target);
 			};
 		}
-		theta = Math.PI / 2;
-		options.attack = make_option_group(target.circle.position, small_rad, big_rad,
-			theta, colors, ref_stroke_width / 2, 'attack', target.value);
-		theta = 2 * Math.PI / 3;
-		options.connect = make_option_group(target.circle.position, small_rad, big_rad,
-			theta, colors, ref_stroke_width / 2, 'connect', target.value);
-		theta = Math.PI / 3;
-		options.node_info = make_option_group(target.circle.position, small_rad, big_rad,
-			theta, colors, ref_stroke_width / 2, 'node_info', target.value);
-		game_data.actions.push(options.attack);
-		game_data.actions.push(options.connect);
-		options.attack.group.onMouseEnter = function() {
-			options.attack.hovered = true;
-			set_fraction(options.attack);
-			grow_node(options.attack);
-		};
-		options.attack.group.onMouseLeave = function() {
-			options.attack.hovered = false;
-			set_fraction(options.attack);
-			ungrow_node(options.attack);
-		};
-		options.attack.group.onClick = function() {
-			set_fraction(options.attack);
-			select_action(options.attack);
-		};
-		options.connect.group.onMouseEnter = function() {
-			options.connect.hovered = true;
-			set_fraction(options.connect);
-			grow_node(options.connect);
-		};
-		options.connect.group.onMouseLeave = function() {
-			options.connect.hovered = false;
-			set_fraction(options.connect);
-			ungrow_node(options.connect);
-		};
-		options.connect.group.onClick = function() {
-			set_fraction(options.connect);
-			select_action(options.connect);
-		};
 		target.options = options;
 		add_animation(options, pop_action_animation, pop_action_stop, 150);
 	}
@@ -2459,310 +2497,304 @@ $(document).on('ready page:load', function() {
 	d3.selection.prototype.moveToFront = function() {
 		return this.each(function(){
 			this.parentNode.appendChild(this);
-		})
+		});
 	};
-
-	function next_orbit(num) {
-		if (num % 2 === 0) return [num / 2, 2];
-		return [(num * 3 + 1) / 2, 1];
-	}
-
-	function prev_orbits(num) {
-		let a = num * 2, b = ((num * 2 - 1) % 3 === 0) ? (num * 2 - 1) / 3 : -1;
-		return [a, b];
-	}
-
-	function add_to_id(cur_id, num, type_char) {
-		if (cur_id === null) return type_char + num.toString();
-		return cur_id + "." + type_char + num.toString();
-	}
-
-	function build_object(num) {
-		let out = [], cur_val = num, cur_id = add_to_id(null, num, 'b'), a, b,
-			cur_depth = 0, line_counts = [], depth_counts = [], node, cur_stamp;
-		depth_counts[0] = { lines: [0] };
-		depth_counts[-1] = { lines: [0] };
-		depth_counts[-2] = { lines: [0] };
-		depth_counts[-3] = { lines: [0] };
-		depth_counts[-4] = { lines: [0] };
-		line_counts[0] = { amount: 9, branch: [{ source_depth: -5, source_line: 0,
-			height: 4 }], nodes: [] };
-		node = { id: cur_id, value: num, depth: 0, line: 0, stamp: 0 };
-		cur_stamp = 0;
-		line_counts[0].nodes[0] = node;
-		line_counts.lines = [0];
-		out.push(node);
-		while (++cur_depth <= 4) {
-			[a, b] = prev_orbits(cur_val);
-			depth_counts[cur_depth] = { lines: [] };
-			if (b !== -1) {
-				if (typeof(line_counts[1]) === 'undefined' || line_counts[1] === null) {
-					line_counts[1] = { amount: 0, branch: [], nodes: [] };
-					line_counts.lines.push(1);
-				}
-				line_counts[1].amount++;
-				line_counts[1].branch.push({ source_depth: cur_depth - 1, source_line: 0,
-					height: cur_depth });
-				depth_counts[cur_depth].lines.push(1);
-				node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
-					line: 1, stamp: ++cur_stamp };
-				line_counts[1].nodes[cur_depth] = node;
-				out.push(node);
-			}
-			cur_id = add_to_id(cur_id, a, 'u');
-			node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
-			line_counts[0].nodes[cur_depth] = node;
-			out.push(node);
-			depth_counts[cur_depth].lines.push(0);
-			cur_val = a;
-		}
-		cur_depth = 0;
-		cur_id = add_to_id(null, num, 'b');
-		cur_val = num;
-		while (--cur_depth >= -4) {
-			[a, b] = next_orbit(cur_val);
-			if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
-			else cur_id = add_to_id(cur_id, a, 'c');
-			node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
-			line_counts[0].nodes[cur_depth] = node;
-			out.push(node);
-			cur_val = a;
-		}
-		out.columns = ["id", "value", "depth", "line", "stamp"];
-		return { data: out, line_counts: line_counts, depth_counts: depth_counts,
-			cur_stamp: cur_stamp };
-	}
-
-	function move_everything_above(context, line, depth) {
-		let arr = context.line_counts, i = -1, branch_index = -1, cur, j, n_cur,
-			avoid_arr = [], k, skip, cur_branch;
-		while (++i < arr.lines.length) {
-			cur = arr[arr.lines[i]];
-			j = -1;
-			while (++j < cur.branch.length) {
-				k = -1;
-				skip = false;
-				cur_branch = cur.branch[j];
-				while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
-				if (skip) continue;
-				if (cur_branch.source_depth > depth && cur_branch.source_line === line) {
-					avoid_arr.push(cur_branch);
-					move_everything_above(context, arr.lines[i], cur_branch.source_depth);
-				}
-			}
-		}
-		arr = context.line_counts[line].branch;
-		i = -1;
-		let next = line + 1;
-		while (++i < arr.length) {
-			cur = arr[i];
-			if (depth >= cur.source_depth && depth < cur.height) branch_index = i;
-		}
-		i = -1;
-		let branch = context.line_counts[line].branch[branch_index];
-		while (++i < context.data.length) {
-			cur = context.data[i];
-			if (cur.line === line && cur.depth > depth && cur.depth <= branch.height) {
-				if (typeof(context.line_counts[next]) === 'undefined' ||
-					context.line_counts[next] === null) {
-					context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
-					context.line_counts.lines.push(next);
-				}
-				n_cur = context.line_counts[next].nodes[cur.depth];
-				if (typeof(n_cur) !== 'undefined' && n_cur !== null) {
-					j = -1;
-					while (++j < context.line_counts[next].branch.length) {
-						cur_branch = context.line_counts[next].branch[j];
-						if (cur_branch.source_depth < cur.depth &&
-							cur_branch.height >= cur.depth) {
-							move_everything_above(context, next, cur_branch.source_depth);
-						}
-						if (typeof(context.line_counts[next]) === 'undefined' ||
-							context.line_counts[next] === null) break;
-					}
-				}
-				if (typeof(context.line_counts[next]) === 'undefined' ||
-					context.line_counts[next] === null) {
-					context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
-					context.line_counts.lines.push(next);
-				}
-				cur.line = next;
-				context.line_counts[line].amount--;
-				context.line_counts[next].amount++;
-				context.line_counts[next].nodes[cur.depth] = cur;
-				context.line_counts[line].nodes[cur.depth] = null;
-				context.depth_counts[cur.depth].lines.splice(
-					context.depth_counts[cur.depth].lines.indexOf(line), 1, next);
-			}
-		}
-		if (branch.source_depth === depth) {
-			context.line_counts[next].branch.push(branch);
-			context.line_counts[line].branch.splice(branch_index, 1);
-		}
-		else if (branch.source_depth < depth) {
-			context.line_counts[next].branch.push({ source_depth: depth,
-				source_line: line, height: branch.height });
-			branch.height = depth;
-		}
-		if (context.line_counts[line].amount === 0) {
-			context.line_counts[line] = null;
-			context.line_counts.lines.splice(context.line_counts.lines.indexOf(line), 1);
-		}
-	}
-
-	function expand_context_at(context, node_data) {
-		let num = node_data.value, cur_depth = node_data.depth, cur_line = node_data.line,
-			source_index = -1, i = -1, j, cur, ceiling = null, cur_id = node_data.id,
-			depths = context.depth_counts, lines = context.line_counts, n_cur,
-			data = context.data, arr = lines[cur_line].branch, a, b, cur_val, node,
-			cur_stamp = context.cur_stamp;
-		while (++i < arr.length) {
-			cur = arr[i];
-			if (cur_depth > cur.source_depth && cur_depth <= cur.height)
-				source_index = i;
-			else if (ceiling === null && cur.source_depth >= cur_depth)
-				ceiling = cur.source_depth + 1;
-			else if (ceiling !== null && cur.source_depth >= cur_depth
-				&& cur.source_depth + 1 < ceiling) ceiling = cur.source_depth + 1;
-		}
-		if (source_index === -1) throw new Error("Failure to update context");
-		let needed = 5, cur_node;
-		cur_val = num;
-		while (--needed > 0) {
-			cur_depth++;
-			cur_node = lines[cur_line].nodes[cur_depth];
-			[a, b] = prev_orbits(cur_val);
-			if (typeof(cur_node) !== 'undefined' && cur_node !== null) {
-				if (cur_node.value === b) {
-					move_everything_above(context, cur_line, cur_depth - 1);
-				}
-				else if (cur_node.value !== a) {
-					move_everything_above(context, cur_line, arr[source_index].source_depth);
-					cur_line++;
-					arr = lines[cur_line].branch;
-					source_index = -1;
-					i = -1;
-					while (++i < arr.length) if (node_data.depth > arr[i].source_depth
-						&& node_data.depth <= arr[i].height) source_index = i;
-					if (source_index === -1) throw new Error("Failure to update context");
-				}
-			}
-			if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
-				depths[cur_depth] = { lines: [] };
-			i = -1;
-			let branch_off = false;
-			while (++i < depths[cur_depth].lines.length) {
-				cur_node = lines[depths[cur_depth].lines[i]].nodes[cur_depth];
-				if (cur_node.value === b) branch_off = true;
-			}
-			if (b !== -1 && !branch_off) {
-				if (typeof(lines[cur_line + 1]) === 'undefined' || lines[cur_line + 1] === null) {
-					lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
-					lines.lines.push(cur_line + 1);
-				}
-				if (typeof(lines[cur_line + 1].nodes[cur_depth]) !== 'undefined' &&
-					lines[cur_line + 1].nodes[cur_depth] !== null) {
-					j = -1;
-					while (++j < lines[cur_line + 1].branch.length) {
-						n_cur = lines[cur_line + 1].branch[j];
-						if (n_cur.source_depth < cur_depth && cur_depth <= n_cur.height)
-							move_everything_above(context, cur_line + 1, n_cur.source_depth);
-						if (typeof(lines[cur_line + 1]) === 'undefined' ||
-							lines[cur_line + 1] === null) break;
-					}
-				}
-				if (typeof(lines[cur_line + 1]) === 'undefined'|| lines[cur_line + 1] === null) {
-					lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
-					lines.lines.push(cur_line + 1);
-				}
-				lines[cur_line + 1].amount++;
-				lines[cur_line + 1].branch.push({ source_depth: cur_depth - 1,
-					source_line: cur_line, height: cur_depth });
-				depths[cur_depth].lines.push(cur_line + 1);
-				node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
-					line: cur_line + 1, stamp: ++cur_stamp };
-				lines[cur_line + 1].nodes[cur_depth] = node;
-				data.push(node);
-			}
-			cur_node = lines[cur_line].nodes[cur_depth];
-			if (typeof(cur_node) !== 'undefined' && cur_node !== null && cur_node.value === a) {
-				cur_val = a;
-				cur_id = cur_node.id;
-				continue;
-			}
-			cur_id = add_to_id(cur_id, a, 'u');
-			depths[cur_depth].lines.push(cur_line);
-			cur_val = a;
-			lines[cur_line].amount++;
-			arr[source_index].height++;
-			node = { id: cur_id, value: a, depth: cur_depth, line: cur_line, stamp: ++cur_stamp };
-			lines[cur_line].nodes[cur_depth] = node;
-			data.push(node);
-		}
-		cur_depth = node_data.depth;
-		if (node_data.value === 1 || (typeof(depths[cur_depth - 3]) !== 'undefined' &&
-			depths[cur_depth - 3] !== null && depths[cur_depth - 3].lines.length > 0)) {
-			context.cur_stamp = cur_stamp;
-			console.log(context);
-			return;
-		}
-		cur_depth = node_data.depth;
-		cur_line = node_data.line;
-		cur_id = node_data.id;
-		cur_val = num;
-		needed = 5;
-		i = -1;
-		arr = lines[cur_line].branch;
-		source_index = -1;
-		while (++i < arr.length) {
-			cur = arr[i];
-			if (cur_depth > cur.source_depth && cur_depth <= cur.height)
-				source_index = i;
-		}
-		if (source_index === -1) throw new Error("Late failure to update context");
-		while (--needed > 0) {
-			cur_depth--;
-			if (typeof(depths[cur_depth]) !== 'undefined' && depths[cur_depth] !== null) {
-				if (arr[source_index].source_depth <= cur_depth &&
-					arr[source_index].source_line !== cur_line) {
-					cur_line = arr[source_index].source_line;
-					i = -1;
-					arr = lines[cur_line].branch;
-					source_index = -1;
-					while (++i < arr.length) {
-						cur = arr[i];
-						if (cur_depth > cur.source_depth && cur_depth <= cur.height)
-							source_index = i;
-					}
-					if (source_index === -1) throw new Error("Late failure to update context");
-				}
-				cur = lines[cur_line].nodes[cur_depth];
-				cur_id = cur.id;
-				cur_val = cur.value;
-			}
-			else {
-				if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
-					depths[cur_depth] = { lines: [] };
-				[a, b] = next_orbit(cur_val);
-				if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
-				else cur_id = add_to_id(cur_id, a, 'c');
-				depths[cur_depth].lines.push(cur_line);
-				lines[cur_line].amount++;
-				arr[source_index].source_depth--;
-				node = { id: cur_id, value: a, depth: cur_depth, line: cur_line, stamp: ++cur_stamp };
-				lines[0].nodes[cur_depth] = node;
-				data.push(node);
-				cur_val = a;
-			}
-			if (cur_val === 1) break;
-		}
-		context.cur_stamp = cur_stamp;
-	}
 
 	function log_data(a, b, path) {
 	}
 
 	function setup_connection(a, b) {
+		function next_orbit(num) {
+			if (num % 2 === 0) return [num / 2, 2];
+			return [(num * 3 + 1) / 2, 1];
+		}
+		function prev_orbits(num) {
+			let a = num * 2, b = ((num * 2 - 1) % 3 === 0) ? (num * 2 - 1) / 3 : -1;
+			return [a, b];
+		}
+		function add_to_id(cur_id, num, type_char) {
+			if (cur_id === null) return type_char + num.toString();
+			return cur_id + "." + type_char + num.toString();
+		}
+		function build_object(num) {
+			let out = [], cur_val = num, cur_id = add_to_id(null, num, 'b'), a, b,
+				cur_depth = 0, line_counts = [], depth_counts = [], node, cur_stamp;
+			depth_counts[0] = { lines: [0] };
+			depth_counts[-1] = { lines: [0] };
+			depth_counts[-2] = { lines: [0] };
+			depth_counts[-3] = { lines: [0] };
+			depth_counts[-4] = { lines: [0] };
+			line_counts[0] = { amount: 9, branch: [{ source_depth: -5, source_line: 0,
+				height: 4 }], nodes: [] };
+			node = { id: cur_id, value: num, depth: 0, line: 0, stamp: 0 };
+			cur_stamp = 0;
+			line_counts[0].nodes[0] = node;
+			line_counts.lines = [0];
+			out.push(node);
+			while (++cur_depth <= 4) {
+				[a, b] = prev_orbits(cur_val);
+				depth_counts[cur_depth] = { lines: [] };
+				if (b !== -1) {
+					if (typeof(line_counts[1]) === 'undefined' || line_counts[1] === null) {
+						line_counts[1] = { amount: 0, branch: [], nodes: [] };
+						line_counts.lines.push(1);
+					}
+					line_counts[1].amount++;
+					line_counts[1].branch.push({ source_depth: cur_depth - 1, source_line: 0,
+						height: cur_depth });
+					depth_counts[cur_depth].lines.push(1);
+					node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
+						line: 1, stamp: ++cur_stamp };
+					line_counts[1].nodes[cur_depth] = node;
+					out.push(node);
+				}
+				cur_id = add_to_id(cur_id, a, 'u');
+				node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
+				line_counts[0].nodes[cur_depth] = node;
+				out.push(node);
+				depth_counts[cur_depth].lines.push(0);
+				cur_val = a;
+			}
+			cur_depth = 0;
+			cur_id = add_to_id(null, num, 'b');
+			cur_val = num;
+			while (--cur_depth >= -4) {
+				[a, b] = next_orbit(cur_val);
+				if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
+				else cur_id = add_to_id(cur_id, a, 'c');
+				node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
+				line_counts[0].nodes[cur_depth] = node;
+				out.push(node);
+				cur_val = a;
+			}
+			out.columns = ["id", "value", "depth", "line", "stamp"];
+			return { data: out, line_counts: line_counts, depth_counts: depth_counts,
+				cur_stamp: cur_stamp };
+		}
+		function move_everything_above(context, line, depth) {
+			let arr = context.line_counts, i = -1, branch_index = -1, cur, j, n_cur,
+				avoid_arr = [], k, skip, cur_branch;
+			while (++i < arr.lines.length) {
+				cur = arr[arr.lines[i]];
+				j = -1;
+				while (++j < cur.branch.length) {
+					k = -1;
+					skip = false;
+					cur_branch = cur.branch[j];
+					while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
+					if (skip) continue;
+					if (cur_branch.source_depth > depth && cur_branch.source_line === line) {
+						avoid_arr.push(cur_branch);
+						move_everything_above(context, arr.lines[i], cur_branch.source_depth);
+					}
+				}
+			}
+			arr = context.line_counts[line].branch;
+			i = -1;
+			let next = line + 1;
+			while (++i < arr.length) {
+				cur = arr[i];
+				if (depth >= cur.source_depth && depth < cur.height) branch_index = i;
+			}
+			i = -1;
+			let branch = context.line_counts[line].branch[branch_index];
+			while (++i < context.data.length) {
+				cur = context.data[i];
+				if (cur.line === line && cur.depth > depth && cur.depth <= branch.height) {
+					if (typeof(context.line_counts[next]) === 'undefined' ||
+						context.line_counts[next] === null) {
+						context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
+						context.line_counts.lines.push(next);
+					}
+					n_cur = context.line_counts[next].nodes[cur.depth];
+					if (typeof(n_cur) !== 'undefined' && n_cur !== null) {
+						j = -1;
+						while (++j < context.line_counts[next].branch.length) {
+							cur_branch = context.line_counts[next].branch[j];
+							if (cur_branch.source_depth < cur.depth &&
+								cur_branch.height >= cur.depth) {
+								move_everything_above(context, next, cur_branch.source_depth);
+							}
+							if (typeof(context.line_counts[next]) === 'undefined' ||
+								context.line_counts[next] === null) break;
+						}
+					}
+					if (typeof(context.line_counts[next]) === 'undefined' ||
+						context.line_counts[next] === null) {
+						context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
+						context.line_counts.lines.push(next);
+					}
+					cur.line = next;
+					context.line_counts[line].amount--;
+					context.line_counts[next].amount++;
+					context.line_counts[next].nodes[cur.depth] = cur;
+					context.line_counts[line].nodes[cur.depth] = null;
+					context.depth_counts[cur.depth].lines.splice(
+						context.depth_counts[cur.depth].lines.indexOf(line), 1, next);
+				}
+			}
+			if (branch.source_depth === depth) {
+				context.line_counts[next].branch.push(branch);
+				context.line_counts[line].branch.splice(branch_index, 1);
+			}
+			else if (branch.source_depth < depth) {
+				context.line_counts[next].branch.push({ source_depth: depth,
+					source_line: line, height: branch.height });
+				branch.height = depth;
+			}
+			if (context.line_counts[line].amount === 0) {
+				context.line_counts[line] = null;
+				context.line_counts.lines.splice(context.line_counts.lines.indexOf(line), 1);
+			}
+		}
+		function expand_context_at(context, node_data) {
+			let num = node_data.value, cur_depth = node_data.depth, cur_line = node_data.line,
+				source_index = -1, i = -1, j, cur, ceiling = null, cur_id = node_data.id,
+				depths = context.depth_counts, lines = context.line_counts, n_cur,
+				data = context.data, arr = lines[cur_line].branch, a, b, cur_val, node,
+				cur_stamp = context.cur_stamp;
+			while (++i < arr.length) {
+				cur = arr[i];
+				if (cur_depth > cur.source_depth && cur_depth <= cur.height)
+					source_index = i;
+				else if (ceiling === null && cur.source_depth >= cur_depth)
+					ceiling = cur.source_depth + 1;
+				else if (ceiling !== null && cur.source_depth >= cur_depth
+					&& cur.source_depth + 1 < ceiling) ceiling = cur.source_depth + 1;
+			}
+			if (source_index === -1) throw new Error("Failure to update context");
+			let needed = 5, cur_node;
+			cur_val = num;
+			while (--needed > 0) {
+				cur_depth++;
+				cur_node = lines[cur_line].nodes[cur_depth];
+				[a, b] = prev_orbits(cur_val);
+				if (typeof(cur_node) !== 'undefined' && cur_node !== null) {
+					if (cur_node.value === b) {
+						move_everything_above(context, cur_line, cur_depth - 1);
+					}
+					else if (cur_node.value !== a) {
+						move_everything_above(context, cur_line, arr[source_index].source_depth);
+						cur_line++;
+						arr = lines[cur_line].branch;
+						source_index = -1;
+						i = -1;
+						while (++i < arr.length) if (node_data.depth > arr[i].source_depth
+							&& node_data.depth <= arr[i].height) source_index = i;
+						if (source_index === -1) throw new Error("Failure to update context");
+					}
+				}
+				if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
+					depths[cur_depth] = { lines: [] };
+				i = -1;
+				let branch_off = false;
+				while (++i < depths[cur_depth].lines.length) {
+					cur_node = lines[depths[cur_depth].lines[i]].nodes[cur_depth];
+					if (cur_node.value === b) branch_off = true;
+				}
+				if (b !== -1 && !branch_off) {
+					if (typeof(lines[cur_line + 1]) === 'undefined' || lines[cur_line + 1] === null) {
+						lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
+						lines.lines.push(cur_line + 1);
+					}
+					if (typeof(lines[cur_line + 1].nodes[cur_depth]) !== 'undefined' &&
+						lines[cur_line + 1].nodes[cur_depth] !== null) {
+						j = -1;
+						while (++j < lines[cur_line + 1].branch.length) {
+							n_cur = lines[cur_line + 1].branch[j];
+							if (n_cur.source_depth < cur_depth && cur_depth <= n_cur.height)
+								move_everything_above(context, cur_line + 1, n_cur.source_depth);
+							if (typeof(lines[cur_line + 1]) === 'undefined' ||
+								lines[cur_line + 1] === null) break;
+						}
+					}
+					if (typeof(lines[cur_line + 1]) === 'undefined'|| lines[cur_line + 1] === null) {
+						lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
+						lines.lines.push(cur_line + 1);
+					}
+					lines[cur_line + 1].amount++;
+					lines[cur_line + 1].branch.push({ source_depth: cur_depth - 1,
+						source_line: cur_line, height: cur_depth });
+					depths[cur_depth].lines.push(cur_line + 1);
+					node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
+						line: cur_line + 1, stamp: ++cur_stamp };
+					lines[cur_line + 1].nodes[cur_depth] = node;
+					data.push(node);
+				}
+				cur_node = lines[cur_line].nodes[cur_depth];
+				if (typeof(cur_node) !== 'undefined' && cur_node !== null && cur_node.value === a) {
+					cur_val = a;
+					cur_id = cur_node.id;
+					continue;
+				}
+				cur_id = add_to_id(cur_id, a, 'u');
+				depths[cur_depth].lines.push(cur_line);
+				cur_val = a;
+				lines[cur_line].amount++;
+				arr[source_index].height++;
+				node = { id: cur_id, value: a, depth: cur_depth, line: cur_line, stamp: ++cur_stamp };
+				lines[cur_line].nodes[cur_depth] = node;
+				data.push(node);
+			}
+			cur_depth = node_data.depth;
+			if (node_data.value === 1 || (typeof(depths[cur_depth - 3]) !== 'undefined' &&
+					depths[cur_depth - 3] !== null && depths[cur_depth - 3].lines.length > 0)) {
+				context.cur_stamp = cur_stamp;
+				console.log(context);
+				return;
+			}
+			cur_depth = node_data.depth;
+			cur_line = node_data.line;
+			cur_id = node_data.id;
+			cur_val = num;
+			needed = 5;
+			i = -1;
+			arr = lines[cur_line].branch;
+			source_index = -1;
+			while (++i < arr.length) {
+				cur = arr[i];
+				if (cur_depth > cur.source_depth && cur_depth <= cur.height)
+					source_index = i;
+			}
+			if (source_index === -1) throw new Error("Late failure to update context");
+			while (--needed > 0) {
+				cur_depth--;
+				if (typeof(depths[cur_depth]) !== 'undefined' && depths[cur_depth] !== null) {
+					if (arr[source_index].source_depth <= cur_depth &&
+						arr[source_index].source_line !== cur_line) {
+						cur_line = arr[source_index].source_line;
+						i = -1;
+						arr = lines[cur_line].branch;
+						source_index = -1;
+						while (++i < arr.length) {
+							cur = arr[i];
+							if (cur_depth > cur.source_depth && cur_depth <= cur.height)
+								source_index = i;
+						}
+						if (source_index === -1) throw new Error("Late failure to update context");
+					}
+					cur = lines[cur_line].nodes[cur_depth];
+					cur_id = cur.id;
+					cur_val = cur.value;
+				}
+				else {
+					if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
+						depths[cur_depth] = { lines: [] };
+					[a, b] = next_orbit(cur_val);
+					if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
+					else cur_id = add_to_id(cur_id, a, 'c');
+					depths[cur_depth].lines.push(cur_line);
+					lines[cur_line].amount++;
+					arr[source_index].source_depth--;
+					node = { id: cur_id, value: a, depth: cur_depth, line: cur_line, stamp: ++cur_stamp };
+					lines[0].nodes[cur_depth] = node;
+					data.push(node);
+					cur_val = a;
+				}
+				if (cur_val === 1) break;
+			}
+			context.cur_stamp = cur_stamp;
+		}
 		let ma = 0, start_nums = [a, b],
 			bounding = document.getElementById("sandbox").getBoundingClientRect(),
 			width = bounding.width, height = bounding.height, hooked = true,
@@ -3013,7 +3045,6 @@ $(document).on('ready page:load', function() {
 						d3.select("#sandbox").selectAll(".tab_title")
 							.data(["Connection Successful!", "Press ESC to exit"])
 							.text(function(d) { return d; });
-						hooked = false;
 					}, 750);
 					return;
 				}
@@ -3151,10 +3182,19 @@ $(document).on('ready page:load', function() {
 		console.log("Making background...");
 		make_background();
 		console.log("Setting up Connection Sandbox");
-		//setup_connection(44, 45);
+		//setup_connection(42, 43);
 		console.log("Canvas resize set up");
+		// d3.select(".local").selectAll(".text").data(["whatever"]).enter().append("text")
+		// 	.style("position", "absolute")
+		// 	.style("right", "7px").style("top", "7px")
+		// 	.style("color", "black")
+		// 	.style("height", "20%").style("width", "20%")
+		// 	.style("font", "12px sans-serif")
+		// 	.style("z-index", "3");
 		scope.view.onFrame = function(event) {
 			tick(event);
+			// let fps = 1.0 / event.delta;
+			// d3.select(".local").select("text").text(fps.toString());
 		};
 		console.log("Ticking now...");
 	}
