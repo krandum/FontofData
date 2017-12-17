@@ -2,6 +2,12 @@
 // # All this logic will automatically be available in application.js.
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
+function add_value(data) {
+	console.log("Oh wow that worked");
+	console.log(data);
+	d3.selectAll(".myForm").remove();
+}
+
 $(document).on('ready page:load', function() {
 	let play_check = document.getElementById('play');
 	if (typeof(play_check) === 'undefined' || play_check === null) {
@@ -1259,15 +1265,29 @@ $(document).on('ready page:load', function() {
 	}
 
 	function tweak_connections(target) {
-		let neighbors = ["parent", "brother", "sister", "son", "daughter"], i = -1,
-			position = { x: 0, y: 0, width: 0, height: 0, thick: 0 }, button,
-			inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
-			cur_inv;
+		let neighbors = ["parent", "brother", "sister", "son", "daughter"],i = -1,
+			button, inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
+			cur_inv, cur_data;
 		let width = scope.view.size.width, height = scope.view.size.height, a, b,
 			cur_proven;
 		while (++i < 5) {
-			let cur_other = target[neighbors[i]].node;
+			let cur_other = target[neighbors[i]].node,
+				position = { x: 0, y: 0, width: 0, height: 0, thick: 0 };
 			if (typeof(cur_other) === 'undefined' || cur_other === null) continue;
+			switch (neighbors[i]) {
+				case "parent":
+					cur_data = target.connection_data.dad;
+					break;
+				case "brother":
+					cur_data = target.connection_data.bro;
+					break;
+				case "sister":
+					cur_data = cur_other.connection_data.bro;
+					break;
+				case "son":
+				case "daughter":
+					cur_data = cur_other.connection_data.dad;
+			}
 			a = target.value;
 			b = cur_other.value;
 			cur_proven = false;
@@ -1287,41 +1307,51 @@ $(document).on('ready page:load', function() {
 				y_offset2 = cur_other.rad * Math.sin(angle);
 			if (cur_proven && typeof(target[neighbors[i]].line) !== 'undefined' &&
 				target[neighbors[i]].line !== null) {
-				position.width *= 0.6;
-				position.height *= 0.6;
-				position.thick *= 0.6;
-				if (Math.abs(angle - Math.PI) < 1.0 || Math.abs(angle) < 1.0) {
-					position.x = (target.relative_pos.x + cur_other.relative_pos.x) * width
-						/ 2 - position.width / 2;
-					position.y = (target.relative_pos.y + cur_other.relative_pos.y) * height
-						/ 2 - position.height / 2;
-				}
-				else {
-					position.x = (target.relative_pos.x * width + x_offset1 +
-						cur_other.relative_pos.x * width - x_offset2) / 2 - position.width / 2;
-					position.y = (target.relative_pos.y * height + y_offset1 +
-						cur_other.relative_pos.y * height - y_offset2) / 2 - position.height / 2;
-				}
-				if (angle === Math.PI || angle === 0) position.y -= position.height * 1.2;
-				else {
-					let y_offset = position.y - target.relative_pos.y * height,
-						x_offset = position.x - target.relative_pos.x * width,
-						y_mod = position.height * 1.2, x_mod = position.width * 1.2;
-					if (!(x_offset > 0) ^ !(y_offset > 0)) {
-						x_mod *= Math.cos(angle - Math.PI / 2);
-						y_mod *= Math.sin(angle - Math.PI / 2);
+				if (cur_data.completions[0] !== "100.0") {
+					position.width *= 0.6;
+					position.height *= 0.6;
+					position.thick *= 0.6;
+					if (Math.abs(angle - Math.PI) < 1.0 || Math.abs(angle) < 1.0) {
+						position.x = (target.relative_pos.x + cur_other.relative_pos.x) * width
+							/ 2 - position.width / 2;
+						position.y = (target.relative_pos.y + cur_other.relative_pos.y) * height
+							/ 2 - position.height / 2;
 					}
 					else {
-						x_mod *= Math.cos(angle + Math.PI / 2);
-						y_mod *= Math.sin(angle + Math.PI / 2);
+						position.x = (target.relative_pos.x * width + x_offset1 +
+							cur_other.relative_pos.x * width - x_offset2) / 2 - position.width / 2;
+						position.y = (target.relative_pos.y * height + y_offset1 +
+							cur_other.relative_pos.y * height - y_offset2) / 2 - position.height / 2;
 					}
-					position.x += x_mod;
-					position.y += y_mod;
+					if (angle === Math.PI || angle === 0) position.y -= position.height * 1.2;
+					else {
+						let y_offset = position.y - target.relative_pos.y * height,
+							x_offset = position.x - target.relative_pos.x * width,
+							y_mod = position.height * 1.2, x_mod = position.width * 1.2;
+						if (!(x_offset > 0) ^ !(y_offset > 0)) {
+							x_mod *= Math.cos(angle - Math.PI / 2);
+							y_mod *= Math.sin(angle - Math.PI / 2);
+						}
+						else {
+							x_mod *= Math.cos(angle + Math.PI / 2);
+							y_mod *= Math.sin(angle + Math.PI / 2);
+						}
+						position.x += x_mod;
+						position.y += y_mod;
+					}
+					button = make_button('assets/neutral/icons/add.svg', position, function() {
+						check_selection(target);
+						let form = game_data.d3.space.append("form").attr("class", "myForm")
+							.attr("action", "javascript:add_value(amount.value)")
+							.style("left", (position.x + position.width / 2 - 75).toString() + "px")
+							.style("top", (position.y + position.height / 2).toString() + "px");
+						form.append("input").attr("class", "myInput").attr("type", "text")
+							.attr("name", "amount").attr("value", "").attr("id", "amount")
+							.attr("placeholder", "Enter Amount").attr("autocomplete", "off");
+						form.append("input").attr("type", "submit").attr("value", "Add");
+					});
+					buttons.push(button);
 				}
-				button = make_button('assets/neutral/icons/043-connect.svg', position,
-					function() { check_selection(target);
-						setup_connection(target.value, cur_other.value); });
-				buttons.push(button);
 			}
 			else {
 				position.x = (target.relative_pos.x * width + x_offset1 +
@@ -1692,7 +1722,7 @@ $(document).on('ready page:load', function() {
 		};
 	}
 
-	function show_parent(parent, son) {
+	function show_full_parent(parent, son) {
 		let from = new scope.Point(parent.circle.position.x, parent.circle.position.y);
 		let to = new scope.Point(son.circle.position.x, son.circle.position.y);
 		let connection = new scope.Path.Line(from, to);
@@ -1714,7 +1744,7 @@ $(document).on('ready page:load', function() {
 		return connection;
 	}
 
-	function show_brother(brother, sis) {
+	function show_full_brother(brother, sis) {
 		let from = new scope.Point(brother.circle.position.x, brother.circle.position.y);
 		let to = new scope.Point(sis.circle.position.x, sis.circle.position.y);
 		let connection = new scope.Path.Line(from, to);
@@ -1737,22 +1767,22 @@ $(document).on('ready page:load', function() {
 	}
 
 	function show_connections(target) {
-		target.connection_values.dad = game_data.node_connections[target.value]['dad'];
-		target.connection_values.bro = game_data.node_connections[target.value]['bro'];
+		target.connection_data.dad = game_data.node_connections[target.value]['dad'];
+		target.connection_data.bro = game_data.node_connections[target.value]['bro'];
 		let connection_dad = null, connection_bro = null;
-		if (target.connection_values.dad !== null) {
+		if (target.connection_data.dad !== null) {
 			let dad = target.parent.node;
 			if (dad !== null) {
-				connection_dad = show_parent(dad, target);
+				connection_dad = show_full_parent(dad, target);
 				target.parent.line = connection_dad;
 				if (target.value / 2 === dad.value) dad.son.line = connection_dad;
 				else dad.daughter.line = connection_dad;
 			}
 		}
-		if (target.connection_values.bro !== null) {
+		if (target.connection_data.bro !== null) {
 			let bro = target.brother.node;
 			if (bro !== null) {
-				connection_bro = show_brother(bro, target);
+				connection_bro = show_full_brother(bro, target);
 				target.brother.line = connection_bro;
 				bro.sister.line = connection_bro;
 			}
@@ -1859,7 +1889,7 @@ $(document).on('ready page:load', function() {
 		let total_node = {
 			value: elem, position: elem, group: out_node, circle: basis, number: num,
 			rad: half_size, relative_pos: relative_pos, popped: false, popper: false,
-			connection_values: { dad: parent, bro: brother }, connection_num: null,
+			connection_data: { dad: parent, bro: brother }, connection_num: null,
 			connections: null, faction_id: null, owner: null, tier: null, worth: null,
 			contention: null, selected: false, hovered: false, grown: false, moving: false,
 			base: null, options: null, node: true, move_target: null, move_thickness: thickness,

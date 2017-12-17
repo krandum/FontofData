@@ -76,6 +76,23 @@ body.play {
 	z-index: 3;
 }
 
+.myForm {
+	position: absolute;
+	pointer-events: auto;
+	display: flex;
+	flex-flow: column nowrap;
+	background-color: #DDD;
+	border: solid #444 3px;
+	border-radius: 5px;
+	height: auto;
+	width: 150px;
+}
+
+.myInput {
+	position: relative;
+	width: 100%;
+}
+
 .myButton {
 	position: absolute;
 	pointer-events: auto;
