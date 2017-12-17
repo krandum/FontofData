@@ -1373,7 +1373,7 @@ $(document).on('ready page:load', function() {
 				y_offset2 = cur_other.rad * Math.sin(angle);
 			if (cur_proven && typeof(target[neighbors[i]].line) !== 'undefined' &&
 				target[neighbors[i]].line !== null) {
-				if (cur_data.completions[0] !== "100.0") {
+				if (cur_data === null || cur_data.completions[0] !== "100.0") {
 					position.width *= 0.6;
 					position.height *= 0.6;
 					position.thick *= 0.6;
@@ -1848,33 +1848,34 @@ $(document).on('ready page:load', function() {
 		};
 	}
 
-	function show_line(from, to) {
-		let from = new scope.Point(from.circle.position.x, from.circle.position.y);
-		let to = new scope.Point(to.circle.position.x, to.circle.position.y);
+	function show_line(origin, end, relation) {
+		let from = new scope.Point(origin.circle.position.x, origin.circle.position.y);
+		let to = new scope.Point(end.circle.position.x, end.circle.position.y);
 		let connection = new scope.Path.Line(from, to);
-		shorten_line(connection, from.rad * 1.25, to.rad * 1.35);
-		connection.strokeWidth = (from.circle.strokeWidth + to.circle.strokeWidth) / 2.5;
-		if (game_data.node_factions[from.value] === game_data.node_factions[to.value])
-			full_connection(connection, game_data.node_factions[from.value]);
-		else if (game_data.node_factions[from.value] !== 1 &&
-			game_data.node_factions[to.value] !== 1) contested_connection(connection, 0.5,
-			game_data.node_factions[from.value], game_data.node_factions[to.value]);
+		shorten_line(connection, origin.rad * 1.25, end.rad * 1.35);
+		connection.strokeWidth = (origin.circle.strokeWidth + end.circle.strokeWidth) / 2.5;
+		let progressed = end.connection_data[relation] !== null &&
+			end.connection_data[relation].completions[0].percentage === "0.0" &&
+			end.connection_data[relation].completions[1].percentage === "0.0";
+		if (game_data.node_factions[origin.value] === game_data.node_factions[end.value]
+			&& progressed) full_connection(connection, game_data.node_factions[origin.value]);
+		else if (game_data.node_factions[origin.value] !== 1 && progressed &&
+			game_data.node_factions[end.value] !== 1) contested_connection(connection, 0.5,
+			game_data.node_factions[origin.value], game_data.node_factions[end.value]);
 		else {
-			if (to.connection_data.dad === null ||
-				(to.connection_data.dad.completions[0].percentage === "0.0" &&
-				to.connection_data.dad.completions[1].percentage === "0.0"))
+			if (end.connection_data[relation] === null || !progressed)
 				empty_connection(connection);
 			else {
 				let active_one, index;
-				if (game_data.node_factions[from.value] === 1) {
-					active_one = to;
+				if (game_data.node_factions[origin.value] === 1) {
+					active_one = end;
 					index = 1;
 				}
 				else {
-					active_one = from;
+					active_one = origin;
 					index = 0;
 				}
-				expanding_connection(connection, parseFloat(to.connection_data.dad
+				expanding_connection(connection, parseFloat(end.connection_data[relation]
 					.completions[index].percentage), game_data.node_factions[active_one.value]);
 			}
 		}
@@ -1892,7 +1893,7 @@ $(document).on('ready page:load', function() {
 			game_data.proved[target.value].indexOf(target.parent.node.value) !== -1))) {
 			let dad = target.parent.node;
 			if (dad !== null) {
-				connection_dad = show_line(dad, target);
+				connection_dad = show_line(dad, target, "dad");
 				target.parent.line = connection_dad;
 				if (target.value / 2 === dad.value) dad.son.line = connection_dad;
 				else dad.daughter.line = connection_dad;
@@ -1904,7 +1905,7 @@ $(document).on('ready page:load', function() {
 					game_data.proved[target.value].indexOf(target.brother.node.value) !== -1))) {
 			let bro = target.brother.node;
 			if (bro !== null) {
-				connection_bro = show_line(bro, target);
+				connection_bro = show_line(bro, target, "bro");
 				target.brother.line = connection_bro;
 				bro.sister.line = connection_bro;
 			}
