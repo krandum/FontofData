@@ -44,17 +44,23 @@ if DataNode.all.empty?
 	begin
 		redNodes[0].connections << [redNodes[1], redNodes[2]]
 		redNodes[3].connections << [redNodes[1], redNodes[2]]
+		redNodes[0].connected_nodes.complete
+		redNodes[3].connected_nodes.complete
 	end
 	redCluster = Faction.find(2).clusters.build(cluster_name: Faction.find(2).faction_name)
 	redNodes[0].update_attribute(:cluster_core, true)
 	redCluster.data_nodes << redNodes
 	redCluster.save
 
+
 	greenNodes = [DataNode.find(1), DataNode.find(5), DataNode.find(6), DataNode.find(7)]
 	begin
     greenNodes[0].connections << [greenNodes[1], greenNodes[2]]
     greenNodes[1].connections << greenNodes[2]
     greenNodes[2].connections << greenNodes[3]
+		greenNodes[0].connected_nodes.complete
+		greenNodes[1].connected_nodes.complete
+		greenNodes[2].connected_nodes.complete
 	end
 	greenCluster = Faction.find(3).clusters.build(cluster_name: Faction.find(3).faction_name)
 	greenNodes[0].update_attribute(:cluster_core, true)
@@ -65,6 +71,8 @@ if DataNode.all.empty?
 	begin
     blueNodes[2].connections << [blueNodes[0], blueNodes[1], blueNodes[3]]
     blueNodes[0].connections << blueNodes[3]
+		blueNodes[2].connected_nodes.complete
+		blueNodes[0].connected_nodes.complete
 	end
 	blueCluster = Faction.find(4).clusters.build(cluster_name: Faction.find(4).faction_name)
 	blueNodes[0].update_attribute(:cluster_core, true)
