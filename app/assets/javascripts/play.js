@@ -3576,7 +3576,6 @@ $(document).on('ready page:load', function() {
 		};
 		console.log("Ticking now...");
 	}
-
 	init_debug();
 
 });
