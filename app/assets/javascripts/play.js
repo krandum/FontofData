@@ -127,8 +127,6 @@ $(document).on('ready page:load', function() {
 	function make_ui() {
 		let user = game_data.user_info;
 		let ui = game_data.user_interface;
-		//REMOVE WITH QUERY
-		//MEOW
 		ui.color_palette = {
 			1: {//Ancient
 				primary: '#1B466B',
@@ -140,7 +138,7 @@ $(document).on('ready page:load', function() {
 			2: {//Rocks
 				primary: '#7F0812',
 				secondary: '#E52D00',
-				basis: '#0F0202',
+				basis: '#2D0505',
 				accent: '#FF8300',
 				highlight: '#FAF9F9'
 			},
@@ -174,87 +172,110 @@ $(document).on('ready page:load', function() {
 			4: 'assets/blue/'
 		};
 		ui.card = document.getElementById('info_pane');
-		ui.search_bar = document.getElementsByClassName('search_bar')[0];
+		// ui.search_bar = document.getElementsByClassName('search_bar')[0];
 		ui.chat_pane = document.getElementsByClassName('chat_pane')[0];
 		ui.status_bar = document.getElementsByClassName('status_bar')[0];
 		ui.messages = document.getElementById('messages');
-		ui.actionbar = document.getElementById('actionbar');
-		ui.buttons = ui.actionbar.children[0].children;
-		ui.prompt = document.getElementById('actionbar_prompt');
-		ui.minimap = document.getElementById('minimap');
-		ui.second_map = document.getElementById('second_map');
+		// ui.actionbar = document.getElementById('actionbar');
+		// ui.buttons = ui.actionbar.children[0].children;
+		// ui.prompt = document.getElementById('actionbar_prompt');
+		// ui.minimap = document.getElementById('minimap');
+		// ui.second_map = document.getElementById('second_map');
 		ui.window_container = document.getElementById('window_container');
 		ui.exit_buttons = document.getElementsByClassName('window_exit_button');
 		ui.info_window = ui.window_container.children[0];
+		ui.info_elems = {
+			assign_names: {
+				0: 'Core Node',
+				1: 'Gather Node',
+				2: 'Offense Node',
+				3: 'Defense Node'
+			},
+			faction_icons: ui.info_window.children[2].children,
+			assign_icons: ui.info_window.children[3].children,
+			node_icon_holder: document.getElementById('node_icon_holder'),
+			combat_pane: document.getElementById('info_combat_pane'),
+			cluster_pane: document.getElementById('info_cluster_pane'),
+			captions: document.getElementsByClassName('caption_recolor'),
+			spans: {
+				1: document.getElementById('owner_field'),
+				2: document.getElementById('cluster_field'),
+				3: document.getElementById('time_owned_field'),
+				4: document.getElementById('tier_field'),
+				5: document.getElementById('assignment_field'),
+				6: document.getElementById('info_node_name')
+			}
+		};
 		function hex_to_rgba(hex, alpha) {
-			let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16),
-				b = parseInt(hex.slice(5, 7), 16);
-			if (alpha) return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
-			else return "rgb(" + r + ", " + g + ", " + b + ")";
+			let r = parseInt(hex.slice(1, 3), 16),
+			g = parseInt(hex.slice(3, 5), 16),
+			b = parseInt(hex.slice(5, 7), 16);
+
+			if (alpha) {
+				return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+			} else {
+				return "rgb(" + r + ", " + g + ", " + b + ")";
+			}
 		}
 		ui.set_ui_size = function() {
 			let i = 0;
-			let width = parseInt(ui.actionbar.clientWidth / 7 * .95) - 2;
-			while (i < 7) {
-				ui.buttons[i].style.height = width + 'px';
-				ui.buttons[i].style.width = width + 'px';
-				i++;
+			// let width = Math.min(parseInt(ui.actionbar.clientWidth / 7 * .95) - 2, parseInt(ui.actionbar.children[0].clientHeight * .95));
+			// while (i < 7) {
+			// 	ui.buttons[i].style.height = width + 'px';
+			// 	ui.buttons[i].style.width = width + 'px';
+			// 	i++;
+			// }
+			i = -1;
+			ui.info_elems.assign_icons[12].style.width = ui.info_elems.assign_icons[12].clientHeight + 8 + 'px';
+			while (++i < 12) {
+				ui.info_elems.assign_icons[i].style.width = ui.info_elems.assign_icons[12].clientHeight + 8 + 'px';
+				ui.info_elems.assign_icons[i].style.height = ui.info_elems.assign_icons[12].clientHeight + 8 + 'px';
 			}
-			console.log(ui.info_window.children[1].children[0].clientHeight);
-			ui.info_window.children[1].children[0].style.width = ui.info_window.children[1].children[0].clientHeight + 'px';
-			ui.prompt.style.fontSize = parseFloat(ui.prompt.clientHeight * .6 / 10).toFixed(1) + 'rem';
-			ui.minimap.style.height = ui.minimap.clientWidth + 'px';
-			ui.second_map.style.height = ui.second_map.clientWidth +'px';
+			i = -1;
+			while (++i < 4) {
+				ui.info_elems.faction_icons[i].style.width = ui.info_elems.assign_icons[12].clientHeight + 8 + 'px';
+				ui.info_elems.faction_icons[i].style.height = ui.info_elems.assign_icons[12].clientHeight + 8 + 'px';
+			}
+			ui.info_window.children[1].children[0].style.width = ui.info_window.children[1].children[0].clientHeight + 8 + 'px';
+			// ui.prompt.style.fontSize = parseFloat(ui.prompt.clientHeight * .6 / 10).toFixed(1) + 'rem';
+			// ui.minimap.style.height = ui.minimap.clientWidth + 'px';
+			// ui.second_map.style.height = ui.second_map.clientWidth +'px';
 		};
-		ui.init_actionbar = function() {
-			ui.buttons[0].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/orbit_forward.svg)';
-			ui.buttons[1].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/placeholder.svg)';
-			ui.buttons[2].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/044-goto.svg)';
-			ui.buttons[3].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/placeholder.svg)';
-			ui.buttons[4].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/043-connect.svg)';
-			ui.buttons[5].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/045-orbit.svg)';
-			ui.buttons[6].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/035-sign.svg)';
-			ui.buttons[0].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.buttons[1].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.buttons[2].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.buttons[3].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.buttons[4].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.buttons[5].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.buttons[6].style.borderColor = ui.color_palette[user.faction_id].accent;
+		ui.init_assets = function() {
+			let fac_i = 0;
+			while (++fac_i < 4) {
+				ui.info_elems.assign_icons[0 + (4 * (fac_i - 1))].style.backgroundImage = 'url(' + ui.asset_paths[fac_i + 1] + '/icons/role_core.svg)';
+				ui.info_elems.assign_icons[1 + (4 * (fac_i - 1))].style.backgroundImage = 'url(' + ui.asset_paths[fac_i + 1] + '/icons/role_gather.svg)';
+				ui.info_elems.assign_icons[2 + (4 * (fac_i - 1))].style.backgroundImage = 'url(' + ui.asset_paths[fac_i + 1] + '/icons/role_attack.svg)';
+				ui.info_elems.assign_icons[3 + (4 * (fac_i - 1))].style.backgroundImage = 'url(' + ui.asset_paths[fac_i + 1] + '/icons/role_defend.svg)';
+			}
+			// ui.buttons[0].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/orbit_forward.svg)';
+			// ui.buttons[1].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/orbit_backward.svg)';
+			// ui.buttons[2].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/044-goto.svg)';
+			// ui.buttons[3].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/placeholder.svg)';
+			// ui.buttons[4].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/043-connect.svg)';
+			// ui.buttons[5].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/045-orbit.svg)';
+			// ui.buttons[6].children[0].style.backgroundImage = 'url(' + ui.asset_paths[user.faction_id] + '/icons/035-sign.svg)';
+			// ui.buttons[0].style.borderColor = ui.color_palette[user.faction_id].basis;
+			// ui.buttons[1].style.borderColor = ui.color_palette[user.faction_id].basis;
+			// ui.buttons[2].style.borderColor = ui.color_palette[user.faction_id].basis;
+			// ui.buttons[3].style.borderColor = ui.color_palette[user.faction_id].basis;
+			// ui.buttons[4].style.borderColor = ui.color_palette[user.faction_id].basis;
+			// ui.buttons[5].style.borderColor = ui.color_palette[user.faction_id].basis;
+			// ui.buttons[6].style.borderColor = ui.color_palette[user.faction_id].basis;
 			ui.set_ui_size();
 		};
 		ui.set_colors = function() {
-			ui.card.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary);
-			ui.card.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.card.style.color = ui.color_palette[user.faction_id].highlight;
-			ui.card.children[6].style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.card.children[6].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.search_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].basis);
-			ui.search_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.chat_pane.style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.chat_pane.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.chat_pane.children[1].style.backgroundColor = ui.color_palette[user.faction_id].primary;
-			ui.chat_pane.children[1].children[0].style.backgroundColor =
-				ui.color_palette[user.faction_id].primary;
-			ui.messages.style.color = ui.color_palette[user.faction_id].highlight;
-			ui.status_bar.style.backgroundColor = hex_to_rgba(ui.color_palette[user.faction_id].primary);
-			ui.status_bar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.status_bar.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.status_bar.style.color = ui.color_palette[user.faction_id].highlight;
-			ui.actionbar.children[0].style.backgroundColor =  ui.color_palette[user.faction_id].secondary;
-			ui.actionbar.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.actionbar.children[1].style.backgroundColor =  ui.color_palette[user.faction_id].highlight;
-			ui.actionbar.children[1].style.borderColor =  ui.color_palette[user.faction_id].basis;
-			ui.minimap.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.minimap.style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.second_map.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.second_map.style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.info_window.style.backgroundColor = ui.color_palette[user.faction_id].primary;
-			ui.info_window.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.info_window.style.color = ui.color_palette[user.faction_id].highlight;
-			ui.prompt.style.backgroundColor = ui.color_palette[user.faction_id].basis;
-			ui.prompt.style.borderColor = ui.color_palette[user.faction_id].accent;
-			ui.prompt.style.color = ui.color_palette[user.faction_id].highlight;
+			d3.selectAll('.primary')
+				.classed(ui.faction_names[user.faction_id], true);
+			d3.selectAll('.secondary')
+				.classed(ui.faction_names[user.faction_id], true);
+			// ui.actionbar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].secondary;
+			// ui.actionbar.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
+			// ui.actionbar.children[1].style.backgroundColor = ui.color_palette[user.faction_id].highlight;
+			// ui.actionbar.children[1].style.borderColor = ui.color_palette[user.faction_id].basis;
+			d3.selectAll('.status_icon')
+				.style('fill', ui.color_palette[user.faction_id].basis);
 		};
 		ui.set_bar = function() {
 			ui.status_bar.children[0].style.backgroundImage = 'url(' + user.picture + ')';
@@ -303,12 +324,51 @@ $(document).on('ready page:load', function() {
 			}
 		};
 		ui.set_info_window = function(node) {
-			ui.info_window.style.backgroundColor = ui.color_palette[node.faction_id].primary;
+			let i = -1;
+			while (++i < ui.info_elems.captions.length) {
+				ui.info_elems.captions[i].style.color = ui.color_palette[node.faction_id].accent;
+			}
+			i = 0;
+			while (++i < 7) {
+				let cur_span = ui.info_elems.spans[i];
+				while (cur_span.firstChild) {
+					cur_span.removeChild(cur_span.firstChild);
+				}
+			}
+			i = -1;
+			while (++i < 12) {
+				if (ui.info_elems.assign_icons[i].classList.contains('hidden') == false) {
+					ui.info_elems.assign_icons[i].classList.add('hidden');
+				}
+			}
+			i = -1;
+			while (++i < 4) {
+				if (ui.info_elems.faction_icons[i].classList.contains('hidden') == false) {
+					ui.info_elems.faction_icons[i].classList.add('hidden');
+				}
+			}
+			ui.info_elems.faction_icons[node.faction_id - 1].classList.toggle('hidden');
+			ui.info_window.style.backgroundColor = ui.color_palette[node.faction_id].basis;
 			ui.info_window.style.borderColor = ui.color_palette[node.faction_id].accent;
 			ui.info_window.style.color = ui.color_palette[node.faction_id].highlight;
-			ui.info_window.children[1].firstChild.firstChild.appendChild(document.createTextNode(node.value));
-			ui.info_window.children[3].firstChild.appendChild(document.createTextNode(node.owner));
-			ui.info_window.children[4].firstChild.appendChild(document.createTextNode(node.cluster));
+			ui.info_elems.node_icon_holder.style.borderColor = ui.color_palette[node.faction_id].accent;
+			ui.info_elems.node_icon_holder.style.backgroundColor = ui.color_palette[node.faction_id].highlight;
+			ui.info_elems.node_icon_holder.style.color = ui.color_palette[node.faction_id].primary;
+			ui.info_elems.combat_pane.style.backgroundColor = ui.color_palette[node.faction_id].primary;
+			ui.info_elems.combat_pane.style.borderColor = ui.color_palette[node.faction_id].accent;
+			ui.info_elems.cluster_pane.style.backgroundColor = ui.color_palette[node.faction_id].primary;
+			ui.info_elems.cluster_pane.style.borderColor = ui.color_palette[node.faction_id].accent;
+			ui.info_elems.assign_icons[12].style.borderColor = ui.color_palette[node.faction_id].accent;
+			if (node.assignment >= 0) {
+				ui.info_elems.assign_icons[4 * (node.faction_id - 1) - 4 + node.assignment].classList.toggle('hidden');
+			}
+			ui.info_elems.spans[6].style.color = ui.color_palette[node.faction_id].accent;
+			ui.info_elems.spans[1].appendChild(document.createTextNode(node.owner));
+			ui.info_elems.spans[2].appendChild(document.createTextNode(node.cluster));
+			// ui.info_elems.spans[3].appendChild(document.createTextNode(node.time_owned));
+			ui.info_elems.spans[4].appendChild(document.createTextNode('Tier ' + node.tier));
+			ui.info_elems.spans[5].appendChild(document.createTextNode(ui.info_elems.assign_names[node.assignment]));
+			ui.info_elems.spans[6].appendChild(document.createTextNode(node.value));
 		};
 		ui.close_windows = function(num) {
 			let i = 0;
@@ -317,25 +377,31 @@ $(document).on('ready page:load', function() {
 					ui.window_container.children[i].classList.add('hidden');
 				}
 				i++;
-				if (num === 0) {
-					// ui.info_window.children[1].firstChild.firstChild.removeChild(ui.info_window.children[1].firstChild.firstChild);
-					// ui.info_window.children[3].firstChild.removeChild(ui.info_window.children[3].firstChild.firstChild);
-					// ui.info_window.children[4].firstChild.removeChild(ui.info_window.children[4].firstChild.firstChild);
-				}
+			}
+			i = 0;
+			while (ui.window_container.children[1].children.length >= 1) {
+				d3.selectAll(".connection_pane svg").remove();
+				d3.selectAll(".connection_pane text").remove();
 			}
 		};
-		ui.show_prompt = function(text) {
-			return function() {
-				ui.prompt.firstChild.appendChild(document.createTextNode(text));
-			};
-		};
-		ui.clear_prompt = function() {
-			ui.prompt.firstChild.removeChild(ui.prompt.firstChild.firstChild);
-		};
+		// ui.show_prompt = function(text) {
+		// 	return function() {
+		// 		ui.prompt.firstChild.appendChild(document.createTextNode(text));
+		// 	}
+		// }
+		// ui.clear_prompt = function() {
+		// 	ui.prompt.firstChild.removeChild(ui.prompt.firstChild.firstChild);
+		// }
 		ui.create_listeners = function() {
 			window.addEventListener("resize", function(e) {
 				ui.set_ui_size();
 			});
+			// window.addEventListener('mousemove', function(e) {
+			// 	let x = e.clientX;
+			// 	let y = e.clientY;
+			// 	ui.tooltip.style.top = (y + 10) + 'px';
+			// 	ui.tooltip.style.left = (x - 35) + 'px';
+			// });
 			window.addEventListener('keydown', function(e) {
 				if (document.activeElement.type !== 'textarea') {
 					if (e.keyCode === 27) {
@@ -353,41 +419,45 @@ $(document).on('ready page:load', function() {
 					}
 				}
 			});
-			ui.buttons[0].addEventListener('click', function(e) {
-				//placeholder orbit back
-			});
-			ui.buttons[0].addEventListener('mouseenter', ui.show_prompt('Move back one Node.'));
-			ui.buttons[0].addEventListener('mouseleave', ui.clear_prompt);
-			ui.buttons[1].addEventListener('click', function(e) {
-				//placeholder popup
-			});
-			ui.buttons[1].addEventListener('mouseenter', ui.show_prompt('Move forward one Node.'));
-			ui.buttons[1].addEventListener('mouseleave', ui.clear_prompt);
-			ui.buttons[2].addEventListener('click', function(e) {
-				//placeholder assignment screen
-			});
-			ui.buttons[2].addEventListener('mouseenter', ui.show_prompt('Assignment window. (A)'));
-			ui.buttons[2].addEventListener('mouseleave', ui.clear_prompt);
-			ui.buttons[3].addEventListener('click', function(e) {
-				ui.actionbar.children[8].classList.toggle("hidden");
-			});
-			ui.buttons[3].addEventListener('mouseenter', ui.show_prompt('Invest in this Node.'));
-			ui.buttons[3].addEventListener('mouseleave', ui.clear_prompt);
-			ui.buttons[4].addEventListener('click', function(e) {
-				ui.window_container.children[1].classList.toggle('hidden');
-			});
-			ui.buttons[4].addEventListener('mouseenter', ui.show_prompt('Link to another Node'));
-			ui.buttons[4].addEventListener('mouseleave', ui.clear_prompt);
-			ui.buttons[5].addEventListener('click', function(e) {
-				//placeholder connections?
-			});
-			ui.buttons[5].addEventListener('mouseenter', ui.show_prompt('Connections window.'));
-			ui.buttons[5].addEventListener('mouseleave', ui.clear_prompt);
-			ui.buttons[6].addEventListener('click', function(e) {
-				//placeholder cancel
-			});
-			ui.buttons[6].addEventListener('mouseenter', ui.show_prompt('Show Node info. (I)'));
-			ui.buttons[6].addEventListener('mouseleave', ui.clear_prompt);
+			// ui.buttons[0].addEventListener('click', function(e) {
+			// 	//placeholder orbit back
+			// });
+			// ui.buttons[0].addEventListener('mouseenter', ui.show_prompt('Move back one Node.'));
+			// ui.buttons[0].addEventListener('mouseleave', ui.clear_prompt);
+			// ui.buttons[1].addEventListener('click', function(e) {
+			// 	//placeholder popup
+			// });
+			// ui.buttons[1].addEventListener('mouseenter', ui.show_prompt('Move forward one Node.'));
+			// ui.buttons[1].addEventListener('mouseleave', ui.clear_prompt);
+			// ui.buttons[2].addEventListener('click', function(e) {
+			// 	//placeholder assignment screen
+			// });
+			// ui.buttons[2].addEventListener('mouseenter', ui.show_prompt('Assignment window. (A)'));
+			// ui.buttons[2].addEventListener('mouseleave', ui.clear_prompt);
+			// ui.buttons[3].addEventListener('click', function(e) {
+			// 	ui.actionbar.children[8].classList.toggle("hidden");
+			// });
+			// ui.buttons[3].addEventListener('mouseenter', ui.show_prompt('Invest in this Node.'));
+			// ui.buttons[3].addEventListener('mouseleave', ui.clear_prompt);
+			// ui.buttons[4].addEventListener('click', function(e) {
+			// 	ui.close_windows(0);
+			// 	ui.info_window.classList.toggle('hidden');
+			// 	ui.set_ui_size();
+			// });
+			// ui.buttons[4].addEventListener('mouseenter', ui.show_prompt('Link to another Node'));
+			// ui.buttons[4].addEventListener('mouseleave', ui.clear_prompt);
+			// ui.buttons[5].addEventListener('click', function(e) {
+			// 	//placeholder connections?
+			// });
+			// ui.buttons[5].addEventListener('mouseenter', ui.show_prompt('Connections window.'));
+			// ui.buttons[5].addEventListener('mouseleave', ui.clear_prompt);
+			// ui.buttons[6].addEventListener('click', function(e) {
+			// 	ui.close_windows(0);
+			// 	ui.info_window.classList.toggle('hidden');
+			// 	ui.set_ui_size();
+			// });
+			// ui.buttons[6].addEventListener('mouseenter', ui.show_prompt('Show Node info. (I)'));
+			// ui.buttons[6].addEventListener('mouseleave', ui.clear_prompt);
 			ui.exit_buttons[0].addEventListener('click', function(e) {
 				ui.exit_buttons[0].parentNode.classList.add('hidden');
 			});
@@ -396,7 +466,7 @@ $(document).on('ready page:load', function() {
 			ui.set_colors();
 			ui.set_bar();
 			ui.create_listeners();
-			ui.init_actionbar();
+			ui.init_assets();
 			ui.set_ui_size();
 		};
 		ui.init();
@@ -1411,6 +1481,9 @@ $(document).on('ready page:load', function() {
 		if (target.node) target.number.fillColor = node_color['num'];
 		else target.image.fillColor = node_color['num'];
 		target.selected = false;
+		let empty_window = { value: "", faction_id: 1, owner: "", tier: "",
+			connection_num: "", function: "", worth: "", contention: "" };
+		game_data.user_interface.set_info_window(empty_window);
 		ungrow_node(target);
 		untweak_connections(target);
 	}
@@ -1617,7 +1690,6 @@ $(document).on('ready page:load', function() {
 			datatype: "html",
 			success: function (raw) {
 				let data = JSON.parse(raw), in_nodes = data['nodes'], i = 0;
-				console.log(data);
 				while (++i < 64) {
 					game_data.node_factions[i] = in_nodes[i]['faction_id'];
 					game_data.node_connections[i] = {
@@ -1636,8 +1708,26 @@ $(document).on('ready page:load', function() {
 					game_data.active_nodes[i].connection_num = in_nodes[i+1]['connection_num'];
 					game_data.active_nodes[i].worth = in_nodes[i+1]['worth'];
 					game_data.active_nodes[i].contention = in_nodes[i+1]['contention'];
-					if (game_data.active_nodes[i].owner === 'null')
-						game_data.active_nodes[i].owner = 'Unclaimed';
+					//TODO finish query data
+					//game_data.active_nodes[i].cluster = in_nodes[i+1][cluster];
+					//game_data.active_nodes[i].last_captured = in_nodes[i+1][last_captured];
+					//game_data.active_nodes[i].assignment = in_nodes[i+1][assignment];
+					//game_data.active_nodes[i].speed = in_nodes[i+1][speed];
+					//game_data.active_nodes[i].friction = in_nodes[i+1][friction];
+					game_data.active_nodes[i].cluster = 'Cluster_name';
+					game_data.active_nodes[i].tier = 1;
+					game_data.active_nodes[i].last_captured = '2017-12-04 06:06:44 UTC';
+					if (game_data.active_nodes[i].faction_id == 1) {
+						game_data.active_nodes[i].assignment = -1;
+					}
+					else {
+						game_data.active_nodes[i].assignment = 3;
+					}
+					game_data.active_nodes[i].speed = 32;
+					game_data.active_nodes[i].friction = 46;
+					//end dummy data
+					if (game_data.active_nodes[i].owner === null)
+						game_data.active_nodes[i].owner = 'unclaimed';
 				}
 				game_data.global_root = game_data.active_nodes[0];
 				game_data.old_root = game_data.global_root;
@@ -1674,6 +1764,27 @@ $(document).on('ready page:load', function() {
 							game_data.active_nodes[k].connection_num = in_nodes[j]['connection_num'];
 							game_data.active_nodes[k].worth = in_nodes[j]['worth'];
 							game_data.active_nodes[k].contention = in_nodes[j]['contention'];
+							//TODO finish query data
+							//game_data.active_nodes[k].cluster = in_nodes[j][cluster];
+							//game_data.active_nodes[k].last_captured = in_nodes[j][last_captured];
+							//game_data.active_nodes[k].assignment = in_nodes[j][assignment];
+							//game_data.active_nodes[k].speed = in_nodes[j][speed];
+							//game_data.active_nodes[k].friction = in_nodes[j][friction];
+							//dummy data:
+							game_data.active_nodes[k].cluster = 'Cluster_name';
+							game_data.active_nodes[k].tier = 1;
+							game_data.active_nodes[k].last_captured = '2017-12-04 06:06:44 UTC';
+							if (game_data.active_nodes[k].faction_id == 1) {
+								game_data.active_nodes[k].assignment = -1;
+							}
+							else {
+								game_data.active_nodes[k].assignment = 0;
+							}
+							game_data.active_nodes[k].speed = 32;
+							game_data.active_nodes[k].friction = 46;
+							//end dummy data
+							if (game_data.active_nodes[k].owner === null)
+								game_data.active_nodes[k].owner = 'unclaimed';
 						}
 						j++;
 					}
@@ -2552,6 +2663,7 @@ $(document).on('ready page:load', function() {
 				setTimeout(function() {
 					game_data.selected_nodes.forEach(function(e) { unselect_node(e); });
 					game_data.selected_nodes.splice(0, game_data.selected_nodes.length);
+					game_data.user_interface.set_info_window(target);
 					game_data.action_index = -1;
 				}, 300);
 			}
@@ -2559,11 +2671,13 @@ $(document).on('ready page:load', function() {
 				remove_options(game_data.selected_nodes[0]);
 				unselect_node(game_data.selected_nodes[0]);
 				select_node(target);
+				game_data.user_interface.set_info_window(target);
 				game_data.selected_nodes[0] = target;
 				add_options(game_data.selected_nodes[0]);
 			}
 			else {
 				select_node(target);
+				game_data.user_interface.set_info_window(target);
 				game_data.selected_nodes.push(target);
 				add_options(target);
 			}
@@ -3168,7 +3282,7 @@ $(document).on('ready page:load', function() {
 			context.cur_stamp = cur_stamp;
 			console.log("Done expanding");
 		}
-		d3.select("#sandbox").style("display", "flex");
+		d3.select("#sandbox").classed("hidden", false).style("display", "flex");
 		let ma = 0, start_nums = [a, b],
 			bounding = document.getElementById("sandbox").getBoundingClientRect(),
 			width = bounding.width, height = bounding.height, hooked = true,

@@ -26,46 +26,85 @@ body.play {
 	display: grid;
 	justify-content: center;
 	align-items: center;
+	line-height: 1.1;
 	transform: translateZ(0);
+}
+
+.Rocks.primary {
+	background-color: #2D0505;
+	border-color: #FF8300;
+	color: #FAF9F9;
+}
+.Rocks.secondary {
+	background-color: #7F0812;
+	border-color: #FF8300;
+	color: #FAF9F9;
+}
+.Elves.primary {
+	background-color: #352E09;
+	border-color: #40ED4B;
+	color: #FFFFD8;
+}
+.Elves.secondary {
+	background-color: #588401;
+	border-color: #40ED4B;
+	color: #FFFFD8;
+}
+.Jellyfish.primary {
+	background-color: #094074;
+	border-color: #E2E544;
+	color: #C9F0FF;
+}
+.Jellyfish.secondary {
+	background-color: #2188DD;
+	border-color: #E2E544;
+	color: #C9F0FF;
 }
 
 .play_grid {
 	height: 100%;
 	width: 100%;
 	display: grid;
-	grid-template-columns: 11fr 2fr 1fr 14fr 10fr;
-	grid-template-rows: 40px 12fr 7fr 1fr 4fr 5fr 5fr;
+	grid-template-columns: 13fr 13fr 13fr;
+	grid-template-rows: 40px 24fr 5fr 5fr;
 	grid-template-areas:
-	"stat-bar stat-bar stat-bar stat-bar stat-bar"
-    ". . . . ."
-	". . . . minimap"
-	"search . . . minimap"
-	"info . . . minimap"
-	"chat chat chat actionbar minimap"
-	"chat chat chat actionbar minimap";
+	"stat-bar stat-bar stat-bar"
+	". . ."
+	"info . chat"
+	"info . chat";
+	// grid-template-columns: 11fr 2fr 1fr 14fr 10fr;
+	// grid-template-rows: 40px 12fr 7fr 1fr 4fr 5fr 5fr;
+	// grid-template-areas:
+	// "stat-bar stat-bar stat-bar stat-bar stat-bar"
+	// ". . . . ."
+	// ". . . . minimap"
+	// "search . . . minimap"
+	// "info . . . minimap"
+	// "chat chat chat actionbar minimap"
+	// "chat chat chat actionbar minimap";
 	font-size: 1.2rem;
 	z-index: 1;
 }
 
 .minimap_container {
-  grid-area: minimap;
-  display: flex;
-  flex-flow: column-reverse;
+	grid-area: minimap;
+	display: flex;
+	flex-flow: column-reverse;
 }
 
 #minimap {
-  width: 100%;
-  border-width: 2px 0 0 2px;
-  border-style: solid;
-  z-index: 2;
+	width: 100%;
+	border-width: 2px 0 0 2px;
+	border-style: solid;
+	z-index: 2;
 }
 
 #second_map {
-  width: 60%;
-  align-self: flex-end;
-  border-width: 2px 0 0 2px;
-  border-style: solid;
-  z-index: 2;
+	width: 60%;
+	align-self: flex-end;
+	border-width: 2px 0 0 2px;
+	border-style: solid;
+	z-index: 2;
 }
 
 .globalWrap {
@@ -130,16 +169,27 @@ body.play {
 	border: 0 solid #004299;
 	border-bottom-width: 2px;
 	display: grid;
-	grid-template-columns: 3fr 34px 1fr 12fr 80fr 10fr 10fr;
+	grid-template-columns: 3fr 34px 1fr 12fr 50fr 2fr 6fr 2fr 4fr 5fr;
 	grid-template-rows: 3px 34px 3px;
 	grid-template-areas:
-	". . . . . . ."
-	". profile_pic . username . packet_field key_field"
-	". . . . . . .";
+	". . . . . . . . . ."
+	". profile_pic . username . packet_img packet_field key_img key_field help_button"
+	". . . . . . . . . .";
 	z-index: 2;
 	font-size: 1.6rem;
 }
-
+.packet_img {
+	grid-area: packet_img;
+	z-index: 3;
+}
+.key_img {
+	grid-area: key_img;
+	z-index: 3;
+}
+#help_button {
+	grid-area: help_button;
+	z-index: 3;
+}
 .profile_pic {
 	grid-area: profile_pic;
 	background-size: 100%;
@@ -147,23 +197,22 @@ body.play {
 	border-radius: 3px;
 	z-index: 3;
 }
-
 .username {
 	grid-area: username;
 	align-self: center;
 	justify-self: center;
 }
-
 .key_field {
-  grid-area: key_field;
-  align-self: center;
-  justify-self: center;
+	grid-area: key_field;
+	padding-left: 8px;
+	align-self: center;
+	justify-self: left;
 }
-
 .packet_field {
-  grid-area: packet_field;
-  align-self: center;
-  justify-self: center;
+	grid-area: packet_field;
+	padding-left: 8px;
+	align-self: center;
+	justify-self: left;
 }
 
 .clusters {
@@ -178,7 +227,7 @@ body.play {
 	width: 100%;
 	align-items: center;
 	justify-items: center;
-    padding-left: 2%;
+	padding-left: 2%;
 	background-color: rgba(153, 153, 153, .85);
 	border-color: #004299;
 	border-style: solid;
@@ -187,18 +236,16 @@ body.play {
 	z-index: 2;
 }
 .search_elem {
-  resize: none;
-  width: 96%;
-  justify-self: center;
-  align-self: center;
+	resize: none;
+	width: 96%;
+	justify-self: center;
+	align-self: center;
 }
 
 #info_pane {
 	position: relative;
 	grid-area: info;
 	display: grid;
-	background-color: rgba(27, 70, 107, 0.65);
-	border-color: #094074;
 	border-style: solid;
 	border-width: 2px 2px 0px 0px;
 	border-radius: 0px 12px 0px 0px;
@@ -206,7 +253,7 @@ body.play {
 	grid-template-rows: 40px auto;
 	grid-template-areas:
 	". nameplate . faction_name faction_icon"
-	". nodeinfo nodeinfo nodeinfo .";
+	". nodeinfo nodeinfo nodeinfo nodeinfo";
 	z-index: 2;
 }
 
@@ -245,9 +292,7 @@ span#nodename {
 	overflow: hidden;
 	border-radius: 50%;
 	border-style: solid;
-	border-color: #094074;
 	border-width: 2px;
-	background-color: #BCDEFF;
 	position: absolute;
 	width: 85%;
 	height: 85%;
@@ -322,15 +367,15 @@ span#nodename {
 	grid-area: nodeinfo;
 	display: grid;
 	line-height: 100%;
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+	padding: 3%;
+	border-radius: 8px 8px 0 0;
+	margin-right: 6px;
+	grid-template-columns: 5fr 3fr;
+	grid-template-rows: 1fr 1fr 1fr;
 	grid-template-areas:
-	"field_owner"
-	"field_tier"
-	"field_function"
-	"field_connections"
-	"field_value"
-	"field_contention"
+	"field_owner field_connections"
+	"field_tier field_value"
+	"field_function field_contention"
 }
 
 .cluster_info {
@@ -349,8 +394,8 @@ span#nodename {
 	justify-content: center;
 	align-items: center;
 	flex-flow: column nowrap;
-	border-width: 2px 2px 0px 0px;
-	border-radius: 0 12px 0 0;
+	border-width: 2px 0px 0px 2px;
+	border-radius: 12px 0 0 0;
 	z-index: 2;
 }
 
@@ -384,10 +429,6 @@ span#nodename {
 	border-width: 2px 0px 0px 2px;
 	border-radius: 12px 0px 0px 0px;
 	z-index: 2;
-}
-
-.quest_li {
-
 }
 
 #actionbar {
@@ -435,7 +476,8 @@ span#nodename {
 #actionbar_prompt{
 	grid-area: prompt;
 	text-align: center;
-	border-top: 2px solid;
+	border-top-width: 2px;
+	border-top-style: solid;
 	font-size: 1.3rem;
 }
 .button4_textarea {
@@ -448,7 +490,7 @@ span#nodename {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	padding: 10%;
+	padding: 10% 20% 5% 20%;
 	pointer-events: none;
 	z-index: 4;
 }
@@ -466,8 +508,8 @@ span#nodename {
 	". node_icon node_icon exit_button"
 	"faction_icon node_icon node_icon assignment_icon"
 	"faction_icon owner owner assignment_icon"
-	"time_owned cluster cluster assignment_power"
-	"contention contention connections connections"
+	"time_owned cluster cluster assignment_tier"
+	"combat combat cluster_pane cluster_pane"
 }
 .window_exit_button {
 	grid-area: exit_button;
@@ -478,71 +520,152 @@ span#nodename {
 }
 .info_node_icon {
 	grid-area: node_icon;
-	border: 1px solid black;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 .info_faction_icon {
 	grid-area: faction_icon;
-	border: 1px solid black;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
+#info_faction_icon_n {
+	border-radius: 50%;
+	height: 100%;
+	border: 4px solid #004299;
+	overflow: hidden;
+	background: image_url('icons/placeholder.svg');
+}
+#info_faction_icon_r {
+	border-radius: 50%;
+	height: 100%;
+	border: 4px solid #FF8300;
+	overflow: hidden;
+	background: image_url('icons/placeholder-red_faction_icon.svg');
+}
+#info_faction_icon_g {
+	border-radius: 50%;
+	height: 100%;
+	border: 4px solid #40ED4B;
+	overflow: hidden;
+	background: image_url('icons/placeholder-green_faction_icon.svg');
+}
+#info_faction_icon_b {
+	border-radius: 50%;
+	height: 100%;
+	border: 4px solid #E2E544;
+	overflow: hidden;
+	background: image_url('icons/placeholder-blue_faction_icon.svg');
+}
 .info_assignment_icon {
 	grid-area: assignment_icon;
-	border: 1px solid black;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 .info_owner {
 	grid-area: owner;
-	border: 1px solid black;
 	display: flex;
+	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: center;
 }
 .info_cluster {
 	grid-area: cluster;
-	border: 1px solid black;
 	display: flex;
+	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: center;
 }
 .info_time_owned {
 	grid-area: time_owned;
-	border: 1px solid black;
 	display: flex;
+	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: center;
 }
-.info_assignment_power {
-	grid-area: assignment_power;
-	border: 1px solid black;
+.info_assignment_tier {
+	grid-area: assignment_tier;
 	display: flex;
+	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: center;
 }
 .info_contention {
 	grid-area: contention;
-	border: 1px solid black;
 	display: flex;
+	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: center;
 }
-.info_connections {
-	grid-area: connections;
-	border: 1px solid black;
+.info_cluster_frame {
+	grid-area: cluster_pane;
 	display: flex;
+	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: center;
 }
-.node_icon_holder {
+.assignment_icon {
 	border-radius: 50%;
 	height: 100%;
-	border: 2px solid black;
+	border: 4px solid;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100%;
+	position: absolute;
+}
+#assignment_icon_bg {
+	border: 4px solid;
+	position: relative;
+}
+#node_icon_holder {
+	border-radius: 50%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 4px solid;
+}
+.info_combat_frame {
+	grid-area: combat;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#info_combat_pane {
+	width: 90%;
+	height: 90%;
+	border-radius: 10px;
+	border: 2px solid;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-areas:
+	"contention_tag contention"
+	". ."
+	"placeholder_tag placeholder_tag"
+	". ."
+	". ."
+}
+#info_cluster_pane {
+	width: 90%;
+	height: 90%;
+	border-radius: 10px;
+	border: 2px solid;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-areas:
+	". ."
+	". ."
+	"placeholder_tag placeholder_tag"
+	". ."
+	". ."
+}
+.placeholder_tag {
+	grid-area: placeholder_tag;
+	text-align: center;
 }
 
 .link {
@@ -559,6 +682,7 @@ span#nodename {
 .connection_pane {
 	display: none;
 	position: absolute;
+	pointer-events: auto;
 	top: 10vh;
 	left: calc(50vw - 40vmin);
 	height: 80%;
@@ -574,7 +698,6 @@ span#nodename {
 
 svg {
 	display: block;
-	position: absolute;
 	border-radius: 3%;
 	height: 100%;
 	width: 100%;
@@ -623,4 +746,36 @@ svg {
 	0 -1px 0 #DDD,
 	1px 0 0 #DDD,
 	-1px 0 0 #DDD;
+}
+
+/* Tooltips */
+#tooltip {
+	width: 70px;
+	height: 20px;
+	background-color: black;
+	pointer-events: none;
+	position: relative;
+	text-decoration: none;
+	z-index: 6;
+}
+/* Tooltip colors */
+.red {
+	background-color: rgba(127, 8, 18, .75);
+	border-color: rgba(127, 8, 18, .75);
+	color: #FAF9F9
+}
+.green {
+	background-color: rgba(88, 132, 1, .75);
+	border-color: rgba(88, 132, 1, .75);
+	color: #FFFFD8
+}
+.blue {
+	background-color: rgba(33, 136, 221, .75);
+	border-color: rgba(33, 136, 221, .75);
+	color: #C9F0FF
+}
+.neutral {
+	background-color: rgba(27, 70, 107, .75);
+	border-color: rgba(27, 70, 107, .75);
+	color: #BCDEFF
 }

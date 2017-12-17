@@ -27,8 +27,8 @@
 			<div class="info_window hidden">
 				<div class="window_exit_button"></div>
 				<div class="info_node_icon">
-					<div class="node_icon_holder">
-						<span></span>
+					<div id="node_icon_holder">
+						<span id="info_node_name" style="font-size: 7rem;" class="noselect"></span>
 					</div>
 				</div>
 				<div class="info_faction_icon">
@@ -37,54 +37,71 @@
 					<div id="info_faction_icon_g" class="info_node_icon hidden"></div>
 					<div id="info_faction_icon_b" class="info_node_icon hidden"></div>
 				</div>
-				<div class="info_assignment_icon"></div>
-				<div class="info_owner">
-					<span></span>
+				<div class="info_assignment_icon">
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div class="assignment_icon hidden"></div>
+					<div id="assignment_icon_bg" class="assignment_icon"></div>
 				</div>
-				<div class="info_cluster">
-					<span></span>
-				</div>
-				<div class="info_time_owned"></div>
-				<div class="info_assignment_power"></div>
-				<div class="info_contention"></div>
-				<div class="info_connections"></div>
+				<div class="info_owner"><span class="caption_recolor">Owner:</span><span id="owner_field" style="font-size: 1.8rem"></span></div>
+				<div class="info_cluster"><span class="caption_recolor">Cluster:</span><span id="cluster_field"></span></div>
+				<div class="info_time_owned"><span class="caption_recolor">Held for:</span><span id="time_owned_field"></span></div>
+				<div class="info_assignment_tier"><span class="caption_recolor" id="tier_field"></span><span id="assignment_field"></span></div>
+				<div class="info_assignment_power"><span id="power_field"></span></div>
+				<div class="info_combat_frame"><div id="info_combat_pane">
+					<div class="placeholder_tag"><span>Combat statistics here</span></div>
+				</div></div>
+				<div class="info_cluster_frame"><div id="info_cluster_pane">
+					<div class="placeholder_tag"><span>Cluster information here</span></div>
+				</div></div>
+			</div>
+			<div class="connection_pane primary" id="sandbox"></div>
+		</div>
+		<div class="status_bar secondary">
+			<div class="profile_pic primary"></div>
+			<div class="username"><span></span></div>
+			<div class="key_img"><svg class="status_icon" viewBox="0 0 300 300"><path d="M287.3 243c-0.1-1.8-0.9-3.5-2.2-4.7L172.8 126c4.4-10.4 6.7-21.7 6.7-33.3 0-22.8-8.9-44.2-24.9-60.3C138.6 16.4 117.2 7.5 94.4 7.5c-22.8 0-44.1 8.9-60.2 25C0.9 65.7 0.9 119.7 34.1 152.9c16.1 16.1 37.5 25 60.2 25 11.6 0 22.9-2.3 33.3-6.8l36.9 36.9c1.5 1.5 3.6 2.3 5.7 2.2l20.1-0.7 -0.7 20.1c-0.1 2.1 0.7 4.2 2.2 5.7 1.5 1.5 3.6 2.3 5.7 2.2l20.2-0.7 -0.7 20.1c-0.1 2.1 0.8 4.2 2.2 5.7 1.5 1.5 3.3 2.3 5.7 2.3l20.1-0.7 -0.7 20.1c-0.1 2.2 0.8 4.4 2.4 5.9 1.5 1.3 3.3 2.1 5.2 2.1 0.3 0 0.6 0 0.8 0l30.9-3.4c4.2-0.5 7.2-4.2 6.8-8.4L287.3 243zM84.1 82.4c-9.5 9.5-24.8 9.5-34.3 0 -9.5-9.5-9.5-24.8 0-34.2 9.5-9.5 24.8-9.5 34.3 0C93.6 57.6 93.6 73 84.1 82.4zM261 245.6c-1.1 1.1-2.6 1.7-4.1 1.7s-3-0.6-4.1-1.7l-95.5-95.5c2.7-2.9 5.1-5.9 7.3-9.1l96.4 96.4C263.2 239.7 263.2 243.3 261 245.6z"/></svg></div>
+			<div class="key_field"><span></span></div>
+			<div class="packet_img"><svg class="status_icon" viewBox="0 0 948.3 948.3"><path d="M457.7 939.2c0 0 0 0 0 0l16.5 9.1 16.5-9.1c0 0 0 0 0 0l247-136.8 158.2-87.6v-20 -480 -21.8l-19.8-9.1 -47.1-21.6L474.2 0 119.5 162.3l-47.1 21.6 -19.8 9.1v21.8 480 20l158.2 87.6L457.7 939.2zM586.3 328.5l-112.2 62.1L362 328.5 162 217.7 474.2 74.8l312.2 142.9L586.3 328.5zM508.2 851.8V449.5l319.6-177v402.3L508.2 851.8zM440.2 449.5v402.3L120.6 674.8V272.5L440.2 449.5z"/></svg></div>
+			<div class="packet_field"><span></span></div>
+			<div id="help_button"><svg class="status_icon" viewBox="0 0 426.7 426.7"><rect x="192" y="298.7" width="42.7" height="42.7"/><path d="M213.3 0C95.5 0 0 95.5 0 213.3s95.5 213.3 213.3 213.3 213.3-95.5 213.3-213.3S331.2 0 213.3 0zM213.3 388.1c-96.5 0-174.7-78.2-174.7-174.7s78.2-174.7 174.7-174.7c96.4 0.1 174.6 78.3 174.7 174.7C388.1 309.8 309.8 388.1 213.3 388.1z"/><path d="M296.3 150.4c-11-45.8-57-74.1-102.9-63.1 -38.5 9.2-65.6 43.8-65.5 83.4h42.7c2-23.6 22.7-41 46.3-39s41 22.7 39 46.3c-4.4 21.2-23.4 36.2-45 35.4 -10.5 0-19 8.5-19 19v0 45h42.7v-24.3C279.8 241.4 307.2 195.7 296.3 150.4z"/></svg>
 			</div>
 		</div>
-    <div class="connection_pane" id="sandbox"></div>
-		<div class="status_bar">
-			<div class="profile_pic"></div>
-			<div class="username"><span></span></div>
-			<div class="key_img"></div>
-			<div class="key_field"><span></span></div>
-			<div class="packet_img"></div>
-			<div class="packet_field"><span></span></div>
-		</div>
 		<div class="clusters"></div>
-		<div class="search_bar">
+		<!-- <div class="search_bar primary">
 			<textarea rows="1" class="search_elem" placeholder="Go to Node"></textarea>
-		</div>
-		<div id="info_pane">
+		</div> -->
+		<div id="info_pane" class="primary">
 			<div class="nameplate"><span>Node: </span><span id="node_number"></span></div>
 			<div class="faction_name"><span id="faction_name"></span></div>
 			<div class="faction_icon" id="faction_icon_n"></div>
 			<div class="faction_icon" id="faction_icon_r"></div>
 			<div class="faction_icon" id="faction_icon_g"></div>
 			<div class="faction_icon" id="faction_icon_b"></div>
-			<div class="faction_icon" id="faction_icon_bg"></div>
-			<div class="nodeinfo">
+			<div class="faction_icon primary" id="faction_icon_bg"></div>
+			<div class="nodeinfo secondary">
 				<div style="grid-area: field_owner"><span>Owner: </span><span id="node_owner"></span><br></div>
 				<div style="grid-area: field_tier"><span>Tier: </span><span id="node_tier"></span><br></div>
 				<div style="grid-area: field_function"><span>Function: </span><span id="node_function"></span><br></div>
-				<div style="grid-area: field_connections"><span>Connections: </span><span id="node_connections"></span><br></div>
+				<div style="grid-area: field_connections"><span class="text-muted">Connections: </span><span id="node_connections"></span><br></div>
 				<div style="grid-area: field_value"><span>Value: </span><span id="node_value"></span><br></div>
 				<div style="grid-area: field_contention"><span>Contention: </span><span id="node_contention"></span></div>
 			</div>
 		</div>
-		<div class="minimap_container">
-			<div id="minimap"></div>
-			<div id="second_map"></div>
-		</div>
-		<div id="actionbar">
+		<!-- <div class="minimap_container">
+			<div id="minimap" class="primary"></div>
+			<div id="second_map" class="primary"></div>
+		</div> -->
+		<!-- <div id="actionbar">
 			<div class="actionbar_bg">
 				<div class="action_button_container" id="action_button1">
 					<div class="action_button"></div>
@@ -109,12 +126,12 @@
 				</div>
 			</div>
 			<textarea class="button4_textarea hidden" rows="1"></textarea>
-			<div class="promptclass" id="actionbar_prompt"><span></span></div>
-		</div>
-		<div class="chat_pane">
+			<div class="promptclass primary" id="actionbar_prompt"><span></span></div>
+		</div> -->
+		<div class="chat_pane primary">
 			<div class="chat_options">
 			</div>
-			<div class="chat_frame">
+			<div class="chat_frame secondary">
 				<div id="messages" data-chat-room-id="<%= @chat_room.id %>">
 					<%= render @chat_room.messages %>
 				</div>

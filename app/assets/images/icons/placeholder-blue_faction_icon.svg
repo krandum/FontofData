@@ -1,15 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 509 509" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
-    <g>
-        <path d="M284.167,21.104C279.686,8.454 267.704,0 254.26,0C240.816,0 228.834,8.454 224.321,21.104L163.744,190.695L344.777,190.695L284.167,21.104Z" style="fill:rgb(33,136,221);fill-rule:nonzero;"/>
-        <path d="M378.815,286.042L129.704,286.042L84.287,413.172L424.233,413.172L378.815,286.042Z" style="fill:rgb(33,136,221);fill-rule:nonzero;"/>
-        <path d="M476.737,444.955L31.782,444.955C14.239,444.955 0,459.193 0,476.737C0,494.281 14.239,508.519 31.782,508.519L476.737,508.519C494.281,508.519 508.519,494.28 508.519,476.737C508.52,459.193 494.281,444.955 476.737,444.955Z" style="fill:rgb(33,136,221);fill-rule:nonzero;"/>
-        <g transform="matrix(1.04107,0,0,1.17835,25.1401,-28.1237)">
-            <path d="M339.869,266.894L100.21,266.894L133.326,185.269L306.752,185.269L339.869,266.894Z" style="fill:rgb(201,240,255);"/>
-        </g>
-        <g transform="matrix(1.00069,0,0,0.970399,-8.46974,12.2328)">
-            <path d="M445.012,445.714L79.939,445.714L92.757,413.249L432.195,413.249L445.012,445.714Z" style="fill:rgb(201,240,255);"/>
-        </g>
-    </g>
-</svg>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100%"
+   height="100%"
+   viewBox="0 0 509 509"
+   version="1.1"
+   xml:space="preserve"
+   style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"
+   id="svg18"
+   sodipodi:docname="placeholder-blue_faction_icon.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"><metadata
+     id="metadata24"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+     id="defs22" /><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1091"
+     inkscape:window-height="813"
+     id="namedview20"
+     showgrid="false"
+     inkscape:zoom="0.46365422"
+     inkscape:cx="43.135584"
+     inkscape:cy="427.04237"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg18" /><rect
+     style="opacity:1;fill:#c9f0ff;fill-opacity:1;stroke-width:1.04255319"
+     id="rect822"
+     width="528.41101"
+     height="528.41101"
+     x="-8.6271181"
+     y="-8.6271181" /><g
+     id="g16"
+     transform="matrix(0.71583316,0,0,0.69886798,72.492619,76.806177)"><path
+       d="M 284.167,21.104 C 279.686,8.454 267.704,0 254.26,0 240.816,0 228.834,8.454 224.321,21.104 l -60.577,169.591 h 181.033 z"
+       style="fill:#2188dd;fill-rule:nonzero"
+       id="path2"
+       inkscape:connector-curvature="0" /><path
+       d="M 378.815,286.042 H 129.704 l -45.417,127.13 h 339.946 z"
+       style="fill:#2188dd;fill-rule:nonzero"
+       id="path4"
+       inkscape:connector-curvature="0" /><path
+       d="M 476.737,444.955 H 31.782 C 14.239,444.955 0,459.193 0,476.737 c 0,17.544 14.239,31.782 31.782,31.782 h 444.955 c 17.544,0 31.782,-14.239 31.782,-31.782 10e-4,-17.544 -14.238,-31.782 -31.782,-31.782 z"
+       style="fill:#2188dd;fill-rule:nonzero"
+       id="path6"
+       inkscape:connector-curvature="0" /><g
+       transform="matrix(1.04107,0,0,1.17835,25.1401,-28.1237)"
+       id="g10"><path
+         d="M 339.869,266.894 H 100.21 l 33.116,-81.625 h 173.426 z"
+         style="fill:#c9f0ff"
+         id="path8"
+         inkscape:connector-curvature="0" /></g><g
+       transform="matrix(1.00069,0,0,0.970399,-8.46974,12.2328)"
+       id="g14"><path
+         d="M 445.012,445.714 H 79.939 l 12.818,-32.465 h 339.438 z"
+         style="fill:#c9f0ff"
+         id="path12"
+         inkscape:connector-curvature="0" /></g></g></svg>
