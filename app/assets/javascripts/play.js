@@ -46,6 +46,26 @@ $(document).on('ready page:load', function() {
 		positions: []
 	};
 
+	let proved = [[5, 11], [6, 12], [5, 6], [41, 42]];
+
+	function format_proved(proved) {
+		let out = [], i = -1, a, b;
+		while (++i < proved.length) {
+			a = proved[i][0];
+			b = proved[i][1];
+			if (typeof(out[a]) === 'undefined' || out[a] === null) out[a] = [b];
+			else out[a].push(b);
+			if (typeof(out[b]) === 'undefined' || out[b] === null) out[b] = [a];
+			else out[b].push(a);
+		}
+		return out;
+	}
+
+	proved = format_proved(proved);
+	console.log(proved);
+
+	console.log(userinfo);
+
 	let g_theta = game_data.tilt * Math.PI / 180;
 
 	// Getting user information
@@ -70,6 +90,12 @@ $(document).on('ready page:load', function() {
 	// 	});
 	// }
 
+    // How to call actioncable functions from channels/game_channel.rb
+    // App.game.perform('example_function', {
+    //     example_var1: example_val1,
+    //     example_var2: example_val2,
+    //     ...
+    // });
 	App.game = App.cable.subscriptions.create("GameChannel", {
 		connected: function() {
 			// Called when the subscription is ready for use on the server
@@ -81,11 +107,8 @@ $(document).on('ready page:load', function() {
 
 		received: function(data) {
 			// Called when there's incoming data on the websocket for this channel
-			if (data['function_call'] == 'take_action') {
+			if (data['function_call'] === 'take_action') {
 				take_action(data);
-			}
-			if (data['function_call'] == 'bla') {
-				console.log("eyy");
 			}
 			else
 				console.log("invalid call");
@@ -155,15 +178,10 @@ $(document).on('ready page:load', function() {
 		ui.exit_buttons = document.getElementsByClassName('window_exit_button');
 		ui.info_window = ui.window_container.children[0];
 		function hex_to_rgba(hex, alpha) {
-			let r = parseInt(hex.slice(1, 3), 16),
-			g = parseInt(hex.slice(3, 5), 16),
-			b = parseInt(hex.slice(5, 7), 16);
-
-			if (alpha) {
-				return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
-			} else {
-				return "rgb(" + r + ", " + g + ", " + b + ")";
-			}
+			let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16),
+				b = parseInt(hex.slice(5, 7), 16);
+			if (alpha) return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+			else return "rgb(" + r + ", " + g + ", " + b + ")";
 		}
 		ui.set_ui_size = function() {
 			let i = 0;
@@ -300,12 +318,11 @@ $(document).on('ready page:load', function() {
 		ui.show_prompt = function(text) {
 			return function() {
 				ui.prompt.firstChild.appendChild(document.createTextNode(text));
-				console.log(ui.actionbar.children);
-			}
-		}
+			};
+		};
 		ui.clear_prompt = function() {
 			ui.prompt.firstChild.removeChild(ui.prompt.firstChild.firstChild);
-		}
+		};
 		ui.create_listeners = function() {
 			window.addEventListener("resize", function(e) {
 				ui.set_ui_size();
@@ -1213,17 +1230,143 @@ $(document).on('ready page:load', function() {
 	// 	return true;
 	// }
 
+	function create_button_space() {
+		game_data.d3 = {};
+		let bounding = document.getElementById("local").getBoundingClientRect(),
+			width = bounding.width, height = bounding.height;
+		game_data.d3.space = d3.select("#local").append("div")
+			.attr("width", width).attr("height", height).attr("class", "globalWrap");
+	}
+
+	function make_button(icon_path, position, onclick) {
+		let button = game_data.d3.space.append("myButton").attr("class", "myButton")
+			.style("left", function() { return position.x.toString() + "px"; })
+			.style("top", function() { return position.y.toString() + "px"; })
+			.style("width", function() { return position.width.toString() + "px"; })
+			.style("height", function() { return position.height.toString() + "px"; })
+			.style("background-image", 'url("' + icon_path + '")')
+			.style("border-width", position.thick.toString() + "px");
+		button.on("click", onclick);
+		return button;
+	}
+
+	function tweak_connections(target) {
+		let neighbors = ["parent", "brother", "sister", "son", "daughter"], i = -1,
+			position = { x: 0, y: 0, width: 0, height: 0, thick: 0 }, button,
+			inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
+			cur_inv;
+		let width = scope.view.size.width, height = scope.view.size.height, a, b,
+			cur_proven;
+		while (++i < 5) {
+			let cur_other = target[neighbors[i]].node;
+			if (typeof(cur_other) === 'undefined' || cur_other === null) continue;
+			a = target.value;
+			b = cur_other.value;
+			cur_proven = false;
+			if (typeof(proved[a]) !== 'undefined' && proved[a] !== null
+				&& proved[a].length > 0) {
+				let j = -1;
+				while (++j < proved[a].length) if (proved[a][j] === b) cur_proven = true;
+			}
+			position.width = (target.rad + cur_other.rad) / 3;
+			position.height = (target.rad + cur_other.rad) / 3;
+			position.thick = (target.circle.strokeWidth + cur_other.circle.strokeWidth) / 3;
+			let angle = Math.atan2(cur_other.relative_pos.y - target.relative_pos.y,
+				cur_other.relative_pos.x - target.relative_pos.x), buttons = [];
+			let x_offset1 = target.rad * Math.cos(angle),
+				y_offset1 = target.rad * Math.sin(angle),
+				x_offset2 = cur_other.rad * Math.cos(angle),
+				y_offset2 = cur_other.rad * Math.sin(angle);
+			if (cur_proven && typeof(target[neighbors[i]].line) !== 'undefined' &&
+				target[neighbors[i]].line !== null) {
+				position.width *= 0.6;
+				position.height *= 0.6;
+				position.thick *= 0.6;
+				if (Math.abs(angle - Math.PI) < 1.0 || Math.abs(angle) < 1.0) {
+					position.x = (target.relative_pos.x + cur_other.relative_pos.x) * width
+						/ 2 - position.width / 2;
+					position.y = (target.relative_pos.y + cur_other.relative_pos.y) * height
+						/ 2 - position.height / 2;
+				}
+				else {
+					position.x = (target.relative_pos.x * width + x_offset1 +
+						cur_other.relative_pos.x * width - x_offset2) / 2 - position.width / 2;
+					position.y = (target.relative_pos.y * height + y_offset1 +
+						cur_other.relative_pos.y * height - y_offset2) / 2 - position.height / 2;
+				}
+				if (angle === Math.PI || angle === 0) position.y -= position.height * 1.2;
+				else {
+					let y_offset = position.y - target.relative_pos.y * height,
+						x_offset = position.x - target.relative_pos.x * width,
+						y_mod = position.height * 1.2, x_mod = position.width * 1.2;
+					if (!(x_offset > 0) ^ !(y_offset > 0)) {
+						x_mod *= Math.cos(angle - Math.PI / 2);
+						y_mod *= Math.sin(angle - Math.PI / 2);
+					}
+					else {
+						x_mod *= Math.cos(angle + Math.PI / 2);
+						y_mod *= Math.sin(angle + Math.PI / 2);
+					}
+					position.x += x_mod;
+					position.y += y_mod;
+				}
+				button = make_button('assets/neutral/icons/043-connect.svg', position,
+					function() { check_selection(target);
+						setup_connection(target.value, cur_other.value); });
+				buttons.push(button);
+			}
+			else {
+				position.x = (target.relative_pos.x * width + x_offset1 +
+					cur_other.relative_pos.x * width - x_offset2) / 2 - position.width / 2;
+				position.y = (target.relative_pos.y * height + y_offset1 +
+					cur_other.relative_pos.y * height - y_offset2) / 2 - position.height / 2;
+				button = make_button('assets/neutral/icons/043-connect.svg', position,
+					function() { check_selection(target);
+						setup_connection(target.value, cur_other.value); });
+				buttons.push(button);
+			}
+			target[neighbors[i]].buttons = buttons;
+			cur_inv = inv_neighbors[i];
+			if (cur_inv === "check") {
+				if (target.value % 2 === 0) cur_inv = "son";
+				else cur_inv = "daughter";
+			}
+			cur_other[cur_inv].buttons = buttons;
+		}
+	}
+
+	function untweak_connections(target) {
+		let neighbors = ["parent", "brother", "sister", "son", "daughter"], i = -1,
+			cur_other, inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
+			cur_inv;
+		while (++i < 5) {
+			cur_other = target[neighbors[i]].node;
+			if (typeof(cur_other) === 'undefined' || cur_other === null) continue;
+			if (typeof(target[neighbors[i]].buttons) === 'undefined' ||
+				target[neighbors[i]].buttons === null) continue;
+			cur_inv = inv_neighbors[i];
+			if (cur_inv === "check") {
+				if (target.value % 2 === 0) cur_inv = "son";
+				else cur_inv = "daughter";
+			}
+			while (target[neighbors[i]].buttons.length > 0) {
+				target[neighbors[i]].buttons[0].remove();
+				target[neighbors[i]].buttons.splice(0, 1);
+				cur_other[cur_inv].buttons.splice(0, 1);
+			}
+		}
+	}
+
 	function select_node(target) {
 		if (target.moving) return;
 		let node_color = game_data.colors[game_data.node_factions[target.value].toString()];
-		let quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
 		target.circle.shadowColor = node_color['glow'];
 		target.circle.strokeColor = node_color['selected'];
 		if (target.node) target.number.fillColor = node_color['selected'];
 		else target.image.fillColor = node_color['selected'];
 		target.selected = true;
 		grow_node(target);
-		highlight_connections(target);
+		tweak_connections(target);
 	}
 
 	function unselect_node(target) {
@@ -1235,7 +1378,7 @@ $(document).on('ready page:load', function() {
 		else target.image.fillColor = node_color['num'];
 		target.selected = false;
 		ungrow_node(target);
-		highlight_connections(target);
+		untweak_connections(target);
 	}
 
 	function grow_node(target) {
@@ -1246,6 +1389,10 @@ $(document).on('ready page:load', function() {
 		}
 		if (target.moving) return;
 		if (!target.grown && (target.selected || target.hovered)) {
+			if (typeof(target._rad) === 'undefined' || target._rad === null) {
+				target._rad = target.rad;
+				target.rad *= 1.2;
+			}
 			if (has_animation(target)) remove_animations(target);
 			add_animation(target, grow_animation, grow_stop, 100);
 			target.grown = true;
@@ -1258,6 +1405,10 @@ $(document).on('ready page:load', function() {
 			if (has_animation(target)) remove_animations(target);
 			add_animation(target, ungrow_animation, ungrow_stop, 100);
 			target.grown = false;
+			if (typeof(target._rad) !== 'undefined' && target._rad !== null) {
+				target.rad = target._rad;
+				target._rad = null;
+			}
 		}
 		if (target.node) {
 			if (game_data.card_set && game_data.selected_nodes.length > 0)
@@ -1432,6 +1583,7 @@ $(document).on('ready page:load', function() {
 			datatype: "html",
 			success: function (raw) {
 				let data = JSON.parse(raw), in_nodes = data['nodes'], i = 0;
+				console.log(data);
 				while (++i < 64) {
 					game_data.node_factions[i] = in_nodes[i]['faction_id'];
 					game_data.node_connections[i] = {
@@ -1450,7 +1602,7 @@ $(document).on('ready page:load', function() {
 					game_data.active_nodes[i].connection_num = in_nodes[i+1]['connection_num'];
 					game_data.active_nodes[i].worth = in_nodes[i+1]['worth'];
 					game_data.active_nodes[i].contention = in_nodes[i+1]['contention'];
-					if (game_data.active_nodes[i].owner = 'null')
+					if (game_data.active_nodes[i].owner === 'null')
 						game_data.active_nodes[i].owner = 'Unclaimed';
 				}
 				game_data.global_root = game_data.active_nodes[0];
@@ -1579,65 +1731,45 @@ $(document).on('ready page:load', function() {
 	function show_connections(target) {
 		target.connection_values.dad = game_data.node_connections[target.value]['dad'];
 		target.connection_values.bro = game_data.node_connections[target.value]['bro'];
-		let connection_dad = null, connection_bro = null, i;
+		let connection_dad = null, connection_bro = null;
 		if (target.connection_values.dad !== null) {
-			let dad = null;
-			i = -1;
-			while (++i < game_data.active_nodes.length)
-				if (game_data.active_nodes[i].value === target.connection_values.dad) {
-					dad = game_data.active_nodes[i];
-					break;
-				}
-			if (dad !== null) connection_dad = show_parent(dad, target);
+			let dad = target.parent.node;
+			if (dad !== null) {
+				connection_dad = show_parent(dad, target);
+				target.parent.line = connection_dad;
+				if (target.value / 2 === dad.value) dad.son.line = connection_dad;
+				else dad.daughter.line = connection_dad;
+			}
 		}
 		if (target.connection_values.bro !== null) {
-			let bro = null;
-			i = -1;
-			while (++i < game_data.active_nodes.length)
-				if (game_data.active_nodes[i].value === target.connection_values.bro) {
-					bro = game_data.active_nodes[i];
-					break;
-				}
-			if (bro !== null) connection_bro = show_brother(bro, target);
+			let bro = target.brother.node;
+			if (bro !== null) {
+				connection_bro = show_brother(bro, target);
+				target.brother.line = connection_bro;
+				bro.sister.line = connection_bro;
+			}
 		}
 		target.connections = new scope.Group(connection_dad, connection_bro);
 	}
 
 	function hide_connections(target) {
 		target.connections.remove();
-	}
-
-	function highlight_line(line) {
-		if (typeof(line) === 'undefined' || line === null) return;
-		if (line._selected === true) {
-			line.shadowColor = line._shadow;
-			line.shadowBlur = 3;
-			line._selected = false;
+		let neighbors = ["parent", "brother", "sister", "son", "daughter"], i = -1,
+			inv_neighbors = ["check", "sister", "brother", "parent", "parent"], cur_inv;
+		while (++i < 5) {
+			let cur_other = target[neighbors[i]].node;
+			if (typeof(cur_other) === 'undefined' || cur_other === null) continue;
+			if (typeof(target[neighbors[i]].line) !== 'undefined' &&
+				target[neighbors[i]].line !== null) {
+				target[neighbors[i]].line = null;
+				cur_inv = inv_neighbors[i];
+				if (cur_inv === "check") {
+					if (target.value % 2 === 0) cur_inv = "son";
+					else cur_inv = "daughter";
+				}
+				cur_other[cur_inv].line = null;
+			}
 		}
-		else {
-			line.shadowColor = "#CCC";
-			line.shadowBlur = 2;
-			line._selected = true;
-		}
-	}
-
-	function highlight_connections(target) {
-		let links = [], cur_node, i = -1, color = target.circle.strokeColor;
-		while (++i < game_data.active_nodes.length) {
-			cur_node = game_data.active_nodes[i];
-			if (cur_node.connection_values.dad === target.value)
-				links.push(cur_node.connections.firstChild);
-			else if (cur_node.connection_values.bro === target.value)
-				links.push(cur_node.connections.lastChild);
-		}
-		if (target.connection_values.dad !== null)
-			highlight_line(target.connections.firstChild);
-		if (target.connection_values.bro !== null)
-			highlight_line(target.connections.lastChild);
-		i = -1;
-		while (++i < links.length) highlight_line(links[i]);
-		console.log(target);
-		console.log(game_data);
 	}
 
 	function set_fraction(target) {
@@ -1723,7 +1855,7 @@ $(document).on('ready page:load', function() {
 			connections: null, faction_id: null, owner: null, tier: null, worth: null,
 			contention: null, selected: false, hovered: false, grown: false, moving: false,
 			base: null, options: null, node: true, move_target: null, move_thickness: thickness,
-			left_pointed: elem % 2 !== 0
+			left_pointed: elem % 2 !== 0, parent: {}, brother: {}, sister: {}, son: {}, daughter: {}
 		};
 		out_node.onMouseEnter = function() {
 			if (total_node.moving) return;
@@ -1742,6 +1874,32 @@ $(document).on('ready page:load', function() {
 			check_selection(total_node);
 		};
 		return total_node;
+	}
+
+	function connect_nodes(nodes) {
+		let i = 0, cur_node;
+		while (i < nodes.length) {
+			cur_node = nodes[i++];
+			if (i > 1) {
+				cur_node.parent.node = nodes[Math.floor(i / 2) - 1];
+				if ((i & (i - 1)) !== 0) cur_node.brother.node = nodes[i - 2];
+				else cur_node.brother.node = null;
+			}
+			else {
+				cur_node.parent.node = null;
+				cur_node.brother.node = null;
+			}
+			if ((i & (i + 1)) !== 0) cur_node.sister.node = nodes[i];
+			else cur_node.sister.node = null;
+			if (i < 32) {
+				cur_node.son.node = nodes[i * 2 - 1];
+				cur_node.daughter.node = nodes[i * 2];
+			}
+			else {
+				cur_node.son.node = null;
+				cur_node.daughter.node = null;
+			}
+		}
 	}
 
 	function build_nodes(num_layers, width, height) {
@@ -1783,6 +1941,7 @@ $(document).on('ready page:load', function() {
 			i++;
 			if (thickness > 1) thickness--;
 		}
+		connect_nodes(nodes);
 		return nodes;
 	}
 
@@ -2084,25 +2243,24 @@ $(document).on('ready page:load', function() {
 	}
 
 	function confirm_moved_nodes() {
-		let width = scope.view.size.width;
-		let height = scope.view.size.height;
-		let i = -1;
-		let prev_pos = game_data.old_root.circle.position;
+		let width = scope.view.size.width, height = scope.view.size.height, i = -1,
+			prev_pos = game_data.old_root.circle.position, leftie, node_color,
+			num_digits, sine_size, num_w, num_h, dot_w, dot_h, cur_node;
 		while (++i < game_data.active_nodes.length) {
-			let cur_node = game_data.active_nodes[i];
+			cur_node = game_data.active_nodes[i];
 			cur_node.popped = false;
 			cur_node.circle.bounds.width = cur_node.move_target.size_dx * height;
 			cur_node.circle.bounds.height = cur_node.move_target.size_dy * height;
 			cur_node.circle.position.x = cur_node.move_target.x * width;
 			cur_node.circle.position.y = cur_node.move_target.y * height;
 			cur_node.value = cur_node.move_value;
-			let leftie = cur_node.value % 2 !== 0;
+			leftie = cur_node.value % 2 !== 0;
 			if (leftie !== cur_node.left_pointed) {
 				cur_node.left_pointed = leftie;
 				cur_node.circle.scale(-1, 1);
 			}
-			let node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
-			let num_digits = cur_node.value.toString().length;
+			node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
+			num_digits = cur_node.value.toString().length;
 			cur_node.relative_pos = cur_node.move_target;
 			cur_node.base = null;
 			cur_node.rad = cur_node.circle.bounds.width / 2;
@@ -2115,9 +2273,9 @@ $(document).on('ready page:load', function() {
 			cur_node.circle._shadow = cur_node.circle.shadowColor;
 			cur_node.circle.shadowBlur = cur_node.move_thickness * 5;
 			if (i < 31) {
-				let sine_size = cur_node.circle.bounds.width / 2.3;
-				let num_w = sine_size * (2 - 1 / num_digits);
-				let num_h = (num_w / num_digits) * 1.45;
+				sine_size = cur_node.circle.bounds.width / 2.3;
+				num_w = sine_size * (2 - 1 / num_digits);
+				num_h = (num_w / num_digits) * 1.45;
 				cur_node.number.visible = true;
 				cur_node.number.fillColor = node_color['num'];
 				cur_node.number.content = cur_node.value.toString();
@@ -2127,8 +2285,8 @@ $(document).on('ready page:load', function() {
 				cur_node.number.bounds.y = cur_node.circle.position.y - num_h / 2;
 			}
 			else {
-				let dot_w = cur_node.circle.bounds.width * 0.7246377;
-				let dot_h = dot_w * 0.483333;
+				dot_w = cur_node.circle.bounds.width * 0.7246377;
+				dot_h = dot_w * 0.483333;
 				cur_node.number.fillColor = node_color['num'];
 				cur_node.number.content = "...";
 				cur_node.number.bounds.width = dot_w;
@@ -2138,6 +2296,7 @@ $(document).on('ready page:load', function() {
 			}
 			set_fraction(cur_node);
 		}
+		connect_nodes(game_data.active_nodes);
 		let new_pos = game_data.old_root.circle.position;
 		game_data.background.move_to(prev_pos, new_pos, 1);
 		i = 0;
@@ -2331,8 +2490,8 @@ $(document).on('ready page:load', function() {
 	function check_selection(target) {
 		if (target.moving) return;
 		if (!target.selected) {
-			select_node(target);
 			if (game_data.selected_nodes.length >= 1 && game_data.action_index !== -1) {
+				select_node(target);
 				game_data.selected_nodes.push(target);
 				// take_action(game_data.selected_nodes[0], target);
 				App.game.perform('update_node', {
@@ -2350,10 +2509,12 @@ $(document).on('ready page:load', function() {
 			else if (game_data.selected_nodes.length >= 1) {
 				remove_options(game_data.selected_nodes[0]);
 				unselect_node(game_data.selected_nodes[0]);
+				select_node(target);
 				game_data.selected_nodes[0] = target;
 				add_options(game_data.selected_nodes[0]);
 			}
 			else {
+				select_node(target);
 				game_data.selected_nodes.push(target);
 				add_options(target);
 			}
@@ -2501,6 +2662,7 @@ $(document).on('ready page:load', function() {
 	};
 
 	function log_data(a, b, path) {
+		App.game.perform('log_data', { val_a: a, val_b: b, path: path });
 	}
 
 	function setup_connection(a, b) {
@@ -2517,7 +2679,7 @@ $(document).on('ready page:load', function() {
 			return cur_id + "." + type_char + num.toString();
 		}
 		function build_object(num) {
-			let out = [], cur_val = num, cur_id = add_to_id(null, num, 'b'), a, b,
+			let out_nodes = [], cur_val = num, cur_id = add_to_id(null, num, 'b'), a, b,
 				cur_depth = 0, line_counts = [], depth_counts = [], node, cur_stamp;
 			depth_counts[0] = { lines: [0] };
 			depth_counts[-1] = { lines: [0] };
@@ -2530,7 +2692,33 @@ $(document).on('ready page:load', function() {
 			cur_stamp = 0;
 			line_counts[0].nodes[0] = node;
 			line_counts.lines = [0];
-			out.push(node);
+			out_nodes.push(node);
+			let consider_num = function (num) {
+				if (cur_depth === 4 || cur_depth === -4) return;
+				if (typeof(proved[num]) !== 'undefined' && proved[num] !== null
+					&& proved[num].length > 0) {
+					let k = -1, cur_line = 0;
+					while (++k < proved[num].length) {
+						cur_line--;
+						if (typeof(line_counts[cur_line]) === 'undefined' ||
+							line_counts[cur_line] === null) {
+							line_counts[cur_line] = { amount: 0, branch: [], nodes: [] };
+							line_counts.lines.push(cur_line);
+						}
+						line_counts[cur_line].amount++;
+						line_counts[cur_line].branch.push({ source_depth: cur_depth,
+							source_line: 0, height: cur_depth + 1 });
+						if (typeof(depth_counts[cur_depth + 1]) === 'undefined' ||
+							depth_counts[cur_depth + 1] === null)
+							depth_counts[cur_depth + 1] = { lines: [] };
+						depth_counts[cur_depth + 1].lines.push(cur_line);
+						node = { id: add_to_id(cur_id, proved[num][k], 'p'), value: proved[num][k],
+							depth: cur_depth + 1, line: cur_line, stamp: ++cur_stamp };
+						line_counts[cur_line].nodes[cur_depth + 1] = node;
+						out_nodes.push(node);
+					}
+				}
+			};
 			while (++cur_depth <= 4) {
 				[a, b] = prev_orbits(cur_val);
 				depth_counts[cur_depth] = { lines: [] };
@@ -2546,14 +2734,15 @@ $(document).on('ready page:load', function() {
 					node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
 						line: 1, stamp: ++cur_stamp };
 					line_counts[1].nodes[cur_depth] = node;
-					out.push(node);
+					out_nodes.push(node);
 				}
 				cur_id = add_to_id(cur_id, a, 'u');
 				node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
 				line_counts[0].nodes[cur_depth] = node;
-				out.push(node);
+				out_nodes.push(node);
 				depth_counts[cur_depth].lines.push(0);
 				cur_val = a;
+				consider_num(a);
 			}
 			cur_depth = 0;
 			cur_id = add_to_id(null, num, 'b');
@@ -2564,14 +2753,16 @@ $(document).on('ready page:load', function() {
 				else cur_id = add_to_id(cur_id, a, 'c');
 				node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
 				line_counts[0].nodes[cur_depth] = node;
-				out.push(node);
+				out_nodes.push(node);
 				cur_val = a;
+				consider_num(a);
 			}
-			out.columns = ["id", "value", "depth", "line", "stamp"];
-			return { data: out, line_counts: line_counts, depth_counts: depth_counts,
+			out_nodes.columns = ["id", "value", "depth", "line", "stamp"];
+			return { data: out_nodes, line_counts: line_counts, depth_counts: depth_counts,
 				cur_stamp: cur_stamp };
 		}
-		function move_everything_above(context, line, depth) {
+		function move_everything_left_above(context, line, depth) {
+			console.log("  <-Moving everything above " + depth.toString() + " along " + line.toString());
 			let arr = context.line_counts, i = -1, branch_index = -1, cur, j, n_cur,
 				avoid_arr = [], k, skip, cur_branch;
 			while (++i < arr.lines.length) {
@@ -2583,9 +2774,11 @@ $(document).on('ready page:load', function() {
 					cur_branch = cur.branch[j];
 					while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
 					if (skip) continue;
-					if (cur_branch.source_depth > depth && cur_branch.source_line === line) {
+					if (cur_branch.source_depth > depth && cur_branch.source_line === line
+						&& arr.lines[i] > line) {
 						avoid_arr.push(cur_branch);
-						move_everything_above(context, arr.lines[i], cur_branch.source_depth);
+						console.log("<~Recurring for branch-left");
+						move_everything_left_above(context, arr.lines[i], cur_branch.source_depth);
 					}
 				}
 			}
@@ -2613,7 +2806,8 @@ $(document).on('ready page:load', function() {
 							cur_branch = context.line_counts[next].branch[j];
 							if (cur_branch.source_depth < cur.depth &&
 								cur_branch.height >= cur.depth) {
-								move_everything_above(context, next, cur_branch.source_depth);
+								console.log("<~Recurring due to collision while moving");
+								move_everything_left_above(context, next, cur_branch.source_depth);
 							}
 							if (typeof(context.line_counts[next]) === 'undefined' ||
 								context.line_counts[next] === null) break;
@@ -2634,6 +2828,7 @@ $(document).on('ready page:load', function() {
 				}
 			}
 			if (branch.source_depth === depth) {
+				if (branch.source_line === line) branch.source_line = next;
 				context.line_counts[next].branch.push(branch);
 				context.line_counts[line].branch.splice(branch_index, 1);
 			}
@@ -2645,6 +2840,127 @@ $(document).on('ready page:load', function() {
 			if (context.line_counts[line].amount === 0) {
 				context.line_counts[line] = null;
 				context.line_counts.lines.splice(context.line_counts.lines.indexOf(line), 1);
+			}
+			arr = context.line_counts;
+			avoid_arr = [];
+			i = -1;
+			while (++i < arr.lines.length) {
+				cur = arr[arr.lines[i]];
+				j = -1;
+				while (++j < cur.branch.length) {
+					k = -1;
+					skip = false;
+					cur_branch = cur.branch[j];
+					while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
+					if (skip) continue;
+					if (cur_branch.source_depth > depth && cur_branch.source_line === line
+						&& arr.lines[i] < line) {
+						avoid_arr.push(cur_branch);
+						console.log("<~Recurring due to branch-right");
+						move_everything_left_above(context, arr.lines[i], cur_branch.source_depth);
+					}
+				}
+			}
+		}
+		function move_everything_right_above(context, line, depth) {
+			console.log("  ->Moving everything above " + depth.toString() + " along " + line.toString());
+			let arr = context.line_counts, i = -1, branch_index = -1, cur, j, n_cur,
+				avoid_arr = [], k, skip, cur_branch;
+			while (++i < arr.lines.length) {
+				cur = arr[arr.lines[i]];
+				j = -1;
+				while (++j < cur.branch.length) {
+					k = -1;
+					skip = false;
+					cur_branch = cur.branch[j];
+					while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
+					if (skip) continue;
+					if (cur_branch.source_depth > depth && cur_branch.source_line === line
+						&& arr.lines[i] > line) {
+						avoid_arr.push(cur_branch);
+						console.log("~>Recurring for branch-right");
+						move_everything_right_above(context, arr.lines[i], cur_branch.source_depth);
+					}
+				}
+			}
+			arr = context.line_counts[line].branch;
+			i = -1;
+			let next = line + 1;
+			while (++i < arr.length) {
+				cur = arr[i];
+				if (depth >= cur.source_depth && depth < cur.height) branch_index = i;
+			}
+			i = -1;
+			let branch = context.line_counts[line].branch[branch_index];
+			while (++i < context.data.length) {
+				cur = context.data[i];
+				if (cur.line === line && cur.depth > depth && cur.depth <= branch.height) {
+					if (typeof(context.line_counts[next]) === 'undefined' ||
+						context.line_counts[next] === null) {
+						context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
+						context.line_counts.lines.push(next);
+					}
+					n_cur = context.line_counts[next].nodes[cur.depth];
+					if (typeof(n_cur) !== 'undefined' && n_cur !== null) {
+						j = -1;
+						while (++j < context.line_counts[next].branch.length) {
+							cur_branch = context.line_counts[next].branch[j];
+							if (cur_branch.source_depth < cur.depth &&
+								cur_branch.height >= cur.depth) {
+								console.log("~>Recurring due to collision while moving");
+								move_everything_right_above(context, next, cur_branch.source_depth);
+							}
+							if (typeof(context.line_counts[next]) === 'undefined' ||
+								context.line_counts[next] === null) break;
+						}
+					}
+					if (typeof(context.line_counts[next]) === 'undefined' ||
+						context.line_counts[next] === null) {
+						context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
+						context.line_counts.lines.push(next);
+					}
+					cur.line = next;
+					context.line_counts[line].amount--;
+					context.line_counts[next].amount++;
+					context.line_counts[next].nodes[cur.depth] = cur;
+					context.line_counts[line].nodes[cur.depth] = null;
+					context.depth_counts[cur.depth].lines.splice(
+						context.depth_counts[cur.depth].lines.indexOf(line), 1, next);
+				}
+			}
+			if (branch.source_depth === depth) {
+				if (branch.source_line === line) branch.source_line = next;
+				context.line_counts[next].branch.push(branch);
+				context.line_counts[line].branch.splice(branch_index, 1);
+			}
+			else if (branch.source_depth < depth) {
+				context.line_counts[next].branch.push({ source_depth: depth,
+					source_line: line, height: branch.height });
+				branch.height = depth;
+			}
+			if (context.line_counts[line].amount === 0) {
+				context.line_counts[line] = null;
+				context.line_counts.lines.splice(context.line_counts.lines.indexOf(line), 1);
+			}
+			arr = context.line_counts;
+			avoid_arr = [];
+			i = -1;
+			while (++i < arr.lines.length) {
+				cur = arr[arr.lines[i]];
+				j = -1;
+				while (++j < cur.branch.length) {
+					k = -1;
+					skip = false;
+					cur_branch = cur.branch[j];
+					while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
+					if (skip) continue;
+					if (cur_branch.source_depth > depth && cur_branch.source_line === line
+						&& arr.lines[i] < line) {
+						avoid_arr.push(cur_branch);
+						console.log("~>Recurring due to branch-left");
+						move_everything_right_above(context, arr.lines[i], cur_branch.source_depth);
+					}
+				}
 			}
 		}
 		function expand_context_at(context, node_data) {
@@ -2671,10 +2987,12 @@ $(document).on('ready page:load', function() {
 				[a, b] = prev_orbits(cur_val);
 				if (typeof(cur_node) !== 'undefined' && cur_node !== null) {
 					if (cur_node.value === b) {
-						move_everything_above(context, cur_line, cur_depth - 1);
+						console.log("Ran into red branch, gotta move it to its place (right)");
+						move_everything_right_above(context, cur_line, cur_depth - 1, 1);
 					}
 					else if (cur_node.value !== a) {
-						move_everything_above(context, cur_line, arr[source_index].source_depth);
+						console.log("Ran into some other branch at " + cur_depth + " along " + cur_line);
+						move_everything_right_above(context, cur_line, arr[source_index].source_depth);
 						cur_line++;
 						arr = lines[cur_line].branch;
 						source_index = -1;
@@ -2702,8 +3020,10 @@ $(document).on('ready page:load', function() {
 						j = -1;
 						while (++j < lines[cur_line + 1].branch.length) {
 							n_cur = lines[cur_line + 1].branch[j];
-							if (n_cur.source_depth < cur_depth && cur_depth <= n_cur.height)
-								move_everything_above(context, cur_line + 1, n_cur.source_depth);
+							if (n_cur.source_depth < cur_depth && cur_depth <= n_cur.height) {
+								console.log("Making space for mini red branch");
+								move_everything_right_above(context, cur_line + 1, n_cur.source_depth);
+							}
 							if (typeof(lines[cur_line + 1]) === 'undefined' ||
 								lines[cur_line + 1] === null) break;
 						}
@@ -2740,7 +3060,7 @@ $(document).on('ready page:load', function() {
 			if (node_data.value === 1 || (typeof(depths[cur_depth - 3]) !== 'undefined' &&
 					depths[cur_depth - 3] !== null && depths[cur_depth - 3].lines.length > 0)) {
 				context.cur_stamp = cur_stamp;
-				console.log(context);
+				console.log("Done expanding");
 				return;
 			}
 			cur_depth = node_data.depth;
@@ -2762,6 +3082,7 @@ $(document).on('ready page:load', function() {
 				if (typeof(depths[cur_depth]) !== 'undefined' && depths[cur_depth] !== null) {
 					if (arr[source_index].source_depth <= cur_depth &&
 						arr[source_index].source_line !== cur_line) {
+						// There's a node on this depth but not on this root
 						cur_line = arr[source_index].source_line;
 						i = -1;
 						arr = lines[cur_line].branch;
@@ -2771,7 +3092,10 @@ $(document).on('ready page:load', function() {
 							if (cur_depth > cur.source_depth && cur_depth <= cur.height)
 								source_index = i;
 						}
-						if (source_index === -1) throw new Error("Late failure to update context");
+						if (source_index === -1) {
+							console.log(context, cur_line, cur_depth, needed, source_index, arr);
+							throw new Error("Late failure to update context");
+						}
 					}
 					cur = lines[cur_line].nodes[cur_depth];
 					cur_id = cur.id;
@@ -2794,13 +3118,14 @@ $(document).on('ready page:load', function() {
 				if (cur_val === 1) break;
 			}
 			context.cur_stamp = cur_stamp;
+			console.log("Done expanding");
 		}
+		d3.select("#sandbox").style("display", "flex");
 		let ma = 0, start_nums = [a, b],
 			bounding = document.getElementById("sandbox").getBoundingClientRect(),
 			width = bounding.width, height = bounding.height, hooked = true,
-			svg = d3.select("#sandbox").append("svg")
-				.attr("width", width).attr("height", height),
-			tree = d3.tree().size([width, height - 2 * ma]),
+			svg = d3.select("#sandbox").append("svg").attr("width", width)
+				.attr("height", height), tree = d3.tree().size([width, height - 2 * ma]),
 			g = svg.append("g").attr("transform", "translate(0, " + ma / 2 + ")"),
 			stratify = d3.stratify()
 				.parentId(function (d) { return d.id.substring(0, d.id.lastIndexOf(".")); }),
@@ -2819,12 +3144,12 @@ $(document).on('ready page:load', function() {
 			.attr("d", d3.linkVertical()
 				.source(function (d) {
 					d.source.y = height / 2 - d.source.data.depth * frac;
-					d.source.x = width / 2 + d.source.data.line * frac;
+					d.source.x = width / 2 + d.source.data.line * frac / 1.6;
 					return [d.source.x, d.source.y];
 				})
 				.target(function (d) {
 					d.target.y = height / 2 - d.target.data.depth * frac;
-					d.target.x = width / 2 + d.target.data.line * frac;
+					d.target.x = width / 2 + d.target.data.line * frac / 1.6;
 					return [d.target.x, d.target.y];
 				}))
 			.style("stroke", function (d) {
@@ -2836,6 +3161,8 @@ $(document).on('ready page:load', function() {
 					case 's':
 					case 'c':
 						return "#E22";
+					case 'p':
+						return "#1D1";
 				}
 			});
 		let node = g.selectAll(".node")
@@ -2882,6 +3209,67 @@ $(document).on('ready page:load', function() {
 				})
 				.on("mouseout", function() { d3.select(this).style("cursor", "default"); });
 		}
+		let check_proof = function() {
+			let i = -1;
+			while (++i < data.length) {
+				if (data[i].value === target) {
+					setTimeout(function() {
+						log_data(a, b, data[i].id);
+						let end_source = null, end_target = null,
+							x_coordinate = d3.zoomTransform(svg).x,
+							y_coordinate = d3.zoomTransform(svg).y,
+							end_trans = g.selectAll(".node").filter(function(d) {
+								if (d.data.value === a && end_source === null) {
+									d.x0 = width * 7 / 24;
+									end_source = d;
+								}
+								else if (d.data.value === b && end_target === null) {
+									d.x0 = width * 17 / 24;
+									end_target = d;
+								}
+								else return false;
+								d.y0 = height / 2;
+								return true;
+							}).transition().duration(3000)
+								.attr("transform", function (d) {
+									return "translate(" + d.x0 + ", " + d.y0 + ")";
+								});
+						g.selectAll(".node")
+							.filter(function(d) { return (d !== end_source && d !== end_target); })
+							.transition().duration(3000)
+							.style("opacity", 0).remove();
+						end_trans.select("circle")
+							.attr("r", 21)
+							.styleTween("fill", function() {
+								return d3.interpolateHsl("#FFDF00", "#14FF14");
+							});
+						end_trans.select("text").attr("dy", 28)
+							.styleTween("font-size", function() {
+								return d3.interpolateString("12px", "25px");
+							});
+						let new_link = g.selectAll(".link")
+							.data([{ source: end_source, target: end_target }])
+							.style("stroke", "#2F2").style("opacity", 0)
+							.attr("d", d3.linkHorizontal()
+								.source(function (d) { return [d.source.x, d.source.y]; })
+								.target(function (d) { return [d.target.x, d.target.y]; }));
+						new_link.transition().duration(3000)
+							.attr("d", d3.linkHorizontal()
+								.source(function (d) { return [d.source.x0, d.source.y0]; })
+								.target(function (d) { return [d.target.x0, d.target.y0]; }))
+							.style("opacity", 1);
+						new_link.exit().transition().duration(3000)
+							.style("opacity", 0).remove();
+						svg.transition().duration(3000).call(zoom.transform,
+							d3.zoomIdentity.translate(-x_coordinate, -y_coordinate));
+						d3.select("#sandbox").selectAll(".tab_title")
+							.data(["Connection Successful!", "Press ESC to exit"])
+							.text(function(d) { return d; });
+					}, 750);
+					return;
+				}
+			}
+		};
 		let no_zoom = function() { d3.event.preventDefault(); };
 		function clicker(d) {
 			if (d.data.value === 1) return;
@@ -2909,12 +3297,12 @@ $(document).on('ready page:load', function() {
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
 						d.source.y = height / 2 - d.source.data.depth * frac;
-						d.source.x = width / 2 + d.source.data.line * frac;
+						d.source.x = width / 2 + d.source.data.line * frac / 1.6;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
 						d.target.y = height / 2 - d.target.data.depth * frac;
-						d.target.x = width / 2 + d.target.data.line * frac;
+						d.target.x = width / 2 + d.target.data.line * frac / 1.6;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -2926,6 +3314,8 @@ $(document).on('ready page:load', function() {
 						case 's':
 						case 'c':
 							return "#E22";
+						case 'p':
+							return "#1D1";
 					}
 				});
 			link = temp.enter().append("path")
@@ -2933,12 +3323,12 @@ $(document).on('ready page:load', function() {
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
 						d.source.y = height / 2 - d.source.data.depth * frac;
-						d.source.x = width / 2 + d.source.data.line * frac;
+						d.source.x = width / 2 + d.source.data.line * frac / 1.6;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
 						d.target.y = height / 2 - d.target.data.depth * frac;
-						d.target.x = width / 2 + d.target.data.line * frac;
+						d.target.x = width / 2 + d.target.data.line * frac / 1.6;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -2950,6 +3340,8 @@ $(document).on('ready page:load', function() {
 						case 's':
 						case 'c':
 							return "#E22";
+						case 'p':
+							return "#1D1";
 					}
 				})
 				.style("stroke-opacity", 0)
@@ -2990,67 +3382,10 @@ $(document).on('ready page:load', function() {
 				.transition()
 					.duration(200)
 					.style("opacity", 1);
-			let i = -1;
-			while (++i < data.length) {
-				if (data[i].value === target) {
-					setTimeout(function() {
-						log_data(a, b, data[i].id);
-						g.selectAll(".node")
-							.filter(function(d) { return (d.data.value !== a && d.data.value !== b); })
-							.transition().duration(3000)
-							.style("opacity", 0).remove();
-						let end_source = null, end_target = null,
-							x_coordinate = d3.zoomTransform(svg).x,
-							y_coordinate = d3.zoomTransform(svg).y,
-							end_trans = g.selectAll(".node").filter(function(d) {
-								if (d.data.value === a) {
-									d.x0 = width * 7 / 24;
-									end_source = d;
-								}
-								else if (d.data.value === b) {
-									d.x0 = width * 17 / 24;
-									end_target = d;
-								}
-								else return false;
-								d.y0 = height / 2;
-								return true;
-							}).transition().duration(3000)
-							.attr("transform", function (d) {
-								return "translate(" + d.x0 + ", " + d.y0 + ")";
-							});
-						end_trans.select("circle")
-							.attr("r", 21)
-							.styleTween("fill", function() {
-								return d3.interpolateHsl("#FFDF00", "#14FF14");
-							});
-						end_trans.select("text").attr("dy", 28)
-							.styleTween("font-size", function() {
-								return d3.interpolateString("12px", "25px");
-							});
-						let new_link = g.selectAll(".link")
-							.data([{ source: end_source, target: end_target }])
-							.style("stroke", "#2F2").style("opacity", 0)
-							.attr("d", d3.linkHorizontal()
-								.source(function (d) { return [d.source.x, d.source.y]; })
-								.target(function (d) { return [d.target.x, d.target.y]; }));
-						new_link.transition().duration(3000)
-							.attr("d", d3.linkHorizontal()
-								.source(function (d) { return [d.source.x0, d.source.y0]; })
-								.target(function (d) { return [d.target.x0, d.target.y0]; }))
-							.style("opacity", 1);
-						new_link.exit().transition().duration(3000)
-							.style("opacity", 0).remove();
-						svg.transition().duration(3000).call(zoom.transform,
-							d3.zoomIdentity.translate(-x_coordinate, -y_coordinate));
-						d3.select("#sandbox").selectAll(".tab_title")
-							.data(["Connection Successful!", "Press ESC to exit"])
-							.text(function(d) { return d; });
-					}, 750);
-					return;
-				}
-			}
+			check_proof();
 			rebind();
 		}
+		check_proof();
 		rebind();
 		d3.select("body").on("keydown", function() {
 			if (d3.event.keyCode !== 32) return;
@@ -3071,12 +3406,12 @@ $(document).on('ready page:load', function() {
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
 						d.source.y = height / 2 - d.source.data.depth * frac;
-						d.source.x = width / 2 + d.source.data.line * frac;
+						d.source.x = width / 2 + d.source.data.line * frac / 1.6;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
 						d.target.y = height / 2 - d.target.data.depth * frac;
-						d.target.x = width / 2 + d.target.data.line * frac;
+						d.target.x = width / 2 + d.target.data.line * frac / 1.6;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -3088,18 +3423,20 @@ $(document).on('ready page:load', function() {
 						case 's':
 						case 'c':
 							return "#E22";
+						case 'p':
+							return "#1D1";
 					}
 				});
 			link.enter().append("path").attr("class", "link")
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
 						d.source.y = height / 2 - d.source.data.depth * frac;
-						d.source.x = width / 2 + d.source.data.line * frac;
+						d.source.x = width / 2 + d.source.data.line * frac / 1.6;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
 						d.target.y = height / 2 - d.target.data.depth * frac;
-						d.target.x = width / 2 + d.target.data.line * frac;
+						d.target.x = width / 2 + d.target.data.line * frac / 1.6;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -3111,6 +3448,8 @@ $(document).on('ready page:load', function() {
 						case 's':
 						case 'c':
 							return "#E22";
+						case 'p':
+							return "#1D1";
 					}
 				});
 			link.exit().remove();
@@ -3165,6 +3504,7 @@ $(document).on('ready page:load', function() {
 	// 	set_assets();
 	// 	make_ui();
 	// 	make_background();
+	//	create_button_space();
 	// 	scope.view.onFrame = function(event) {
 	// 		tick(event);
 	// 	};
@@ -3181,8 +3521,8 @@ $(document).on('ready page:load', function() {
 		make_ui();
 		console.log("Making background...");
 		make_background();
-		console.log("Setting up Connection Sandbox");
-		//setup_connection(42, 43);
+		console.log("Enabling smooth buttons...");
+		create_button_space();
 		console.log("Canvas resize set up");
 		// d3.select(".local").selectAll(".text").data(["whatever"]).enter().append("text")
 		// 	.style("position", "absolute")

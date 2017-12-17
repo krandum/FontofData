@@ -1,12 +1,12 @@
 class GameChannel < ApplicationCable::Channel
 	def subscribed
-		# stream_from "some_channel"
 		stream_from "game"
 		stream_from "user#{current_user.id}"
 	end
 
 	def unsubscribed
 		# Any cleanup needed when channel is unsubscribed
+		current_user.update_attribute(:last_income ,DateTime.current)
 	end
 
 	# variables: origin, target, action_index
@@ -36,8 +36,6 @@ class GameChannel < ApplicationCable::Channel
 			# code to handle invalid selections should go here
 			p status
 		end
-		ActionCable.server.broadcast "user1",
-			function_call: "bla"
 	end
 
 	# takes a list of ranges and returns a float representing the greatest presence of a faction in those ranges
@@ -88,6 +86,16 @@ class GameChannel < ApplicationCable::Channel
 			.first
 		target_connection.update_connection({'worth' => data['resources']})
 	end
+
+	def log_data(data)
+		PathData.create(node1: data['a'], node2: data['b'], path: data['path'])
+	end
+
+	# todo: replace ajax query with this to test performance
+	def request_node
+
+	end
+
 
 	private
 
