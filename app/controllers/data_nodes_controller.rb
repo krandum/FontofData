@@ -86,7 +86,9 @@ class DataNodesController < ApplicationController
 						'owner' => claimedNodes[i].user&.username,
 						'teir' => 1,
 						'worth' => 1000,
-						'contention' => 0
+						'contention' => 0,
+						'cluster_name' => claimedNodes[i].cluster.cluster_name,
+						'last_captured' => claimedNodes[i].last_change
 					}
 					# out['nodes'][cur]['bro'] = claimedNodes[i].connections.select{|x| x.value == cur - 1}.first.try(:value)
 					# out['nodes'][cur]['dad'] = claimedNodes[i].connections.select{|x| x.value == cur >> 1}.first.try(:value)

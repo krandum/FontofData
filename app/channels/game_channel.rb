@@ -45,7 +45,7 @@ class GameChannel < ApplicationCable::Channel
 	# 	 end
 	# end
 
-	def set_node(data)
+	def node_set(data)
 		target_node = DataNode.where(value: data['target']).first
 		target_node.role = data['role'] unless data['role'].nil?
 		target_node.user_id = data['user'] unless data['user'].nil?
@@ -56,14 +56,14 @@ class GameChannel < ApplicationCable::Channel
 	end
 
 	# variables: target, resources
-	def add_worth_node(data)
+	def node_add_worth(data)
 		target_node = DataNode.where(value: data['target']).first
 		target_node.worth += data['resources']
 		target_node.save
 	end
 
 	# variables: head, tail, resources,	percentage,	friction,	speed
-	def set_connection(data)
+	def connection_set(data)
 		target_connection = DataNode
 			.includes(connected_nodes: [:connection])
 			.where(value: data['head']).first.connected_nodes
@@ -78,22 +78,62 @@ class GameChannel < ApplicationCable::Channel
 	end
 
 	# variables: head, tail, resources
-	def add_worth_connection
+	def connection_add_worth(data)
 		# TODO: simplify this query and make connections store node's values or contemplate making connections a separate table completely
-		target_connection = DataNode
-			.includes(connected_nodes: [:connection])
-			.where(value: data['head']).first.connected_nodes.select{ |x| x.connection.value == data['tail'] }
-			.first
-		target_connection.update_connection({'worth' => data['resources']})
+		if current_user.gold >= data['resources']
+			target_connection = DataNode
+				.includes(connected_nodes: [:connection])
+				.find_by(value: data['head']).connected_nodes.select{ |x| x.connection.value == data['tail'] }
+				.first
+			target_connection.invest(data['resources'])
+			current_user.update_attribute(:gold, current_user.gold - data['resources'])
+		else
+			#broadcast error to user
+		end
 	end
 
+	# variables: val_a, val_b, path
 	def log_data(data)
-		PathData.create(node1: data['a'], node2: data['b'], path: data['path'])
+		current_user.proved.create(val_a: data['val_a'], val_b: data['val_b'], path: data['path'])
+		ActionCable.server.broadcast "user#{current_user.id}",
+			function_call: 'status',
+			status: 'success'
 	end
 
 	# todo: replace ajax query with this to test performance
 	def request_node
 
+	end
+
+	# todo: create broadcast statements in play.js to change the node and for errors
+	# Creates a new cluster with the target node as the cluster core
+	# variables: target, cluster_name
+	def node_claim(data)
+		if current_user.gems >= 3
+			# node = DataNode.get_node(data['target'])
+			node = DataNode.where(value: data['target']).first_or_initialize
+			cluster_name = data['cluster_name']
+			if cluster_name.nil?
+				cluster_name = "#{current_user.username}'s Cluster"
+			end
+			cluster = current_user.owned_clusters.create(owner_type: 'Player', cluster_name: cluster_name)
+			node.update_attributes(
+				role: 1,
+				user_id: current_user.id,
+				cluster_core: true,
+				cluster_id: cluster.id,
+				last_change: Time.now
+			)
+			current_user.update_attribute(:gems, current_user.gems - 3)
+			# broadcast change to game
+			# Actioncable.server.broadcast "game",
+			# 	function_call: 'claim_node',
+			# 	node: data['target'],
+			#		faction: current_user.faction_id
+		else
+			# user doesn't have enough gems
+			# broadcast error to user
+		end
 	end
 
 
@@ -125,7 +165,11 @@ class GameChannel < ApplicationCable::Channel
 				end
 			when 'connect'
 				if nodes_adjacent?(origin_value, target_value)
-					action_connect
+					if current_user.proved.where(val_a: [origin_value, target_value], val_b: [origin_value, target_value])
+						action_connect
+					else
+						@status = 'user hasn\'t proved this connection'
+					end
 				else
 					@status = 'not_adjacent'
 				end
@@ -191,9 +235,9 @@ class GameChannel < ApplicationCable::Channel
 		if @origin.connections.where(id: @target).empty?
 			@origin.connections << @target
 			@status = 'success'
-		elsif @user.proved.where(data_node_id: @origin.id, connection_id: @target.id).empty?
-			@user.proved << @origin.connected_nodes.where(connection_id: @target.id)
-			@status = 'success'
+		# elsif @user.proved.where(data_node_id: @origin.id, connection_id: @target.id).empty?
+		# 	@user.proved << @origin.connected_nodes.where(connection_id: @target.id)
+		# 	@status = 'success'
 		else
 			@status = 'connection_exists'
 		end

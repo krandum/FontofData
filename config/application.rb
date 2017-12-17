@@ -36,5 +36,6 @@ module Fod
 		config.assets.paths << Rails.root.join('node_modules', 'acorn')
 		config.assets.paths << Rails.root.join('node_modules', 'palette', 'lib')
 		config.assets.paths << Rails.root.join('node_modules', 'popper.js', 'dist')
+		config.active_job.queue_adapter = :sidekiq
 	end
 end
