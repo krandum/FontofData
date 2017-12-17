@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parametes, if: :devise_controller?
+	before_action :set_current_user
 
   protected
 
@@ -17,5 +18,12 @@ class ApplicationController < ActionController::Base
 	  devise_parameter_sanitizer.permit(:account_update) do |u|
         u.permit(:username, :email, :password, :password_confirmation, :current_password, :avatar)
       end
-  end
+	end
+
+	private
+
+	def set_current_user
+		ConnectedNode.current_user = current_user
+	end
+
 end

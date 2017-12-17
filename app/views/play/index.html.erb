@@ -6,7 +6,7 @@
 		faction_id: <%= current_user.faction_id %>,
 		resources: '<%= current_user.gold %>',
 		gem_placeholder: '<%= current_user.gems %>',
-		proved: <%= current_user.proved.pluck(:s_value, :i_value) %>
+		proved: <%= current_user.proved.pluck(:val_a, :val_b) %>
 	};
 	<% end %>
 	<% if current_user.faction_id == 1 %>

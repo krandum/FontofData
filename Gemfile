@@ -42,12 +42,14 @@ gem 'redis', '~> 3.3.5'
 gem 'redis-namespace', '~> 1.5.3'
 
 gem 'd3-rails'
-gem 'unicorn'
+# gem 'unicorn'
 gem 'puma'
 
 gem 'pg'
 
 gem 'whenever', :require => false
+
+gem 'sidekiq'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

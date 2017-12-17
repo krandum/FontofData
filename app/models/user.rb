@@ -15,12 +15,13 @@ class User < ActiveRecord::Base
 	has_many :data_nodes
 	has_many :interactions
 
-	has_many :owned_clusters, class_name: 'Cluster', as: :owner
+	has_many :owned_clusters, class_name: 'Cluster', foreign_key: 'owner_id', as: :owner
 	has_many :cluster_memberships
 	has_many :clusters, through: :cluster_memberships
 
-	has_many :proved_connections
-	has_many :proved, through: :proved_connections, source: :connected_node
+	# has_many :proved_connections
+	# has_many :proved, through: :proved_connections, source: :connected_node
+	has_many :proved, foreign_key: 'user_id', class_name: 'PathData'
 
 	has_many :quest_logs
 	has_many :quests, through: :quest_logs
@@ -62,6 +63,15 @@ class User < ActiveRecord::Base
 			end
 			self.save
 		end
+	end
+
+	def complete_quest(quest_id)
+		quest = self.quests.find_by(id: quest_id)
+		self.gems += quest.gem_reward
+		quest.times_completed += 1
+		quest.save
+		self.quests.delete(quest)
+		self.save
 	end
 
 end

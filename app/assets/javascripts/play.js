@@ -107,11 +107,19 @@ $(document).on('ready page:load', function() {
 
 		received: function(data) {
 			// Called when there's incoming data on the websocket for this channel
-			if (data['function_call'] === 'take_action') {
-				take_action(data);
+			switch(data['function_call']) {
+				case 'take_action':
+					take_action(data);
+					break;
+				case 'status':
+					console.log(data['status']);
+					break;
+				case 'error':
+					console.log(data['error_msg']);
+					break;
+				default:
+					console.log('invalid call');
 			}
-			else
-				console.log("invalid call");
 		}
 	});
 
