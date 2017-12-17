@@ -2,6 +2,12 @@
 // # All this logic will automatically be available in application.js.
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
+function add_value(data) {
+	console.log("Oh wow that worked");
+	console.log(data);
+	d3.selectAll(".myForm").remove();
+}
+
 $(document).on('ready page:load', function() {
 	let play_check = document.getElementById('play');
 	if (typeof(play_check) === 'undefined' || play_check === null) {
@@ -12,78 +18,90 @@ $(document).on('ready page:load', function() {
 	let scope = new paper.PaperScope();
 	scope.setup("myCanvas");
 
-	let w = scope.view.size.width / 2;
-	let wl = -0.4 * w;
-	let wh = 2.4 * w;
-	let h = scope.view.size.height / 2;
-	let hh = 2.5 * h;
-	let m = Math.min(w, h);
-
+	let w = scope.view.size.width / 2, wl = -0.4 * w, wh = 2.4 * w,
+		h = scope.view.size.height / 2, hh = 2.5 * h, m = Math.min(w, h);
 	let game_data = {
-		fov: 400,
-		view_dist: 342,
-		tilt: -23,
-		node_factions: [],
-		node_connections: [],
-		active_nodes: [],
-		buffer_nodes: [],
-		selected_nodes: [],
-		action_index: -1,
-		action_name: "",
-		actions: [],
-		animations: [],
-		icon_data: {},
-		icons: {},
+		fov: 400, view_dist: 342, tilt: -23, node_factions: [], node_connections: [],
+		active_nodes: [], buffer_nodes: [], selected_nodes: [], action_index: -1,
+		action_name: "", actions: [], animations: [], icon_data: {}, icons: {},
 		colors: {
-			0: { // Background
-				light: [61, 196, 255],
-				dark: [35, 82, 175]
-			},
+			0: { /*Background*/ light: [61, 196, 255], dark: [35, 82, 175] },
 			1: { // Neutral
-				line: '#000000',
-				num: '#000000',
-				fill: '#cecece',
-				selected: '#000000',
-				glow: '#000000',
-				background: '#C0C0C0'
+				line: '#000000', num: '#000000',
+				fill: '#cecece', selected: '#000000',
+				glow: '#000000', background: '#C0C0C0'
 			},
 			2: { // Red Rocks
-				line: '#e52d00',
-				num: '#e52d00',
-				fill: '#faf9f9',
-				selected: '#ff8300',
-				glow: '#ff8300',
-				background: '#E5522D'
+				line: '#e52d00', num: '#e52d00',
+				fill: '#faf9f9', selected: '#ff8300',
+				glow: '#ff8300', background: '#E5522D'
 			},
 			3: { // Green Elves
-				line: '#3eb200',
-				num: '#3eb200',
-				fill: '#ffffd8',
-				selected: '#40ed4b',
-				glow: '#40ed4b',
-				background: '#5AE25F'
+				line: '#3eb200', num: '#3eb200',
+				fill: '#ffffd8', selected: '#40ed4b',
+				glow: '#40ed4b', background: '#5AE25F'
 			},
 			4: { // Blue Jellyfish
-				line: '#2188dd',
-				num: '#2188dd',
-				fill: '#C9f0ff',
-				selected: '#9428ab',
-				glow: '#9428ab',
-				background: '#3B94DD'
+				line: '#2188dd', num: '#2188dd',
+				fill: '#C9f0ff', selected: '#9428ab',
+				glow: '#9428ab', background: '#3B94DD'
 			}
 		},
-		background: {},
-		framework: [],
-		user_info: userinfo,
-		user_interface: {},
-		global_root: null,
-		old_root: null,
-		date: new Date(),
-		card_set: false
+		background: {}, framework: [], user_info: userinfo, user_interface: {},
+		global_root: null, old_root: null, date: new Date(), card_set: false,
+		positions: []
 	};
+
+	let proved = [[5, 11], [6, 12], [5, 6], [41, 42]];
+
+	function format_proved(proved) {
+		let out = [], i = -1, a, b;
+		while (++i < proved.length) {
+			a = proved[i][0];
+			b = proved[i][1];
+			if (typeof(out[a]) === 'undefined' || out[a] === null) out[a] = [b];
+			else out[a].push(b);
+			if (typeof(out[b]) === 'undefined' || out[b] === null) out[b] = [a];
+			else out[b].push(a);
+		}
+		return out;
+	}
+
+	proved = format_proved(proved);
+	console.log(proved);
+
+	console.log(userinfo);
 
 	let g_theta = game_data.tilt * Math.PI / 180;
 
+	// Getting user information
+	// function get_user_info() {
+	// 	$.ajax({
+	// 		type: "GET",
+	// 		url: "request_userdata",
+	// 		data: {
+	// 				//current session user
+	// 		},
+	// 		datatype: "html",
+	// 		success: function (raw) {
+	// 			let data = JSON.parse(raw);
+	// 			let user_info = game_data.user_info;
+	// 			user_info.name = data['user']['name'];
+	// 			user_info.picture = data['user']['picture'];
+	// 			user_info.faction_id = data['user']['faction_id'];
+	// 			user_info.resources = data['user']['resources'];
+	// 			user_info.gem_placeholder = data['user']['gems'];
+	// 		},
+	// 		async: true
+	// 	});
+	// }
+
+    // How to call actioncable functions from channels/game_channel.rb
+    // App.game.perform('example_function', {
+    //     example_var1: example_val1,
+    //     example_var2: example_val2,
+    //     ...
+    // });
 	App.game = App.cable.subscriptions.create("GameChannel", {
 		connected: function() {
 			// Called when the subscription is ready for use on the server
@@ -95,14 +113,19 @@ $(document).on('ready page:load', function() {
 
 		received: function(data) {
 			// Called when there's incoming data on the websocket for this channel
-			if (data['function_call'] == 'take_action') {
-				take_action(data);
+			switch(data['function_call']) {
+				case 'take_action':
+					take_action(data);
+					break;
+				case 'status':
+					console.log(data['status']);
+					break;
+				case 'error':
+					console.log(data['error_msg']);
+					break;
+				default:
+					console.log('invalid call');
 			}
-			if (data['function_call'] == 'bla') {
-				console.log("eyy");
-			}
-			else
-				console.log("invalid call");
 		}
 	});
 
@@ -359,6 +382,11 @@ $(document).on('ready page:load', function() {
 					ui.window_container.children[i].classList.add('hidden');
 				}
 				i++;
+			}
+			i = 0;
+			while (ui.window_container.children[1].children.length >= 1) {
+				d3.selectAll(".connection_pane svg").remove();
+				d3.selectAll(".connection_pane text").remove();
 			}
 		};
 		// ui.show_prompt = function(text) {
@@ -1256,8 +1284,8 @@ $(document).on('ready page:load', function() {
 
 	function cross(vec1, vec2) {
 		return {
-			x: vec1.y * vec2.z - vec1.z * vec2.y,
-			y: vec1.z * vec2.x - vec1.x * vec2.z,
+      x: vec1.y * vec2.z - vec1.z * vec2.y,
+      y: vec1.z * vec2.x - vec1.x * vec2.z,
 			z: vec1.x * vec2.y - vec1.y * vec2.x
 		};
 	}
@@ -1286,41 +1314,196 @@ $(document).on('ready page:load', function() {
 	// 	return true;
 	// }
 
+	function create_button_space() {
+		game_data.d3 = {};
+		let bounding = document.getElementById("local").getBoundingClientRect(),
+			width = bounding.width, height = bounding.height;
+		game_data.d3.space = d3.select("#local").append("div")
+			.attr("width", width).attr("height", height).attr("class", "globalWrap");
+	}
+
+	function make_button(icon_path, position, onclick) {
+		let button = game_data.d3.space.append("myButton").attr("class", "myButton")
+			.style("left", function() { return position.x.toString() + "px"; })
+			.style("top", function() { return position.y.toString() + "px"; })
+			.style("width", function() { return position.width.toString() + "px"; })
+			.style("height", function() { return position.height.toString() + "px"; })
+			.style("background-image", 'url("' + icon_path + '")')
+			.style("border-width", position.thick.toString() + "px");
+		button.on("click", onclick);
+		return button;
+	}
+
+	function tweak_connections(target) {
+		let neighbors = ["parent", "brother", "sister", "son", "daughter"],i = -1,
+			button, inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
+			cur_inv, cur_data;
+		let width = scope.view.size.width, height = scope.view.size.height, a, b,
+			cur_proven;
+		while (++i < 5) {
+			let cur_other = target[neighbors[i]].node,
+				position = { x: 0, y: 0, width: 0, height: 0, thick: 0 };
+			if (typeof(cur_other) === 'undefined' || cur_other === null) continue;
+			switch (neighbors[i]) {
+				case "parent":
+					cur_data = target.connection_data.dad;
+					break;
+				case "brother":
+					cur_data = target.connection_data.bro;
+					break;
+				case "sister":
+					cur_data = cur_other.connection_data.bro;
+					break;
+				case "son":
+				case "daughter":
+					cur_data = cur_other.connection_data.dad;
+			}
+			a = target.value;
+			b = cur_other.value;
+			cur_proven = false;
+			if (typeof(proved[a]) !== 'undefined' && proved[a] !== null
+				&& proved[a].length > 0) {
+				let j = -1;
+				while (++j < proved[a].length) if (proved[a][j] === b) cur_proven = true;
+			}
+			position.width = (target.rad + cur_other.rad) / 3;
+			position.height = (target.rad + cur_other.rad) / 3;
+			position.thick = (target.circle.strokeWidth + cur_other.circle.strokeWidth) / 3;
+			let angle = Math.atan2(cur_other.relative_pos.y - target.relative_pos.y,
+				cur_other.relative_pos.x - target.relative_pos.x), buttons = [];
+			let x_offset1 = target.rad * Math.cos(angle),
+				y_offset1 = target.rad * Math.sin(angle),
+				x_offset2 = cur_other.rad * Math.cos(angle),
+				y_offset2 = cur_other.rad * Math.sin(angle);
+			if (cur_proven && typeof(target[neighbors[i]].line) !== 'undefined' &&
+				target[neighbors[i]].line !== null) {
+				if (cur_data.completions[0] !== "100.0") {
+					position.width *= 0.6;
+					position.height *= 0.6;
+					position.thick *= 0.6;
+					if (Math.abs(angle - Math.PI) < 1.0 || Math.abs(angle) < 1.0) {
+						position.x = (target.relative_pos.x + cur_other.relative_pos.x) * width
+							/ 2 - position.width / 2;
+						position.y = (target.relative_pos.y + cur_other.relative_pos.y) * height
+							/ 2 - position.height / 2;
+					}
+					else {
+						position.x = (target.relative_pos.x * width + x_offset1 +
+							cur_other.relative_pos.x * width - x_offset2) / 2 - position.width / 2;
+						position.y = (target.relative_pos.y * height + y_offset1 +
+							cur_other.relative_pos.y * height - y_offset2) / 2 - position.height / 2;
+					}
+					if (angle === Math.PI || angle === 0) position.y -= position.height * 1.2;
+					else {
+						let y_offset = position.y - target.relative_pos.y * height,
+							x_offset = position.x - target.relative_pos.x * width,
+							y_mod = position.height * 1.2, x_mod = position.width * 1.2;
+						if (!(x_offset > 0) ^ !(y_offset > 0)) {
+							x_mod *= Math.cos(angle - Math.PI / 2);
+							y_mod *= Math.sin(angle - Math.PI / 2);
+						}
+						else {
+							x_mod *= Math.cos(angle + Math.PI / 2);
+							y_mod *= Math.sin(angle + Math.PI / 2);
+						}
+						position.x += x_mod;
+						position.y += y_mod;
+					}
+					button = make_button('assets/neutral/icons/add.svg', position, function() {
+						check_selection(target);
+						let form = game_data.d3.space.append("form").attr("class", "myForm")
+							.attr("action", "javascript:add_value(amount.value)")
+							.style("left", (position.x + position.width / 2 - 75).toString() + "px")
+							.style("top", (position.y + position.height / 2).toString() + "px");
+						form.append("input").attr("class", "myInput").attr("type", "text")
+							.attr("name", "amount").attr("value", "").attr("id", "amount")
+							.attr("placeholder", "Enter Amount").attr("autocomplete", "off");
+						form.append("input").attr("type", "submit").attr("value", "Add");
+					});
+					buttons.push(button);
+				}
+			}
+			else {
+				position.x = (target.relative_pos.x * width + x_offset1 +
+					cur_other.relative_pos.x * width - x_offset2) / 2 - position.width / 2;
+				position.y = (target.relative_pos.y * height + y_offset1 +
+					cur_other.relative_pos.y * height - y_offset2) / 2 - position.height / 2;
+				button = make_button('assets/neutral/icons/043-connect.svg', position,
+					function() { check_selection(target);
+						setup_connection(target.value, cur_other.value); });
+				buttons.push(button);
+			}
+			target[neighbors[i]].buttons = buttons;
+			cur_inv = inv_neighbors[i];
+			if (cur_inv === "check") {
+				if (target.value % 2 === 0) cur_inv = "son";
+				else cur_inv = "daughter";
+			}
+			cur_other[cur_inv].buttons = buttons;
+		}
+	}
+
+	function untweak_connections(target) {
+		let neighbors = ["parent", "brother", "sister", "son", "daughter"], i = -1,
+			cur_other, inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
+			cur_inv;
+		while (++i < 5) {
+			cur_other = target[neighbors[i]].node;
+			if (typeof(cur_other) === 'undefined' || cur_other === null) continue;
+			if (typeof(target[neighbors[i]].buttons) === 'undefined' ||
+				target[neighbors[i]].buttons === null) continue;
+			cur_inv = inv_neighbors[i];
+			if (cur_inv === "check") {
+				if (target.value % 2 === 0) cur_inv = "son";
+				else cur_inv = "daughter";
+			}
+			while (target[neighbors[i]].buttons.length > 0) {
+				target[neighbors[i]].buttons[0].remove();
+				target[neighbors[i]].buttons.splice(0, 1);
+				cur_other[cur_inv].buttons.splice(0, 1);
+			}
+		}
+	}
+
 	function select_node(target) {
 		if (target.moving) return;
 		let node_color = game_data.colors[game_data.node_factions[target.value].toString()];
-		let quarter_size = target.relative_pos.size_dy * scope.view.size.height / 4;
 		target.circle.shadowColor = node_color['glow'];
-		target.circle.shadowBlur = quarter_size;
 		target.circle.strokeColor = node_color['selected'];
 		if (target.node) target.number.fillColor = node_color['selected'];
 		else target.image.fillColor = node_color['selected'];
 		target.selected = true;
 		grow_node(target);
+		tweak_connections(target);
 	}
 
 	function unselect_node(target) {
 		if (target.moving) return;
 		let node_color = game_data.colors[game_data.node_factions[target.value].toString()];
-		target.circle.shadowColor = 0;
-		target.circle.shadowBlur = 0;
+		target.circle.shadowColor = new scope.Color(node_color['line']) * 0.4;
 		target.circle.strokeColor = node_color['line'];
 		if (target.node) target.number.fillColor = node_color['num'];
 		else target.image.fillColor = node_color['num'];
 		target.selected = false;
 		let empty_window = { value: "", faction_id: 1, owner: "", tier: "",
 			connection_num: "", function: "", worth: "", contention: "" };
-		game_data.user_interface.set_info_window(empty_window)
+		game_data.user_interface.set_info_window(empty_window);
 		ungrow_node(target);
+		untweak_connections(target);
 	}
 
 	function grow_node(target) {
+		target.group.bringToFront();
 		if (target.node) {
 			if (!game_data.card_set) game_data.card_set = true;
 			game_data.user_interface.set_card(target);
 		}
 		if (target.moving) return;
 		if (!target.grown && (target.selected || target.hovered)) {
+			if (typeof(target._rad) === 'undefined' || target._rad === null) {
+				target._rad = target.rad;
+				target.rad *= 1.2;
+			}
 			if (has_animation(target)) remove_animations(target);
 			add_animation(target, grow_animation, grow_stop, 100);
 			target.grown = true;
@@ -1333,6 +1516,10 @@ $(document).on('ready page:load', function() {
 			if (has_animation(target)) remove_animations(target);
 			add_animation(target, ungrow_animation, ungrow_stop, 100);
 			target.grown = false;
+			if (typeof(target._rad) !== 'undefined' && target._rad !== null) {
+				target.rad = target._rad;
+				target._rad = null;
+			}
 		}
 		if (target.node) {
 			if (game_data.card_set && game_data.selected_nodes.length > 0)
@@ -1633,84 +1820,105 @@ $(document).on('ready page:load', function() {
 	function tug_of_war(line, ratio, start_faction, end_faction) {
 		let start = new scope.Point(line.firstSegment.point),
 			end = new scope.Point(line.lastSegment.point),
-			dx = Math.abs(start.x - end.x), dy = Math.abs(start.y - end.y),
-			refx = Math.min(start.x, end.x), refy = Math.min(start.y, end.y),
-			mid = new scope.Point(refx + dx * ratio, refy + dy * ratio),
-			thick = line.strokeWidth;
-		line.remove();
-		let first = new scope.Path.Line(start, mid);
-		first.strokeWidth = thick;
-		first.strokeColor = game_data.colors[start_faction.toString()].line;
-		let second= new scope.Path.Line(mid, end);
-		second.strokeWidth = thick;
-		second.strokeColor = game_data.colors[end_faction.toString()].line;
-		line = new scope.Group(first, second);
-		return line;
+			start_color = game_data.colors[start_faction].line,
+			end_color = game_data.colors[end_faction].line,
+			dark_start = start_color * 0.4;
+		line.strokeCap = 'round';
+		line.shadowColor = dark_start;
+		line._shadow = line.shadowColor;
+		line.shadowBlur = 5;
+		line.strokeColor = {
+			gradient: { stops: [[start_color, ratio - 0.05], [end_color, ratio + 0.05]] },
+			origin: start, destination: end
+		};
 	}
 
-	function show_parent(parent, son) {
+	function show_full_parent(parent, son) {
 		let from = new scope.Point(parent.circle.position.x, parent.circle.position.y);
 		let to = new scope.Point(son.circle.position.x, son.circle.position.y);
 		let connection = new scope.Path.Line(from, to);
-		shorten_line(connection, parent.rad * 1.2, son.rad * 0.7);
-		connection.strokeWidth = (parent.circle.strokeWidth + son.circle.strokeWidth) / 2;
+		shorten_line(connection, parent.rad * 1.25, son.rad * 1.35);
+		connection.strokeWidth = (parent.circle.strokeWidth + son.circle.strokeWidth) / 2.5;
 		if (game_data.node_factions[parent.value] === game_data.node_factions[son.value]) {
 			let colors = game_data.colors[game_data.node_factions[parent.value].toString()];
+			connection.strokeCap = 'round';
+			connection.shadowColor = new scope.Color(colors.line) * 0.4;
+			connection._shadow = connection.shadowColor;
+			connection.shadowBlur = 5;
 			connection.strokeColor = colors.line;
 		}
 		else {
-			connection = tug_of_war(connection, 0.5, game_data.node_factions[parent.value],
+			tug_of_war(connection, 0.5, game_data.node_factions[parent.value],
 				game_data.node_factions[son.value]);
 		}
+		connection.sendToBack();
 		return connection;
 	}
 
-	function show_brother(brother, sis) {
+	function show_full_brother(brother, sis) {
 		let from = new scope.Point(brother.circle.position.x, brother.circle.position.y);
 		let to = new scope.Point(sis.circle.position.x, sis.circle.position.y);
 		let connection = new scope.Path.Line(from, to);
-		shorten_line(connection, brother.rad * 1.2, sis.rad * 1.2);
-		connection.strokeWidth = (brother.circle.strokeWidth + sis.circle.strokeWidth) / 2;
+		shorten_line(connection, brother.rad * 1.3, sis.rad * 1.3);
+		connection.strokeWidth = (brother.circle.strokeWidth + sis.circle.strokeWidth) / 2.5;
 		if (game_data.node_factions[brother.value] === game_data.node_factions[sis.value]) {
 			let colors = game_data.colors[game_data.node_factions[brother.value].toString()];
+			connection.strokeCap = 'round';
+			connection.shadowColor = new scope.Color(colors.line) * 0.4;
+			connection._shadow = connection.shadowColor;
+			connection.shadowBlur = 5;
 			connection.strokeColor = colors.line;
 		}
 		else {
 			connection = tug_of_war(connection, 0.5, game_data.node_factions[brother.value],
 				game_data.node_factions[sis.value]);
 		}
+		connection.sendToBack();
 		return connection;
 	}
 
 	function show_connections(target) {
-		target.connection_values.dad = game_data.node_connections[target.value]['dad'];
-		target.connection_values.bro = game_data.node_connections[target.value]['bro'];
-		let connection_dad = null, connection_bro = null, j;
-		if (target.connection_values.dad !== null) {
-			let dad = null;
-			j = -1;
-			while (++j < game_data.active_nodes.length)
-				if (game_data.active_nodes[j].value === target.connection_values.dad) {
-					dad = game_data.active_nodes[j];
-					break;
-				}
-			if (dad !== null) connection_dad = show_parent(dad, target);
+		target.connection_data.dad = game_data.node_connections[target.value]['dad'];
+		target.connection_data.bro = game_data.node_connections[target.value]['bro'];
+		let connection_dad = null, connection_bro = null;
+		if (target.connection_data.dad !== null) {
+			let dad = target.parent.node;
+			if (dad !== null) {
+				connection_dad = show_full_parent(dad, target);
+				target.parent.line = connection_dad;
+				if (target.value / 2 === dad.value) dad.son.line = connection_dad;
+				else dad.daughter.line = connection_dad;
+			}
 		}
-		if (target.connection_values.bro !== null) {
-			let bro = null;
-			j = -1;
-			while (++j < game_data.active_nodes.length)
-				if (game_data.active_nodes[j].value === target.connection_values.bro) {
-					bro = game_data.active_nodes[j];
-					break;
-				}
-			if (bro !== null) connection_bro = show_brother(bro, target);
+		if (target.connection_data.bro !== null) {
+			let bro = target.brother.node;
+			if (bro !== null) {
+				connection_bro = show_full_brother(bro, target);
+				target.brother.line = connection_bro;
+				bro.sister.line = connection_bro;
+			}
 		}
 		target.connections = new scope.Group(connection_dad, connection_bro);
 	}
 
 	function hide_connections(target) {
 		target.connections.remove();
+		let neighbors = ["parent", "brother", "sister", "son", "daughter"], i = -1,
+			inv_neighbors = ["check", "sister", "brother", "parent", "parent"], cur_inv;
+		while (++i < 5) {
+			let cur_other = target[neighbors[i]].node;
+			if (typeof(cur_other) === 'undefined' || cur_other === null) continue;
+			if (typeof(target[neighbors[i]].line) !== 'undefined' &&
+				target[neighbors[i]].line !== null) {
+				target[neighbors[i]].line = null;
+				cur_inv = inv_neighbors[i];
+				if (cur_inv === "check") {
+					if (target.value % 2 === 0) cur_inv = "son";
+					else cur_inv = "daughter";
+				}
+				cur_other[cur_inv].line = null;
+			}
+		}
 	}
 
 	function set_fraction(target) {
@@ -1769,11 +1977,12 @@ $(document).on('ready page:load', function() {
 				-size / 25), new scope.Point(x_sign * size / 12.5, size / 20));
 		basis.addSegments([proper1, proper2, proper3, proper4, partial1, p7, partial2]);
 		basis.closed = true;
-
 		basis.strokeWidth = thickness;
 		basis.strokeColor = node_color['line'];
 		basis.fillColor = node_color['fill'];
-
+		basis.shadowColor = new scope.Color(node_color['line']) * 0.4;
+		basis._shadow = basis.shadowColor;
+		basis.shadowBlur = thickness * 5;
 		let num_w = sine_size * (2 - 1 / num_digits), num_h = (num_w / num_digits) * 1.4;
 		let num = new scope.PointText(center);
 		num.fillColor = node_color['num'];
@@ -1782,66 +1991,64 @@ $(document).on('ready page:load', function() {
 			point: [center.x - num_w / 2, center.y - num_h / 2],
 			size: [num_w, num_h]
 		});
-
 		let out_node = new scope.Group(basis, num), relative_pos = {
 				x: basis.position.x / scope.view.size.width,
 				y: basis.position.y / scope.view.size.height,
 				size_dx: basis.bounds.width / scope.view.size.height,
 				size_dy: basis.bounds.height / scope.view.size.height
 		};
-
-		let leftie = elem % 2 !== 0;
-
 		let total_node = {
-			value: elem,
-			position: elem,
-			group: out_node,
-			circle: basis,
-			number: num,
-			rad: half_size,
-			relative_pos: relative_pos,
-			popped: false,
-			popper: false,
-			connection_values: { dad: parent, bro: brother },
-			connection_num: null,
-			connections: null,
-			faction_id: null,
-			owner: null,
-			tier: null,
-			worth: null,
-			contention: null,
-			selected: false,
-			hovered: false,
-			grown: false,
-			moving: false,
-			base: null,
-			options: null,
-			node: true,
-			move_target: null,
-			move_thickness: thickness,
-			left_pointed: leftie
+			value: elem, position: elem, group: out_node, circle: basis, number: num,
+			rad: half_size, relative_pos: relative_pos, popped: false, popper: false,
+			connection_data: { dad: parent, bro: brother }, connection_num: null,
+			connections: null, faction_id: null, owner: null, tier: null, worth: null,
+			contention: null, selected: false, hovered: false, grown: false, moving: false,
+			base: null, options: null, node: true, move_target: null, move_thickness: thickness,
+			left_pointed: elem % 2 !== 0, parent: {}, brother: {}, sister: {}, son: {}, daughter: {}
 		};
-
 		out_node.onMouseEnter = function() {
 			if (total_node.moving) return;
 			total_node.hovered = true;
 			set_fraction(total_node);
 			grow_node(total_node);
 		};
-
 		out_node.onMouseLeave = function() {
 			if (total_node.moving) return;
 			total_node.hovered = false;
 			set_fraction(total_node);
 			ungrow_node(total_node);
 		};
-
 		out_node.onClick = function() {
 			if (total_node.moving) return;
 			check_selection(total_node);
 		};
-
 		return total_node;
+	}
+
+	function connect_nodes(nodes) {
+		let i = 0, cur_node;
+		while (i < nodes.length) {
+			cur_node = nodes[i++];
+			if (i > 1) {
+				cur_node.parent.node = nodes[Math.floor(i / 2) - 1];
+				if ((i & (i - 1)) !== 0) cur_node.brother.node = nodes[i - 2];
+				else cur_node.brother.node = null;
+			}
+			else {
+				cur_node.parent.node = null;
+				cur_node.brother.node = null;
+			}
+			if ((i & (i + 1)) !== 0) cur_node.sister.node = nodes[i];
+			else cur_node.sister.node = null;
+			if (i < 32) {
+				cur_node.son.node = nodes[i * 2 - 1];
+				cur_node.daughter.node = nodes[i * 2];
+			}
+			else {
+				cur_node.son.node = null;
+				cur_node.daughter.node = null;
+			}
+		}
 	}
 
 	function build_nodes(num_layers, width, height) {
@@ -1858,6 +2065,7 @@ $(document).on('ready page:load', function() {
 				let new_node = get_node(index, point, node_height, thickness,
 					game_data.node_connections[index]['dad'],
 					game_data.node_connections[index]['bro']);
+				game_data.positions[new_node.position] = new_node.relative_pos;
 				if (i === num_layers - 1) {
 					let dot_w = new_node.circle.bounds.width * 0.7246377;
 					let dot_h = dot_w * 0.483333;
@@ -1882,6 +2090,7 @@ $(document).on('ready page:load', function() {
 			i++;
 			if (thickness > 1) thickness--;
 		}
+		connect_nodes(nodes);
 		return nodes;
 	}
 
@@ -1996,7 +2205,8 @@ $(document).on('ready page:load', function() {
 				leftie = relocs[i];
 				j = 0;
 			}
-			game_data.buffer_nodes[0].move_target = game_data.active_nodes[relocs[i] - 1].relative_pos;
+			game_data.buffer_nodes[0].move_target =
+				game_data.positions[game_data.active_nodes[relocs[i] - 1].position];
 			game_data.buffer_nodes[0].move_position = relocs[i];
 			game_data.buffer_nodes[0].move_value = leftie * target.value + j;
 			game_data.buffer_nodes[0].move_thickness = game_data.active_nodes[relocs[i] - 1]
@@ -2065,8 +2275,8 @@ $(document).on('ready page:load', function() {
 		}
 		i = 0;
 		while (game_data.buffer_nodes.length > 0) {
-			game_data.buffer_nodes[0].move_target = game_data.active_nodes[
-				relocs[i].value - 1].relative_pos;
+			game_data.buffer_nodes[0].move_target =
+				game_data.positions[game_data.active_nodes[relocs[i].value - 1].position];
 			game_data.buffer_nodes[0].move_position = relocs[i].value;
 			game_data.buffer_nodes[0].move_value = relocs[i].leftie *
 				new_base_value + relocs[i].value % relocs[i].leftie;
@@ -2182,25 +2392,24 @@ $(document).on('ready page:load', function() {
 	}
 
 	function confirm_moved_nodes() {
-		let width = scope.view.size.width;
-		let height = scope.view.size.height;
-		let i = -1;
-		let prev_pos = game_data.old_root.circle.position;
+		let width = scope.view.size.width, height = scope.view.size.height, i = -1,
+			prev_pos = game_data.old_root.circle.position, leftie, node_color,
+			num_digits, sine_size, num_w, num_h, dot_w, dot_h, cur_node;
 		while (++i < game_data.active_nodes.length) {
-			let cur_node = game_data.active_nodes[i];
+			cur_node = game_data.active_nodes[i];
 			cur_node.popped = false;
-			cur_node.circle.position.x = cur_node.move_target.x * width;
-			cur_node.circle.position.y = cur_node.move_target.y * height;
 			cur_node.circle.bounds.width = cur_node.move_target.size_dx * height;
 			cur_node.circle.bounds.height = cur_node.move_target.size_dy * height;
+			cur_node.circle.position.x = cur_node.move_target.x * width;
+			cur_node.circle.position.y = cur_node.move_target.y * height;
 			cur_node.value = cur_node.move_value;
-			let leftie = cur_node.value % 2 !== 0;
+			leftie = cur_node.value % 2 !== 0;
 			if (leftie !== cur_node.left_pointed) {
 				cur_node.left_pointed = leftie;
 				cur_node.circle.scale(-1, 1);
 			}
-			let node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
-			let num_digits = cur_node.value.toString().length;
+			node_color = game_data.colors[game_data.node_factions[cur_node.value].toString()];
+			num_digits = cur_node.value.toString().length;
 			cur_node.relative_pos = cur_node.move_target;
 			cur_node.base = null;
 			cur_node.rad = cur_node.circle.bounds.width / 2;
@@ -2209,10 +2418,13 @@ $(document).on('ready page:load', function() {
 			cur_node.circle.strokeColor = node_color['line'];
 			cur_node.circle.fillColor = node_color['fill'];
 			cur_node.circle.strokeWidth = cur_node.move_thickness;
+			cur_node.circle.shadowColor = new scope.Color(node_color['line']) * 0.4;
+			cur_node.circle._shadow = cur_node.circle.shadowColor;
+			cur_node.circle.shadowBlur = cur_node.move_thickness * 5;
 			if (i < 31) {
-				let sine_size = cur_node.circle.bounds.width / 2.3;
-				let num_w = sine_size * (2 - 1 / num_digits);
-				let num_h = (num_w / num_digits) * 1.45;
+				sine_size = cur_node.circle.bounds.width / 2.3;
+				num_w = sine_size * (2 - 1 / num_digits);
+				num_h = (num_w / num_digits) * 1.45;
 				cur_node.number.visible = true;
 				cur_node.number.fillColor = node_color['num'];
 				cur_node.number.content = cur_node.value.toString();
@@ -2222,8 +2434,8 @@ $(document).on('ready page:load', function() {
 				cur_node.number.bounds.y = cur_node.circle.position.y - num_h / 2;
 			}
 			else {
-				let dot_w = cur_node.circle.bounds.width * 0.7246377;
-				let dot_h = dot_w * 0.483333;
+				dot_w = cur_node.circle.bounds.width * 0.7246377;
+				dot_h = dot_w * 0.483333;
 				cur_node.number.fillColor = node_color['num'];
 				cur_node.number.content = "...";
 				cur_node.number.bounds.width = dot_w;
@@ -2233,6 +2445,7 @@ $(document).on('ready page:load', function() {
 			}
 			set_fraction(cur_node);
 		}
+		connect_nodes(game_data.active_nodes);
 		let new_pos = game_data.old_root.circle.position;
 		game_data.background.move_to(prev_pos, new_pos, 1);
 		i = 0;
@@ -2359,45 +2572,6 @@ $(document).on('ready page:load', function() {
 				else move_to(target);
 			};
 		}
-		theta = Math.PI / 2;
-		options.attack = make_option_group(target.circle.position, small_rad, big_rad,
-			theta, colors, ref_stroke_width / 2, 'attack', target.value);
-		theta = 2 * Math.PI / 3;
-		options.connect = make_option_group(target.circle.position, small_rad, big_rad,
-			theta, colors, ref_stroke_width / 2, 'connect', target.value);
-		theta = Math.PI / 3;
-		options.node_info = make_option_group(target.circle.position, small_rad, big_rad,
-			theta, colors, ref_stroke_width / 2, 'node_info', target.value);
-		game_data.actions.push(options.attack);
-		game_data.actions.push(options.connect);
-		options.attack.group.onMouseEnter = function() {
-			options.attack.hovered = true;
-			set_fraction(options.attack);
-			grow_node(options.attack);
-		};
-		options.attack.group.onMouseLeave = function() {
-			options.attack.hovered = false;
-			set_fraction(options.attack);
-			ungrow_node(options.attack);
-		};
-		options.attack.group.onClick = function() {
-			set_fraction(options.attack);
-			select_action(options.attack);
-		};
-		options.connect.group.onMouseEnter = function() {
-			options.connect.hovered = true;
-			set_fraction(options.connect);
-			grow_node(options.connect);
-		};
-		options.connect.group.onMouseLeave = function() {
-			options.connect.hovered = false;
-			set_fraction(options.connect);
-			ungrow_node(options.connect);
-		};
-		options.connect.group.onClick = function() {
-			set_fraction(options.connect);
-			select_action(options.connect);
-		};
 		target.options = options;
 		add_animation(options, pop_action_animation, pop_action_stop, 150);
 	}
@@ -2465,8 +2639,8 @@ $(document).on('ready page:load', function() {
 	function check_selection(target) {
 		if (target.moving) return;
 		if (!target.selected) {
-			select_node(target);
 			if (game_data.selected_nodes.length >= 1 && game_data.action_index !== -1) {
+				select_node(target);
 				game_data.selected_nodes.push(target);
 				// take_action(game_data.selected_nodes[0], target);
 				App.game.perform('update_node', {
@@ -2485,13 +2659,15 @@ $(document).on('ready page:load', function() {
 			else if (game_data.selected_nodes.length >= 1) {
 				remove_options(game_data.selected_nodes[0]);
 				unselect_node(game_data.selected_nodes[0]);
+				select_node(target);
 				game_data.user_interface.set_info_window(target);
 				game_data.selected_nodes[0] = target;
 				add_options(game_data.selected_nodes[0]);
 			}
 			else {
-				game_data.selected_nodes.push(target);
+				select_node(target);
 				game_data.user_interface.set_info_window(target);
+				game_data.selected_nodes.push(target);
 				add_options(target);
 			}
 		}
@@ -2634,316 +2810,474 @@ $(document).on('ready page:load', function() {
 	d3.selection.prototype.moveToFront = function() {
 		return this.each(function(){
 			this.parentNode.appendChild(this);
-		})
+		});
 	};
 
-	function next_orbit(num) {
-		if (num % 2 === 0) return [num / 2, 2];
-		return [(num * 3 + 1) / 2, 1];
-	}
-
-	function prev_orbits(num) {
-		let a = num * 2, b = ((num * 2 - 1) % 3 === 0) ? (num * 2 - 1) / 3 : -1;
-		return [a, b];
-	}
-
-	function add_to_id(cur_id, num, type_char) {
-		if (cur_id === null) return type_char + num.toString();
-		return cur_id + "." + type_char + num.toString();
-	}
-
-	function build_object(num) {
-		let out = [], cur_val = num, cur_id = add_to_id(null, num, 'b'), a, b,
-			cur_depth = 0, line_counts = [], depth_counts = [], node, cur_stamp;
-		depth_counts[0] = { lines: [0] };
-		depth_counts[-1] = { lines: [0] };
-		depth_counts[-2] = { lines: [0] };
-		depth_counts[-3] = { lines: [0] };
-		depth_counts[-4] = { lines: [0] };
-		line_counts[0] = { amount: 9, branch: [{ source_depth: -5, source_line: 0,
-			height: 4 }], nodes: [] };
-		node = { id: cur_id, value: num, depth: 0, line: 0, stamp: 0 };
-		cur_stamp = 0;
-		line_counts[0].nodes[0] = node;
-		line_counts.lines = [0];
-		out.push(node);
-		while (++cur_depth <= 4) {
-			[a, b] = prev_orbits(cur_val);
-			depth_counts[cur_depth] = { lines: [] };
-			if (b !== -1) {
-				if (typeof(line_counts[1]) === 'undefined' || line_counts[1] === null) {
-					line_counts[1] = { amount: 0, branch: [], nodes: [] };
-					line_counts.lines.push(1);
-				}
-				line_counts[1].amount++;
-				line_counts[1].branch.push({ source_depth: cur_depth - 1, source_line: 0,
-					height: cur_depth });
-				depth_counts[cur_depth].lines.push(1);
-				node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
-					line: 1, stamp: ++cur_stamp };
-				line_counts[1].nodes[cur_depth] = node;
-				out.push(node);
-			}
-			cur_id = add_to_id(cur_id, a, 'u');
-			node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
-			line_counts[0].nodes[cur_depth] = node;
-			out.push(node);
-			depth_counts[cur_depth].lines.push(0);
-			cur_val = a;
-		}
-		cur_depth = 0;
-		cur_id = add_to_id(null, num, 'b');
-		cur_val = num;
-		while (--cur_depth >= -4) {
-			[a, b] = next_orbit(cur_val);
-			if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
-			else cur_id = add_to_id(cur_id, a, 'c');
-			node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
-			line_counts[0].nodes[cur_depth] = node;
-			out.push(node);
-			cur_val = a;
-		}
-		out.columns = ["id", "value", "depth", "line", "stamp"];
-		return { data: out, line_counts: line_counts, depth_counts: depth_counts,
-			cur_stamp: cur_stamp };
-	}
-
-	function move_everything_above(context, line, depth) {
-		let arr = context.line_counts, i = -1, branch_index = -1, cur, j, n_cur,
-			avoid_arr = [], k, skip, cur_branch;
-		while (++i < arr.lines.length) {
-			cur = arr[arr.lines[i]];
-			j = -1;
-			while (++j < cur.branch.length) {
-				k = -1;
-				skip = false;
-				cur_branch = cur.branch[j];
-				while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
-				if (skip) continue;
-				if (cur_branch.source_depth > depth && cur_branch.source_line === line) {
-					avoid_arr.push(cur_branch);
-					move_everything_above(context, arr.lines[i], cur_branch.source_depth);
-				}
-			}
-		}
-		arr = context.line_counts[line].branch;
-		i = -1;
-		let next = line + 1;
-		while (++i < arr.length) {
-			cur = arr[i];
-			if (depth >= cur.source_depth && depth < cur.height) branch_index = i;
-		}
-		i = -1;
-		let branch = context.line_counts[line].branch[branch_index];
-		while (++i < context.data.length) {
-			cur = context.data[i];
-			if (cur.line === line && cur.depth > depth && cur.depth <= branch.height) {
-				if (typeof(context.line_counts[next]) === 'undefined' ||
-					context.line_counts[next] === null) {
-					context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
-					context.line_counts.lines.push(next);
-				}
-				n_cur = context.line_counts[next].nodes[cur.depth];
-				if (typeof(n_cur) !== 'undefined' && n_cur !== null) {
-					j = -1;
-					while (++j < context.line_counts[next].branch.length) {
-						cur_branch = context.line_counts[next].branch[j];
-						if (cur_branch.source_depth < cur.depth &&
-							cur_branch.height >= cur.depth) {
-							move_everything_above(context, next, cur_branch.source_depth);
-						}
-						if (typeof(context.line_counts[next]) === 'undefined' ||
-							context.line_counts[next] === null) break;
-					}
-				}
-				if (typeof(context.line_counts[next]) === 'undefined' ||
-					context.line_counts[next] === null) {
-					context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
-					context.line_counts.lines.push(next);
-				}
-				cur.line = next;
-				context.line_counts[line].amount--;
-				context.line_counts[next].amount++;
-				context.line_counts[next].nodes[cur.depth] = cur;
-				context.line_counts[line].nodes[cur.depth] = null;
-				context.depth_counts[cur.depth].lines.splice(
-					context.depth_counts[cur.depth].lines.indexOf(line), 1, next);
-			}
-		}
-		if (branch.source_depth === depth) {
-			context.line_counts[next].branch.push(branch);
-			context.line_counts[line].branch.splice(branch_index, 1);
-		}
-		else if (branch.source_depth < depth) {
-			context.line_counts[next].branch.push({ source_depth: depth,
-				source_line: line, height: branch.height });
-			branch.height = depth;
-		}
-		if (context.line_counts[line].amount === 0) {
-			context.line_counts[line] = null;
-			context.line_counts.lines.splice(context.line_counts.lines.indexOf(line), 1);
-		}
-	}
-
-	function expand_context_at(context, node_data) {
-		let num = node_data.value, cur_depth = node_data.depth, cur_line = node_data.line,
-			source_index = -1, i = -1, j, cur, ceiling = null, cur_id = node_data.id,
-			depths = context.depth_counts, lines = context.line_counts, n_cur,
-			data = context.data, arr = lines[cur_line].branch, a, b, cur_val, node,
-			cur_stamp = context.cur_stamp;
-		while (++i < arr.length) {
-			cur = arr[i];
-			if (cur_depth > cur.source_depth && cur_depth <= cur.height)
-				source_index = i;
-			else if (ceiling === null && cur.source_depth >= cur_depth)
-				ceiling = cur.source_depth + 1;
-			else if (ceiling !== null && cur.source_depth >= cur_depth
-				&& cur.source_depth + 1 < ceiling) ceiling = cur.source_depth + 1;
-		}
-		if (source_index === -1) throw new Error("Failure to update context");
-		let needed = 5, cur_node;
-		cur_val = num;
-		while (--needed > 0) {
-			cur_depth++;
-			cur_node = lines[cur_line].nodes[cur_depth];
-			[a, b] = prev_orbits(cur_val);
-			if (typeof(cur_node) !== 'undefined' && cur_node !== null) {
-				if (cur_node.value === b) {
-					move_everything_above(context, cur_line, cur_depth - 1);
-				}
-				else if (cur_node.value !== a) {
-					move_everything_above(context, cur_line, arr[source_index].source_depth);
-					cur_line++;
-					arr = lines[cur_line].branch;
-					source_index = -1;
-					i = -1;
-					while (++i < arr.length) if (node_data.depth > arr[i].source_depth
-						&& node_data.depth <= arr[i].height) source_index = i;
-					if (source_index === -1) throw new Error("Failure to update context");
-				}
-			}
-			if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
-				depths[cur_depth] = { lines: [] };
-			i = -1;
-			let branch_off = false;
-			while (++i < depths[cur_depth].lines.length) {
-				cur_node = lines[depths[cur_depth].lines[i]].nodes[cur_depth];
-				if (cur_node.value === b) branch_off = true;
-			}
-			if (b !== -1 && !branch_off) {
-				if (typeof(lines[cur_line + 1]) === 'undefined' || lines[cur_line + 1] === null) {
-					lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
-					lines.lines.push(cur_line + 1);
-				}
-				if (typeof(lines[cur_line + 1].nodes[cur_depth]) !== 'undefined' &&
-					lines[cur_line + 1].nodes[cur_depth] !== null) {
-					j = -1;
-					while (++j < lines[cur_line + 1].branch.length) {
-						n_cur = lines[cur_line + 1].branch[j];
-						if (n_cur.source_depth < cur_depth && cur_depth <= n_cur.height)
-							move_everything_above(context, cur_line + 1, n_cur.source_depth);
-						if (typeof(lines[cur_line + 1]) === 'undefined' ||
-							lines[cur_line + 1] === null) break;
-					}
-				}
-				if (typeof(lines[cur_line + 1]) === 'undefined'|| lines[cur_line + 1] === null) {
-					lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
-					lines.lines.push(cur_line + 1);
-				}
-				lines[cur_line + 1].amount++;
-				lines[cur_line + 1].branch.push({ source_depth: cur_depth - 1,
-					source_line: cur_line, height: cur_depth });
-				depths[cur_depth].lines.push(cur_line + 1);
-				node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
-					line: cur_line + 1, stamp: ++cur_stamp };
-				lines[cur_line + 1].nodes[cur_depth] = node;
-				data.push(node);
-			}
-			cur_node = lines[cur_line].nodes[cur_depth];
-			if (typeof(cur_node) !== 'undefined' && cur_node !== null && cur_node.value === a) {
-				cur_val = a;
-				cur_id = cur_node.id;
-				continue;
-			}
-			cur_id = add_to_id(cur_id, a, 'u');
-			depths[cur_depth].lines.push(cur_line);
-			cur_val = a;
-			lines[cur_line].amount++;
-			arr[source_index].height++;
-			node = { id: cur_id, value: a, depth: cur_depth, line: cur_line, stamp: ++cur_stamp };
-			lines[cur_line].nodes[cur_depth] = node;
-			data.push(node);
-		}
-		cur_depth = node_data.depth;
-		if (node_data.value === 1 || (typeof(depths[cur_depth - 3]) !== 'undefined' &&
-			depths[cur_depth - 3] !== null && depths[cur_depth - 3].lines.length > 0)) {
-			context.cur_stamp = cur_stamp;
-			console.log(context);
-			return;
-		}
-		cur_depth = node_data.depth;
-		cur_line = node_data.line;
-		cur_id = node_data.id;
-		cur_val = num;
-		needed = 5;
-		i = -1;
-		arr = lines[cur_line].branch;
-		source_index = -1;
-		while (++i < arr.length) {
-			cur = arr[i];
-			if (cur_depth > cur.source_depth && cur_depth <= cur.height)
-				source_index = i;
-		}
-		if (source_index === -1) throw new Error("Late failure to update context");
-		while (--needed > 0) {
-			cur_depth--;
-			if (typeof(depths[cur_depth]) !== 'undefined' && depths[cur_depth] !== null) {
-				if (arr[source_index].source_depth <= cur_depth &&
-					arr[source_index].source_line !== cur_line) {
-					cur_line = arr[source_index].source_line;
-					i = -1;
-					arr = lines[cur_line].branch;
-					source_index = -1;
-					while (++i < arr.length) {
-						cur = arr[i];
-						if (cur_depth > cur.source_depth && cur_depth <= cur.height)
-							source_index = i;
-					}
-					if (source_index === -1) throw new Error("Late failure to update context");
-				}
-				cur = lines[cur_line].nodes[cur_depth];
-				cur_id = cur.id;
-				cur_val = cur.value;
-			}
-			else {
-				if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
-					depths[cur_depth] = { lines: [] };
-				[a, b] = next_orbit(cur_val);
-				if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
-				else cur_id = add_to_id(cur_id, a, 'c');
-				depths[cur_depth].lines.push(cur_line);
-				lines[cur_line].amount++;
-				arr[source_index].source_depth--;
-				node = { id: cur_id, value: a, depth: cur_depth, line: cur_line, stamp: ++cur_stamp };
-				lines[0].nodes[cur_depth] = node;
-				data.push(node);
-				cur_val = a;
-			}
-			if (cur_val === 1) break;
-		}
-		context.cur_stamp = cur_stamp;
-	}
-
 	function log_data(a, b, path) {
+		App.game.perform('log_data', { val_a: a, val_b: b, path: path });
 	}
 
 	function setup_connection(a, b) {
+		function next_orbit(num) {
+			if (num % 2 === 0) return [num / 2, 2];
+			return [(num * 3 + 1) / 2, 1];
+		}
+		function prev_orbits(num) {
+			let a = num * 2, b = ((num * 2 - 1) % 3 === 0) ? (num * 2 - 1) / 3 : -1;
+			return [a, b];
+		}
+		function add_to_id(cur_id, num, type_char) {
+			if (cur_id === null) return type_char + num.toString();
+			return cur_id + "." + type_char + num.toString();
+		}
+		function build_object(num) {
+			let out_nodes = [], cur_val = num, cur_id = add_to_id(null, num, 'b'), a, b,
+				cur_depth = 0, line_counts = [], depth_counts = [], node, cur_stamp;
+			depth_counts[0] = { lines: [0] };
+			depth_counts[-1] = { lines: [0] };
+			depth_counts[-2] = { lines: [0] };
+			depth_counts[-3] = { lines: [0] };
+			depth_counts[-4] = { lines: [0] };
+			line_counts[0] = { amount: 9, branch: [{ source_depth: -5, source_line: 0,
+				height: 4 }], nodes: [] };
+			node = { id: cur_id, value: num, depth: 0, line: 0, stamp: 0 };
+			cur_stamp = 0;
+			line_counts[0].nodes[0] = node;
+			line_counts.lines = [0];
+			out_nodes.push(node);
+			let consider_num = function (num) {
+				if (cur_depth === 4 || cur_depth === -4) return;
+				if (typeof(proved[num]) !== 'undefined' && proved[num] !== null
+					&& proved[num].length > 0) {
+					let k = -1, cur_line = 0;
+					while (++k < proved[num].length) {
+						cur_line--;
+						if (typeof(line_counts[cur_line]) === 'undefined' ||
+							line_counts[cur_line] === null) {
+							line_counts[cur_line] = { amount: 0, branch: [], nodes: [] };
+							line_counts.lines.push(cur_line);
+						}
+						line_counts[cur_line].amount++;
+						line_counts[cur_line].branch.push({ source_depth: cur_depth,
+							source_line: 0, height: cur_depth + 1 });
+						if (typeof(depth_counts[cur_depth + 1]) === 'undefined' ||
+							depth_counts[cur_depth + 1] === null)
+							depth_counts[cur_depth + 1] = { lines: [] };
+						depth_counts[cur_depth + 1].lines.push(cur_line);
+						node = { id: add_to_id(cur_id, proved[num][k], 'p'), value: proved[num][k],
+							depth: cur_depth + 1, line: cur_line, stamp: ++cur_stamp };
+						line_counts[cur_line].nodes[cur_depth + 1] = node;
+						out_nodes.push(node);
+					}
+				}
+			};
+			while (++cur_depth <= 4) {
+				[a, b] = prev_orbits(cur_val);
+				depth_counts[cur_depth] = { lines: [] };
+				if (b !== -1) {
+					if (typeof(line_counts[1]) === 'undefined' || line_counts[1] === null) {
+						line_counts[1] = { amount: 0, branch: [], nodes: [] };
+						line_counts.lines.push(1);
+					}
+					line_counts[1].amount++;
+					line_counts[1].branch.push({ source_depth: cur_depth - 1, source_line: 0,
+						height: cur_depth });
+					depth_counts[cur_depth].lines.push(1);
+					node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
+						line: 1, stamp: ++cur_stamp };
+					line_counts[1].nodes[cur_depth] = node;
+					out_nodes.push(node);
+				}
+				cur_id = add_to_id(cur_id, a, 'u');
+				node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
+				line_counts[0].nodes[cur_depth] = node;
+				out_nodes.push(node);
+				depth_counts[cur_depth].lines.push(0);
+				cur_val = a;
+				consider_num(a);
+			}
+			cur_depth = 0;
+			cur_id = add_to_id(null, num, 'b');
+			cur_val = num;
+			while (--cur_depth >= -4) {
+				[a, b] = next_orbit(cur_val);
+				if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
+				else cur_id = add_to_id(cur_id, a, 'c');
+				node = { id: cur_id, value: a, depth: cur_depth, line: 0, stamp: ++cur_stamp };
+				line_counts[0].nodes[cur_depth] = node;
+				out_nodes.push(node);
+				cur_val = a;
+				consider_num(a);
+			}
+			out_nodes.columns = ["id", "value", "depth", "line", "stamp"];
+			return { data: out_nodes, line_counts: line_counts, depth_counts: depth_counts,
+				cur_stamp: cur_stamp };
+		}
+		function move_everything_left_above(context, line, depth) {
+			console.log("  <-Moving everything above " + depth.toString() + " along " + line.toString());
+			let arr = context.line_counts, i = -1, branch_index = -1, cur, j, n_cur,
+				avoid_arr = [], k, skip, cur_branch;
+			while (++i < arr.lines.length) {
+				cur = arr[arr.lines[i]];
+				j = -1;
+				while (++j < cur.branch.length) {
+					k = -1;
+					skip = false;
+					cur_branch = cur.branch[j];
+					while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
+					if (skip) continue;
+					if (cur_branch.source_depth > depth && cur_branch.source_line === line
+						&& arr.lines[i] > line) {
+						avoid_arr.push(cur_branch);
+						console.log("<~Recurring for branch-left");
+						move_everything_left_above(context, arr.lines[i], cur_branch.source_depth);
+					}
+				}
+			}
+			arr = context.line_counts[line].branch;
+			i = -1;
+			let next = line + 1;
+			while (++i < arr.length) {
+				cur = arr[i];
+				if (depth >= cur.source_depth && depth < cur.height) branch_index = i;
+			}
+			i = -1;
+			let branch = context.line_counts[line].branch[branch_index];
+			while (++i < context.data.length) {
+				cur = context.data[i];
+				if (cur.line === line && cur.depth > depth && cur.depth <= branch.height) {
+					if (typeof(context.line_counts[next]) === 'undefined' ||
+						context.line_counts[next] === null) {
+						context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
+						context.line_counts.lines.push(next);
+					}
+					n_cur = context.line_counts[next].nodes[cur.depth];
+					if (typeof(n_cur) !== 'undefined' && n_cur !== null) {
+						j = -1;
+						while (++j < context.line_counts[next].branch.length) {
+							cur_branch = context.line_counts[next].branch[j];
+							if (cur_branch.source_depth < cur.depth &&
+								cur_branch.height >= cur.depth) {
+								console.log("<~Recurring due to collision while moving");
+								move_everything_left_above(context, next, cur_branch.source_depth);
+							}
+							if (typeof(context.line_counts[next]) === 'undefined' ||
+								context.line_counts[next] === null) break;
+						}
+					}
+					if (typeof(context.line_counts[next]) === 'undefined' ||
+						context.line_counts[next] === null) {
+						context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
+						context.line_counts.lines.push(next);
+					}
+					cur.line = next;
+					context.line_counts[line].amount--;
+					context.line_counts[next].amount++;
+					context.line_counts[next].nodes[cur.depth] = cur;
+					context.line_counts[line].nodes[cur.depth] = null;
+					context.depth_counts[cur.depth].lines.splice(
+						context.depth_counts[cur.depth].lines.indexOf(line), 1, next);
+				}
+			}
+			if (branch.source_depth === depth) {
+				if (branch.source_line === line) branch.source_line = next;
+				context.line_counts[next].branch.push(branch);
+				context.line_counts[line].branch.splice(branch_index, 1);
+			}
+			else if (branch.source_depth < depth) {
+				context.line_counts[next].branch.push({ source_depth: depth,
+					source_line: line, height: branch.height });
+				branch.height = depth;
+			}
+			if (context.line_counts[line].amount === 0) {
+				context.line_counts[line] = null;
+				context.line_counts.lines.splice(context.line_counts.lines.indexOf(line), 1);
+			}
+			arr = context.line_counts;
+			avoid_arr = [];
+			i = -1;
+			while (++i < arr.lines.length) {
+				cur = arr[arr.lines[i]];
+				j = -1;
+				while (++j < cur.branch.length) {
+					k = -1;
+					skip = false;
+					cur_branch = cur.branch[j];
+					while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
+					if (skip) continue;
+					if (cur_branch.source_depth > depth && cur_branch.source_line === line
+						&& arr.lines[i] < line) {
+						avoid_arr.push(cur_branch);
+						console.log("<~Recurring due to branch-right");
+						move_everything_left_above(context, arr.lines[i], cur_branch.source_depth);
+					}
+				}
+			}
+		}
+		function move_everything_right_above(context, line, depth) {
+			console.log("  ->Moving everything above " + depth.toString() + " along " + line.toString());
+			let arr = context.line_counts, i = -1, branch_index = -1, cur, j, n_cur,
+				avoid_arr = [], k, skip, cur_branch;
+			while (++i < arr.lines.length) {
+				cur = arr[arr.lines[i]];
+				j = -1;
+				while (++j < cur.branch.length) {
+					k = -1;
+					skip = false;
+					cur_branch = cur.branch[j];
+					while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
+					if (skip) continue;
+					if (cur_branch.source_depth > depth && cur_branch.source_line === line
+						&& arr.lines[i] > line) {
+						avoid_arr.push(cur_branch);
+						console.log("~>Recurring for branch-right");
+						move_everything_right_above(context, arr.lines[i], cur_branch.source_depth);
+					}
+				}
+			}
+			arr = context.line_counts[line].branch;
+			i = -1;
+			let next = line + 1;
+			while (++i < arr.length) {
+				cur = arr[i];
+				if (depth >= cur.source_depth && depth < cur.height) branch_index = i;
+			}
+			i = -1;
+			let branch = context.line_counts[line].branch[branch_index];
+			while (++i < context.data.length) {
+				cur = context.data[i];
+				if (cur.line === line && cur.depth > depth && cur.depth <= branch.height) {
+					if (typeof(context.line_counts[next]) === 'undefined' ||
+						context.line_counts[next] === null) {
+						context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
+						context.line_counts.lines.push(next);
+					}
+					n_cur = context.line_counts[next].nodes[cur.depth];
+					if (typeof(n_cur) !== 'undefined' && n_cur !== null) {
+						j = -1;
+						while (++j < context.line_counts[next].branch.length) {
+							cur_branch = context.line_counts[next].branch[j];
+							if (cur_branch.source_depth < cur.depth &&
+								cur_branch.height >= cur.depth) {
+								console.log("~>Recurring due to collision while moving");
+								move_everything_right_above(context, next, cur_branch.source_depth);
+							}
+							if (typeof(context.line_counts[next]) === 'undefined' ||
+								context.line_counts[next] === null) break;
+						}
+					}
+					if (typeof(context.line_counts[next]) === 'undefined' ||
+						context.line_counts[next] === null) {
+						context.line_counts[next] = { amount: 0, branch: [], nodes: [] };
+						context.line_counts.lines.push(next);
+					}
+					cur.line = next;
+					context.line_counts[line].amount--;
+					context.line_counts[next].amount++;
+					context.line_counts[next].nodes[cur.depth] = cur;
+					context.line_counts[line].nodes[cur.depth] = null;
+					context.depth_counts[cur.depth].lines.splice(
+						context.depth_counts[cur.depth].lines.indexOf(line), 1, next);
+				}
+			}
+			if (branch.source_depth === depth) {
+				if (branch.source_line === line) branch.source_line = next;
+				context.line_counts[next].branch.push(branch);
+				context.line_counts[line].branch.splice(branch_index, 1);
+			}
+			else if (branch.source_depth < depth) {
+				context.line_counts[next].branch.push({ source_depth: depth,
+					source_line: line, height: branch.height });
+				branch.height = depth;
+			}
+			if (context.line_counts[line].amount === 0) {
+				context.line_counts[line] = null;
+				context.line_counts.lines.splice(context.line_counts.lines.indexOf(line), 1);
+			}
+			arr = context.line_counts;
+			avoid_arr = [];
+			i = -1;
+			while (++i < arr.lines.length) {
+				cur = arr[arr.lines[i]];
+				j = -1;
+				while (++j < cur.branch.length) {
+					k = -1;
+					skip = false;
+					cur_branch = cur.branch[j];
+					while (++k < avoid_arr.length) if (avoid_arr[k] === cur_branch) skip = true;
+					if (skip) continue;
+					if (cur_branch.source_depth > depth && cur_branch.source_line === line
+						&& arr.lines[i] < line) {
+						avoid_arr.push(cur_branch);
+						console.log("~>Recurring due to branch-left");
+						move_everything_right_above(context, arr.lines[i], cur_branch.source_depth);
+					}
+				}
+			}
+		}
+		function expand_context_at(context, node_data) {
+			let num = node_data.value, cur_depth = node_data.depth, cur_line = node_data.line,
+				source_index = -1, i = -1, j, cur, ceiling = null, cur_id = node_data.id,
+				depths = context.depth_counts, lines = context.line_counts, n_cur,
+				data = context.data, arr = lines[cur_line].branch, a, b, cur_val, node,
+				cur_stamp = context.cur_stamp;
+			while (++i < arr.length) {
+				cur = arr[i];
+				if (cur_depth > cur.source_depth && cur_depth <= cur.height)
+					source_index = i;
+				else if (ceiling === null && cur.source_depth >= cur_depth)
+					ceiling = cur.source_depth + 1;
+				else if (ceiling !== null && cur.source_depth >= cur_depth
+					&& cur.source_depth + 1 < ceiling) ceiling = cur.source_depth + 1;
+			}
+			if (source_index === -1) throw new Error("Failure to update context");
+			let needed = 5, cur_node;
+			cur_val = num;
+			while (--needed > 0) {
+				cur_depth++;
+				cur_node = lines[cur_line].nodes[cur_depth];
+				[a, b] = prev_orbits(cur_val);
+				if (typeof(cur_node) !== 'undefined' && cur_node !== null) {
+					if (cur_node.value === b) {
+						console.log("Ran into red branch, gotta move it to its place (right)");
+						move_everything_right_above(context, cur_line, cur_depth - 1, 1);
+					}
+					else if (cur_node.value !== a) {
+						console.log("Ran into some other branch at " + cur_depth + " along " + cur_line);
+						move_everything_right_above(context, cur_line, arr[source_index].source_depth);
+						cur_line++;
+						arr = lines[cur_line].branch;
+						source_index = -1;
+						i = -1;
+						while (++i < arr.length) if (node_data.depth > arr[i].source_depth
+							&& node_data.depth <= arr[i].height) source_index = i;
+						if (source_index === -1) throw new Error("Failure to update context");
+					}
+				}
+				if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
+					depths[cur_depth] = { lines: [] };
+				i = -1;
+				let branch_off = false;
+				while (++i < depths[cur_depth].lines.length) {
+					cur_node = lines[depths[cur_depth].lines[i]].nodes[cur_depth];
+					if (cur_node.value === b) branch_off = true;
+				}
+				if (b !== -1 && !branch_off) {
+					if (typeof(lines[cur_line + 1]) === 'undefined' || lines[cur_line + 1] === null) {
+						lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
+						lines.lines.push(cur_line + 1);
+					}
+					if (typeof(lines[cur_line + 1].nodes[cur_depth]) !== 'undefined' &&
+						lines[cur_line + 1].nodes[cur_depth] !== null) {
+						j = -1;
+						while (++j < lines[cur_line + 1].branch.length) {
+							n_cur = lines[cur_line + 1].branch[j];
+							if (n_cur.source_depth < cur_depth && cur_depth <= n_cur.height) {
+								console.log("Making space for mini red branch");
+								move_everything_right_above(context, cur_line + 1, n_cur.source_depth);
+							}
+							if (typeof(lines[cur_line + 1]) === 'undefined' ||
+								lines[cur_line + 1] === null) break;
+						}
+					}
+					if (typeof(lines[cur_line + 1]) === 'undefined'|| lines[cur_line + 1] === null) {
+						lines[cur_line + 1] = { amount: 0, branch: [], nodes: [] };
+						lines.lines.push(cur_line + 1);
+					}
+					lines[cur_line + 1].amount++;
+					lines[cur_line + 1].branch.push({ source_depth: cur_depth - 1,
+						source_line: cur_line, height: cur_depth });
+					depths[cur_depth].lines.push(cur_line + 1);
+					node = { id: add_to_id(cur_id, b, 's'), value: b, depth: cur_depth,
+						line: cur_line + 1, stamp: ++cur_stamp };
+					lines[cur_line + 1].nodes[cur_depth] = node;
+					data.push(node);
+				}
+				cur_node = lines[cur_line].nodes[cur_depth];
+				if (typeof(cur_node) !== 'undefined' && cur_node !== null && cur_node.value === a) {
+					cur_val = a;
+					cur_id = cur_node.id;
+					continue;
+				}
+				cur_id = add_to_id(cur_id, a, 'u');
+				depths[cur_depth].lines.push(cur_line);
+				cur_val = a;
+				lines[cur_line].amount++;
+				arr[source_index].height++;
+				node = { id: cur_id, value: a, depth: cur_depth, line: cur_line, stamp: ++cur_stamp };
+				lines[cur_line].nodes[cur_depth] = node;
+				data.push(node);
+			}
+			cur_depth = node_data.depth;
+			if (node_data.value === 1 || (typeof(depths[cur_depth - 3]) !== 'undefined' &&
+					depths[cur_depth - 3] !== null && depths[cur_depth - 3].lines.length > 0)) {
+				context.cur_stamp = cur_stamp;
+				console.log("Done expanding");
+				return;
+			}
+			cur_depth = node_data.depth;
+			cur_line = node_data.line;
+			cur_id = node_data.id;
+			cur_val = num;
+			needed = 5;
+			i = -1;
+			arr = lines[cur_line].branch;
+			source_index = -1;
+			while (++i < arr.length) {
+				cur = arr[i];
+				if (cur_depth > cur.source_depth && cur_depth <= cur.height)
+					source_index = i;
+			}
+			if (source_index === -1) throw new Error("Late failure to update context");
+			while (--needed > 0) {
+				cur_depth--;
+				if (typeof(depths[cur_depth]) !== 'undefined' && depths[cur_depth] !== null) {
+					if (arr[source_index].source_depth <= cur_depth &&
+						arr[source_index].source_line !== cur_line) {
+						// There's a node on this depth but not on this root
+						cur_line = arr[source_index].source_line;
+						i = -1;
+						arr = lines[cur_line].branch;
+						source_index = -1;
+						while (++i < arr.length) {
+							cur = arr[i];
+							if (cur_depth > cur.source_depth && cur_depth <= cur.height)
+								source_index = i;
+						}
+						if (source_index === -1) {
+							console.log(context, cur_line, cur_depth, needed, source_index, arr);
+							throw new Error("Late failure to update context");
+						}
+					}
+					cur = lines[cur_line].nodes[cur_depth];
+					cur_id = cur.id;
+					cur_val = cur.value;
+				}
+				else {
+					if (typeof(depths[cur_depth]) === 'undefined' || depths[cur_depth] === null)
+						depths[cur_depth] = { lines: [] };
+					[a, b] = next_orbit(cur_val);
+					if (b === 2) cur_id = add_to_id(cur_id, a, 'd');
+					else cur_id = add_to_id(cur_id, a, 'c');
+					depths[cur_depth].lines.push(cur_line);
+					lines[cur_line].amount++;
+					arr[source_index].source_depth--;
+					node = { id: cur_id, value: a, depth: cur_depth, line: cur_line, stamp: ++cur_stamp };
+					lines[0].nodes[cur_depth] = node;
+					data.push(node);
+					cur_val = a;
+				}
+				if (cur_val === 1) break;
+			}
+			context.cur_stamp = cur_stamp;
+			console.log("Done expanding");
+		}
+		d3.select("#sandbox").classed("hidden", false).style("display", "flex");
 		let ma = 0, start_nums = [a, b],
 			bounding = document.getElementById("sandbox").getBoundingClientRect(),
 			width = bounding.width, height = bounding.height, hooked = true,
-			svg = d3.select("#sandbox").append("svg")
-				.attr("width", width).attr("height", height),
-			tree = d3.tree().size([width, height - 2 * ma]),
+			svg = d3.select("#sandbox").append("svg").attr("width", width)
+				.attr("height", height), tree = d3.tree().size([width, height - 2 * ma]),
 			g = svg.append("g").attr("transform", "translate(0, " + ma / 2 + ")"),
 			stratify = d3.stratify()
 				.parentId(function (d) { return d.id.substring(0, d.id.lastIndexOf(".")); }),
@@ -2962,12 +3296,12 @@ $(document).on('ready page:load', function() {
 			.attr("d", d3.linkVertical()
 				.source(function (d) {
 					d.source.y = height / 2 - d.source.data.depth * frac;
-					d.source.x = width / 2 + d.source.data.line * frac;
+					d.source.x = width / 2 + d.source.data.line * frac / 1.6;
 					return [d.source.x, d.source.y];
 				})
 				.target(function (d) {
 					d.target.y = height / 2 - d.target.data.depth * frac;
-					d.target.x = width / 2 + d.target.data.line * frac;
+					d.target.x = width / 2 + d.target.data.line * frac / 1.6;
 					return [d.target.x, d.target.y];
 				}))
 			.style("stroke", function (d) {
@@ -2979,6 +3313,8 @@ $(document).on('ready page:load', function() {
 					case 's':
 					case 'c':
 						return "#E22";
+					case 'p':
+						return "#1D1";
 				}
 			});
 		let node = g.selectAll(".node")
@@ -3025,6 +3361,67 @@ $(document).on('ready page:load', function() {
 				})
 				.on("mouseout", function() { d3.select(this).style("cursor", "default"); });
 		}
+		let check_proof = function() {
+			let i = -1;
+			while (++i < data.length) {
+				if (data[i].value === target) {
+					setTimeout(function() {
+						log_data(a, b, data[i].id);
+						let end_source = null, end_target = null,
+							x_coordinate = d3.zoomTransform(svg).x,
+							y_coordinate = d3.zoomTransform(svg).y,
+							end_trans = g.selectAll(".node").filter(function(d) {
+								if (d.data.value === a && end_source === null) {
+									d.x0 = width * 7 / 24;
+									end_source = d;
+								}
+								else if (d.data.value === b && end_target === null) {
+									d.x0 = width * 17 / 24;
+									end_target = d;
+								}
+								else return false;
+								d.y0 = height / 2;
+								return true;
+							}).transition().duration(3000)
+								.attr("transform", function (d) {
+									return "translate(" + d.x0 + ", " + d.y0 + ")";
+								});
+						g.selectAll(".node")
+							.filter(function(d) { return (d !== end_source && d !== end_target); })
+							.transition().duration(3000)
+							.style("opacity", 0).remove();
+						end_trans.select("circle")
+							.attr("r", 21)
+							.styleTween("fill", function() {
+								return d3.interpolateHsl("#FFDF00", "#14FF14");
+							});
+						end_trans.select("text").attr("dy", 28)
+							.styleTween("font-size", function() {
+								return d3.interpolateString("12px", "25px");
+							});
+						let new_link = g.selectAll(".link")
+							.data([{ source: end_source, target: end_target }])
+							.style("stroke", "#2F2").style("opacity", 0)
+							.attr("d", d3.linkHorizontal()
+								.source(function (d) { return [d.source.x, d.source.y]; })
+								.target(function (d) { return [d.target.x, d.target.y]; }));
+						new_link.transition().duration(3000)
+							.attr("d", d3.linkHorizontal()
+								.source(function (d) { return [d.source.x0, d.source.y0]; })
+								.target(function (d) { return [d.target.x0, d.target.y0]; }))
+							.style("opacity", 1);
+						new_link.exit().transition().duration(3000)
+							.style("opacity", 0).remove();
+						svg.transition().duration(3000).call(zoom.transform,
+							d3.zoomIdentity.translate(-x_coordinate, -y_coordinate));
+						d3.select("#sandbox").selectAll(".tab_title")
+							.data(["Connection Successful!", "Press ESC to exit"])
+							.text(function(d) { return d; });
+					}, 750);
+					return;
+				}
+			}
+		};
 		let no_zoom = function() { d3.event.preventDefault(); };
 		function clicker(d) {
 			if (d.data.value === 1) return;
@@ -3052,12 +3449,12 @@ $(document).on('ready page:load', function() {
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
 						d.source.y = height / 2 - d.source.data.depth * frac;
-						d.source.x = width / 2 + d.source.data.line * frac;
+						d.source.x = width / 2 + d.source.data.line * frac / 1.6;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
 						d.target.y = height / 2 - d.target.data.depth * frac;
-						d.target.x = width / 2 + d.target.data.line * frac;
+						d.target.x = width / 2 + d.target.data.line * frac / 1.6;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -3069,6 +3466,8 @@ $(document).on('ready page:load', function() {
 						case 's':
 						case 'c':
 							return "#E22";
+						case 'p':
+							return "#1D1";
 					}
 				});
 			link = temp.enter().append("path")
@@ -3076,12 +3475,12 @@ $(document).on('ready page:load', function() {
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
 						d.source.y = height / 2 - d.source.data.depth * frac;
-						d.source.x = width / 2 + d.source.data.line * frac;
+						d.source.x = width / 2 + d.source.data.line * frac / 1.6;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
 						d.target.y = height / 2 - d.target.data.depth * frac;
-						d.target.x = width / 2 + d.target.data.line * frac;
+						d.target.x = width / 2 + d.target.data.line * frac / 1.6;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -3093,6 +3492,8 @@ $(document).on('ready page:load', function() {
 						case 's':
 						case 'c':
 							return "#E22";
+						case 'p':
+							return "#1D1";
 					}
 				})
 				.style("stroke-opacity", 0)
@@ -3133,68 +3534,10 @@ $(document).on('ready page:load', function() {
 				.transition()
 					.duration(200)
 					.style("opacity", 1);
-			let i = -1;
-			while (++i < data.length) {
-				if (data[i].value === target) {
-					setTimeout(function() {
-						log_data(a, b, data[i].id);
-						g.selectAll(".node")
-							.filter(function(d) { return (d.data.value !== a && d.data.value !== b); })
-							.transition().duration(3000)
-							.style("opacity", 0).remove();
-						let end_source = null, end_target = null,
-							x_coordinate = d3.zoomTransform(svg).x,
-							y_coordinate = d3.zoomTransform(svg).y,
-							end_trans = g.selectAll(".node").filter(function(d) {
-								if (d.data.value === a) {
-									d.x0 = width * 7 / 24;
-									end_source = d;
-								}
-								else if (d.data.value === b) {
-									d.x0 = width * 17 / 24;
-									end_target = d;
-								}
-								else return false;
-								d.y0 = height / 2;
-								return true;
-							}).transition().duration(3000)
-							.attr("transform", function (d) {
-								return "translate(" + d.x0 + ", " + d.y0 + ")";
-							});
-						end_trans.select("circle")
-							.attr("r", 21)
-							.styleTween("fill", function() {
-								return d3.interpolateHsl("#FFDF00", "#14FF14");
-							});
-						end_trans.select("text").attr("dy", 28)
-							.styleTween("font-size", function() {
-								return d3.interpolateString("12px", "25px");
-							});
-						let new_link = g.selectAll(".link")
-							.data([{ source: end_source, target: end_target }])
-							.style("stroke", "#2F2").style("opacity", 0)
-							.attr("d", d3.linkHorizontal()
-								.source(function (d) { return [d.source.x, d.source.y]; })
-								.target(function (d) { return [d.target.x, d.target.y]; }));
-						new_link.transition().duration(3000)
-							.attr("d", d3.linkHorizontal()
-								.source(function (d) { return [d.source.x0, d.source.y0]; })
-								.target(function (d) { return [d.target.x0, d.target.y0]; }))
-							.style("opacity", 1);
-						new_link.exit().transition().duration(3000)
-							.style("opacity", 0).remove();
-						svg.transition().duration(3000).call(zoom.transform,
-							d3.zoomIdentity.translate(-x_coordinate, -y_coordinate));
-						d3.select("#sandbox").selectAll(".tab_title")
-							.data(["Connection Successful!", "Press ESC to exit"])
-							.text(function(d) { return d; });
-						hooked = false;
-					}, 750);
-					return;
-				}
-			}
+			check_proof();
 			rebind();
 		}
+		check_proof();
 		rebind();
 		d3.select("body").on("keydown", function() {
 			if (d3.event.keyCode !== 32) return;
@@ -3215,12 +3558,12 @@ $(document).on('ready page:load', function() {
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
 						d.source.y = height / 2 - d.source.data.depth * frac;
-						d.source.x = width / 2 + d.source.data.line * frac;
+						d.source.x = width / 2 + d.source.data.line * frac / 1.6;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
 						d.target.y = height / 2 - d.target.data.depth * frac;
-						d.target.x = width / 2 + d.target.data.line * frac;
+						d.target.x = width / 2 + d.target.data.line * frac / 1.6;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -3232,18 +3575,20 @@ $(document).on('ready page:load', function() {
 						case 's':
 						case 'c':
 							return "#E22";
+						case 'p':
+							return "#1D1";
 					}
 				});
 			link.enter().append("path").attr("class", "link")
 				.attr("d", d3.linkVertical()
 					.source(function (d) {
 						d.source.y = height / 2 - d.source.data.depth * frac;
-						d.source.x = width / 2 + d.source.data.line * frac;
+						d.source.x = width / 2 + d.source.data.line * frac / 1.6;
 						return [d.source.x, d.source.y];
 					})
 					.target(function (d) {
 						d.target.y = height / 2 - d.target.data.depth * frac;
-						d.target.x = width / 2 + d.target.data.line * frac;
+						d.target.x = width / 2 + d.target.data.line * frac / 1.6;
 						return [d.target.x, d.target.y];
 					}))
 				.style("stroke", function (d) {
@@ -3255,6 +3600,8 @@ $(document).on('ready page:load', function() {
 						case 's':
 						case 'c':
 							return "#E22";
+						case 'p':
+							return "#1D1";
 					}
 				});
 			link.exit().remove();
@@ -3309,6 +3656,7 @@ $(document).on('ready page:load', function() {
 	// 	set_assets();
 	// 	make_ui();
 	// 	make_background();
+	//	create_button_space();
 	// 	scope.view.onFrame = function(event) {
 	// 		tick(event);
 	// 	};
@@ -3325,11 +3673,20 @@ $(document).on('ready page:load', function() {
 		make_ui();
 		console.log("Making background...");
 		make_background();
-		console.log("Setting up Connection Sandbox");
-		setup_connection(44, 45);
+		console.log("Enabling smooth buttons...");
+		create_button_space();
 		console.log("Canvas resize set up");
+		// d3.select(".local").selectAll(".text").data(["whatever"]).enter().append("text")
+		// 	.style("position", "absolute")
+		// 	.style("right", "7px").style("top", "7px")
+		// 	.style("color", "black")
+		// 	.style("height", "20%").style("width", "20%")
+		// 	.style("font", "12px sans-serif")
+		// 	.style("z-index", "3");
 		scope.view.onFrame = function(event) {
 			tick(event);
+			// let fps = 1.0 / event.delta;
+			// d3.select(".local").select("text").text(fps.toString());
 		};
 		console.log("Ticking now...");
 	}

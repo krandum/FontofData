@@ -682,6 +682,7 @@ span#nodename {
 .connection_pane {
 	display: none;
 	position: absolute;
+	pointer-events: auto;
 	top: 10vh;
 	left: calc(50vw - 40vmin);
 	height: 80%;
