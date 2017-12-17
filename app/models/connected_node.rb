@@ -132,7 +132,9 @@ class ConnectedNode < ApplicationRecord
 
 	def invest(worth)
 		@inverse = inverse
-		update_percentages
+		if self.self_speed > 0 || self.inverse_speed > 0
+			update_percentages
+		end
 		self.attributes = {
 			self_worth: self_worth + worth,
 			last_speed_change: Time.now
