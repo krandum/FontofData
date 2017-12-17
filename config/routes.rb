@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
+require 'sidekiq/web'
+mount Sidekiq::Web => '/sidekiq'
 mount ActionCable.server => '/cable'
+
 
 resources :news_posts
 resources :interactions
