@@ -2,9 +2,9 @@
 // # All this logic will automatically be available in application.js.
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
-function add_value(data) {
+function add_value(data, from_value, to_value) {
 	console.log("Oh wow that worked");
-	console.log(data);
+	console.log(data, from_value, to_value);
 	d3.selectAll(".myForm").remove();
 }
 
@@ -1408,12 +1408,16 @@ $(document).on('ready page:load', function() {
 					button = make_button('assets/neutral/icons/add.svg', position, function() {
 						check_selection(target);
 						let form = game_data.d3.space.append("form").attr("class", "myForm")
-							.attr("action", "javascript:add_value(amount.value)")
+							.attr("action", "javascript:add_value(amount.value, from.value, to.value)")
 							.style("left", (position.x + position.width / 2 - 75).toString() + "px")
 							.style("top", (position.y + position.height / 2).toString() + "px");
 						form.append("input").attr("class", "myInput").attr("type", "text")
 							.attr("name", "amount").attr("value", "").attr("id", "amount")
 							.attr("placeholder", "Enter Amount").attr("autocomplete", "off");
+						form.append("input").attr("type", "text").attr("name", "from")
+							.attr("value", target.value).attr("id", "from").style("display", "none");
+						form.append("input").attr("type", "text").attr("name", "to")
+							.attr("value", cur_other.value).attr("id", "to").style("display", "none");
 						form.append("input").attr("type", "submit").attr("value", "Add");
 					});
 					buttons.push(button);
@@ -1855,8 +1859,8 @@ $(document).on('ready page:load', function() {
 		shorten_line(connection, origin.rad * 1.25, end.rad * 1.35);
 		connection.strokeWidth = (origin.circle.strokeWidth + end.circle.strokeWidth) / 2.5;
 		let progressed = end.connection_data[relation] !== null &&
-			end.connection_data[relation].completions[0].percentage === "0.0" &&
-			end.connection_data[relation].completions[1].percentage === "0.0";
+			(end.connection_data[relation].completions[0].percentage !== "0.0" ||
+			end.connection_data[relation].completions[1].percentage !== "0.0");
 		if (game_data.node_factions[origin.value] === game_data.node_factions[end.value]
 			&& progressed) full_connection(connection, game_data.node_factions[origin.value]);
 		else if (game_data.node_factions[origin.value] !== 1 && progressed &&
