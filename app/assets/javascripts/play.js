@@ -1411,10 +1411,10 @@ $(document).on('ready page:load', function() {
 							.attr("action", "javascript:add_value(amount.value)")
 							.style("left", (position.x + position.width / 2 - 75).toString() + "px")
 							.style("top", (position.y + position.height / 2).toString() + "px");
-						form.append("input").attr("class", "myInput").attr("type", "text")
+						form.append("input").attr("class", "myInput primary " + game_data.user_interface.faction_names[game_data.user_info.faction_id]).attr("type", "text")
 							.attr("name", "amount").attr("value", "").attr("id", "amount")
 							.attr("placeholder", "Enter Amount").attr("autocomplete", "off");
-						form.append("input").attr("type", "submit").attr("value", "Add");
+						form.append("input").attr("type", "submit").attr("value", "Add").attr("class", "secondary " + game_data.user_interface.faction_names[game_data.user_info.faction_id]);
 					});
 					buttons.push(button);
 				}
