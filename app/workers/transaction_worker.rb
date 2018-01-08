@@ -1,0 +1,3 @@
+
+class TransactionWorker
+end

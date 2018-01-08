@@ -33,8 +33,9 @@ class GameChannel < ApplicationCable::Channel
 				origin_change: origin,
 				target_change: target
 		else
-			# code to handle invalid selections should go here
-			p status
+			Actioncable.server.broadcast "user#{current_user.id}",
+				function_call: 'error',
+				error_msg: status
 		end
 	end
 
@@ -83,21 +84,25 @@ class GameChannel < ApplicationCable::Channel
 		if current_user.gold >= data['resources']
 			target_connection = DataNode
 				.includes(connected_nodes: [:connection])
-				.find_by(value: data['head']).connected_nodes.select{ |x| x.connection.value == data['tail'] }
-				.first
-			target_connection.invest(data['resources'])
+				.find_by(value: data['head'])
+				.connected_nodes
+				.where(connection: DataNode.where(value: data['tail']).first_or_create)
+				.first_or_create
+			target_connection.invest(data['resources'], current_user.id)
 			current_user.update_attribute(:gold, current_user.gold - data['resources'])
 		else
-			#broadcast error to user
+			Actioncable.server.broadcast "user#{current_user.id}",
+				function_call: 'error',
+				error_msg: 'not enough resources'
 		end
 	end
 
 	# variables: val_a, val_b, path
 	def log_data(data)
-		current_user.proved.create(val_a: data['val_a'], val_b: data['val_b'], path: data['path'])
+		current_user.proved.where(val_a: data['val_a'], val_b: data['val_b'], path: data['path']).first_or_create
 		ActionCable.server.broadcast "user#{current_user.id}",
-			function_call: 'status',
-			status: 'success'
+			function_call: 'logged_data',
+			logging_nodes: [data['val_a'], data['val_b']]
 	end
 
 	# todo: replace ajax query with this to test performance
@@ -131,8 +136,9 @@ class GameChannel < ApplicationCable::Channel
 			# 	node: data['target'],
 			#		faction: current_user.faction_id
 		else
-			# user doesn't have enough gems
-			# broadcast error to user
+			Actioncable.server.broadcast "user#{current_user.id}",
+				function_call: 'error',
+				error_msg: 'not enough gems'
 		end
 	end
 

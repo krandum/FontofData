@@ -1,4 +1,5 @@
 class ConnectedNode < ApplicationRecord
+	before_create :set_time
 	after_create :init_values
 	after_create :create_inverse, unless: :has_inverse?
 	after_destroy :destroy_inverse, if: :has_inverse?
@@ -36,107 +37,39 @@ class ConnectedNode < ApplicationRecord
 			self.self_speed = params['speed']
 			@inverse.inverse_speed = params['speed']
 		end
-		create_job
+		# create_job
 		save
 		@inverse.save
 	end
 
 	def completion_time
-		if self.self_speed > 0.0 || self.inverse_speed > 0.0
+		if self.self_speed > 0.0 || self.inverse_speed > 0.0 && self.self_speed != self.inverse_speed
 			est_time = Time.now
+
 			speed_diff = (self.self_speed - self.inverse_speed).abs
-			percent_a = self.self_percentage
-			percent_b = self.inverse_percentage
-
-			while percent_a + percent_b < 100.0 do
-				percent_a += self.self_speed
-				percent_b += self.inverse_speed
-				est_time += 1.second
+			s_percent = self.self_percentage
+			i_percent = self.inverse_percentage
+			tot_speed = self.self_speed + self.inverse_speed
+			if s_percent + i_percent < 100 && self.self_speed > 0.0 && self.inverse_speed > 0.0
+				ticks_till_100 = (100.0 - (s_percent + i_percent)) / tot_speed
+				s_percent += self.self_speed * ticks_till_100
+				i_percent += self.inverse_speed * ticks_till_100
+				est_time += ticks_till_100 * 1.minute
 			end
-
-			if percent_a + percent_b > 100.0
-				percent_diff = (percent_a - percent_b).abs
-				if self.self_speed < self.inverse_speed
-					percent_a -= percent_diff
-				elsif self.self_speed > self.inverse_speed
-					percent_b -= percent_diff
-				else
-					percent_diff /= 2.0
-					percent_a -= percent_diff
-					percent_b -= percent_diff
-				end
-			end
-
-			if self.self_speed > self.inverse_speed
-				while percent_a < 100.0 do
-					percent_a += speed_diff
-					est_time += 1.second
-				end
-			elsif self.self_speed < self.inverse_speed
-				while percent_b < 100.0 do
-					percent_b += speed_diff
-					est_time += 1.second
-				end
-			else #speed is equal and connection will never complete
-				est_time = nil
-			end
+			est_time += ((100.0 - (self.self_speed > self.inverse_speed ? s_percent : i_percent)) / speed_diff) * 1.minute
 		else
 			est_time = nil
 		end
 		est_time
 	end
 
-	#called by automate job every second to update the percentages
-	def self.tick
-		# loop through all conflict connection and increment their percentages
-		conflict_connections.each do |connection|
-			@inverse = connection.inverse
-			connection.self_percentage += connection.self_speed
-			connection.inverse_percentage += connection.inverse_speed
-			if connection.self_percentage + connection.inverse_percentage >= 100.0
-				speed_dif = connection.self_speed - connection.inverse_speed
-				if speed_dif > 0
-					connection.self_percentage -= connection.self_speed - speed_dif
-					connection.inverse_percentage = 100.0 - connection.self_percentage
-				elsif speed_dif < 0
-					connection.inverse_percentage -= connection.inverse_speed + speed_dif
-					connection.self_percentage = 100.0 - connection.inverse_percentage
-				else
-					connection.self_percentage -= connection.self_speed
-					connection.inverse_percentage -= connection.inverse_speed
-				end
-			end
-			if connection.self_percentage >= 100.0
-				connection.self_percentage = 0.0
-				connection.inverse_percentage = 0.0
-				connection.capture
-			elsif connection.inverse_percentage >= 100.0
-				connection.self_percentage = 0.0
-				connection.inverse_percentage = 0.0
-				connection.capture
-			end
-			@inverse.self_percentage += connection.inverse_percentage
-			@inverse.inverse_percentage += connection.self_percentage
-		end
-	end
-
-	def self.check_completed
-		connections = ConnectedNode.where(connection_type: 1)
-		time = Time.now
-		connections.each do |connection|
-			if connection.completion_time <= time
-				connection.capture
-			end
-		end
-	end
-
-	def invest(worth)
+	def invest(worth, user_id)
 		@inverse = inverse
 		if self.self_speed > 0 || self.inverse_speed > 0
 			update_percentages
 		end
 		self.attributes = {
-			self_worth: self_worth + worth,
+			self_worth: self.self_worth + worth,
 			last_speed_change: Time.now
 		}
 		self.self_speed = calc_speed(self.self_worth, self.multiplier)
@@ -145,7 +78,7 @@ class ConnectedNode < ApplicationRecord
 			inverse_speed: self.self_speed,
 			last_speed_change: self.last_speed_change
 		}
-		create_job
+		create_job(user_id)
 	end
 
 	def complete
@@ -169,7 +102,7 @@ class ConnectedNode < ApplicationRecord
 		remove_job
 	end
 
-	def push
+	def push(user_id)
 		@inverse = inverse
 		self.update_attributes(
 			connection_type: 1,
@@ -185,7 +118,7 @@ class ConnectedNode < ApplicationRecord
 			self_speed: self.inverse_speed,
 			inverse_speed: self.self_speed
 		)
-		create_job
+		create_job(user_id)
 	end
 
 	def capture(user_id)
@@ -198,16 +131,14 @@ class ConnectedNode < ApplicationRecord
 			cluster_id: self.data_node.cluster_id,
 			last_change: Time.now
 		)
-		captured_node.update_connections
+		captured_node.update_connections(user_id)
 	end
-
-	private
 
 	def update_percentages
 		s_percent = self.self_percentage
 		i_percent = @inverse.self_percentage
 		total_speed = self.self_speed + @inverse.self_speed
-		ticks = (Time.now - self.last_speed_change) / 1.second
+		ticks = (Time.now - self.last_speed_change) / 1.minute
 		if s_percent + i_percent < 100
 			ticks_till_100 = (100.0 - (s_percent + i_percent)) / total_speed
 			if ticks <= ticks_till_100
@@ -229,14 +160,18 @@ class ConnectedNode < ApplicationRecord
 			inverse_percentage: i_percent
 		}
 		@inverse.attributes = {
-			self_percentage: s_percent,
-			inverse_percentage: i_percent
+			self_percentage: i_percent,
+			inverse_percentage: s_percent
 		}
 	end
 
 	def calc_speed(worth, multiplier)
 		worth * 0.0001 * multiplier
 	end
+
+	# private
+
+
 
 	def create_inverse
 		self.class.create(inverse_options)
@@ -279,16 +214,16 @@ class ConnectedNode < ApplicationRecord
 		{ data_node_id: connection_id, connection_id: data_node_id }
 	end
 
-	def create_job
+	def create_job(user_id)
 		time = self.completion_time
 		id = self.self_speed > self.inverse_speed ? self.id : @inverse.id
 		unless time.nil?
 			if self.active_job_id.nil?
-				create_job_new(time, id)
+				create_job_new(time, id, user_id)
 			else
 				job = Sidekiq::ScheduledSet.new.find_job(self.active_job_id)
 				if job.nil?
-					create_job_new(time, id)
+					create_job_new(time, id, user_id)
 				else
 					job.reschedule(time)
 				end
@@ -297,8 +232,8 @@ class ConnectedNode < ApplicationRecord
 		save_connection
 	end
 
-	def create_job_new(time, connection_id)
-		self.active_job_id = ConnectionWorker.perform_at(time, connection_id, current_user.id)
+	def create_job_new(time, connection_id, user_id)
+		self.active_job_id = ConnectionWorker.perform_at(time, connection_id, user_id)
 		@inverse.active_job_id = self.active_job_id
 	end
 
@@ -309,5 +244,9 @@ class ConnectedNode < ApplicationRecord
 		end
 		self.update_attributes(active_job_id: nil)
 		@inverse.update_attributes(active_job_id: nil)
+	end
+
+	def set_time
+		self.last_speed_change = Time.now
 	end
 end

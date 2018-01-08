@@ -5,6 +5,11 @@
 function add_value(data, from_value, to_value) {
 	console.log("Oh wow that worked");
 	console.log(data, from_value, to_value);
+	App.game.perform('connection_add_worth', {
+		head: parseInt(from_value),
+		tail: parseInt(to_value),
+		resources: parseInt(data)
+	});
 	d3.selectAll(".myForm").remove();
 }
 
@@ -117,6 +122,41 @@ $(document).on('ready page:load', function() {
 					break;
 				case 'error':
 					console.log(data['error_msg']);
+					break;
+				case 'logged_data':
+					let a = data['logging_nodes'][0], b = data['logging_nodes'][1];
+					if (typeof(game_data.proved[a]) === 'undefined' || game_data.proved[a] === null)
+						game_data.proved[a] = [b];
+					else game_data.proved[a].push(b);
+					if (typeof(game_data.proved[b]) === 'undefined' || game_data.proved[b] === null)
+						game_data.proved[b] = [a];
+					else game_data.proved[b].push(a);
+					let a_node = null, b_node = null, i = -1, cur_node;
+					while (++i < game_data.active_nodes.length) {
+						cur_node = game_data.active_nodes[i];
+						if (cur_node.value === a) a_node = cur_node;
+						else if (cur_node.value === b) b_node = cur_node;
+					}
+					if (a_node !== null) {
+						hide_connections(a_node);
+						if (a_node.son.node !== null) hide_connections(a_node.son.node);
+						if (a_node.daughter.node !== null) hide_connections(a_node.daughter.node);
+						if (a_node.sister.node !== null) hide_connections(a_node.sister.node);
+						show_connections(a_node);
+						if (a_node.son.node !== null) show_connections(a_node.son.node);
+						if (a_node.daughter.node !== null) show_connections(a_node.daughter.node);
+						if (a_node.sister.node !== null) show_connections(a_node.sister.node);
+					}
+					if (b_node !== null) {
+						hide_connections(b_node);
+						if (b_node.son.node !== null) hide_connections(b_node.son.node);
+						if (b_node.daughter.node !== null) hide_connections(b_node.daughter.node);
+						if (b_node.sister.node !== null) hide_connections(b_node.sister.node);
+						show_connections(b_node);
+						if (b_node.son.node !== null) show_connections(b_node.son.node);
+						if (b_node.daughter.node !== null) show_connections(b_node.daughter.node);
+						if (b_node.sister.node !== null) show_connections(b_node.sister.node);
+					}
 					break;
 				default:
 					console.log('invalid call');
