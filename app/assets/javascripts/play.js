@@ -49,7 +49,7 @@ $(document).on('ready page:load', function() {
 		},
 		background: {}, framework: [], user_info: userinfo, user_interface: {},
 		global_root: null, old_root: null, date: new Date(), card_set: false,
-		positions: [], proved: format_proved(userinfo.proved)
+		positions: [], proved: format_proved(userinfo.proved), cur_dosh: 1000, dosh_gain: 200
 	};
 
 	function format_proved(proved) {
@@ -108,6 +108,8 @@ $(document).on('ready page:load', function() {
 
 		received: function(data) {
 			// Called when there's incoming data on the websocket for this channel
+			console.log();
+			console.log(data);
 			switch(data['function_call']) {
 				case 'take_action':
 					take_action(data);
@@ -117,6 +119,42 @@ $(document).on('ready page:load', function() {
 					break;
 				case 'error':
 					console.log(data['error_msg']);
+					break;
+				case 'logged_data':
+					console.log("Data logged");
+					let a = data['logging_nodes'][0], b = data['logging_nodes'][1];
+					if (typeof(game_data.proved[a]) === 'undefined' || game_data.proved[a] === null)
+						game_data.proved[a] = [b];
+					else game_data.proved[a].push(b);
+					if (typeof(game_data.proved[b]) === 'undefined' || game_data.proved[b] === null)
+						game_data.proved[b] = [a];
+					else game_data.proved[b].push(a);
+					let a_node = null, b_node = null, i = -1, cur_node;
+					while (++i < game_data.active_nodes.length) {
+						cur_node = game_data.active_nodes[i];
+						if (cur_node.value === a) a_node = cur_node;
+						else if (cur_node.value === b) b_node = cur_node;
+					}
+					if (a_node !== null) {
+						hide_connections(a_node);
+						if (a_node.son.node !== null) hide_connections(a_node.son.node);
+						if (a_node.daughter.node !== null) hide_connections(a_node.daughter.node);
+						if (a_node.sister.node !== null) hide_connections(a_node.sister.node);
+						show_connections(a_node);
+						if (a_node.son.node !== null) show_connections(a_node.son.node);
+						if (a_node.daughter.node !== null) show_connections(a_node.daughter.node);
+						if (a_node.sister.node !== null) show_connections(a_node.sister.node);
+					}
+					if (b_node !== null) {
+						hide_connections(b_node);
+						if (b_node.son.node !== null) hide_connections(b_node.son.node);
+						if (b_node.daughter.node !== null) hide_connections(b_node.daughter.node);
+						if (b_node.sister.node !== null) hide_connections(b_node.sister.node);
+						show_connections(b_node);
+						if (b_node.son.node !== null) show_connections(b_node.son.node);
+						if (b_node.daughter.node !== null) show_connections(b_node.daughter.node);
+						if (b_node.sister.node !== null) show_connections(b_node.sister.node);
+					}
 					break;
 				default:
 					console.log('invalid call');
@@ -1330,7 +1368,7 @@ $(document).on('ready page:load', function() {
 	}
 
 	function tweak_connections(target) {
-		let neighbors = ["parent", "brother", "sister", "son", "daughter"],i = -1,
+		let neighbors = ["parent", "brother", "sister", "son", "daughter"], i = -1,
 			button, inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
 			cur_inv, cur_data;
 		let width = scope.view.size.width, height = scope.view.size.height, a, b,
@@ -1694,6 +1732,7 @@ $(document).on('ready page:load', function() {
 			datatype: "html",
 			success: function (raw) {
 				let data = JSON.parse(raw), in_nodes = data['nodes'], i = 0;
+				console.log(data);
 				while (++i < 64) {
 					game_data.node_factions[i] = in_nodes[i]['faction_id'];
 					game_data.node_connections[i] = {
@@ -1721,7 +1760,7 @@ $(document).on('ready page:load', function() {
 					game_data.active_nodes[i].cluster = 'Cluster_name';
 					game_data.active_nodes[i].tier = 1;
 					game_data.active_nodes[i].last_captured = '2017-12-04 06:06:44 UTC';
-					if (game_data.active_nodes[i].faction_id == 1) {
+					if (game_data.active_nodes[i].faction_id === 1) {
 						game_data.active_nodes[i].assignment = -1;
 					}
 					else {
@@ -3665,6 +3704,28 @@ $(document).on('ready page:load', function() {
 		};
 	}
 
+	function set_gain() {
+		d3.select(".packet_field span").transition().duration(60000)
+			.ease(d3.easeLinear).tween("text", function() {
+				let node = this, i = d3.interpolateNumber(game_data.cur_dosh,
+					game_data.cur_dosh + game_data.dosh_gain);
+				return function(t) {
+					node.textContent = Math.floor(i(t));
+					game_data.cur_dosh = Math.floor(i(t));
+				}
+			}).on("end", function repeat() {
+				d3.select(".packet_field span").transition().duration(60000)
+					.ease(d3.easeLinear).tween("text", function() {
+					let node = this, i = d3.interpolateNumber(game_data.cur_dosh,
+						game_data.cur_dosh + game_data.dosh_gain);
+					return function(t) {
+						node.textContent = Math.floor(i(t));
+						game_data.cur_dosh = Math.floor(i(t));
+					}
+				}).on("end", repeat);
+		});
+	}
+
 	// function init() {
 	// 	get_initial_node_data();
 	// 	set_resize();
@@ -3681,6 +3742,7 @@ $(document).on('ready page:load', function() {
 		console.log("Starting init...");
 		get_initial_node_data(); // Sets up the initial map
 		console.log("Initial node data loaded");
+		console.log("Setting up canvas resize...");
 		set_resize();
 		console.log("Setting up assets...");
 		set_assets();
@@ -3690,7 +3752,8 @@ $(document).on('ready page:load', function() {
 		make_background();
 		console.log("Enabling smooth buttons...");
 		create_button_space();
-		console.log("Canvas resize set up");
+		console.log("Setting up resource gain...");
+		set_gain();
 		// d3.select(".local").selectAll(".text").data(["whatever"]).enter().append("text")
 		// 	.style("position", "absolute")
 		// 	.style("right", "7px").style("top", "7px")
