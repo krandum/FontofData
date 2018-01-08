@@ -5,6 +5,11 @@
 function add_value(data, from_value, to_value) {
 	console.log("Oh wow that worked");
 	console.log(data, from_value, to_value);
+	App.game.perform('connection_add_worth', {
+		head: parseInt(from_value),
+		tail: parseInt(to_value),
+		resources: parseInt(data)
+	});
 	d3.selectAll(".myForm").remove();
 }
 

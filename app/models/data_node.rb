@@ -15,7 +15,7 @@ class DataNode < ActiveRecord::Base
 	def self.get_node(value)
 		node = DataNode.where(value: value).first
 		if node.nil?
-			node = DataNode.new(value: value)
+			node = DataNode.new(value: value, )
 		end
 		node
 	end
@@ -34,12 +34,12 @@ class DataNode < ActiveRecord::Base
 		user.faction.data_nodes << self
 	end
 
-	def update_connections
+	def update_connections(user_id)
 		# friendly_connections = self.connected_nodes.select { |x| x.connection.faction_id == self.faction_id }
 		# other_connections = self.connected_nodes.select { |x| x.connection.faction_id != self.faction_id }
 
 		self.connected_nodes.each { |x| x.complete if x.connection.faction_id == self.faction_id }
-		self.connected_nodes.each { |x| x.push if x.connection.faction_id != self.faction_id }
+		self.connected_nodes.each { |x| x.push(user_id) if x.connection.faction_id != self.faction_id }
 	end
 
 end
