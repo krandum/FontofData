@@ -29,9 +29,21 @@ class DataNode < ActiveRecord::Base
 		nodes
 	end
 
-	def claim_node(user)
-		user.data_nodes << self
-		user.faction.data_nodes << self
+	def claim_node(user_id)
+		previous_user = self.user
+		new_user = User.find_by(id: user_id)
+		unless previous_user.nil?
+			previous_user.receive_resources
+			previous_user.gold_per_min -= self.resource_generator
+			previous_user.save
+		end
+		unless new_user.nil?
+			new_user.receive_resources
+			new_user.data_nodes << self
+			new_user.faction.data_nodes << self
+			new_user.gold_per_min += self.resource_generator
+			new_user.save
+		end
 	end
 
 	def update_connections(user_id)

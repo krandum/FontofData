@@ -125,9 +125,10 @@ class ConnectedNode < ApplicationRecord
 		user = User.find(user_id)
 		self.complete
 		captured_node = self.connection
+		captured_node.claim_node(user_id)
 		captured_node.update_attributes(
-			faction_id: user.faction_id,
-			user_id: user.id,
+			# faction_id: user.faction_id,
+			# user_id: user.id,
 			cluster_id: self.data_node.cluster_id,
 			last_change: Time.now
 		)

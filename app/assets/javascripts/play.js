@@ -114,14 +114,14 @@ $(document).on('ready page:load', function() {
 		received: function(data) {
 			// Called when there's incoming data on the websocket for this channel
 			switch(data['function_call']) {
+				case 'claim_node':
+					//take node
+					// data['node']
+					// data['faction']
+					console.log('claim_node called')
+					break;
 				case 'take_action':
 					take_action(data);
-					break;
-				case 'status':
-					console.log(data['status']);
-					break;
-				case 'error':
-					console.log(data['error_msg']);
 					break;
 				case 'logged_data':
 					let a = data['logging_nodes'][0], b = data['logging_nodes'][1];
@@ -157,6 +157,17 @@ $(document).on('ready page:load', function() {
 						if (b_node.daughter.node !== null) show_connections(b_node.daughter.node);
 						if (b_node.sister.node !== null) show_connections(b_node.sister.node);
 					}
+					break;
+				case 'transaction':
+					// data['currency'] gold(0), keys(1)
+					// data['amount'] amount of currency to be subtracted
+					console.log('transaction called')
+					break;
+				case 'status':
+					console.log(data['status']);
+					break;
+				case 'error':
+					console.log(data['error_msg']);
 					break;
 				default:
 					console.log('invalid call');

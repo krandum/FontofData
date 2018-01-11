@@ -43,8 +43,24 @@ class User < ActiveRecord::Base
 	end
 
 	def receive_resources
-		self.gold += [data_nodes.sum(:resource_generator), 1.0].max
+		time = Time.now
+		self.gold += ((time - self.last_income) / 1.minute) * self.gold_per_min
+		self.last_income = time
 		self.save
+	end
+
+	def transaction(type, amount)
+		case type
+			when 0
+				self.gold += amount
+			when 1
+				self.gems += amount
+			else
+				#invalid
+				p "wrong transaction type"
+		end
+		self.save
+		TransactionWorker.perform_async(self.id, type, amount)
 	end
 
 	def self.receive_quest
