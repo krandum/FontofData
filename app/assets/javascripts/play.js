@@ -1745,6 +1745,14 @@ $(document).on('ready page:load', function() {
 						bro: in_nodes[i]['bro']
 					};
 				}
+				game_data.node_connections[7].bro = {
+					completions: [
+						{ faction_id: 4, percentage: "15.0", speed: 1.0 },
+						{ faction_id: 2, percentage: "0.0", speed: 0.0 }],
+					last_updated: new Date().getTime(),
+					value: 6
+				};
+				console.log(game_data.node_connections);
 				game_data.active_nodes = build_nodes(6, scope.view.size.width,
 					scope.view.size.height);
 				i = -1;
@@ -1880,7 +1888,8 @@ $(document).on('ready page:load', function() {
 	function expanding_connection(line, ratio, faction) {
 	}
 
-	function contested_connection(line, ratio, start_faction, end_faction) {
+	function contested_connection(line, start_faction, start_ratio, end_faction,
+		end_ratio) {
 		let start = new scope.Point(line.firstSegment.point),
 			end = new scope.Point(line.lastSegment.point),
 			start_color = game_data.colors[start_faction].line,
@@ -1908,8 +1917,12 @@ $(document).on('ready page:load', function() {
 		if (game_data.node_factions[origin.value] === game_data.node_factions[end.value]
 			&& progressed) full_connection(connection, game_data.node_factions[origin.value]);
 		else if (game_data.node_factions[origin.value] !== 1 && progressed &&
-			game_data.node_factions[end.value] !== 1) contested_connection(connection, 0.5,
-			game_data.node_factions[origin.value], game_data.node_factions[end.value]);
+			game_data.node_factions[end.value] !== 1) {
+			contested_connection(connection, game_data.node_factions[origin.value],
+				end.connection_data[relation].completions[0].percentage,
+				game_data.node_factions[end.value],
+				end.connection_data[relation].completions[1].percentage);
+		}
 		else {
 			if (end.connection_data[relation] === null || !progressed)
 				empty_connection(connection);
