@@ -2,11 +2,12 @@ class GameChannel < ApplicationCable::Channel
 	def subscribed
 		stream_from "game"
 		stream_from "user#{current_user.id}"
+		current_user.receive_resources
 	end
 
 	def unsubscribed
 		# Any cleanup needed when channel is unsubscribed
-		current_user.update_attribute(:last_income ,DateTime.current)
+		current_user.receive_resources
 	end
 
 	# variables: origin, target, action_index
@@ -33,7 +34,7 @@ class GameChannel < ApplicationCable::Channel
 				origin_change: origin,
 				target_change: target
 		else
-			Actioncable.server.broadcast "user#{current_user.id}",
+			ActionCable.server.broadcast "user#{current_user.id}",
 				function_call: 'error',
 				error_msg: status
 		end
@@ -81,19 +82,26 @@ class GameChannel < ApplicationCable::Channel
 	# variables: head, tail, resources
 	def connection_add_worth(data)
 		# TODO: simplify this query and make connections store node's values or contemplate making connections a separate table completely
+		current_user.receive_resources
 		if current_user.gold >= data['resources']
-			target_connection = DataNode
-				.includes(connected_nodes: [:connection])
-				.find_by(value: data['head'])
-				.connected_nodes
-				.where(connection: DataNode.where(value: data['tail']).first_or_create)
-				.first_or_create
-			target_connection.invest(data['resources'], current_user.id)
-			current_user.update_attribute(:gold, current_user.gold - data['resources'])
+			if data['resources'] > 0
+				target_connection = DataNode
+					.includes(connected_nodes: [:connection])
+					.find_by(value: data['head'])
+					.connected_nodes
+					.where(connection: DataNode.where(value: data['tail']).first_or_create)
+					.first_or_create
+				target_connection.invest(data['resources'], current_user.id)
+				current_user.transaction(0, -data['resources'])
+			else
+				ActionCable.server.broadcast "user#{current_user.id}",
+					function_call: 'error',
+					error_msg: 'Invalid amount'
+			end
 		else
-			Actioncable.server.broadcast "user#{current_user.id}",
+			ActionCable.server.broadcast "user#{current_user.id}",
 				function_call: 'error',
-				error_msg: 'not enough resources'
+				error_msg: 'Not enough resources'
 		end
 	end
 
@@ -129,14 +137,14 @@ class GameChannel < ApplicationCable::Channel
 				cluster_id: cluster.id,
 				last_change: Time.now
 			)
-			current_user.update_attribute(:gems, current_user.gems - 3)
+			current_user.transaction(1, -3)
 			# broadcast change to game
-			# Actioncable.server.broadcast "game",
-			# 	function_call: 'claim_node',
-			# 	node: data['target'],
-			#		faction: current_user.faction_id
+			ActionCable.server.broadcast "game",
+				function_call: 'claim_node',
+				node: data['target'],
+				faction: current_user.faction_id
 		else
-			Actioncable.server.broadcast "user#{current_user.id}",
+			ActionCable.server.broadcast "user#{current_user.id}",
 				function_call: 'error',
 				error_msg: 'not enough gems'
 		end
