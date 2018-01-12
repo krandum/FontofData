@@ -163,6 +163,11 @@ $(document).on('ready page:load', function() {
 					// data['amount'] amount of currency to be subtracted
 					console.log('transaction called')
 					break;
+				case 'connection_finished':
+					// data['target']
+					// data['origin_fac']
+					console.log('connection finished called')
+					break;
 				case 'status':
 					console.log(data['status']);
 					break;
