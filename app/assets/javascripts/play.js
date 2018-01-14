@@ -3,7 +3,7 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 function add_value(data, from_value, to_value) {
-	console.log("Oh wow that worked");
+	console.log("Adding value");
 	console.log(data, from_value, to_value);
 	App.game.perform('connection_add_worth', {
 		head: parseInt(from_value),
@@ -54,7 +54,8 @@ $(document).on('ready page:load', function() {
 		},
 		background: {}, framework: [], user_info: userinfo, user_interface: {},
 		global_root: null, old_root: null, date: new Date(), card_set: false,
-		positions: [], proved: format_proved(userinfo.proved), cur_dosh: 1000, dosh_gain: 200
+		positions: [], proved: format_proved(userinfo.proved),
+		cur_dosh: userinfo.resources, dosh_gain: userinfo.resource_gain, dosh_buff: 0
 	};
 
 	function format_proved(proved) {
@@ -163,8 +164,11 @@ $(document).on('ready page:load', function() {
 					break;
 				case 'transaction':
 					// data['currency'] gold(0), keys(1)
-					// data['amount'] amount of currency to be subtracted
-					console.log('transaction called')
+					// data['amount'] amount of currency to be modified
+					console.log('transaction called');
+					if (data['currency'] === 0) {
+						game_data.dosh_buff += data['amount'];
+					}
 					break;
 				case 'status':
 					console.log(data['status']);
@@ -1385,12 +1389,12 @@ $(document).on('ready page:load', function() {
 
 	function tweak_connections(target) {
 		let neighbors = ["parent", "brother", "sister", "son", "daughter"], i = -1,
-			button, inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
+			inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
 			cur_inv, cur_data;
 		let width = scope.view.size.width, height = scope.view.size.height, a, b,
 			cur_proven;
 		while (++i < 5) {
-			let cur_other = target[neighbors[i]].node,
+			let cur_other = target[neighbors[i]].node, button,
 				position = { x: 0, y: 0, width: 0, height: 0, thick: 0 };
 			if (typeof(cur_other) === 'undefined' || cur_other === null) continue;
 			switch (neighbors[i]) {
@@ -1461,6 +1465,7 @@ $(document).on('ready page:load', function() {
 					}
 					button = make_button('assets/neutral/icons/add.svg', position, function() {
 						check_selection(target);
+						d3.selectAll(".myForm").remove();
 						let form = game_data.d3.space.append("form").attr("class", "myForm")
 							.attr("action", "javascript:add_value(amount.value, from.value, to.value)")
 							.style("left", (position.x + position.width / 2 - 75).toString() + "px")
@@ -1758,10 +1763,17 @@ $(document).on('ready page:load', function() {
 				}
 				game_data.node_connections[7].bro = {
 					completions: [
-						{ faction_id: 4, percentage: "15.0", speed: 1.0 },
-						{ faction_id: 2, percentage: "0.0", speed: 0.0 }],
+						{ faction_id: 4, percentage: "15.0", speed: 5.0 },
+						{ faction_id: 2, percentage: "0.0", speed: 4.0 }],
 					last_updated: new Date().getTime(),
 					value: 6
+				};
+				game_data.node_connections[7].dad = {
+					completions: [
+						{ faction_id: 4, percentage: "15.0", speed: 1.0 },
+						{ faction_id: 1, percentage: "0.0", speed: 0.0 }],
+					last_updated: new Date().getTime(),
+					value: 3
 				};
 				console.log(game_data.node_connections);
 				game_data.active_nodes = build_nodes(6, scope.view.size.width,
@@ -1841,7 +1853,7 @@ $(document).on('ready page:load', function() {
 							game_data.active_nodes[k].cluster = 'Cluster_name';
 							game_data.active_nodes[k].tier = 1;
 							game_data.active_nodes[k].last_captured = '2017-12-04 06:06:44 UTC';
-							if (game_data.active_nodes[k].faction_id == 1) {
+							if (game_data.active_nodes[k].faction_id === 1) {
 								game_data.active_nodes[k].assignment = -1;
 							}
 							else {
@@ -1896,11 +1908,62 @@ $(document).on('ready page:load', function() {
 		line.strokeColor = colors.line;
 	}
 
-	function expanding_connection(line, ratio, faction) {
+	function limit(num) {
+		return Math.max(Math.min(num, 1.0), 0.0);
 	}
 
-	function contested_connection(line, start_faction, start_ratio, end_faction,
-		end_ratio) {
+	function straight_push(target, _sigma_frac, delta_frac) {
+		if (target.stopped) return;
+		let amount = delta_frac * target.speed, point = target.ratio + amount;
+		if (point >= 0.0 && point <= 1.0) {
+			target.ratio += amount;
+			target.line.strokeColor.gradient.stops[0].offset = limit(target.ratio - 0.05);
+			target.line.strokeColor.gradient.stops[1].offset = limit(target.ratio + 0.05);
+		}
+		else {
+			target.stopped = true;
+		}
+  }
+
+	function split_push(target, _sigma_frac, delta_frac) {
+		if (target.stopped) return;
+		let start_amount = delta_frac * target.speeds[0], start = target.ratios[0] + start_amount,
+			end_amount = delta_frac * target.speeds[1], end = target.ratios[1] - end_amount;
+		if (start >= 0.0 && start <= 1.0 && end >= 0.0 && end <= 1.0) {
+			if (start > end && !target.straight) {
+				target.speeds[0] = target.speeds[0] - target.speeds[1];
+				target.speeds[1] = -target.speeds[0];
+				target.ratios[0] = (start + end) / 2;
+				target.ratios[1] = (start + end) / 2;
+				let grad = target.line.strokeColor.gradient;
+				target.line.strokeColor.gradient.stops = [[grad.stops[0].color, grad.stops[0].offset],
+						[grad.stops[3].color, grad.stops[3].offset]];
+				target.straight = true;
+			}
+			target.ratios[0] += start_amount;
+			target.ratios[1] -= end_amount;
+			if (target.straight) {
+				target.line.strokeColor.gradient.stops[0].offset = limit(start - 0.05);
+				target.line.strokeColor.gradient.stops[1].offset = limit(start + 0.05);
+			}
+			else {
+				target.line.strokeColor.gradient.stops[0].offset = limit(start - 0.05);
+				target.line.strokeColor.gradient.stops[1].offset = limit(start + 0.05);
+				target.line.strokeColor.gradient.stops[2].offset = limit(end - 0.05);
+				target.line.strokeColor.gradient.stops[3].offset = limit(end + 0.05);
+			}
+		}
+		else {
+			target.stopped = true;
+		}
+	}
+
+  function continue_push(target) {
+		return !target.stopped;
+	}
+
+	function expanding_connection(line, start_faction, start_ratio, start_speed,
+			end_faction, end_ratio, end_speed) {
 		let start = new scope.Point(line.firstSegment.point),
 			end = new scope.Point(line.lastSegment.point),
 			start_color = game_data.colors[start_faction].line,
@@ -1910,10 +1973,49 @@ $(document).on('ready page:load', function() {
 		line.shadowColor = dark_start;
 		line._shadow = line.shadowColor;
 		line.shadowBlur = 5;
+		let left = limit(start_ratio - 0.05), right = limit(start_ratio + 0.05);
 		line.strokeColor = {
-			gradient: { stops: [[start_color, ratio - 0.05], [end_color, ratio + 0.05]] },
+			gradient: { stops: [[start_color, left], [end_color, right]] },
 			origin: start, destination: end
 		};
+		add_animation({ line: line, speed: start_speed - end_speed, ratio: start_ratio },
+			straight_push, continue_push, 60000);
+	}
+
+	function contested_connection(line, start_faction, start_ratio, start_speed,
+		end_faction, end_ratio, end_speed) {
+		let start = new scope.Point(line.firstSegment.point),
+			end = new scope.Point(line.lastSegment.point),
+			start_color = game_data.colors[start_faction].line,
+			end_color = game_data.colors[end_faction].line,
+			dark_start = start_color * 0.4;
+		line.strokeCap = 'round';
+		line.shadowColor = dark_start;
+		line._shadow = line.shadowColor;
+		line.shadowBlur = 5;
+		if (start_ratio + end_ratio >= 1.0) {
+			start_ratio *= 1 / (start_ratio + end_ratio);
+			let left = limit(start_ratio - 0.05), right = limit(start_ratio + 0.05);
+			line.strokeColor = {
+				gradient: { stops: [[start_color, left], [end_color, right]] },
+				origin: start, destination: end
+			};
+			add_animation({ line: line, speed: start_speed - end_speed, ratio: start_ratio },
+				straight_push, continue_push, 60000);
+		}
+		else {
+			end_ratio = 1 - end_ratio;
+			let middle_color = game_data.colors["1"].line,
+				l_start = limit(start_ratio - 0.05), r_start = limit(start_ratio + 0.05),
+				l_end = limit(end_ratio - 0.05), r_end = limit(end_ratio + 0.05);
+			line.strokeColor = {
+				gradient: { stops: [[start_color, l_start], [middle_color, r_start],
+					[middle_color, l_end], [end_color, r_end]] },
+				origin: start, destination: end
+			};
+			add_animation({ line: line, speeds: [start_speed, end_speed],
+				ratios: [start_ratio, end_ratio] }, split_push, continue_push, 60000);
+		}
 	}
 
 	function show_line(origin, end, relation) {
@@ -1930,25 +2032,31 @@ $(document).on('ready page:load', function() {
 		else if (game_data.node_factions[origin.value] !== 1 && progressed &&
 			game_data.node_factions[end.value] !== 1) {
 			contested_connection(connection, game_data.node_factions[origin.value],
-				end.connection_data[relation].completions[0].percentage,
+				parseFloat(end.connection_data[relation].completions[0].percentage) / 100.0,
+				end.connection_data[relation].completions[0].speed,
 				game_data.node_factions[end.value],
-				end.connection_data[relation].completions[1].percentage);
+				parseFloat(end.connection_data[relation].completions[1].percentage) / 100.0,
+				end.connection_data[relation].completions[1].speed);
 		}
 		else {
 			if (end.connection_data[relation] === null || !progressed)
-				empty_connection(connection);
+			  empty_connection(connection);
 			else {
-				let active_one, index;
 				if (game_data.node_factions[origin.value] === 1) {
-					active_one = end;
-					index = 1;
+					expanding_connection(connection, game_data.node_factions[origin.value],
+						1.0 - parseFloat(end.connection_data[relation].completions[0].percentage) / 100.0,
+						0.0, game_data.node_factions[end.value],
+						parseFloat(end.connection_data[relation].completions[0].percentage) / 100.0,
+						end.connection_data[relation].completions[0].speed);
 				}
 				else {
-					active_one = origin;
-					index = 0;
+					expanding_connection(connection, game_data.node_factions[origin.value],
+						parseFloat(end.connection_data[relation].completions[1].percentage) / 100.0,
+						end.connection_data[relation].completions[1].speed,
+						game_data.node_factions[end.value],
+						1.0 - parseFloat(end.connection_data[relation].completions[1].percentage) / 100.0,
+						0.0);
 				}
-				expanding_connection(connection, parseFloat(end.connection_data[relation]
-					.completions[index].percentage), game_data.node_factions[active_one.value]);
 			}
 		}
 		connection.sendToBack();
@@ -3734,22 +3842,28 @@ $(document).on('ready page:load', function() {
 	}
 
 	function set_gain() {
-		d3.select(".packet_field span").transition().duration(60000)
+		d3.select(".packet_field span").transition().duration(600)
 			.ease(d3.easeLinear).tween("text", function() {
 				let node = this, i = d3.interpolateNumber(game_data.cur_dosh,
-					game_data.cur_dosh + game_data.dosh_gain);
+					game_data.cur_dosh + game_data.dosh_gain), off = 0;
 				return function(t) {
-					node.textContent = Math.floor(i(t));
+					if (game_data.dosh_buff) off = game_data.dosh_buff;
 					game_data.cur_dosh = Math.floor(i(t));
+					node.textContent = game_data.cur_dosh + off;
 				}
 			}).on("end", function repeat() {
-				d3.select(".packet_field span").transition().duration(60000)
+				if (game_data.dosh_buff) {
+					game_data.cur_dosh += game_data.dosh_buff;
+					game_data.dosh_buff = 0;
+				}
+				d3.select(".packet_field span").transition().duration(600)
 					.ease(d3.easeLinear).tween("text", function() {
 					let node = this, i = d3.interpolateNumber(game_data.cur_dosh,
-						game_data.cur_dosh + game_data.dosh_gain);
+						game_data.cur_dosh + game_data.dosh_gain), off = 0;
 					return function(t) {
-						node.textContent = Math.floor(i(t));
+						if (game_data.dosh_buff) off = game_data.dosh_buff;
 						game_data.cur_dosh = Math.floor(i(t));
+						node.textContent = game_data.cur_dosh + off;
 					}
 				}).on("end", repeat);
 		});
@@ -3762,6 +3876,7 @@ $(document).on('ready page:load', function() {
 	// 	make_ui();
 	// 	make_background();
 	//	create_button_space();
+	//	set_gain();
 	// 	scope.view.onFrame = function(event) {
 	// 		tick(event);
 	// 	};
