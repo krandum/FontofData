@@ -170,6 +170,11 @@ $(document).on('ready page:load', function() {
 						game_data.dosh_buff += data['amount'];
 					}
 					break;
+				case 'connection_finished':
+					// data['target']
+					// data['origin_fac']
+					console.log('connection finished called')
+					break;
 				case 'status':
 					console.log(data['status']);
 					break;
