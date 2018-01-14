@@ -9,7 +9,7 @@ class ConnectionWorker
 			function_call: 'connection_finished',
 			# origin: connection.s_value,
 			target: connection.i_value,
-			origin_fac: connection.data_node.faction_id,
+			origin_fac: connection.data_node.faction_id
 			# target_fac: connection.connection.faction_id,
 			# origin_change: 'same',
 			# target_change: 'to_origin'
