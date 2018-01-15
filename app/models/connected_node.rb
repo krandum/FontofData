@@ -167,7 +167,7 @@ class ConnectedNode < ApplicationRecord
 	end
 
 	def calc_speed(worth, multiplier)
-		worth * (1/60) * multiplier
+		worth * (1.0/60.0) * multiplier
 	end
 
 	# private
@@ -218,6 +218,7 @@ class ConnectedNode < ApplicationRecord
 	def create_job(user_id)
 		time = self.completion_time
 		id = self.self_speed > self.inverse_speed ? self.id : @inverse.id
+
 		unless time.nil?
 			if self.active_job_id.nil?
 				create_job_new(time, id, user_id)
