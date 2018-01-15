@@ -40,30 +40,6 @@ class GameChannel < ApplicationCable::Channel
 		end
 	end
 
-	# takes a list of ranges and returns a float representing the greatest presence of a faction in those ranges
-	# def minimap(ranges_list)
-	# 	 ranges_list.each do |ranges|
-	# 		ranges.each
-	# 	 end
-	# end
-
-	def node_set(data)
-		target_node = DataNode.where(value: data['target']).first
-		target_node.role = data['role'] unless data['role'].nil?
-		target_node.user_id = data['user'] unless data['user'].nil?
-		target_node.cluster_core = data['cluster_core'] unless data['cluster_core'].nil?
-		target_node.resource_generator = data['resource_generator'] unless data['resource_generator'].nil?
-		target_node.faction_id = data['faction'] unless data['faction'].nil?
-		target_node.worth = data['worth'] unless data['worth'].nil?
-	end
-
-	# variables: target, resources
-	def node_add_worth(data)
-		target_node = DataNode.where(value: data['target']).first
-		target_node.worth += data['resources']
-		target_node.save
-	end
-
 	# variables: head, tail, resources,	percentage,	friction,	speed
 	def connection_set(data)
 		target_connection = DataNode
@@ -122,31 +98,37 @@ class GameChannel < ApplicationCable::Channel
 	# Creates a new cluster with the target node as the cluster core
 	# variables: target, cluster_name
 	def node_claim(data)
-		if current_user.gems >= 3
-			# node = DataNode.get_node(data['target'])
-			node = DataNode.where(value: data['target']).first_or_initialize
-			cluster_name = data['cluster_name']
-			if cluster_name.nil?
-				cluster_name = "#{current_user.username}'s Cluster"
+		if current_user.can_claim(data[target])
+			if current_user.gems >= 3
+				# node = DataNode.get_node(data['target'])
+				node = DataNode.where(value: data['target']).first_or_initialize
+				cluster_name = data['cluster_name']
+				if cluster_name.nil?
+					cluster_name = "#{current_user.username}'s Cluster"
+				end
+				cluster = current_user.owned_clusters.create(owner_type: 'Player', cluster_name: cluster_name)
+				node.update_attributes(
+					role: 1,
+					user_id: current_user.id,
+					cluster_core: true,
+					cluster_id: cluster.id,
+					last_change: Time.now
+				)
+				current_user.transaction(1, -3)
+				# broadcast change to game
+				ActionCable.server.broadcast "game",
+					function_call: 'claim_node',
+					node: data['target'],
+					faction: current_user.faction_id
+			else
+				ActionCable.server.broadcast "user#{current_user.id}",
+					function_call: 'error',
+					error_msg: 'not enough gems'
 			end
-			cluster = current_user.owned_clusters.create(owner_type: 'Player', cluster_name: cluster_name)
-			node.update_attributes(
-				role: 1,
-				user_id: current_user.id,
-				cluster_core: true,
-				cluster_id: cluster.id,
-				last_change: Time.now
-			)
-			current_user.transaction(1, -3)
-			# broadcast change to game
-			ActionCable.server.broadcast "game",
-				function_call: 'claim_node',
-				node: data['target'],
-				faction: current_user.faction_id
 		else
 			ActionCable.server.broadcast "user#{current_user.id}",
 				function_call: 'error',
-				error_msg: 'not enough gems'
+				error_msg: 'Prove 3 connections to claim this node.'
 		end
 	end
 
