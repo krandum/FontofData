@@ -167,7 +167,7 @@ class ConnectedNode < ApplicationRecord
 	end
 
 	def calc_speed(worth, multiplier)
-		worth * 0.1 * multiplier
+		worth * (1/60) * multiplier
 	end
 
 	# private
