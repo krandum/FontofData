@@ -90,4 +90,13 @@ class User < ActiveRecord::Base
 		self.save
 	end
 
+	def can_claim(node_val)
+		if self.proved.where("val_b = #{node_val} OR val_a = #{node_val}").count >= 3
+			true
+		else
+			false
+		end
+
+	end
+
 end
