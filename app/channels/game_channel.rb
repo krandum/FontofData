@@ -69,6 +69,20 @@ class GameChannel < ApplicationCable::Channel
 					.first_or_create
 				target_connection.invest(data['resources'], current_user.id)
 				current_user.transaction(0, -data['resources'])
+				ActionCable.server.broadcast "game",
+					function_call: 'update_connection',
+					origin: data['head'],
+					target: data['tail'],
+					last_updated: target_connection.last_speed_change.to_i * 1000,
+					completions: [{
+						'percentage' => target_connection.self_percentage,
+						'faction_id' => target_connection.data_node.faction_id,
+						'speed' => target_connection.self_speed
+					}, {
+						'percentage' => target_connection.inverse_percentage,
+						'faction_id' => target_connection.connection.faction_id,
+						'speed' => target_connection.inverse_speed
+					}]
 			else
 				ActionCable.server.broadcast "user#{current_user.id}",
 					function_call: 'error',
