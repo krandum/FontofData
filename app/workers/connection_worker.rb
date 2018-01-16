@@ -7,7 +7,7 @@ class ConnectionWorker
 		connection.capture(user_id)
 		ActionCable.server.broadcast "game",
 			function_call: 'connection_finished',
-			# origin: connection.s_value,
+			origin: connection.s_value,
 			target: connection.i_value,
 			origin_fac: connection.data_node.faction_id
 			# target_fac: connection.connection.faction_id,
