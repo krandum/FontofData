@@ -137,7 +137,7 @@ class DataNodesController < ApplicationController
 		unless connection.nil?
 			{
 				'value' => connection.connection.value,
-				'last_updated' => connection.last_speed_change.to_i,
+				'last_updated' => connection.last_speed_change.to_i * 1000,
 				'completions' => [{
 					'percentage' => connection.self_percentage,
 					'faction_id' => connection.data_node.faction_id,
