@@ -40,21 +40,6 @@ class GameChannel < ApplicationCable::Channel
 		end
 	end
 
-	# variables: head, tail, resources,	percentage,	friction,	speed
-	def connection_set(data)
-		target_connection = DataNode
-			.includes(connected_nodes: [:connection])
-			.where(value: data['head']).first.connected_nodes
-			.select { |x| x.connection.value == data['tail'] }
-			.first
-		target_connection.update_connection( {
-			'worth' => data['resources'],
-			'percentage' => data['percentage'],
-			'friction' => data['friction'],
-			'speed' => data['speed']
-		} )
-	end
-
 	# variables: head, tail, resources
 	def connection_add_worth(data)
 		# TODO: simplify this query and make connections store node's values or contemplate making connections a separate table completely
@@ -112,7 +97,7 @@ class GameChannel < ApplicationCable::Channel
 	# Creates a new cluster with the target node as the cluster core
 	# variables: target, cluster_name
 	def node_claim(data)
-		if current_user.can_claim(data[target])
+		if current_user.can_claim(data['target'])
 			if current_user.gems >= 3
 				# node = DataNode.get_node(data['target'])
 				node = DataNode.where(value: data['target']).first_or_initialize
@@ -146,6 +131,15 @@ class GameChannel < ApplicationCable::Channel
 		end
 	end
 
+	def node_capture(data)
+		if current_user.can_attack(data['target'])
+			current_user.capture(data['target'])
+		else
+			ActionCable.server.broadcast "user#{current_user.id}",
+				function_call: 'error',
+				error_msg: 'You must control the majority of connected nodes to capture'
+		end
+	end
 
 	private
 
