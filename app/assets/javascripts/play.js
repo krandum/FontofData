@@ -1463,6 +1463,7 @@ $(document).on('ready page:load', function() {
 					}
 					button = make_button('assets/neutral/icons/add.svg', position, function() {
 						check_selection(target);
+						d3.selectAll(".myForm").remove();
 						let form = game_data.d3.space.append("form").attr("class", "myForm")
 							.attr("action", "javascript:add_value(amount.value, from.value, to.value)")
 							.style("left", (position.x + position.width / 2 - 75).toString() + "px")
