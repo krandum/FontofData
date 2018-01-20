@@ -111,6 +111,7 @@ class GameChannel < ApplicationCable::Channel
 					user_id: current_user.id,
 					cluster_core: true,
 					cluster_id: cluster.id,
+					faction_id: current_user.id,
 					last_change: Time.now
 				)
 				current_user.transaction(1, -3)
