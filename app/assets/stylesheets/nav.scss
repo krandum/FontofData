@@ -117,6 +117,10 @@ button {
 	padding: 0.5rem 1rem;
 	text-decoration: none !important;
 }
+.nav_link:focus {
+	outline: none !important;
+}
+
 
 .nav_brand {
 	text-decoration: none !important;

@@ -24,7 +24,6 @@
 				<div class="fod_drop"  id="account_menu">
 					<% if user_signed_in? %>
 					<%= link_to 'Profile', current_user, {style: "color: #B9D6F2", class: "dropdown-item"} %>
-					<a class="dropdown-item" style="color: #B9D6F2" href="/user/settings">User settings</a>
 					<%= link_to 'Logout', destroy_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item", method: :delete} %>
 					<% else %>
 					<%= link_to 'Sign In', new_user_session_path, {style: "color: #B9D6F2", class: "dropdown-item"} %>
