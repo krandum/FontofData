@@ -191,6 +191,7 @@ $(document).on('ready page:load', function() {
 					while (++i < 63)
 						if (game_data.active_nodes[i].value === data['target'])
 							target = game_data.active_nodes[i];
+					if (!target) return;
 					game_data.node_factions[data['target']] = data['origin_fac'];
 					colors = game_data.colors[data['origin_fac'].toString()];
 					target.circle.strokeColor = colors.line;
@@ -208,6 +209,7 @@ $(document).on('ready page:load', function() {
 						if (game_data.active_nodes[i].value === data['origin'])
 							origin = game_data.active_nodes[i];
 					}
+					if (!target || !origin) return;
 					let relation = null, first = target, second = origin, index = 1;
 					if (target.value === origin.value * 2 || target.value === origin.value * 2 + 1)
 						relation = "dad";
@@ -226,8 +228,12 @@ $(document).on('ready page:load', function() {
 						relation = "bro";
 					}
 					else throw new Error("No connection relationship found from back end");
-					first.connection_data[relation] = { completions: data['completions'],
-						last_updated: data['last_updated'], value: second.value };
+					let other = index === 1 ? 0 : 1;
+					console.log(first, second, relation, index, other);
+					first.connection_data[relation] = {
+						completions: [data['completions'][index], data['completions'][other]],
+						last_updated: data['last_updated'],
+						value: second.value };
 					game_data.node_connections[first.value][relation] = first.connection_data[relation];
 					if (first[relation + "_push"]) {
 						first[relation + "_push"].time = data['last_updated'];
