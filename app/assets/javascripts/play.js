@@ -307,6 +307,17 @@ $(document).on('ready page:load', function() {
 			4: 'assets/blue/'
 		};
 		ui.card = document.getElementById('info_pane');
+		ui.card_spans = {
+			1: document.getElementById('node_number'),
+			2: document.getElementById('node_owner'),
+			3: document.getElementById('node_tier'),
+			4: document.getElementById('node_function'),
+			5: document.getElementById('node_connections'),
+			6: document.getElementById('node_value'),
+			7: document.getElementById('node_contention'),
+			8: document.getElementById('faction_name'),
+			9: document.getElementsByClassName('faction_icon')
+		};
 		// ui.search_bar = document.getElementsByClassName('search_bar')[0];
 		ui.chat_pane = document.getElementsByClassName('chat_pane')[0];
 		ui.status_bar = document.getElementsByClassName('status_bar')[0];
@@ -316,6 +327,7 @@ $(document).on('ready page:load', function() {
 		// ui.prompt = document.getElementById('actionbar_prompt');
 		// ui.minimap = document.getElementById('minimap');
 		// ui.second_map = document.getElementById('second_map');
+		ui.help_button = document.getElementById('help_button');
 		ui.window_container = document.getElementById('window_container');
 		ui.exit_buttons = document.getElementsByClassName('window_exit_button');
 		ui.info_window = ui.window_container.children[0];
@@ -341,6 +353,7 @@ $(document).on('ready page:load', function() {
 				6: document.getElementById('info_node_name')
 			}
 		};
+		ui.tutorial_ui_status = false;
 		function hex_to_rgba(hex, alpha) {
 			let r = parseInt(hex.slice(1, 3), 16),
 			g = parseInt(hex.slice(3, 5), 16),
@@ -405,6 +418,8 @@ $(document).on('ready page:load', function() {
 				.classed(ui.faction_names[user.faction_id], true);
 			d3.selectAll('.secondary')
 				.classed(ui.faction_names[user.faction_id], true);
+			d3.selectAll('.tertiary')
+				.classed(ui.faction_names[user.faction_id], true);
 			// ui.actionbar.children[0].style.backgroundColor = ui.color_palette[user.faction_id].secondary;
 			// ui.actionbar.children[0].style.borderColor = ui.color_palette[user.faction_id].accent;
 			// ui.actionbar.children[1].style.backgroundColor = ui.color_palette[user.faction_id].highlight;
@@ -420,17 +435,6 @@ $(document).on('ready page:load', function() {
 			ui.status_bar.children[5].firstChild.appendChild(document.createTextNode(user.resources));
 		};
 		ui.set_card = function(card_node) {
-			ui.card_spans = {
-				1: document.getElementById('node_number'),
-				2: document.getElementById('node_owner'),
-				3: document.getElementById('node_tier'),
-				4: document.getElementById('node_function'),
-				5: document.getElementById('node_connections'),
-				6: document.getElementById('node_value'),
-				7: document.getElementById('node_contention'),
-				8: document.getElementById('faction_name'),
-				9: document.getElementsByClassName('faction_icon')
-			};
 			let span_num = 0;
 			while (++span_num < 9) {
 				let cur_span = ui.card_spans[span_num];
@@ -442,7 +446,7 @@ $(document).on('ready page:load', function() {
 			ui.card_spans[2].appendChild(document.createTextNode(card_node.owner));
 			ui.card_spans[3].appendChild(document.createTextNode(card_node.tier));
 			ui.card_spans[4].appendChild(document.createTextNode(card_node.function));
-			ui.card_spans[5].appendChild(document.createTextNode(card_node.connection_num));
+			//ui.card_spans[5].appendChild(document.createTextNode(card_node.connection_num));
 			ui.card_spans[6].appendChild(document.createTextNode(card_node.worth));
 			ui.card_spans[7].appendChild(document.createTextNode(card_node.contention));
 			ui.card_spans[8].appendChild(document.createTextNode(ui.faction_names[card_node.faction_id]));
@@ -507,7 +511,7 @@ $(document).on('ready page:load', function() {
 		};
 		ui.close_windows = function(num) {
 			let i = 0;
-			while (i < 2) {
+			while (i < 3) {
 				if (ui.window_container.children[i].classList.contains('hidden') == false && i !== num) {
 					ui.window_container.children[i].classList.add('hidden');
 				}
@@ -527,6 +531,16 @@ $(document).on('ready page:load', function() {
 		// ui.clear_prompt = function() {
 		// 	ui.prompt.firstChild.removeChild(ui.prompt.firstChild.firstChild);
 		// }
+		ui.paper_tooltip = function(node) {
+			d3.select('#local')
+				.append("div").classed("tutorial_ui primary " + ui.faction_names[user.faction_id], true)
+					.style("top", node.circle.position.y - (node.circle.bounds.width * .55) - 30 + "px")
+					.style("left", node.circle.position.x - 85 + "px")
+					.style("width", 170 + "px")
+					.style("height", 30 + "px")
+					.style("z-index", 10)
+					.append("span").text(node.tooltip);
+		}
 		ui.create_listeners = function() {
 			window.addEventListener("resize", function(e) {
 				ui.set_ui_size();
@@ -539,19 +553,89 @@ $(document).on('ready page:load', function() {
 			// });
 			window.addEventListener('keydown', function(e) {
 				if (document.activeElement.type !== 'textarea') {
-					if (e.keyCode === 27) {
+					switch (e.keyCode) {
+					case 27:
 						ui.close_windows();
-					}
-					if (e.keyCode === 73) {
+						d3.selectAll(".myForm").remove();
+						break;
+					case 73:
 						ui.close_windows(0);
 						ui.info_window.classList.toggle('hidden');
 						ui.set_ui_size();
-					}
-					if (e.keyCode === 67) {
+						break;
+					case 67:
 						ui.close_windows(1);
 						ui.window_container.children[1].classList.toggle('hidden');
 						ui.set_ui_size();
+						break;
+					case 81:
+						ui.close_windows(2);
+						ui.window_container.children[2].classList.toggle('hidden');
+						ui.set_ui_size();
+						break;
 					}
+				}
+			});
+			ui.help_button.addEventListener('click', function(e) {
+				let hovers = d3.selectAll(".hoverable");
+				if (ui.tutorial_ui_status === false) {
+					ui.tutorial_ui_status = true;
+					d3.select("#hotkey_help").classed("hidden", false);
+					d3.select("#tutorial_help").classed("hidden", false);
+					d3.select("#help_button")
+						.selectAll('svg')
+						.style("fill", ui.color_palette[user.faction_id].accent);
+					let set_top, set_left, text;
+					hovers.on("mouseenter", function() {
+						let bounding = d3.event.target.getBoundingClientRect();
+						switch (d3.event.target.id) {
+							case 'info_pane':
+								set_left = (bounding.width * .5 - 85);
+								set_top = bounding.top - (bounding.height * .5);
+								text = 'This is the information on the current node.';
+								break;
+							case 'chat_pane':
+								set_left = (bounding.width * .5 - 85);
+								set_top = bounding.top - (bounding.height * .5);
+								text = 'Chat with your faction and discuss the game.';
+								break;
+							case 'key_img':
+								set_left = (bounding.width * .5 - 85);
+								set_top = bounding.bottom - (bounding.height * .5);
+								text = 'Keys. Use these to create a new cluster.';
+								break;
+							case 'packet_img':
+								set_left = (bounding.width * .5 - 85);
+								set_top = bounding.bottom - (bounding.height * .5);
+								text = 'Your data. Use it to attack and defend nodes.';
+								break;
+						}
+						game_data.d3.space.append("div").classed("tutorial_ui primary " + ui.faction_names[user.faction_id], true)
+							.style("top", set_top + "px")
+							.style("left", bounding.left + set_left + "px")
+							.style("width", 170 + "px")
+							.style("height", 30 + "px")
+							.append("span").text(text);
+					});
+					hovers.on("mouseleave", function() {
+						d3.selectAll(".tutorial_ui").remove();
+					});
+				}
+				else {
+					ui.tutorial_ui_status = false;
+					d3.select("#hotkey_help").classed("hidden", true);
+					d3.select("#tutorial_help").classed("hidden", true);
+					d3.select("#help_button")
+						.selectAll('svg')
+						.style("fill", ui.color_palette[user.faction_id].basis);
+					hovers.on("mouseenter", null);
+					hovers.on("mouseleave", null);
+				}
+			});
+			d3.select("#local").on("click", function() {
+				let target = d3.event.target;
+				if (target.classList.contains('myInput') === false && target.classList.contains('myButton') === false) {
+					d3.selectAll(".myForm").remove();
 				}
 			});
 			// ui.buttons[0].addEventListener('click', function(e) {
@@ -597,10 +681,26 @@ $(document).on('ready page:load', function() {
 				ui.exit_buttons[0].parentNode.classList.add('hidden');
 			});
 		};
+		ui.set_quests = function() {
+			//dummy data
+			user.quests = {
+				0: 0,
+				1: 1,
+				2: 2
+			};
+			//end
+			d3.selectAll(".quest_item")
+				.each(function(item, i) {
+					x = d3.select(this);
+					x.append("h2").text('Placeholder ');
+					x.append("span").text("Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder ");
+				});
+		};
 		ui.init = function() {
 			ui.set_colors();
 			ui.set_bar();
 			ui.create_listeners();
+			ui.set_quests();
 			ui.init_assets();
 			ui.set_ui_size();
 		};
@@ -1444,6 +1544,7 @@ $(document).on('ready page:load', function() {
 	// 	return true;
 	// }
 
+
 	function create_button_space() {
 		game_data.d3 = {};
 		let bounding = document.getElementById("local").getBoundingClientRect(),
@@ -1452,15 +1553,27 @@ $(document).on('ready page:load', function() {
 			.attr("width", width).attr("height", height).attr("class", "globalWrap");
 	}
 
-	function make_button(icon_path, position, onclick) {
+	function make_button(icon_path, position, tooltip, onclick) {
 		let button = game_data.d3.space.append("myButton").attr("class", "myButton")
 			.style("left", function() { return position.x.toString() + "px"; })
 			.style("top", function() { return position.y.toString() + "px"; })
 			.style("width", function() { return position.width.toString() + "px"; })
 			.style("height", function() { return position.height.toString() + "px"; })
 			.style("background-image", 'url("' + icon_path + '")')
-			.style("border-width", position.thick.toString() + "px");
-		button.on("click", onclick);
+			.style("border-width", position.thick.toFixed(0) + "px");
+		button.on("mouseenter", function() {
+			if (game_data.user_interface.tutorial_ui_status === true) {
+				game_data.d3.space.append("div").classed("tutorial_ui primary " +
+					game_data.user_interface.faction_names[game_data.user_info.faction_id], true)
+					.style("top", position.y - 30 - (position.height * .55) + "px")
+					.style("left", position.x + (position.width / 2) - 85 + "px")
+					.style("width", 170 + "px")
+					.style("height", 30 + "px")
+					.append("span").text(tooltip);
+			}
+		});
+		button.on("mouseleave", function() {d3.selectAll(".tutorial_ui").remove(); });
+		button.on("click", function() {d3.selectAll(".tutorial_ui").remove(); onclick();});
 		return button;
 	}
 
@@ -1542,21 +1655,25 @@ $(document).on('ready page:load', function() {
 						position.x += x_mod;
 						position.y += y_mod;
 					}
-					button = make_button('assets/neutral/icons/add.svg', position, function() {
+					button = make_button('assets/neutral/icons/add.svg', position,
+						"Use your data to expand your influence.", function() {
 						check_selection(target);
 						d3.selectAll(".myForm").remove();
-						let form = game_data.d3.space.append("form").attr("class", "myForm")
+						let form = game_data.d3.space.append("form").attr("class", "myForm primary " +
+							game_data.user_interface.faction_names[game_data.user_info.faction_id])
 							.attr("action", "javascript:add_value(amount.value, from.value, to.value)")
 							.style("left", (position.x + position.width / 2 - 75).toString() + "px")
 							.style("top", (position.y + position.height / 2).toString() + "px");
-						form.append("input").attr("class", "myInput").attr("type", "text")
+						form.append("input").attr("class", "myInput primary " +
+							game_data.user_interface.faction_names[game_data.user_info.faction_id]).attr("type", "text")
 							.attr("name", "amount").attr("value", "").attr("id", "amount")
 							.attr("placeholder", "Enter Amount").attr("autocomplete", "off");
 						form.append("input").attr("type", "text").attr("name", "from")
 							.attr("value", target.value).attr("id", "from").style("display", "none");
 						form.append("input").attr("type", "text").attr("name", "to")
 							.attr("value", cur_other.value).attr("id", "to").style("display", "none");
-						form.append("input").attr("type", "submit").attr("value", "Add");
+						form.append("input").attr("type", "submit").attr("value", "Add").attr("class", "myInputSubmit secondary "
+							+ game_data.user_interface.faction_names[game_data.user_info.faction_id]);
 					});
 					buttons.push(button);
 				}
@@ -1567,7 +1684,7 @@ $(document).on('ready page:load', function() {
 				position.y = (target.relative_pos.y * height + y_offset1 +
 					cur_other.relative_pos.y * height - y_offset2) / 2 - position.height / 2;
 				button = make_button('assets/neutral/icons/043-connect.svg', position,
-					function() { check_selection(target);
+					"Prove a connection between these two Nodes.", function() { check_selection(target);
 						setup_connection(target.value, cur_other.value); });
 				buttons.push(button);
 			}
@@ -1710,6 +1827,9 @@ $(document).on('ready page:load', function() {
 		target.circle.position.x = target.base.x;
 		target.circle.position.y = target.base.y;
 		apply_fraction(target);
+		if (game_data.user_interface.tutorial_ui_status === true) {
+			game_data.user_interface.paper_tooltip(target);
+		}
 		return false;
 	};
 
@@ -2274,19 +2394,32 @@ $(document).on('ready page:load', function() {
 			connections: null, faction_id: null, owner: null, tier: null, worth: null,
 			contention: null, selected: false, hovered: false, grown: false, moving: false,
 			base: null, options: null, node: true, move_target: null, move_thickness: thickness,
-			left_pointed: elem % 2 !== 0, parent: {}, brother: {}, sister: {}, son: {}, daughter: {}
+			left_pointed: elem % 2 !== 0, parent: {}, brother: {}, sister: {}, son: {}, daughter: {},
+			tooltip: 'Select Nodes for details and interactions.'
 		};
-		out_node.onMouseEnter = function() {
+		out_node.onMouseEnter = function(e) {
 			if (total_node.moving) return;
 			total_node.hovered = true;
 			set_fraction(total_node);
+			if (game_data.user_interface.tutorial_ui_status === true && total_node.grown === true) {
+				let rad = total_node.circle.bounds.width / 2;
+				if (Math.sqrt(Math.pow(Math.abs(e.point.x - total_node.circle.position.x), 2) + Math.pow(Math.abs(e.point.y - total_node.circle.position.y), 2)) <= rad) {
+					game_data.user_interface.paper_tooltip(total_node);
+				}
+			}
 			grow_node(total_node);
 		};
-		out_node.onMouseLeave = function() {
+		out_node.onMouseLeave = function(e) {
 			if (total_node.moving) return;
 			total_node.hovered = false;
 			set_fraction(total_node);
 			ungrow_node(total_node);
+			if (game_data.user_interface.tutorial_ui_status === true) {
+				let rad = total_node.circle.bounds.width / 2;
+				if (Math.sqrt(Math.pow(Math.abs(e.point.x - total_node.circle.position.x), 2) + Math.pow(Math.abs(e.point.y - total_node.circle.position.y), 2)) > rad) {
+					d3.selectAll(".tutorial_ui").remove();
+				}
+			}
 		};
 		out_node.onClick = function() {
 			if (total_node.moving) return;
@@ -2819,22 +2952,30 @@ $(document).on('ready page:load', function() {
 		if (target !== game_data.global_root || game_data.global_root.value !== 1) {
 			options.move = make_option_group(target.circle.position, small_rad, big_rad,
 				theta, colors, ref_stroke_width / 2, name, target.value);
+			options.move.tooltip = 'Move your view to the selected Node.';
 			options.move.image.strokeWidth = 1;
 			options.move.image.strokeColor = colors['num'];
 			game_data.actions.push(options.move);
-			options.move.group.onMouseEnter = function() {
+			options.move.group.onMouseEnter = function(e) {
 				options.move.hovered = true;
 				set_fraction(options.move);
 				grow_node(options.move);
 			};
-			options.move.group.onMouseLeave = function() {
+			options.move.group.onMouseLeave = function(e) {
 				options.move.hovered = false;
 				set_fraction(options.move);
 				ungrow_node(options.move);
+				if (game_data.user_interface.tutorial_ui_status === true) {
+					let rad = options.move.circle.bounds.width / 2;
+					if (Math.sqrt(Math.pow(Math.abs(e.point.x - options.move.circle.position.x), 2) + Math.pow(Math.abs(e.point.y - options.move.circle.position.y), 2)) > rad) {
+						d3.selectAll(".tutorial_ui").remove();
+					}
+				}
 			};
 			options.move.group.onClick = function() {
 				game_data.action_index = -1;
 				remove_options(target);
+				d3.selectAll(".tutorial_ui").remove();
 				unselect_node(target);
 				let index = game_data.selected_nodes.indexOf(target);
 				game_data.selected_nodes.splice(index, 1);
