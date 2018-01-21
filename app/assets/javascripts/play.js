@@ -634,7 +634,8 @@ $(document).on('ready page:load', function() {
 			});
 			d3.select("#local").on("click", function() {
 				let target = d3.event.target;
-				if (target.classList.contains('myInput') === false && target.classList.contains('myButton') === false) {
+				if (target.classList.contains('myInput') === false && target.classList.contains('myButton') === false
+					&& target.classList.contains('myInputSubmit') === false) {
 					d3.selectAll(".myForm").remove();
 				}
 			});
