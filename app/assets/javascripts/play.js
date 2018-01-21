@@ -3,8 +3,13 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 function add_value(data, from_value, to_value) {
-	console.log("Oh wow that worked");
+	console.log("Adding value");
 	console.log(data, from_value, to_value);
+	App.game.perform('connection_add_worth', {
+		head: parseInt(from_value),
+		tail: parseInt(to_value),
+		resources: parseInt(data)
+	});
 	d3.selectAll(".myForm").remove();
 }
 
@@ -49,7 +54,8 @@ $(document).on('ready page:load', function() {
 		},
 		background: {}, framework: [], user_info: userinfo, user_interface: {},
 		global_root: null, old_root: null, date: new Date(), card_set: false,
-		positions: [], proved: format_proved(userinfo.proved)
+		positions: [], proved: format_proved(userinfo.proved),
+		cur_dosh: userinfo.resources, dosh_gain: userinfo.resource_gain, dosh_buff: 0
 	};
 
 	function format_proved(proved) {
@@ -108,9 +114,132 @@ $(document).on('ready page:load', function() {
 
 		received: function(data) {
 			// Called when there's incoming data on the websocket for this channel
+			console.log();
+			console.log(data);
+			let i, target, origin, colors;
 			switch(data['function_call']) {
+				case 'claim_node':
+					//take node
+					// data['node']
+					// data['faction']
+					console.log('claim_node called');
+					target = null;
+					i = -1;
+					while (++i < 63)
+						if (game_data.active_nodes[i].value === data['node'])
+							target = game_data.active_nodes[i];
+					game_data.node_factions[data['node']] = data['faction'];
+					colors = game_data.colors[data['faction'].toString()];
+					target.circle.strokeColor = colors.line;
+					target.circle.fillColor = colors.fill;
+					target.number.fillColor = colors.num;
+					break;
 				case 'take_action':
 					take_action(data);
+					break;
+				case 'logged_data':
+					console.log("Data logged");
+					let a = data['logging_nodes'][0], b = data['logging_nodes'][1];
+					if (typeof(game_data.proved[a]) === 'undefined' || game_data.proved[a] === null)
+						game_data.proved[a] = [b];
+					else game_data.proved[a].push(b);
+					if (typeof(game_data.proved[b]) === 'undefined' || game_data.proved[b] === null)
+						game_data.proved[b] = [a];
+					else game_data.proved[b].push(a);
+					let a_node = null, b_node = null, cur_node;
+					i = -1;
+					while (++i < game_data.active_nodes.length) {
+						cur_node = game_data.active_nodes[i];
+						if (cur_node.value === a) a_node = cur_node;
+						else if (cur_node.value === b) b_node = cur_node;
+					}
+					if (a_node !== null) {
+						hide_connections(a_node);
+						if (a_node.son.node !== null) hide_connections(a_node.son.node);
+						if (a_node.daughter.node !== null) hide_connections(a_node.daughter.node);
+						if (a_node.sister.node !== null) hide_connections(a_node.sister.node);
+						show_connections(a_node);
+						if (a_node.son.node !== null) show_connections(a_node.son.node);
+						if (a_node.daughter.node !== null) show_connections(a_node.daughter.node);
+						if (a_node.sister.node !== null) show_connections(a_node.sister.node);
+					}
+					if (b_node !== null) {
+						hide_connections(b_node);
+						if (b_node.son.node !== null) hide_connections(b_node.son.node);
+						if (b_node.daughter.node !== null) hide_connections(b_node.daughter.node);
+						if (b_node.sister.node !== null) hide_connections(b_node.sister.node);
+						show_connections(b_node);
+						if (b_node.son.node !== null) show_connections(b_node.son.node);
+						if (b_node.daughter.node !== null) show_connections(b_node.daughter.node);
+						if (b_node.sister.node !== null) show_connections(b_node.sister.node);
+					}
+					break;
+				case 'transaction':
+					// data['currency'] gold(0), keys(1)
+					// data['amount'] amount of currency to be modified
+					console.log('transaction called');
+					if (data['currency'] === 0) {
+						game_data.dosh_buff += data['amount'];
+					}
+					break;
+				case 'connection_finished':
+					// data['target']
+					// data['origin_fac']
+					console.log('connection finished called');
+					target = null;
+					i = -1;
+					while (++i < 63)
+						if (game_data.active_nodes[i].value === data['target'])
+							target = game_data.active_nodes[i];
+					game_data.node_factions[data['target']] = data['origin_fac'];
+					colors = game_data.colors[data['origin_fac'].toString()];
+					target.circle.strokeColor = colors.line;
+					target.circle.fillColor = colors.fill;
+					target.number.fillColor = colors.num;
+					target.owner = userinfo.name;
+					break;
+				case 'update_connection':
+					origin = null;
+					target = null;
+					i = -1;
+					while (++i < 63) {
+						if (game_data.active_nodes[i].value === data['target'])
+							target = game_data.active_nodes[i];
+						if (game_data.active_nodes[i].value === data['origin'])
+							origin = game_data.active_nodes[i];
+					}
+					let relation = null, first = target, second = origin, index = 1;
+					if (target.value === origin.value * 2 || target.value === origin.value * 2 + 1)
+						relation = "dad";
+					else if (target.value === origin.value + 1) relation = "bro";
+					else if (origin.value === target.value * 2 ||
+						origin.value === target.value * 2 + 1) {
+						first = origin;
+						second = target;
+						index = 0;
+						relation = "dad";
+					}
+					else if (origin.value === target.value + 1) {
+						first = origin;
+						second = target;
+						index = 0;
+						relation = "bro";
+					}
+					else throw new Error("No connection relationship found from back end");
+					first.connection_data[relation] = { completions: data['completions'],
+						last_updated: data['last_updated'], value: second.value };
+					game_data.node_connections[first.value][relation] = first.connection_data[relation];
+					if (first[relation + "_push"]) {
+						first[relation + "_push"].time = data['last_updated'];
+						first[relation + "_push"].ratio = parseFloat(data['completions'][index].percentage) / 100.0;
+						first[relation + "_push"].speed = data['completions'][index].speed / 100.0;
+					}
+					else {
+						hide_connections(first);
+						hide_connections(second);
+						show_connections(first);
+						show_connections(second);
+					}
 					break;
 				case 'status':
 					console.log(data['status']);
@@ -296,7 +425,7 @@ $(document).on('ready page:load', function() {
 			ui.status_bar.children[0].style.backgroundImage = 'url(' + user.picture + ')';
 			ui.status_bar.children[0].style.backgroundRepeat = 'no-repeat';
 			ui.status_bar.children[1].firstChild.appendChild(document.createTextNode(user.name));
-			ui.status_bar.children[3].firstChild.appendChild(document.createTextNode(user.gem_placeholder));
+			ui.status_bar.children[3].firstChild.appendChild(document.createTextNode(user.gems));
 			ui.status_bar.children[5].firstChild.appendChild(document.createTextNode(user.resources));
 		};
 		ui.set_card = function(card_node) {
@@ -1445,13 +1574,13 @@ $(document).on('ready page:load', function() {
 	}
 
 	function tweak_connections(target) {
-		let neighbors = ["parent", "brother", "sister", "son", "daughter"],i = -1,
-			button, inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
+		let neighbors = ["parent", "brother", "sister", "son", "daughter"], i = -1,
+			inv_neighbors = ["check", "sister", "brother", "parent", "parent"],
 			cur_inv, cur_data;
 		let width = scope.view.size.width, height = scope.view.size.height, a, b,
 			cur_proven;
 		while (++i < 5) {
-			let cur_other = target[neighbors[i]].node,
+			let cur_other = target[neighbors[i]].node, button,
 				position = { x: 0, y: 0, width: 0, height: 0, thick: 0 };
 			if (typeof(cur_other) === 'undefined' || cur_other === null) continue;
 			switch (neighbors[i]) {
@@ -1488,6 +1617,8 @@ $(document).on('ready page:load', function() {
 				y_offset2 = cur_other.rad * Math.sin(angle);
 			if (cur_proven && typeof(target[neighbors[i]].line) !== 'undefined' &&
 				target[neighbors[i]].line !== null) {
+				if (game_data.node_factions[target.value] !== userinfo.faction_id)
+					continue;
 				if (cur_data === null || cur_data.completions[0] !== "100.0") {
 					position.width *= 0.6;
 					position.height *= 0.6;
@@ -1523,6 +1654,7 @@ $(document).on('ready page:load', function() {
 					button = make_button('assets/neutral/icons/add.svg', position,
 						"Use your data to expand your influence.", function() {
 						check_selection(target);
+						d3.selectAll(".myForm").remove();
 						let form = game_data.d3.space.append("form").attr("class", "myForm primary " +
 							game_data.user_interface.faction_names[game_data.user_info.faction_id])
 							.attr("action", "javascript:add_value(amount.value, from.value, to.value)")
@@ -1816,6 +1948,7 @@ $(document).on('ready page:load', function() {
 			datatype: "html",
 			success: function (raw) {
 				let data = JSON.parse(raw), in_nodes = data['nodes'], i = 0;
+				console.log(data);
 				while (++i < 64) {
 					game_data.node_factions[i] = in_nodes[i]['faction_id'];
 					game_data.node_connections[i] = {
@@ -1823,6 +1956,7 @@ $(document).on('ready page:load', function() {
 						bro: in_nodes[i]['bro']
 					};
 				}
+				console.log(game_data.node_connections);
 				game_data.active_nodes = build_nodes(6, scope.view.size.width,
 					scope.view.size.height);
 				i = -1;
@@ -1843,7 +1977,7 @@ $(document).on('ready page:load', function() {
 					game_data.active_nodes[i].cluster = 'Cluster_name';
 					game_data.active_nodes[i].tier = 1;
 					game_data.active_nodes[i].last_captured = '2017-12-04 06:06:44 UTC';
-					if (game_data.active_nodes[i].faction_id == 1) {
+					if (game_data.active_nodes[i].faction_id === 1) {
 						game_data.active_nodes[i].assignment = -1;
 					}
 					else {
@@ -1853,7 +1987,7 @@ $(document).on('ready page:load', function() {
 					game_data.active_nodes[i].friction = 46;
 					//end dummy data
 					if (game_data.active_nodes[i].owner === null)
-						game_data.active_nodes[i].owner = 'unclaimed';
+						game_data.active_nodes[i].owner = 'null';
 				}
 				game_data.global_root = game_data.active_nodes[0];
 				game_data.old_root = game_data.global_root;
@@ -1900,7 +2034,7 @@ $(document).on('ready page:load', function() {
 							game_data.active_nodes[k].cluster = 'Cluster_name';
 							game_data.active_nodes[k].tier = 1;
 							game_data.active_nodes[k].last_captured = '2017-12-04 06:06:44 UTC';
-							if (game_data.active_nodes[k].faction_id == 1) {
+							if (game_data.active_nodes[k].faction_id === 1) {
 								game_data.active_nodes[k].assignment = -1;
 							}
 							else {
@@ -1955,10 +2089,62 @@ $(document).on('ready page:load', function() {
 		line.strokeColor = colors.line;
 	}
 
-	function expanding_connection(line, ratio, faction) {
+	function limit(num) {
+		return Math.max(Math.min(num, 1.0), 0.0);
 	}
 
-	function contested_connection(line, ratio, start_faction, end_faction) {
+	function straight_push(target) {
+		if (target.stopped) return;
+		let span = (new Date().getTime() - target.time) / 60000.0,
+			amount = target.speed * span, point = target.ratio + amount;
+		if (point >= 0.0 && point <= 1.0) {
+			target.line.strokeColor.gradient.stops[0].offset = limit(point - 0.05);
+			target.line.strokeColor.gradient.stops[1].offset = limit(point + 0.05);
+		}
+		else {
+			target.stopped = true;
+		}
+  }
+
+	function split_push(target, _sigma_frac, delta_frac) {
+		if (target.stopped) return;
+		let start_amount = delta_frac * target.speeds[0], start = target.ratios[0] + start_amount,
+			end_amount = delta_frac * target.speeds[1], end = target.ratios[1] - end_amount;
+		if (start >= 0.0 && start <= 1.0 && end >= 0.0 && end <= 1.0) {
+			if (start > end && !target.straight) {
+				target.speeds[0] = target.speeds[0] - target.speeds[1];
+				target.speeds[1] = -target.speeds[0];
+				target.ratios[0] = (start + end) / 2;
+				target.ratios[1] = (start + end) / 2;
+				let grad = target.line.strokeColor.gradient;
+				target.line.strokeColor.gradient.stops = [[grad.stops[0].color, grad.stops[0].offset],
+						[grad.stops[3].color, grad.stops[3].offset]];
+				target.straight = true;
+			}
+			target.ratios[0] += start_amount;
+			target.ratios[1] -= end_amount;
+			if (target.straight) {
+				target.line.strokeColor.gradient.stops[0].offset = limit(start - 0.05);
+				target.line.strokeColor.gradient.stops[1].offset = limit(start + 0.05);
+			}
+			else {
+				target.line.strokeColor.gradient.stops[0].offset = limit(start - 0.05);
+				target.line.strokeColor.gradient.stops[1].offset = limit(start + 0.05);
+				target.line.strokeColor.gradient.stops[2].offset = limit(end - 0.05);
+				target.line.strokeColor.gradient.stops[3].offset = limit(end + 0.05);
+			}
+		}
+		else {
+			target.stopped = true;
+		}
+	}
+
+	function continue_push(target) {
+		return !target.stopped;
+	}
+
+	function expanding_connection(target, relation, line, time, start_faction,
+			start_ratio, start_speed, end_faction, end_ratio, end_speed) {
 		let start = new scope.Point(line.firstSegment.point),
 			end = new scope.Point(line.lastSegment.point),
 			start_color = game_data.colors[start_faction].line,
@@ -1968,10 +2154,55 @@ $(document).on('ready page:load', function() {
 		line.shadowColor = dark_start;
 		line._shadow = line.shadowColor;
 		line.shadowBlur = 5;
+		let left = limit(start_ratio - 0.05), right = limit(start_ratio + 0.05);
 		line.strokeColor = {
-			gradient: { stops: [[start_color, ratio - 0.05], [end_color, ratio + 0.05]] },
+			gradient: { stops: [[start_color, left], [end_color, right]] },
 			origin: start, destination: end
 		};
+		let push_obj = { line: line, speed: start_speed - end_speed, ratio: start_ratio,
+			time: time };
+		target[relation + "_push"] = push_obj;
+		add_animation(push_obj, straight_push, continue_push, 60000);
+	}
+
+	function contested_connection(target, relation, line, time, start_faction,
+		start_ratio, start_speed, end_faction, end_ratio, end_speed) {
+		let start = new scope.Point(line.firstSegment.point),
+			end = new scope.Point(line.lastSegment.point),
+			start_color = game_data.colors[start_faction].line,
+			end_color = game_data.colors[end_faction].line,
+			dark_start = start_color * 0.4;
+		line.strokeCap = 'round';
+		line.shadowColor = dark_start;
+		line._shadow = line.shadowColor;
+		line.shadowBlur = 5;
+		if (start_ratio + end_ratio >= 1.0) {
+			start_ratio *= 1 / (start_ratio + end_ratio);
+			let left = limit(start_ratio - 0.05), right = limit(start_ratio + 0.05);
+			line.strokeColor = {
+				gradient: { stops: [[start_color, left], [end_color, right]] },
+				origin: start, destination: end
+			};
+			let push_obj = { line: line, speed: start_speed - end_speed, ratio: start_ratio,
+				time: time };
+			target[relation + "_push"] = push_obj;
+			add_animation(push_obj, straight_push, continue_push, 60000);
+		}
+		else {
+			end_ratio = 1 - end_ratio;
+			let middle_color = game_data.colors["1"].line,
+				l_start = limit(start_ratio - 0.05), r_start = limit(start_ratio + 0.05),
+				l_end = limit(end_ratio - 0.05), r_end = limit(end_ratio + 0.05);
+			line.strokeColor = {
+				gradient: { stops: [[start_color, l_start], [middle_color, r_start],
+					[middle_color, l_end], [end_color, r_end]] },
+				origin: start, destination: end
+			};
+			let push_obj = { line: line, speeds: [start_speed, end_speed], time: time,
+				ratios: [start_ratio, end_ratio] };
+			target[relation + "_push"] = push_obj;
+			add_animation(push_obj, split_push, continue_push, 60000);
+		}
 	}
 
 	function show_line(origin, end, relation) {
@@ -1980,29 +2211,46 @@ $(document).on('ready page:load', function() {
 		let connection = new scope.Path.Line(from, to);
 		shorten_line(connection, origin.rad * 1.25, end.rad * 1.35);
 		connection.strokeWidth = (origin.circle.strokeWidth + end.circle.strokeWidth) / 2.5;
-		let progressed = end.connection_data[relation] !== null &&
-			(end.connection_data[relation].completions[0].percentage !== "0.0" ||
-			end.connection_data[relation].completions[1].percentage !== "0.0");
+		let progressed = false, first = 0.0, second = 0.0;
+		if (end.connection_data[relation]) {
+			let span = (new Date().getTime() - end.connection_data[relation].last_updated) / 60000.0;
+			first = parseFloat(end.connection_data[relation].completions[0].percentage) +
+				end.connection_data[relation].completions[0].speed * span / 100.0;
+			second = parseFloat(end.connection_data[relation].completions[1].percentage) +
+				end.connection_data[relation].completions[1].speed * span / 100.0;
+			progressed = end.connection_data[relation] !== null && (first !== 0 || second !== 0);
+		}
 		if (game_data.node_factions[origin.value] === game_data.node_factions[end.value]
 			&& progressed) full_connection(connection, game_data.node_factions[origin.value]);
 		else if (game_data.node_factions[origin.value] !== 1 && progressed &&
-			game_data.node_factions[end.value] !== 1) contested_connection(connection, 0.5,
-			game_data.node_factions[origin.value], game_data.node_factions[end.value]);
+			game_data.node_factions[end.value] !== 1) {
+			contested_connection(origin, relation,
+				connection, end.connection_data[relation].last_updated,
+				game_data.node_factions[origin.value],
+				parseFloat(end.connection_data[relation].completions[0].percentage) / 100.0,
+				end.connection_data[relation].completions[0].speed / 100.0,
+				game_data.node_factions[end.value],
+				parseFloat(end.connection_data[relation].completions[1].percentage) / 100.0,
+				end.connection_data[relation].completions[1].speed / 100.0);
+		}
 		else {
 			if (end.connection_data[relation] === null || !progressed)
-				empty_connection(connection);
+			  empty_connection(connection);
 			else {
-				let active_one, index;
 				if (game_data.node_factions[origin.value] === 1) {
-					active_one = end;
-					index = 1;
+					expanding_connection(origin, relation,
+						connection, end.connection_data[relation].last_updated,
+						game_data.node_factions[origin.value], 1.0 - first / 100.0, 0.0,
+						game_data.node_factions[end.value], first / 100.0,
+						end.connection_data[relation].completions[0].speed / 100.0);
 				}
 				else {
-					active_one = origin;
-					index = 0;
+					expanding_connection(end, relation,
+						connection, end.connection_data[relation].last_updated,
+						game_data.node_factions[origin.value], second / 100.0,
+						end.connection_data[relation].completions[1].speed / 100.0,
+						game_data.node_factions[end.value], 1.0 - second / 100.0, 0.0);
 				}
-				expanding_connection(connection, parseFloat(end.connection_data[relation]
-					.completions[index].percentage), game_data.node_factions[active_one.value]);
 			}
 		}
 		connection.sendToBack();
@@ -2731,6 +2979,31 @@ $(document).on('ready page:load', function() {
 				else move_to(target);
 			};
 		}
+		if (target.owner === "unclaimed" && target.value > 63) {
+			options.claim = make_option_group(target.circle.position, small_rad, big_rad,
+				Math.PI / 2.0, colors, ref_stroke_width / 2.0, 'attack', target.value);
+			options.claim.image.strokeWidth = 1;
+			options.claim.image.strokeColor = colors['num'];
+			game_data.actions.push(options.claim);
+			options.claim.group.onMouseEnter = function() {
+				options.claim.hovered = true;
+				set_fraction(options.claim);
+				grow_node(options.claim);
+			};
+			options.claim.group.onMouseLeave = function() {
+				options.claim.hovered = false;
+				set_fraction(options.claim);
+				ungrow_node(options.claim);
+			};
+			options.claim.group.onClick = function() {
+				game_data.action_index = -1;
+				remove_options(target);
+				unselect_node(target);
+				let index = game_data.selected_nodes.indexOf(target);
+				game_data.selected_nodes.splice(index, 1);
+				App.game.perform('node_claim', { target: target.value });
+			};
+		}
 		target.options = options;
 		add_animation(options, pop_action_animation, pop_action_stop, 150);
 	}
@@ -3072,7 +3345,7 @@ $(document).on('ready page:load', function() {
 				cur_stamp: cur_stamp };
 		}
 		function move_everything_left_above(context, line, depth) {
-			console.log("  <-Moving everything above " + depth.toString() + " along " + line.toString());
+			//console.log("  <-Moving everything above " + depth.toString() + " along " + line.toString());
 			let arr = context.line_counts, i = -1, branch_index = -1, cur, j, n_cur,
 				avoid_arr = [], k, skip, cur_branch;
 			while (++i < arr.lines.length) {
@@ -3087,7 +3360,7 @@ $(document).on('ready page:load', function() {
 					if (cur_branch.source_depth > depth && cur_branch.source_line === line
 						&& arr.lines[i] > line) {
 						avoid_arr.push(cur_branch);
-						console.log("<~Recurring for branch-left");
+						//console.log("<~Recurring for branch-left");
 						move_everything_left_above(context, arr.lines[i], cur_branch.source_depth);
 					}
 				}
@@ -3116,7 +3389,7 @@ $(document).on('ready page:load', function() {
 							cur_branch = context.line_counts[next].branch[j];
 							if (cur_branch.source_depth < cur.depth &&
 								cur_branch.height >= cur.depth) {
-								console.log("<~Recurring due to collision while moving");
+								//console.log("<~Recurring due to collision while moving");
 								move_everything_left_above(context, next, cur_branch.source_depth);
 							}
 							if (typeof(context.line_counts[next]) === 'undefined' ||
@@ -3166,14 +3439,14 @@ $(document).on('ready page:load', function() {
 					if (cur_branch.source_depth > depth && cur_branch.source_line === line
 						&& arr.lines[i] < line) {
 						avoid_arr.push(cur_branch);
-						console.log("<~Recurring due to branch-right");
+						//console.log("<~Recurring due to branch-right");
 						move_everything_left_above(context, arr.lines[i], cur_branch.source_depth);
 					}
 				}
 			}
 		}
 		function move_everything_right_above(context, line, depth) {
-			console.log("  ->Moving everything above " + depth.toString() + " along " + line.toString());
+			//console.log("  ->Moving everything above " + depth.toString() + " along " + line.toString());
 			let arr = context.line_counts, i = -1, branch_index = -1, cur, j, n_cur,
 				avoid_arr = [], k, skip, cur_branch;
 			while (++i < arr.lines.length) {
@@ -3188,7 +3461,7 @@ $(document).on('ready page:load', function() {
 					if (cur_branch.source_depth > depth && cur_branch.source_line === line
 						&& arr.lines[i] > line) {
 						avoid_arr.push(cur_branch);
-						console.log("~>Recurring for branch-right");
+						//console.log("~>Recurring for branch-right");
 						move_everything_right_above(context, arr.lines[i], cur_branch.source_depth);
 					}
 				}
@@ -3217,7 +3490,7 @@ $(document).on('ready page:load', function() {
 							cur_branch = context.line_counts[next].branch[j];
 							if (cur_branch.source_depth < cur.depth &&
 								cur_branch.height >= cur.depth) {
-								console.log("~>Recurring due to collision while moving");
+								//console.log("~>Recurring due to collision while moving");
 								move_everything_right_above(context, next, cur_branch.source_depth);
 							}
 							if (typeof(context.line_counts[next]) === 'undefined' ||
@@ -3267,7 +3540,7 @@ $(document).on('ready page:load', function() {
 					if (cur_branch.source_depth > depth && cur_branch.source_line === line
 						&& arr.lines[i] < line) {
 						avoid_arr.push(cur_branch);
-						console.log("~>Recurring due to branch-left");
+						//console.log("~>Recurring due to branch-left");
 						move_everything_right_above(context, arr.lines[i], cur_branch.source_depth);
 					}
 				}
@@ -3297,11 +3570,11 @@ $(document).on('ready page:load', function() {
 				[a, b] = prev_orbits(cur_val);
 				if (typeof(cur_node) !== 'undefined' && cur_node !== null) {
 					if (cur_node.value === b) {
-						console.log("Ran into red branch, gotta move it to its place (right)");
+						//console.log("Ran into red branch, gotta move it to its place (right)");
 						move_everything_right_above(context, cur_line, cur_depth - 1, 1);
 					}
 					else if (cur_node.value !== a) {
-						console.log("Ran into some other branch at " + cur_depth + " along " + cur_line);
+						//console.log("Ran into some other branch at " + cur_depth + " along " + cur_line);
 						move_everything_right_above(context, cur_line, arr[source_index].source_depth);
 						cur_line++;
 						arr = lines[cur_line].branch;
@@ -3331,7 +3604,7 @@ $(document).on('ready page:load', function() {
 						while (++j < lines[cur_line + 1].branch.length) {
 							n_cur = lines[cur_line + 1].branch[j];
 							if (n_cur.source_depth < cur_depth && cur_depth <= n_cur.height) {
-								console.log("Making space for mini red branch");
+								//console.log("Making space for mini red branch");
 								move_everything_right_above(context, cur_line + 1, n_cur.source_depth);
 							}
 							if (typeof(lines[cur_line + 1]) === 'undefined' ||
@@ -3370,7 +3643,7 @@ $(document).on('ready page:load', function() {
 			if (node_data.value === 1 || (typeof(depths[cur_depth - 3]) !== 'undefined' &&
 					depths[cur_depth - 3] !== null && depths[cur_depth - 3].lines.length > 0)) {
 				context.cur_stamp = cur_stamp;
-				console.log("Done expanding");
+				//console.log("Done expanding");
 				return;
 			}
 			cur_depth = node_data.depth;
@@ -3403,7 +3676,7 @@ $(document).on('ready page:load', function() {
 								source_index = i;
 						}
 						if (source_index === -1) {
-							console.log(context, cur_line, cur_depth, needed, source_index, arr);
+							//console.log(context, cur_line, cur_depth, needed, source_index, arr);
 							throw new Error("Late failure to update context");
 						}
 					}
@@ -3428,7 +3701,7 @@ $(document).on('ready page:load', function() {
 				if (cur_val === 1) break;
 			}
 			context.cur_stamp = cur_stamp;
-			console.log("Done expanding");
+			//console.log("Done expanding");
 		}
 		d3.select("#sandbox").classed("hidden", false).style("display", "flex");
 		let ma = 0, start_nums = [a, b],
@@ -3808,6 +4081,34 @@ $(document).on('ready page:load', function() {
 		};
 	}
 
+	function set_gain() {
+		d3.select(".packet_field span").transition().duration(60000)
+			.ease(d3.easeLinear).tween("text", function() {
+				let node = this, i = d3.interpolateNumber(game_data.cur_dosh,
+					game_data.cur_dosh + game_data.dosh_gain), off = 0.0;
+				return function(t) {
+					if (game_data.dosh_buff) off = game_data.dosh_buff;
+					game_data.cur_dosh = i(t);
+					node.textContent = Math.floor(game_data.cur_dosh + off);
+				}
+			}).on("end", function repeat() {
+				if (game_data.dosh_buff) {
+					game_data.cur_dosh += game_data.dosh_buff;
+					game_data.dosh_buff = 0;
+				}
+				d3.select(".packet_field span").transition().duration(60000)
+					.ease(d3.easeLinear).tween("text", function() {
+					let node = this, i = d3.interpolateNumber(game_data.cur_dosh,
+						game_data.cur_dosh + game_data.dosh_gain), off = 0.0;
+					return function(t) {
+						if (game_data.dosh_buff) off = game_data.dosh_buff;
+						game_data.cur_dosh = i(t);
+						node.textContent = Math.floor(game_data.cur_dosh + off);
+					}
+				}).on("end", repeat);
+		});
+	}
+
 	// function init() {
 	// 	get_initial_node_data();
 	// 	set_resize();
@@ -3815,6 +4116,7 @@ $(document).on('ready page:load', function() {
 	// 	make_ui();
 	// 	make_background();
 	//	create_button_space();
+	//	set_gain();
 	// 	scope.view.onFrame = function(event) {
 	// 		tick(event);
 	// 	};
@@ -3824,6 +4126,7 @@ $(document).on('ready page:load', function() {
 		console.log("Starting init...");
 		get_initial_node_data(); // Sets up the initial map
 		console.log("Initial node data loaded");
+		console.log("Setting up canvas resize...");
 		set_resize();
 		console.log("Setting up assets...");
 		set_assets();
@@ -3833,8 +4136,8 @@ $(document).on('ready page:load', function() {
 		make_background();
 		console.log("Enabling smooth buttons...");
 		create_button_space();
-		console.log("Canvas resize set up");
-		console.log("Setting tutorial UI...");
+		console.log("Setting up resource gain...");
+		set_gain();
 		// d3.select(".local").selectAll(".text").data(["whatever"]).enter().append("text")
 		// 	.style("position", "absolute")
 		// 	.style("right", "7px").style("top", "7px")

@@ -2,11 +2,12 @@ class GameChannel < ApplicationCable::Channel
 	def subscribed
 		stream_from "game"
 		stream_from "user#{current_user.id}"
+		current_user.receive_resources
 	end
 
 	def unsubscribed
 		# Any cleanup needed when channel is unsubscribed
-		current_user.update_attribute(:last_income ,DateTime.current)
+		current_user.receive_resources
 	end
 
 	# variables: origin, target, action_index
@@ -33,71 +34,58 @@ class GameChannel < ApplicationCable::Channel
 				origin_change: origin,
 				target_change: target
 		else
-			# code to handle invalid selections should go here
-			p status
+			ActionCable.server.broadcast "user#{current_user.id}",
+				function_call: 'error',
+				error_msg: status
 		end
-	end
-
-	# takes a list of ranges and returns a float representing the greatest presence of a faction in those ranges
-	# def minimap(ranges_list)
-	# 	 ranges_list.each do |ranges|
-	# 		ranges.each
-	# 	 end
-	# end
-
-	def node_set(data)
-		target_node = DataNode.where(value: data['target']).first
-		target_node.role = data['role'] unless data['role'].nil?
-		target_node.user_id = data['user'] unless data['user'].nil?
-		target_node.cluster_core = data['cluster_core'] unless data['cluster_core'].nil?
-		target_node.resource_generator = data['resource_generator'] unless data['resource_generator'].nil?
-		target_node.faction_id = data['faction'] unless data['faction'].nil?
-		target_node.worth = data['worth'] unless data['worth'].nil?
-	end
-
-	# variables: target, resources
-	def node_add_worth(data)
-		target_node = DataNode.where(value: data['target']).first
-		target_node.worth += data['resources']
-		target_node.save
-	end
-
-	# variables: head, tail, resources,	percentage,	friction,	speed
-	def connection_set(data)
-		target_connection = DataNode
-			.includes(connected_nodes: [:connection])
-			.where(value: data['head']).first.connected_nodes
-			.select { |x| x.connection.value == data['tail'] }
-			.first
-		target_connection.update_connection( {
-			'worth' => data['resources'],
-			'percentage' => data['percentage'],
-			'friction' => data['friction'],
-			'speed' => data['speed']
-		} )
 	end
 
 	# variables: head, tail, resources
 	def connection_add_worth(data)
 		# TODO: simplify this query and make connections store node's values or contemplate making connections a separate table completely
+		current_user.receive_resources
 		if current_user.gold >= data['resources']
-			target_connection = DataNode
-				.includes(connected_nodes: [:connection])
-				.find_by(value: data['head']).connected_nodes.select{ |x| x.connection.value == data['tail'] }
-				.first
-			target_connection.invest(data['resources'])
-			current_user.update_attribute(:gold, current_user.gold - data['resources'])
+			if data['resources'] > 0
+				target_connection = DataNode
+					.includes(connected_nodes: [:connection])
+					.find_by(value: data['head'])
+					.connected_nodes
+					.where(connection: DataNode.where(value: data['tail']).first_or_create)
+					.first_or_create
+				target_connection.invest(data['resources'], current_user.id)
+				current_user.transaction(0, -data['resources'])
+				ActionCable.server.broadcast "game",
+					function_call: 'update_connection',
+					origin: data['head'],
+					target: data['tail'],
+					last_updated: target_connection.last_speed_change.to_i * 1000,
+					completions: [{
+						'percentage' => target_connection.self_percentage,
+						'faction_id' => target_connection.data_node.faction_id,
+						'speed' => target_connection.self_speed
+					}, {
+						'percentage' => target_connection.inverse_percentage,
+						'faction_id' => target_connection.connection.faction_id,
+						'speed' => target_connection.inverse_speed
+					}]
+			else
+				ActionCable.server.broadcast "user#{current_user.id}",
+					function_call: 'error',
+					error_msg: 'Invalid amount'
+			end
 		else
-			#broadcast error to user
+			ActionCable.server.broadcast "user#{current_user.id}",
+				function_call: 'error',
+				error_msg: 'Not enough resources'
 		end
 	end
 
 	# variables: val_a, val_b, path
 	def log_data(data)
-		current_user.proved.create(val_a: data['val_a'], val_b: data['val_b'], path: data['path'])
+		current_user.proved.where(val_a: data['val_a'], val_b: data['val_b'], path: data['path']).first_or_create
 		ActionCable.server.broadcast "user#{current_user.id}",
-			function_call: 'status',
-			status: 'success'
+			function_call: 'logged_data',
+			logging_nodes: [data['val_a'], data['val_b']]
 	end
 
 	# todo: replace ajax query with this to test performance
@@ -109,33 +97,50 @@ class GameChannel < ApplicationCable::Channel
 	# Creates a new cluster with the target node as the cluster core
 	# variables: target, cluster_name
 	def node_claim(data)
-		if current_user.gems >= 3
-			# node = DataNode.get_node(data['target'])
-			node = DataNode.where(value: data['target']).first_or_initialize
-			cluster_name = data['cluster_name']
-			if cluster_name.nil?
-				cluster_name = "#{current_user.username}'s Cluster"
+		if current_user.can_claim(data['target'])
+			if current_user.gems >= 3
+				# node = DataNode.get_node(data['target'])
+				node = DataNode.where(value: data['target']).first_or_initialize
+				cluster_name = data['cluster_name']
+				if cluster_name.nil?
+					cluster_name = "#{current_user.username}'s Cluster"
+				end
+				cluster = current_user.owned_clusters.create(owner_type: 'Player', cluster_name: cluster_name)
+				node.update_attributes(
+					role: 1,
+					user_id: current_user.id,
+					cluster_core: true,
+					cluster_id: cluster.id,
+					faction_id: current_user.id,
+					last_change: Time.now
+				)
+				current_user.transaction(1, -3)
+				# broadcast change to game
+				ActionCable.server.broadcast "game",
+					function_call: 'claim_node',
+					node: data['target'],
+					faction: current_user.faction_id
+			else
+				ActionCable.server.broadcast "user#{current_user.id}",
+					function_call: 'error',
+					error_msg: 'not enough gems'
 			end
-			cluster = current_user.owned_clusters.create(owner_type: 'Player', cluster_name: cluster_name)
-			node.update_attributes(
-				role: 1,
-				user_id: current_user.id,
-				cluster_core: true,
-				cluster_id: cluster.id,
-				last_change: Time.now
-			)
-			current_user.update_attribute(:gems, current_user.gems - 3)
-			# broadcast change to game
-			# Actioncable.server.broadcast "game",
-			# 	function_call: 'claim_node',
-			# 	node: data['target'],
-			#		faction: current_user.faction_id
 		else
-			# user doesn't have enough gems
-			# broadcast error to user
+			ActionCable.server.broadcast "user#{current_user.id}",
+				function_call: 'error',
+				error_msg: 'Prove 3 connections to claim this node.'
 		end
 	end
 
+	def node_capture(data)
+		if current_user.can_attack(data['target'])
+			current_user.capture(data['target'])
+		else
+			ActionCable.server.broadcast "user#{current_user.id}",
+				function_call: 'error',
+				error_msg: 'You must control the majority of connected nodes to capture'
+		end
+	end
 
 	private
 

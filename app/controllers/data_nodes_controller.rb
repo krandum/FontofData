@@ -87,9 +87,12 @@ class DataNodesController < ApplicationController
 						'teir' => 1,
 						'worth' => 1000,
 						'contention' => 0,
-						'cluster_name' => claimedNodes[i].cluster.cluster_name,
+						'cluster_name' => claimedNodes[i].cluster.try(:cluster_name),
 						'last_captured' => claimedNodes[i].last_change
 					}
+					if out['nodes'][cur]['cluster_name'].nil?
+						out['nodes'][cur]['cluster_name'] = 'none'
+					end
 					# out['nodes'][cur]['bro'] = claimedNodes[i].connections.select{|x| x.value == cur - 1}.first.try(:value)
 					# out['nodes'][cur]['dad'] = claimedNodes[i].connections.select{|x| x.value == cur >> 1}.first.try(:value)
 
@@ -134,6 +137,7 @@ class DataNodesController < ApplicationController
 		unless connection.nil?
 			{
 				'value' => connection.connection.value,
+				'last_updated' => connection.last_speed_change.to_i * 1000,
 				'completions' => [{
 					'percentage' => connection.self_percentage,
 					'faction_id' => connection.data_node.faction_id,

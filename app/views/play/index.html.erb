@@ -4,8 +4,10 @@
 		name: '<%= current_user.username %>',
 		picture: '<%= current_user.avatar.url(:thumb) %>',
 		faction_id: <%= current_user.faction_id %>,
-		resources: '<%= current_user.gold %>',
-		gem_placeholder: '<%= current_user.gems %>',
+		resources: <%= current_user.gold %>,
+    resource_gain: <%= current_user.gold_per_min %>,
+    last_resource_gain: <%= current_user.last_income.to_i * 1000 %>,
+		gems: <%= current_user.gems %>,
 		proved: <%= current_user.proved.pluck(:val_a, :val_b) %>
 	};
 	<% end %>
