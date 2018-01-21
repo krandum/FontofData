@@ -526,7 +526,6 @@ $(document).on('ready page:load', function() {
 		// 	ui.prompt.firstChild.removeChild(ui.prompt.firstChild.firstChild);
 		// }
 		ui.paper_tooltip = function(node) {
-			console.log(node);
 			d3.select('#local')
 				.append("div").classed("tutorial_ui primary " + ui.faction_names[user.faction_id], true)
 					.style("top", node.circle.position.y - (node.circle.bounds.width * .55) - 30 + "px")
@@ -628,7 +627,6 @@ $(document).on('ready page:load', function() {
 				}
 			});
 			d3.select("#local").on("click", function() {
-				console.log(d3.event);
 				let target = d3.event.target;
 				if (target.classList.contains('myInput') === false && target.classList.contains('myButton') === false) {
 					d3.selectAll(".myForm").remove();
