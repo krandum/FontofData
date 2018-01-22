@@ -134,8 +134,22 @@ $(document).on('ready page:load', function() {
 					target.circle.fillColor = colors.fill;
 					target.number.fillColor = colors.num;
 					break;
-				case 'take_action':
-					take_action(data);
+				case 'connection_finished':
+					// data['target']
+					// data['origin_fac']
+					console.log('connection finished called');
+					target = null;
+					i = -1;
+					while (++i < 63)
+						if (game_data.active_nodes[i].value === data['target'])
+							target = game_data.active_nodes[i];
+					if (!target) return;
+					game_data.node_factions[data['target']] = data['origin_fac'];
+					colors = game_data.colors[data['origin_fac'].toString()];
+					target.circle.strokeColor = colors.line;
+					target.circle.fillColor = colors.fill;
+					target.number.fillColor = colors.num;
+					target.owner = userinfo.name;
 					break;
 				case 'logged_data':
 					console.log("Data logged");
@@ -174,6 +188,9 @@ $(document).on('ready page:load', function() {
 						if (b_node.sister.node !== null) show_connections(b_node.sister.node);
 					}
 					break;
+				case 'take_action':
+					take_action(data);
+					break;
 				case 'transaction':
 					// data['currency'] gold(0), keys(1)
 					// data['amount'] amount of currency to be modified
@@ -181,22 +198,6 @@ $(document).on('ready page:load', function() {
 					if (data['currency'] === 0) {
 						game_data.dosh_buff += data['amount'];
 					}
-					break;
-				case 'connection_finished':
-					// data['target']
-					// data['origin_fac']
-					console.log('connection finished called');
-					target = null;
-					i = -1;
-					while (++i < 63)
-						if (game_data.active_nodes[i].value === data['target'])
-							target = game_data.active_nodes[i];
-					game_data.node_factions[data['target']] = data['origin_fac'];
-					colors = game_data.colors[data['origin_fac'].toString()];
-					target.circle.strokeColor = colors.line;
-					target.circle.fillColor = colors.fill;
-					target.number.fillColor = colors.num;
-					target.owner = userinfo.name;
 					break;
 				case 'update_connection':
 					origin = null;
@@ -208,26 +209,33 @@ $(document).on('ready page:load', function() {
 						if (game_data.active_nodes[i].value === data['origin'])
 							origin = game_data.active_nodes[i];
 					}
-					let relation = null, first = target, second = origin, index = 1;
-					if (target.value === origin.value * 2 || target.value === origin.value * 2 + 1)
+					if (!target || !origin) return;
+					let relation = null, first = origin, second = target, index = 0;
+					if (target.value === origin.value * 2 || target.value === origin.value * 2 + 1) {
+						first = target;
+						second = origin;
 						relation = "dad";
-					else if (target.value === origin.value + 1) relation = "bro";
-					else if (origin.value === target.value * 2 ||
-						origin.value === target.value * 2 + 1) {
-						first = origin;
-						second = target;
-						index = 0;
+						index = 1;
+					}
+					else if (target.value === origin.value + 1) {
+						first = target;
+						second = origin;
+						relation = "bro";
+						index = 1;
+					}
+					else if (origin.value === target.value * 2 || origin.value === target.value * 2 + 1) {
 						relation = "dad";
 					}
 					else if (origin.value === target.value + 1) {
-						first = origin;
-						second = target;
-						index = 0;
 						relation = "bro";
 					}
 					else throw new Error("No connection relationship found from back end");
-					first.connection_data[relation] = { completions: data['completions'],
-						last_updated: data['last_updated'], value: second.value };
+					let other = index === 1 ? 0 : 1;
+					console.log(first, second, relation, index, other);
+					first.connection_data[relation] = {
+						completions: [data['completions'][index], data['completions'][other]],
+						last_updated: data['last_updated'],
+						value: second.value };
 					game_data.node_connections[first.value][relation] = first.connection_data[relation];
 					if (first[relation + "_push"]) {
 						first[relation + "_push"].time = data['last_updated'];
@@ -240,6 +248,10 @@ $(document).on('ready page:load', function() {
 						show_connections(first);
 						show_connections(second);
 					}
+					break;
+				case 'update_income':
+					// data['new_income']
+					console.log('update_income called');
 					break;
 				case 'status':
 					console.log(data['status']);
@@ -2223,14 +2235,14 @@ $(document).on('ready page:load', function() {
 			&& progressed) full_connection(connection, game_data.node_factions[origin.value]);
 		else if (game_data.node_factions[origin.value] !== 1 && progressed &&
 			game_data.node_factions[end.value] !== 1) {
-			contested_connection(origin, relation,
-				connection, end.connection_data[relation].last_updated,
+			contested_connection(end, relation, connection,
+				end.connection_data[relation].last_updated,
 				game_data.node_factions[origin.value],
-				parseFloat(end.connection_data[relation].completions[0].percentage) / 100.0,
-				end.connection_data[relation].completions[0].speed / 100.0,
-				game_data.node_factions[end.value],
 				parseFloat(end.connection_data[relation].completions[1].percentage) / 100.0,
-				end.connection_data[relation].completions[1].speed / 100.0);
+				end.connection_data[relation].completions[1].speed / 100.0,
+				game_data.node_factions[end.value],
+				parseFloat(end.connection_data[relation].completions[0].percentage) / 100.0,
+				end.connection_data[relation].completions[0].speed / 100.0);
 		}
 		else {
 			if (end.connection_data[relation] === null || !progressed)

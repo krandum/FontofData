@@ -123,16 +123,20 @@ class ConnectedNode < ApplicationRecord
 
 	def capture(user_id)
 		user = User.find(user_id)
-		self.complete
-		captured_node = self.connection
-		captured_node.claim_node(user_id)
-		captured_node.update_attributes(
-			# faction_id: user.faction_id,
-			# user_id: user.id,
-			cluster_id: self.data_node.cluster_id,
-			last_change: Time.now
-		)
-		captured_node.update_connections(user_id)
+		if user.can_capture(self.connection.value)
+			captured_node = self.connection
+			captured_node.capture_node(user_id)
+			captured_node.update_attributes(
+				# faction_id: user.faction_id,
+				# user_id: user.id,
+				cluster_id: self.data_node.cluster_id,
+				last_change: Time.now
+			)
+			captured_node.update_connections(user_id)
+			true
+		else
+			false
+		end
 	end
 
 	def update_percentages

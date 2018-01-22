@@ -7,7 +7,7 @@ class GameChannel < ApplicationCable::Channel
 
 	def unsubscribed
 		# Any cleanup needed when channel is unsubscribed
-		current_user.receive_resources
+		# current_user.receive_resources
 	end
 
 	# variables: origin, target, action_index
@@ -111,7 +111,7 @@ class GameChannel < ApplicationCable::Channel
 					user_id: current_user.id,
 					cluster_core: true,
 					cluster_id: cluster.id,
-					faction_id: current_user.id,
+					faction_id: current_user.faction_id,
 					last_change: Time.now
 				)
 				current_user.transaction(1, -3)

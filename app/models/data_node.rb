@@ -1,4 +1,5 @@
 class DataNode < ActiveRecord::Base
+	after_create :stress
 	belongs_to :faction
 	belongs_to :user
 	belongs_to :cluster
@@ -46,12 +47,47 @@ class DataNode < ActiveRecord::Base
 		end
 	end
 
+	def capture_node(user_id)
+		previous_user = self.user
+		new_user = User.find_by(id: user_id)
+		unless previous_user.nil?
+			previous_user.receive_resources
+			previous_user.gold_per_min -= self.resource_generator
+			previous_user.save
+			ActionCable.server.broadcast "user#{previous_user.id}",
+				function_call: 'update_income',
+				new_income: previous_user.gold_per_min
+		end
+
+		unless new_user.nil?
+			new_user.receive_resources
+			new_user.data_nodes << self
+			new_user.faction.data_nodes << self
+			new_user.gold_per_min += self.resource_generator
+			new_user.save
+			ActionCable.server.broadcast "user#{new_user.id}",
+				function_call: 'update_income',
+				new_income: new_user.gold_per_min
+		end
+	end
+
 	def update_connections(user_id)
 		# friendly_connections = self.connected_nodes.select { |x| x.connection.faction_id == self.faction_id }
 		# other_connections = self.connected_nodes.select { |x| x.connection.faction_id != self.faction_id }
 
 		self.connected_nodes.each { |x| x.complete if x.connection.faction_id == self.faction_id }
 		self.connected_nodes.each { |x| x.push(user_id) if x.connection.faction_id != self.faction_id }
+	end
+
+	private
+
+	def stress
+		# p "stress crate"
+		# unless self.role == 99
+		# 	1000.times do
+		# 		DataNode.create(value: self.value * 100000000, role: 99)
+		# 	end
+		# end
 	end
 
 end

@@ -106,15 +106,11 @@ class User < ActiveRecord::Base
 		completed = node.connected_nodes.where(connection_type: 2)
 		home_team = completed.select{ |x| x.connection.faction_id != self.faction_id}.count
 		away_team = completed.select{ |x| x.connection.faction_id != node.faction_id}.count
-		if away_team > home_team
+		if away_team >= home_team
 			true
 		else
 			false
 		end
-	end
-
-	def capture_node(node_val)
-
 	end
 
 	private
