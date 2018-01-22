@@ -210,21 +210,23 @@ $(document).on('ready page:load', function() {
 							origin = game_data.active_nodes[i];
 					}
 					if (!target || !origin) return;
-					let relation = null, first = target, second = origin, index = 1;
-					if (target.value === origin.value * 2 || target.value === origin.value * 2 + 1)
+					let relation = null, first = origin, second = target, index = 0;
+					if (target.value === origin.value * 2 || target.value === origin.value * 2 + 1) {
+						first = target;
+						second = origin;
 						relation = "dad";
-					else if (target.value === origin.value + 1) relation = "bro";
-					else if (origin.value === target.value * 2 ||
-						origin.value === target.value * 2 + 1) {
-						first = origin;
-						second = target;
-						index = 0;
+						index = 1;
+					}
+					else if (target.value === origin.value + 1) {
+						first = target;
+						second = origin;
+						relation = "bro";
+						index = 1;
+					}
+					else if (origin.value === target.value * 2 || origin.value === target.value * 2 + 1) {
 						relation = "dad";
 					}
 					else if (origin.value === target.value + 1) {
-						first = origin;
-						second = target;
-						index = 0;
 						relation = "bro";
 					}
 					else throw new Error("No connection relationship found from back end");
@@ -2229,14 +2231,14 @@ $(document).on('ready page:load', function() {
 			&& progressed) full_connection(connection, game_data.node_factions[origin.value]);
 		else if (game_data.node_factions[origin.value] !== 1 && progressed &&
 			game_data.node_factions[end.value] !== 1) {
-			contested_connection(origin, relation,
-				connection, end.connection_data[relation].last_updated,
+			contested_connection(end, relation, connection,
+				end.connection_data[relation].last_updated,
 				game_data.node_factions[origin.value],
-				parseFloat(end.connection_data[relation].completions[0].percentage) / 100.0,
-				end.connection_data[relation].completions[0].speed / 100.0,
-				game_data.node_factions[end.value],
 				parseFloat(end.connection_data[relation].completions[1].percentage) / 100.0,
-				end.connection_data[relation].completions[1].speed / 100.0);
+				end.connection_data[relation].completions[1].speed / 100.0,
+				game_data.node_factions[end.value],
+				parseFloat(end.connection_data[relation].completions[0].percentage) / 100.0,
+				end.connection_data[relation].completions[0].speed / 100.0);
 		}
 		else {
 			if (end.connection_data[relation] === null || !progressed)
