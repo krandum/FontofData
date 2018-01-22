@@ -134,8 +134,21 @@ $(document).on('ready page:load', function() {
 					target.circle.fillColor = colors.fill;
 					target.number.fillColor = colors.num;
 					break;
-				case 'take_action':
-					take_action(data);
+				case 'connection_finished':
+					// data['target']
+					// data['origin_fac']
+					console.log('connection finished called');
+					target = null;
+					i = -1;
+					while (++i < 63)
+						if (game_data.active_nodes[i].value === data['target'])
+							target = game_data.active_nodes[i];
+					game_data.node_factions[data['target']] = data['origin_fac'];
+					colors = game_data.colors[data['origin_fac'].toString()];
+					target.circle.strokeColor = colors.line;
+					target.circle.fillColor = colors.fill;
+					target.number.fillColor = colors.num;
+					target.owner = userinfo.name;
 					break;
 				case 'logged_data':
 					console.log("Data logged");
@@ -174,6 +187,9 @@ $(document).on('ready page:load', function() {
 						if (b_node.sister.node !== null) show_connections(b_node.sister.node);
 					}
 					break;
+				case 'take_action':
+					take_action(data);
+					break;
 				case 'transaction':
 					// data['currency'] gold(0), keys(1)
 					// data['amount'] amount of currency to be modified
@@ -181,22 +197,6 @@ $(document).on('ready page:load', function() {
 					if (data['currency'] === 0) {
 						game_data.dosh_buff += data['amount'];
 					}
-					break;
-				case 'connection_finished':
-					// data['target']
-					// data['origin_fac']
-					console.log('connection finished called');
-					target = null;
-					i = -1;
-					while (++i < 63)
-						if (game_data.active_nodes[i].value === data['target'])
-							target = game_data.active_nodes[i];
-					game_data.node_factions[data['target']] = data['origin_fac'];
-					colors = game_data.colors[data['origin_fac'].toString()];
-					target.circle.strokeColor = colors.line;
-					target.circle.fillColor = colors.fill;
-					target.number.fillColor = colors.num;
-					target.owner = userinfo.name;
 					break;
 				case 'update_connection':
 					origin = null;
@@ -240,6 +240,10 @@ $(document).on('ready page:load', function() {
 						show_connections(first);
 						show_connections(second);
 					}
+					break;
+				case 'update_income':
+					// data['new_income']
+					console.log('update_income called');
 					break;
 				case 'status':
 					console.log(data['status']);
