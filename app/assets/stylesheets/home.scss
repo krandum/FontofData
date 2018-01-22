@@ -5,6 +5,61 @@ body {
 	height: 100%;
 }
 
+//temporary stuff
+.home_temp {
+	height:100%;
+	width: 100%;
+	display: grid;
+	grid-template-rows: 1.5fr 5fr 5fr .5fr;
+	grid-template-columns: 1fr 6fr 3fr 1fr;
+	grid-template-areas:
+	"title title title title"
+	". greeting alerts ."
+	". tips alerts ."
+	". . . ."
+}
+.greeting_container {
+	grid-area: greeting;
+}
+.greeting {
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 12px;
+	text-align: justify;
+	padding: 6px;
+	font-size: 1.3rem;
+	height: auto;
+}
+.alerts {
+	grid-area: alerts;
+	width: 85%;
+	margin-left: 15%;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 12px;
+	text-align: left;
+	padding: 6px;
+	font-size: 1.3rem;
+}
+.tips {
+	grid-area: tips;
+	margin-top: 7px;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 12px;
+	text-align: justify;
+	padding: 6px;
+	font-size: 1.3rem;
+	height: auto;
+}
+.title {
+	grid-area: title;
+	text-align: center;
+	font-size: 5rem;
+	color: #BCDEFF;
+}
+//end temporary stuff
+
 .grid_home {
 	position: absolute;
 	width: 100%;

@@ -30,6 +30,21 @@ body.play {
 	transform: translateZ(0);
 }
 
+.Neutral.primary {
+	background-color: #090446;
+	border-color: #004299;
+	color: #BCDEFF;
+}
+.Neutral.secondary {
+	background-color: #1B466B;
+	border-color: #004299;
+	color: #BCDEFF;
+}
+.Neutral.tertiary {
+	background-color: #090446;
+	border-color: #BCDEFF;
+	color: #BCDEFF;
+}
 .Rocks.primary {
 	background-color: #2D0505;
 	border-color: #FF8300;
@@ -820,36 +835,88 @@ svg {
 	font: 600 26px sans-serif;
 }
 
-/* Tooltips */
-.tooltip {
-	width: 70px;
-	height: 20px;
-	border: 2px solid;
-	pointer-events: none;
-	position: absolute;
-	left: 50%;
-	top: -120%;
-	text-decoration: none;
-	z-index: 6;
+.faction_select {
+	display: grid;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	color: #BCDEFF;
+	align-items: center;
+	background-color: #090446;
+	grid-template-rows: 1fr 540px .5fr;
+	grid-template-columns: 1fr 256px 1fr 256px 1fr 256px 1fr;
+	grid-template-areas:
+	"header header header header header header header"
+	". option_red . option_green . option_blue ."
+	". . . . . . ."
 }
-/* Tooltip colors */
-.red {
-	background-color: rgba(127, 8, 18, .75);
-	border-color: rgba(127, 8, 18, .75);
-	color: #FAF9F9
+.faction_option {
+	border-radius: 20px;
+	border-width: 2px;
+	border-style: solid;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	display: grid;
+	grid-template-rows: 10fr 6fr 1.5fr 2fr;
+	grid-template-areas:
+	"icon"
+	"description"
+	"learn"
+	"choose"
 }
-.green {
-	background-color: rgba(88, 132, 1, .75);
-	border-color: rgba(88, 132, 1, .75);
-	color: #FFFFD8
+.faction_option.Rocks {
+	grid-area: option_red;
 }
-.blue {
-	background-color: rgba(33, 136, 221, .75);
-	border-color: rgba(33, 136, 221, .75);
-	color: #C9F0FF
+.faction_option.Elves {
+	grid-area: option_green;
 }
-.neutral {
-	background-color: rgba(27, 70, 107, .75);
-	border-color: rgba(27, 70, 107, .75);
-	color: #BCDEFF
+.faction_option.Jellyfish {
+	grid-area: option_blue;
+}
+.option_icon {
+	grid-area: icon;
+}
+.option_choose {
+	grid-area: choose;
+	display: flex;
+	height: 41px;
+	width: 90%;
+	margin-left: 5%;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 20px;
+	align-items: center;
+	transition: all 150ms ease-in-out;
+}
+.option_choose > a {
+	color: inherit !important;
+	font-size: 1.6rem;
+	width: 100%;
+	padding: 12px 0 15px 0;
+	text-decoration: none !important;
+}
+.option_choose.Rocks:hover {
+	background-color: #E52D00;
+	box-shadow: 0 0 1px 2px #FF8300;
+}
+.option_choose.Elves:hover {
+	background-color: #005e16;
+	box-shadow: 0 0 1px 2px #40ED4B;
+}
+.option_choose.Jellyfish:hover {
+	background-color: #AE45C7;
+	box-shadow: 0 0 1px 2px #E2E544;
+}
+.option_learn {
+	display: flex;
+	flex-direction: column;
+	grid-area: learn;
+	align-items: center;
+	justify-content: center;
+}
+.option_learn > a {
+	color: inherit !important;
+	font-size: 1.6rem;
+	text-decoration: line-through;
 }

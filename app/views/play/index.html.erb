@@ -12,15 +12,50 @@
 	};
 	<% end %>
 	<% if current_user.faction_id == 1 %>
-	<div class='local'>
-		<h1>Please choose a faction</h1>
-		<table>
-			<tbody>
-				<td><%= link_to Faction.find(2).faction_name, faction_select_path(user: current_user, faction: Faction.find(2)), method: :put %></td>
-				<td><%= link_to Faction.find(3).faction_name, faction_select_path(user: current_user, faction: Faction.find(3)), method: :put %></td>
-				<td><%= link_to Faction.find(4).faction_name, faction_select_path(user: current_user, faction: Faction.find(4)), method: :put %></td>
-			</tbody>
-		</table>
+	<div class="faction_select local" id="local">
+		<h1 style="grid-area: header">Select a Faction</h1>
+		<div class="faction_option secondary Rocks">
+			<img class="option_icon" src="assets/red/icons/placeholder.svg">
+			<div style="grid-area: description; padding-top: 5px; text-align: center;">
+				<h2>Red</h2>
+				<p style="padding: 0 4px; font-size: 1.5rem;">These creatures have evolved a physiological means of
+					interfacing with technology, but even as they do they are predominantly driven by instinct.</p><br/>
+				<p style="padding: 0 4px; font-size: 1.2rem; margin: 0;">Aggressively expand your territory, conquering new
+					areas and claiming what they offer before eventually leaving them behind as you move on to fresh regions.</p>
+			</div>
+			<div class="option_learn" style="color: #FF8300"><a>Learn More</a><p>(coming soon!)</p></div>
+			<div class="option_choose primary Rocks">
+				<%= link_to "Join Faction", faction_select_path(user: current_user, faction: Faction.find(2)), method: :put %>
+			</div>
+		</div>
+		<div class="faction_option secondary Elves">
+			<img class="option_icon" src="assets/green/icons/placeholder.svg">
+			<div style="grid-area: description; padding-top: 5px; text-align: center;">
+				<h2>Elves</h2>
+				<p style="padding: 0 4px; font-size: 1.5rem;">The Elves wield advanced technologies built
+					on their racial magic, combining their energies to program and cast complex spells.</p><br/>
+				<p style="padding: 0 4px; font-size: 1.2rem; margin: 0;">Cooperate with other players in your faction,
+					deciding where to focus your efforts and then pooling your resources to cast more powerful spells.</p>
+			</div>
+			<div class="option_learn" style="color: #40ED4B"><a>Learn More</a><p>(coming soon!)</p></div>
+			<div class="option_choose primary Elves">
+				<%= link_to "Join Faction", faction_select_path(user: current_user, faction: Faction.find(3)), method: :put %>
+			</div>
+		</div>
+		<div class="faction_option secondary Jellyfish">
+			<img class="option_icon" src="assets/blue/icons/placeholder.svg">
+			<div style="grid-area: description; padding-top: 5px; text-align: center;">
+				<h2>Blue</h2>
+				<p style="padding: 0 4px; font-size: 1.5rem;">This species' incredible capacity for adaptation
+					allows them to become suited not only to most environments, but to most situations they might encounter.</p><br/>
+				<p style="padding: 0 4px; font-size: 1.2rem; margin: 0;">Make use of your faction's extreme flexibility,
+					finding the perfect way to approach any situation you may find yourself in </p>
+			</div>
+			<div class="option_learn" style="color: #E2E544"><a>Learn More</a><p>(coming soon!)</p></div>
+			<div class="option_choose primary Jellyfish">
+				<%= link_to "Join Faction", faction_select_path(user: current_user, faction: Faction.find(4)), method: :put %>
+			</div>
+		</div>
 	</div>
 	<% else %>
 	<div class='local wrap play_grid' id="local">
@@ -66,7 +101,7 @@
 					<div class="placeholder_tag"><span>Cluster information here</span></div>
 				</div></div>
 			</div>
-			<div class="connection_pane primary" id="sandbox"></div>
+			<div class="connection_pane" id="sandbox"></div>
 			<div id="quest_window" class="primary hidden">
 				<h1>Quests</h1>
 				<div id="quest_pane" class="secondary">
