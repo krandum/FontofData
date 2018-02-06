@@ -93,7 +93,7 @@ class User < ActiveRecord::Base
 	end
 
 	def can_claim(node_val)
-		if self.proved.where("val_b = #{node_val} OR val_a = #{node_val}").count >= 3
+		if node_val == 1 || self.proved.where("val_b = #{node_val} OR val_a = #{node_val}").count >= 3
 			true
 		else
 			false

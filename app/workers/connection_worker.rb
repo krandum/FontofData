@@ -6,14 +6,22 @@ class ConnectionWorker
 		connection = ConnectedNode.find(connection_id)
 		connection.complete
 		# connection.capture(user_id)
-		ActionCable.server.broadcast "game",
-			function_call: 'connection_finished',
-			origin: connection.s_value,
-			target: connection.i_value,
-			origin_fac: connection.data_node.faction_id,
-			captured: connection.capture(user_id)
-			# target_fac: connection.connection.faction_id,
-			# origin_change: 'same',
-			# target_change: 'to_origin'
+		if connection.s_value > 31 && connection.i_value > 31
+			ActionCable.server.broadcast "game",
+				function_call: 'connection_finished',
+				owener: User.find_by(id: user_id).username,
+				origin: connection.s_value,
+				target: connection.i_value,
+				origin_fac: connection.data_node.faction_id,
+				captured: connection.capture(user_id)
+		else
+			ActionCable.server.broadcast "user#{user_id}",
+				function_call: 'connection_finished',
+				owener: User.find_by(id: user_id).username,
+				origin: connection.s_value,
+				target: connection.i_value,
+				origin_fac: connection.data_node.faction_id,
+				captured: connection.capture(user_id)
+		end
 	end
 end

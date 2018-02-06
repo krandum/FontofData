@@ -83,17 +83,18 @@ class ConnectedNode < ApplicationRecord
 
 	def complete
 		@inverse = inverse
+		same_fact = self.data_node.faction_id == self.connection.faction_id
 		self.attributes = {
 			connection_type: 2,
 			self_percentage: 100.0,
-			inverse_percentage: 100.0,
+			inverse_percentage: same_fact ? 100.0 : 0.0,
 			self_speed: 0.0,
 			inverse_speed: 0.0,
 			self_worth: 0
 		}
 		@inverse.attributes = {
 			connection_type: 2,
-			self_percentage: 100.0,
+			self_percentage: same_fact ? 100.0 : 0.0,
 			inverse_percentage: 100.0,
 			self_speed: 0.0,
 			inverse_speed: 0.0,
@@ -124,15 +125,32 @@ class ConnectedNode < ApplicationRecord
 	def capture(user_id)
 		user = User.find(user_id)
 		if user.can_capture(self.connection.value)
-			captured_node = self.connection
-			captured_node.capture_node(user_id)
-			captured_node.update_attributes(
-				# faction_id: user.faction_id,
-				# user_id: user.id,
-				cluster_id: self.data_node.cluster_id,
-				last_change: Time.now
-			)
-			captured_node.update_connections(user_id)
+			if self.connection.value > 31
+				captured_node = self.connection
+				captured_node.capture_node(user_id)
+				captured_node.update_attributes(
+					# faction_id: user.faction_id,
+					# user_id: user.id,
+					cluster_id: self.data_node.cluster_id,
+					last_change: Time.now
+				)
+				captured_node.update_connections(user_id)
+			else
+				@inverse = inverse
+				captured_node = DataNode.create(
+					value: self.connection.value,
+					cluster_id: self.data_node.cluster_id,
+					role: 1,
+					last_change: Time.now
+				)
+				captured_node.capture_node(user_id)
+				self.update_attributes(
+					connection_id: captured_node.id
+				)
+				@inverse.update_attributes(
+					data_node_id: captured_node.id
+				)
+			end
 			true
 		else
 			false

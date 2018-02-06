@@ -1,5 +1,5 @@
 class DataNode < ActiveRecord::Base
-	after_create :stress
+	before_destroy :remove_income
 	belongs_to :faction
 	belongs_to :user
 	belongs_to :cluster
@@ -81,13 +81,10 @@ class DataNode < ActiveRecord::Base
 
 	private
 
-	def stress
-		# p "stress crate"
-		# unless self.role == 99
-		# 	1000.times do
-		# 		DataNode.create(value: self.value * 100000000, role: 99)
-		# 	end
-		# end
+	def remove_income
+		user = self.user
+		user.gold_per_min -= self.resource_generator
+		user.save
 	end
 
 end

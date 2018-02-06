@@ -44,48 +44,81 @@ class GameChannel < ApplicationCable::Channel
 	def connection_add_worth(data)
 		# TODO: simplify this query and make connections store node's values or contemplate making connections a separate table completely
 		current_user.receive_resources
-		if current_user.gold >= data['resources']
-			if data['resources'] > 0
-				target_connection = DataNode
-					.includes(connected_nodes: [:connection])
-					.find_by(value: data['head'])
-					.connected_nodes
-					.where(connection: DataNode.where(value: data['tail']).first_or_create)
-					.first_or_create
-				target_connection.invest(data['resources'], current_user.id)
-				current_user.transaction(0, -data['resources'])
-				ActionCable.server.broadcast "game",
-					function_call: 'update_connection',
-					origin: data['head'],
-					target: data['tail'],
-					last_updated: target_connection.last_speed_change.to_i * 1000,
-					completions: [{
-						'percentage' => target_connection.self_percentage,
-						'faction_id' => target_connection.data_node.faction_id,
-						'speed' => target_connection.self_speed
-					}, {
-						'percentage' => target_connection.inverse_percentage,
-						'faction_id' => target_connection.connection.faction_id,
-						'speed' => target_connection.inverse_speed
-					}]
+		if (data['head'] <= 31 && data['tail'] <= 31) || (data['head'] > 31 && data['tail'] > 31)
+			if current_user.gold >= data['resources']
+				if data['resources'] > 0
+					# target_connection = nil
+					if data['head'] <= 31
+						target_connection = DataNode
+							.includes(connected_nodes: [:connection])
+							.find_by(value: data['head'], user_id: current_user.id)
+							.connected_nodes
+							.where(connection: DataNode.where(value: data['tail']).first_or_create)
+							.first_or_create
+					else
+						target_connection = DataNode
+							.includes(connected_nodes: [:connection])
+							.find_by(value: data['head'])
+							.connected_nodes
+							.where(connection: DataNode.where(value: data['tail']).first_or_create)
+							.first_or_create
+					end
+					target_connection.invest(data['resources'], current_user.id)
+					current_user.transaction(0, -data['resources'])
+					if data['head'] <= 31
+						ActionCable.server.broadcast "user#{current_user.id}",
+							function_call: 'update_connection',
+							origin: data['head'],
+							target: data['tail'],
+							last_updated: target_connection.last_speed_change.to_i * 1000,
+							completions: [{
+								'percentage' => target_connection.self_percentage,
+								'faction_id' => target_connection.data_node.faction_id,
+								'speed' => target_connection.self_speed
+							}, {
+								'percentage' => target_connection.inverse_percentage,
+								'faction_id' => target_connection.connection.faction_id,
+								'speed' => target_connection.inverse_speed
+							}]
+					else
+						ActionCable.server.broadcast "game",
+							function_call: 'update_connection',
+							origin: data['head'],
+							target: data['tail'],
+							last_updated: target_connection.last_speed_change.to_i * 1000,
+							completions: [{
+								'percentage' => target_connection.self_percentage,
+								'faction_id' => target_connection.data_node.faction_id,
+								'speed' => target_connection.self_speed
+							}, {
+								'percentage' => target_connection.inverse_percentage,
+								'faction_id' => target_connection.connection.faction_id,
+								'speed' => target_connection.inverse_speed
+							}]
+					end
+				else
+					ActionCable.server.broadcast "user#{current_user.id}",
+						function_call: 'error',
+						error_msg: 'Invalid amount'
+				end
 			else
-				ActionCable.server.broadcast "user#{current_user.id}",
-					function_call: 'error',
-					error_msg: 'Invalid amount'
+				send_error('Not enough resources')
 			end
 		else
-			ActionCable.server.broadcast "user#{current_user.id}",
-				function_call: 'error',
-				error_msg: 'Not enough resources'
+			send_error('Can not connect personal nodes with global nodes')
 		end
 	end
 
 	# variables: val_a, val_b, path
 	def log_data(data)
-		current_user.proved.where(val_a: data['val_a'], val_b: data['val_b'], path: data['path']).first_or_create
-		ActionCable.server.broadcast "user#{current_user.id}",
-			function_call: 'logged_data',
-			logging_nodes: [data['val_a'], data['val_b']]
+		if valid_proof?(data['val_a'], data['val_b'])
+			current_user.proved.where(val_a: data['val_a'], val_b: data['val_b'], path: data['path']).first_or_create
+			ActionCable.server.broadcast "user#{current_user.id}",
+				function_call: 'logged_data',
+				logging_nodes: [data['val_a'], data['val_b']]
+		else
+
+		end
 	end
 
 	# todo: replace ajax query with this to test performance
@@ -93,7 +126,6 @@ class GameChannel < ApplicationCable::Channel
 
 	end
 
-	# todo: create broadcast statements in play.js to change the node and for errors
 	# Creates a new cluster with the target node as the cluster core
 	# variables: target, cluster_name
 	def node_claim(data)
@@ -101,34 +133,41 @@ class GameChannel < ApplicationCable::Channel
 			if current_user.gems >= 3
 				# node = DataNode.get_node(data['target'])
 				node = DataNode.where(value: data['target']).first_or_initialize
-				cluster_name = data['cluster_name']
-				if cluster_name.nil?
-					cluster_name = "#{current_user.username}'s Cluster"
+				if node.faction_id.nil? || node.faction_id == 1
+					cluster_name = data['cluster_name']
+					if cluster_name.nil?
+						cluster_name = "#{current_user.username}'s Cluster"
+					end
+					cluster = current_user.owned_clusters.create(owner_type: 'Player', cluster_name: cluster_name)
+					node.update_attributes(
+						role: 1,
+						user_id: current_user.id,
+						cluster_core: true,
+						cluster_id: cluster.id,
+						faction_id: current_user.faction_id,
+						last_change: Time.now
+					)
+					current_user.transaction(1, -3)
+					# broadcast change to game
+					if data['target'] <= 31
+						ActionCable.server.broadcast "user#{current_user.id}",
+							function_call: 'claim_node',
+							node: data['target'],
+							faction: current_user.faction_id
+					else
+						ActionCable.server.broadcast "game",
+							function_call: 'claim_node',
+							node: data['target'],
+							faction: current_user.faction_id
+					end
+				else
+					send_error('invalid target')
 				end
-				cluster = current_user.owned_clusters.create(owner_type: 'Player', cluster_name: cluster_name)
-				node.update_attributes(
-					role: 1,
-					user_id: current_user.id,
-					cluster_core: true,
-					cluster_id: cluster.id,
-					faction_id: current_user.faction_id,
-					last_change: Time.now
-				)
-				current_user.transaction(1, -3)
-				# broadcast change to game
-				ActionCable.server.broadcast "game",
-					function_call: 'claim_node',
-					node: data['target'],
-					faction: current_user.faction_id
 			else
-				ActionCable.server.broadcast "user#{current_user.id}",
-					function_call: 'error',
-					error_msg: 'not enough gems'
+				send_error('not enough gems')
 			end
 		else
-			ActionCable.server.broadcast "user#{current_user.id}",
-				function_call: 'error',
-				error_msg: 'Prove 3 connections to claim this node.'
+			send_error('Prove 3 connections to claim this node.')
 		end
 	end
 
@@ -136,13 +175,127 @@ class GameChannel < ApplicationCable::Channel
 		if current_user.can_attack(data['target'])
 			current_user.capture(data['target'])
 		else
-			ActionCable.server.broadcast "user#{current_user.id}",
-				function_call: 'error',
-				error_msg: 'You must control the majority of connected nodes to capture'
+			send_error('You must control the majority of connected nodes to capture')
+		end
+	end
+
+	# variables: target, role
+	def node_role(data)
+		node = DataNode.find_by(value: data['target'], user_id: current_user.id)
+		unless node.nil?
+			if current_user.gems >= 1
+				node.update_attribute(:roll, data['role'])
+				current_user.transaction(1, -1)
+			else
+				send_error('Need more keys')
+			end
+		else
+			send_error('Can\'t change the role of a node you don\'t own')
+		end
+	end
+
+	# variables: target
+	def node_invest(data)
+		node = DataNode.find_by(value: data['target'], user_id: current_user.id)
+		unless node.nil?
+			if data['resources'] > 0 && current_user.gold >= data['resources']
+				current_user.transaction(0, -data['resources'])
+				node.worth += data['resources']
+				while node.worth >= 500 * (2 ** node.rank)
+					node.worth -= 500 * (2 ** node.rank)
+					node.rank += 1
+				end
+				node.save
+			else
+				send_error('invalid amount')
+			end
+		else
+			send_error('Can\'t invest in a node you don\'t own')
 		end
 	end
 
 	private
+
+	def send_error(msg)
+		ActionCable.server.broadcast "user#{current_user.id}",
+			function_call: 'error',
+			error_msg: msg
+	end
+
+	def send_status(msg)
+		ActionCable.server.broadcast "user#{current_user.id}",
+			function_call: 'status',
+			status: msg
+	end
+
+	# nil && nil => true
+	# invalid && nil => false
+	# invalid && invalid => false
+	# invalid && valid => true
+	# valid && nil => true
+
+	# nil || nil => nil
+	# valid || x => true
+	# invalid || x => false
+
+	def valid_proof?(a, b)
+		ret = false
+		if nodes_adjacent?(a, b)
+			if a * 2 == b || b * 2 == a
+				send_status('testing 2x connection')
+				case valid_for_2x?(a)
+				when true
+					ret = true
+				when false
+					if valid_for_2x?(b)
+						ret = true
+					end
+				when nil
+					valid_b = valid_for_2x?(b)
+					if valid_b || valid_b.nil?
+						ret = true
+					end
+				end
+				if !ret
+					send_error('you must make other proofs first')
+				end
+				# a_valid = valid_for_2x?(a)
+				# b_valid = valid_for_2x?(b)
+				# if (a_valid || b_valid)
+				# 	ret = true
+				# else
+				# 	send_error('you must make other proofs first')
+				# end
+			else
+				send_status('normal connection')
+				ret = true
+			end
+		else
+			send_error('nodes arn\'t adjacent')
+		end
+		ret
+	end
+
+	def valid_for_2x?(val)
+		proved = current_user.proved.where("val_a = #{val} OR val_b = #{val}")
+		if proved.empty?
+			send_status("#{val}: is nil")
+			nil
+		else
+			has_2x = false
+			has_non_2x = false
+			proved.each do |proof|
+				p proof
+				if proof.val_a * 2 == proof.val_b || proof.val_b * 2 == proof.val_a
+					has_2x = true
+				else
+					has_non_2x = true
+				end
+			end
+			send_status("#{val}: has_2x = #{has_2x} has_non_2x = #{has_non_2x} ret: #{!has_2x || has_non_2x}")
+			!has_2x || has_non_2x
+		end
+	end
 
 	def take_action(origin_value, target_value, effect_name)
 		@origin = DataNode.where(value: origin_value).first

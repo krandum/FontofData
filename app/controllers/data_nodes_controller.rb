@@ -64,6 +64,82 @@ class DataNodesController < ApplicationController
 	end
 
 	def request_nodes
+		out = {'nodes' => {}}
+		ranges = []
+		personalNodes = nil
+		params['ranges'].each do |key, range|
+			ranges += [range[:from].to_i..range[:to].to_i]
+			if ranges.last.overlaps?(1..31) && personalNodes.nil?
+				personalNodes = DataNode.includes(:connections).where(value: (1..31)).where("user_id = #{current_user.id} or faction_id = 1").order(:value)
+			end
+		end
+		unless personalNodes.nil?
+			personalNodes.each do |node|
+				out['nodes'][node.value] = {
+					'value' => node.value,
+					'faction_id' => node.faction_id,
+					'owner' => node.user&.username,
+					'teir' => 1,
+					'worth' => 1000,
+					'contention' => 0,
+					'cluster_name' => node.cluster.try(:cluster_name),
+					'last_captured' => node.last_change
+				}
+				if out['nodes'][node.value]['cluster_name'].nil?
+					out['nodes'][node.value]['cluster_name'] = 'none'
+				end
+				out['nodes'][node.value]['dad'] = get_connection_info(node.connected_nodes.find_by(i_value: node.value >> 1))
+				out['nodes'][node.value]['bro'] = get_connection_info(node.connected_nodes.find_by(i_value: node.value - 1))
+			end
+		end
+
+
+		activeNodes = DataNode.includes(:connections).where(value: ranges).where.not(value: 1..31).order(:value)
+		unless activeNodes.nil?
+			activeNodes.each do |node|
+				if out['nodes'][node.value].nil? && !(node.value < 32 && node.faction_id != 1)
+					out['nodes'][node.value] = {
+						'value' => node.value,
+						'faction_id' => node.faction_id,
+						'owner' => node.user&.username,
+						'teir' => 1,
+						'worth' => 1000,
+						'contention' => 0,
+						'cluster_name' => node.cluster.try(:cluster_name),
+						'last_captured' => node.last_change
+					}
+					if out['nodes'][node.value]['cluster_name'].nil?
+						out['nodes'][node.value]['cluster_name'] = 'none'
+					end
+					out['nodes'][node.value]['dad'] = get_connection_info(node.connected_nodes.where(i_value: node.value >> 1).first)
+					out['nodes'][node.value]['bro'] = get_connection_info(node.connected_nodes.where(i_value: node.value - 1).first)
+				end
+			end
+		end
+
+		ranges.each do |range|
+			range.each do |cur|
+				if out['nodes'][cur].nil?
+					out['nodes'][cur] = {
+						'value' => cur,
+						'faction_id' => 1,
+						'owner' => 'unclaimed',
+						'teir' => 1,
+						'worth' => 0,
+						'contention' => 0
+					}
+					out['nodes'][cur]['bro'] = nil
+					out['nodes'][cur]['dad'] = nil
+				end
+			end
+		end
+		respond_to do |format|
+			format.html { render json: out }
+			format.json
+		end
+	end
+
+	def request_nodes_old
 		# p 'REQUEST STARTED'
 		out = {'nodes' => {}}
 		ranges = params['ranges']
@@ -134,20 +210,25 @@ class DataNodesController < ApplicationController
 	# Use callbacks to share common setup or constraints between actions.
 
 	def get_connection_info(connection)
-		unless connection.nil?
-			{
-				'value' => connection.connection.value,
-				'last_updated' => connection.last_speed_change.to_i * 1000,
-				'completions' => [{
-					'percentage' => connection.self_percentage,
-					'faction_id' => connection.data_node.faction_id,
-					'speed' => connection.self_speed
-					}, {
-					'percentage' => connection.inverse_percentage,
-					'faction_id' => connection.connection.faction_id,
-					'speed' => connection.inverse_speed
-				}],
-			}
+		if !connection.nil?
+			if connection.connection.value <= 31 && connection.connection.user_id != current_user.id &&
+				connection.connection.faction_id != 1
+				nil
+			else
+				{
+					'value' => connection.connection.value,
+					'last_updated' => connection.last_speed_change.to_i * 1000,
+					'completions' => [{
+						'percentage' => connection.self_percentage,
+						'faction_id' => connection.data_node.faction_id,
+						'speed' => connection.self_speed
+						}, {
+						'percentage' => connection.inverse_percentage,
+						'faction_id' => connection.connection.faction_id,
+						'speed' => connection.inverse_speed
+					}],
+				}
+			end
 		else
 			nil
 		end
