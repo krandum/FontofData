@@ -96,10 +96,11 @@ body.play {
 	width: 100%;
 	display: grid;
 	grid-template-columns: 13fr 13fr 13fr;
-	grid-template-rows: 40px 24fr 5fr 5fr;
+	grid-template-rows: 40px 22fr 2fr 5fr 5fr;
 	grid-template-areas:
 	"stat-bar stat-bar stat-bar"
 	". tutorial_help ."
+	". . ."
 	"info hotkey_help chat"
 	"info hotkey_help chat";
 	// grid-template-columns: 11fr 2fr 1fr 14fr 10fr;
@@ -157,6 +158,34 @@ body.play {
 	border-radius: 6px;
 	text-align: center;
 	z-index: 10;
+}
+
+#tutorial_text_pane {
+	grid-row: 3 / 5;
+	grid-column: 1 / 4;
+	display: grid;
+	width: 540px;
+	height: 120px;
+	padding: 4px;
+	font-size: 1.3rem;
+	justify-self: center;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 12px;
+	z-index: 15;
+	grid-template-rows: 3.5fr 1fr;
+	grid-template-areas:
+	"text"
+	"button";
+}
+#tutorial_button_container {
+	grid-area: button;
+	justify-self: right;
+	height: 25px;
+	width: 25px;
+	padding-bottom: 2px;
+	padding-right: 2px;
+	cursor: pointer;
 }
 
 #hotkey_help {

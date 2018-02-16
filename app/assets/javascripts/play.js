@@ -764,8 +764,7 @@ $(document).on('ready page:load', function() {
 					if (i === 4) {
 						textbox.classed('hidden', true);
 						d3.select('canvas').on("click", function() {
-							console.log(game_data.active_nodes);
-							if (typeof game_data.active_nodes[1].parent.line != undefined) {
+							if (typeof game_data.active_nodes[1].parent.line !== "undefined") {
 								user.tutorial_flag++;
 								check_tutorial();
 							}
@@ -790,7 +789,7 @@ $(document).on('ready page:load', function() {
 					if (i === 5) {
 						textbox.classed('hidden', true);
 						d3.select('canvas').on("click", function() {
-							if (typeof game_data.active_nodes[2].parent.line != undefined) {
+							if (typeof game_data.active_nodes[2].parent.line !== "undefined") {
 								user.tutorial_flag++;
 								check_tutorial();
 							}
@@ -815,7 +814,7 @@ $(document).on('ready page:load', function() {
 					if (i === 5) {
 						textbox.classed('hidden', true);
 						d3.select('canvas').on("click", function() {
-							if (typeof game_data.active_nodes[5].parent.line != undefined) {
+							if (typeof game_data.active_nodes[5].parent.line !== "undefined") {
 								user.tutorial_flag++;
 								check_tutorial();
 							}
@@ -840,7 +839,7 @@ $(document).on('ready page:load', function() {
 					if (i === 5) {
 						textbox.classed('hidden', true);
 						d3.select('canvas').on("click", function() {
-							if (game_data.node_factions[1] === 1) {
+							if (game_data.node_factions[1] === 1 && i === 5) {
 								user.tutorial_flag++;
 								check_tutorial();
 							}
