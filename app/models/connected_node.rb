@@ -125,7 +125,7 @@ class ConnectedNode < ApplicationRecord
 	def capture(user_id)
 		user = User.find(user_id)
 		if user.can_capture(self.connection.value)
-			if self.connection.value > 31
+			if self.connection.value > 15
 				captured_node = self.connection
 				captured_node.capture_node(user_id)
 				captured_node.update_attributes(
@@ -189,7 +189,8 @@ class ConnectedNode < ApplicationRecord
 	end
 
 	def calc_speed(worth, multiplier)
-		worth * (1.0/60.0) * multiplier
+		# worth * (1.0/60.0) * multiplier
+		worth * (1.0/5.0) * multiplier
 	end
 
 	# private

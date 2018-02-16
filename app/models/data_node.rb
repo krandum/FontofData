@@ -1,4 +1,10 @@
 class DataNode < ActiveRecord::Base
+
+	extend ActiveModel::Callbacks
+	define_model_callbacks :capture_node, :only => [:before, :after]
+	before_capture_node	:call_test
+	after_capture_node	:call_test
+
 	before_destroy :remove_income
 	belongs_to :faction
 	belongs_to :user
@@ -30,45 +36,49 @@ class DataNode < ActiveRecord::Base
 		nodes
 	end
 
-	def claim_node(user_id)
-		previous_user = self.user
-		new_user = User.find_by(id: user_id)
-		unless previous_user.nil?
-			previous_user.receive_resources
-			previous_user.gold_per_min -= self.resource_generator
-			previous_user.save
-		end
-		unless new_user.nil?
-			new_user.receive_resources
-			new_user.data_nodes << self
-			new_user.faction.data_nodes << self
-			new_user.gold_per_min += self.resource_generator
-			new_user.save
-		end
+	def claim(user, cluster)
+		# run_callbacks :claim_node do
+			previous_user = self.user
+			new_user = User.find_by(id: user_id)
+			unless previous_user.nil?
+				previous_user.receive_resources
+				previous_user.gold_per_min -= self.resource_generator
+				previous_user.save
+			end
+			unless new_user.nil?
+				new_user.receive_resources
+				new_user.data_nodes << self
+				new_user.faction.data_nodes << self
+				new_user.gold_per_min += self.resource_generator
+				new_user.save
+			end
+		# end
 	end
 
 	def capture_node(user_id)
-		previous_user = self.user
-		new_user = User.find_by(id: user_id)
-		unless previous_user.nil?
-			previous_user.receive_resources
-			previous_user.gold_per_min -= self.resource_generator
-			previous_user.save
-			ActionCable.server.broadcast "user#{previous_user.id}",
-				function_call: 'update_income',
-				new_income: previous_user.gold_per_min
-		end
+		# run_callbacks :capture_node do
+			previous_user = self.user
+			new_user = User.find_by(id: user_id)
+			unless previous_user.nil?
+				previous_user.receive_resources
+				previous_user.gold_per_min -= self.resource_generator
+				previous_user.save
+				ActionCable.server.broadcast "user#{previous_user.id}",
+					function_call: 'update_income',
+					new_income: previous_user.gold_per_min
+			end
 
-		unless new_user.nil?
-			new_user.receive_resources
-			new_user.data_nodes << self
-			new_user.faction.data_nodes << self
-			new_user.gold_per_min += self.resource_generator
-			new_user.save
-			ActionCable.server.broadcast "user#{new_user.id}",
-				function_call: 'update_income',
-				new_income: new_user.gold_per_min
-		end
+			unless new_user.nil?
+				new_user.receive_resources
+				new_user.data_nodes << self
+				new_user.faction.data_nodes << self
+				new_user.gold_per_min += self.resource_generator
+				new_user.save
+				ActionCable.server.broadcast "user#{new_user.id}",
+					function_call: 'update_income',
+					new_income: new_user.gold_per_min
+			end
+		# end
 	end
 
 	def update_connections(user_id)
@@ -80,6 +90,12 @@ class DataNode < ActiveRecord::Base
 	end
 
 	private
+
+	def call_test
+		ActionCable.server.broadcast "user1",
+			function_call: 'status',
+			status: "callback called, neat"
+	end
 
 	def remove_income
 		user = self.user

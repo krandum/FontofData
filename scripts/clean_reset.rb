@@ -1,0 +1,20 @@
+DataNode.delete_all
+ConnectedNode.delete_all
+Cluster.delete_all
+PathData.delete_all
+Achievement.delete_all
+
+
+ActiveRecord::Base.connection.reset_pk_sequence!('data_nodes')
+ActiveRecord::Base.connection.reset_pk_sequence!('connected_nodes')
+ActiveRecord::Base.connection.reset_pk_sequence!('clusters')
+ActiveRecord::Base.connection.reset_pk_sequence!('path_data')
+ActiveRecord::Base.connection.reset_pk_sequence!('achievements')
+Rails.application.load_seed
+
+User.all.each do |user|
+	user.gold = 10000
+	user.gems = 3
+	user.gold_per_min = 0
+	user.save
+end

@@ -37,5 +37,6 @@ module Fod
 		config.assets.paths << Rails.root.join('node_modules', 'palette', 'lib')
 		config.assets.paths << Rails.root.join('node_modules', 'popper.js', 'dist')
 		config.active_job.queue_adapter = :sidekiq
+		config.autoload_paths += Dir[Rails.root.join("app", "models", "achievements")]
 	end
 end

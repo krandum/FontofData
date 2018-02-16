@@ -41,9 +41,9 @@ end
 
 if DataNode.all.empty?
 	DataNode.create(node_range_hash([
-		[40..55, 88..103], #green
-		[32..39, 64..87], #red
-		[56..63, 104..127] #blue
+		[21..26, 43..52], #red
+		[16..20, 32..42], #green
+		[27..31, 53..63] #blue
 	]))
 	data_nodes = DataNode.all
 	p data_nodes

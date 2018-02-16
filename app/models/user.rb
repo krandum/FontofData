@@ -32,6 +32,8 @@ class User < ActiveRecord::Base
 	has_many :chat_rooms, dependent: :destroy
 	has_many :messages, dependent: :destroy
 
+	has_many :achievements
+
 	def self.find_for_database_authentication(warden_conditions)
 		conditions = warden_conditions.dup
 		login = conditions.delete(:login)
@@ -98,25 +100,75 @@ class User < ActiveRecord::Base
 		else
 			false
 		end
+	end
 
+	def claim_node(node, cluster_name)
+		cluster = self.owned_clusters.create(owner_type: 'Player', cluster_name: cluster_name)
+		node.update_attributes(
+			role: 1,
+			user_id: self.id,
+			cluster_core: true,
+			cluster_id: cluster.id,
+			faction_id: self.faction_id,
+			last_change: Time.now
+		)
+		self.gold_per_min += node.resource_generator
+		self.save
 	end
 
 	def can_capture(node_val)
-		node = DataNode.find_by(value: node_val)
-		completed = node.connected_nodes.where(connection_type: 2)
-		home_team = completed.select{ |x| x.connection.faction_id != self.faction_id}.count
-		away_team = completed.select{ |x| x.connection.faction_id != node.faction_id}.count
-		if away_team >= home_team
-			true
+		if node_val <= 15
+			node = DataNode.find_by(value: node_val, user_id: self.id)
+			node = DataNode.find_by(value: node_val, faction_id: 1) unless node
 		else
-			false
+			node = DataNode.find_by(value: node_val)
 		end
+		if node
+			completed = node.connected_nodes.where(connection_type: 2)
+			home_team = completed.select{ |x| x.connection.faction_id != self.faction_id}.count
+			away_team = completed.select{ |x| x.connection.faction_id != node.faction_id}.count
+			if away_team >= home_team
+				true
+			else
+				false
+			end
+		else
+			true
+		end
+	end
+
+	def award(achievement, rewards = {})
+		achievements << achievement.new
+		self.gems += rewards[:keys] if rewards[:keys]
+		self.save
+	end
+
+	def awarded?(achievement)
+		achievements.where(type: achievement.name ).count > 0
+		# achievements.count(:conditions => { :type => achievement }) > 0
+	end
+
+	def completed_tut?
+		t4_nodes = self.data_nodes.where(value: 8..15)
+		t4_nodes.each do |node|
+			if connected_to_root?(node)
+				return true
+			end
+		end
+		false
 	end
 
 	private
 
 	def set_time
 		self.last_income = Time.now
+	end
+
+	def connected_to_root?(node)
+		return true if node.value == 1
+		parent = self.data_nodes.find_by(value: node.value / 2)
+		return false unless parent
+		connected_to_root?(parent)
 	end
 
 end
