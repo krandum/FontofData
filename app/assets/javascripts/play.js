@@ -258,6 +258,15 @@ $(document).on('ready page:load', function() {
 					break;
 				case 'error':
 					console.log(data['error_msg']);
+					d3.select("#error_frame")
+						.classed("hidden", false)
+						.on("click", function() {
+							d3.select('#error_frame')
+							.classed("hidden", true)
+							.selectAll('span').remove();
+						})
+						.append('span').text(data['error_msg']);
+
 					break;
 				default:
 					console.log('invalid call');
