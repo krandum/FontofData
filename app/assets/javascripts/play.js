@@ -2990,7 +2990,7 @@ $(document).on('ready page:load', function() {
 				else move_to(target);
 			};
 		}
-		if (target.owner === "unclaimed" && target.value > 63) {
+		if (target.owner === "unclaimed") {
 			options.claim = make_option_group(target.circle.position, small_rad, big_rad,
 				Math.PI / 2.0, colors, ref_stroke_width / 2.0, 'attack', target.value);
 			options.claim.image.strokeWidth = 1;
