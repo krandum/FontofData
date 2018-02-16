@@ -23,11 +23,11 @@ class ConnectionWorker
 				target: connection.i_value,
 				origin_fac: connection.data_node.faction_id,
 				captured: connection.capture(user_id)
-			if user.tutorial_flag != 5 and user.completed_tut?
-				# user.tutorial_flag = 1
-				# user.save
-				TutorialComplete.check_condition(user)
-			end
+			# if user.tutorial_flag != 5 and user.completed_tut?
+			# 	# user.tutorial_flag = 1
+			# 	# user.save
+			# 	TutorialComplete.check_condition(user)
+			# end
 		end
 	end
 end
