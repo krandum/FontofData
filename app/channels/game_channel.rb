@@ -198,6 +198,13 @@ class GameChannel < ApplicationCable::Channel
 		end
 	end
 
+	def set_tut_flag(data)
+		current_user.update_attribute(:tutorial_flag, data['flag'])
+		if current_user.tutorial_flag >= 5
+			TutorialComplete.check_condition(current_user)
+		end
+	end
+
 	private
 
 	def send_error(msg)

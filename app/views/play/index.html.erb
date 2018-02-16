@@ -8,7 +8,8 @@
     resource_gain: <%= current_user.gold_per_min %>,
     last_resource_gain: <%= current_user.last_income.to_i * 1000 %>,
 		gems: <%= current_user.gems %>,
-		proved: <%= current_user.proved.pluck(:val_a, :val_b) %>
+		proved: <%= current_user.proved.pluck(:val_a, :val_b) %>,
+    tutorial_flag: <%= current_user.tutorial_flag %>
 	};
 	<% end %>
 	<% if current_user.faction_id == 1 %>
