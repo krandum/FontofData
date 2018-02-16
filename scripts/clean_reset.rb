@@ -16,5 +16,6 @@ User.all.each do |user|
 	user.gold = 10000
 	user.gems = 3
 	user.gold_per_min = 0
+	user.faction_id = 1
 	user.save
 end
