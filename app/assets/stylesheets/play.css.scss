@@ -146,6 +146,21 @@ body.play {
 	z-index: 3;
 }
 
+#error_frame {
+	grid-row: 2 / 3;
+	grid-column: 2 / 3;
+	width: 240px;
+	height: 60px;
+	padding: 4px;
+	margin-top: 10px;
+	font-size: 1.3rem;
+	justify-self: center;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 12px;
+	z-index: 15;
+}
+
 .hoverable {
 	pointer-events: auto !important;
 }
