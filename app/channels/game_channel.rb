@@ -132,7 +132,12 @@ class GameChannel < ApplicationCable::Channel
 		if current_user.can_claim(data['target'])
 			if current_user.gems >= 3
 				# node = DataNode.get_node(data['target'])
-				node = DataNode.where(value: data['target']).first_or_initialize
+				if data['target'] <= 15
+					node = DataNode.find_by(value: data['target'], user_id: current_user.id)
+					node = DataNode.where(value: data['target'], faction_id: 1).first_or_initialize unless node
+				else
+					node = DataNode.where(value: data['target']).first_or_initialize
+				end
 				if node.faction_id.nil? || node.faction_id == 1
 					cluster_name = data['cluster_name']
 					if cluster_name.nil?
