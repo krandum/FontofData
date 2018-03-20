@@ -19,4 +19,9 @@
 //= require cable
 //= require bootstrap.js
 //= require d3
-//= require_tree .
+
+//= require nav
+//= require home
+//= require play
+
+// require_tree .

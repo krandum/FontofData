@@ -1,333 +1,126 @@
-html {
-	height: 100%;
-}
 body {
-	height: 100%;
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-//temporary stuff
-.home_temp {
-	height:100%;
-	width: 100%;
-	display: grid;
-	grid-template-rows: 1.5fr 5fr 5fr .5fr;
-	grid-template-columns: 1fr 6fr 3fr 1fr;
-	grid-template-areas:
-	"title title title title"
-	". greeting alerts ."
-	". tips alerts ."
-	". . . ."
-}
-.greeting_container {
-	grid-area: greeting;
-}
-.greeting {
-	border-width: 2px;
-	border-style: solid;
-	border-radius: 12px;
-	text-align: justify;
-	padding: 6px;
-	font-size: 1.3rem;
-	height: auto;
-}
-.alerts {
-	grid-area: alerts;
-	width: 85%;
-	margin-left: 15%;
-	border-width: 2px;
-	border-style: solid;
-	border-radius: 12px;
-	text-align: left;
-	padding: 6px;
-	font-size: 1.3rem;
-}
-.tips {
-	grid-area: tips;
-	margin-top: 7px;
-	border-width: 2px;
-	border-style: solid;
-	border-radius: 12px;
-	text-align: justify;
-	padding: 6px;
-	font-size: 1.3rem;
-	height: auto;
-}
-.title {
-	grid-area: title;
-	text-align: center;
-	font-size: 5rem;
-	color: #BCDEFF;
-}
-//end temporary stuff
-
-.grid_home {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: grid;
-	grid-template-columns: 1fr 27fr 8fr;
-	grid-template-rows: [top_margin] 1fr [main] 22fr;
-	grid-template-areas:
-	". . hooks"
-	". page_content hooks";
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
 }
 
-.row_content {
-	margin-left: 4px;
-	margin-right: 4px;
-	height: 530px
+header.masthead {
+  position: relative;
+  background-color: #343a40;
+  background: url("../img/bg-masthead.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
 }
 
-.content_item {
-	position: relative;
-	height: 350px;
-	margin-bottom: 20px;
-	overflow: hidden;
-	border-radius: 3px;
-	border: 1px solid black;
-	-webkit-transition: all 150ms ease-in-out;
-	-moz-transition: all 150ms ease-in-out;
-	-o-transition: all 150ms ease-in-out;
-	transition: all 150ms ease-in-out;
+header.masthead .overlay {
+  position: absolute;
+  background-color: #212529;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
 }
 
-
-//Main content elements
-.expanded {
-	height: 550px;
-	display: block;
+header.masthead h1 {
+  font-size: 2rem;
 }
 
-.content_img {
-	position: absolute;
-	right: 0;
-	z-index: -1;
+@media (min-width: 768px) {
+  header.masthead {
+    padding-top: 12rem;
+    padding-bottom: 12rem;
+  }
+  header.masthead h1 {
+    font-size: 3rem;
+  }
 }
 
-.content_grid {
-	height: 100%;
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 350px 1fr 2fr;
-	grid-template-areas:
-	"bg1 bg1 bg1"
-	"bg2 bg2 bg2"
-	"bg3 bg3 bg3";
-}
-.bg_1 {
-	grid-area: bg1;
-	grid-row-end: bg3;
-	height: 100%;
-	width: 100%;
-	background-image: linear-gradient(to right, rgba(9, 4, 70, 1.0), rgba(9, 4, 70, 1.0) 33%, rgba(0, 0, 0, 0.0) 67%);
-}
-.bg_2 {
-	grid-area: bg2;
-	height: 100%;
-	width: 100%;
-	background-image: linear-gradient(to top, rgba(9, 4, 70, 1.0), rgba(0, 0, 0, 0.0));
-}
-.bg_3 {
-	grid-area: bg3;
-	height: 100%;
-	width: 100%;
-	background-color: rgba(9, 4, 70, 1.0);
+.showcase .showcase-text {
+  padding: 3rem;
 }
 
-.content_title {
-	grid-area: bg1;
-	padding-left: 15px;
-	padding-top: 15px;
-	color: #B9D6F2;
-	position: absolute;
-	width: 40%;
-	left: 0;
+.showcase .showcase-img {
+  min-height: 30rem;
+  background-size: cover;
 }
 
-.content_text {
-	grid-area: bg2;
-	padding-left: 15px;
-	padding-right: 15px;
-	color: #B9D6F2;
-	z-index: 3;
+@media (min-width: 768px) {
+  .showcase .showcase-text {
+    padding: 7rem;
+  }
 }
 
-.content_dropper:focus {
-	outline: none;
-}
-.content_dropper:hover {
-	opacity: 1;
-}
-.content_dropper {
-	position: absolute;
-	grid-area: bg1;
-	cursor: pointer;
-	bottom: 0;
-	width: 100%;
-	height: 50px;
-	opacity: 0.2;
-	z-index: 3;
-	background-image: linear-gradient(to top, rgba(185, 214, 242, .90) 30%, rgba(185, 214, 242, .01));
-	-webkit-transition: all 400ms ease-in-out;
-	-moz-transition: all 400ms ease-in-out;
-	-o-transition: all 400ms ease-in-out;
-	transition: all 400ms ease-in-out;
+.features-icons {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
 }
 
-.chev_container{
-	position: absolute;
-	grid-area: bg1;
-	bottom: 0;
-	width: 100%;
-	height: 50px;
-	text-align: center;
-	padding-top: 13px;
-	z-index: 1;
-	pointer-events: none;
-	-webkit-transition: all 150ms ease-in-out;
-	-moz-transition: all 150ms ease-in-out;
-	-o-transition: all 150ms ease-in-out;
-	transition: all 150ms ease-in-out;
+.features-icons .features-icons-item {
+  max-width: 20rem;
 }
 
-// News Slideshow
-#news_slider {
-	position: relative;
-	height: 500px;
-	width: 100%;
-	padding: 0px;
-	margin: 0px;
-	list-style-type: none;
+.features-icons .features-icons-item .features-icons-icon {
+  height: 7rem;
 }
 
-.slide {
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	width: 100%;
-	height: 100%;
-	opacity: 0;
-	z-index: 1;
-	-webkit-transition: opacity 1s;
-	-moz-transition: opacity 1s;
-	-o-transition: opacity 1s;
-	transition: opacity 1s;
+.features-icons .features-icons-item .features-icons-icon i {
+  font-size: 4.5rem;
 }
 
-.showing {
-	opacity: 1;
-	z-index: 2;
+.features-icons .features-icons-item:hover .features-icons-icon i {
+  font-size: 5rem;
 }
 
-.slide:nth-of-type(1) {
-	background: image_url("background_img.jpg") center;
-}
-.slide:nth-of-type(2) {
-	background: image_url("kyle-gregory-devaras-241280.jpg") center;
-}
-.slide:nth-of-type(3) {
-	background: image_url("FoD_img.png") center;
-}
-.slide:nth-of-type(4) {
-	background: blue;
+.testimonials {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
 }
 
-.page_content {
-	overflow-y: scroll;
-	grid-area: page_content;
-	-webkit-transition: all 150ms ease-in-out;
-	-moz-transition: all 150ms ease-in-out;
-	-o-transition: all 150ms ease-in-out;
-	transition: all 150ms ease-in-out;
+.testimonials .testimonial-item {
+  max-width: 18rem;
 }
 
-::-webkit-scrollbar {
-	display: none;
+.testimonials .testimonial-item img {
+  max-width: 12rem;
+  box-shadow: 0px 5px 5px 0px #adb5bd;
 }
 
-.slider_button:focus {
-	outline: none;
-}
-.slider_button.left:hover {
-	background-color: gray;
-	background: linear-gradient(to right, rgba(185, 214, 242, .60) 30%, rgba(185, 214, 242, .01));
-}
-.slider_button.right:hover {
-	background-color: gray;
-	background: linear-gradient(to left, rgba(185, 214, 242, .60) 30%, rgba(185, 214, 242, .01));
-}
-.slider_button.left {
-	left: 0;
-}
-.slider_button.right {
-	right: 0;
-}
-.slider_button {
-	position: absolute;
-	top: 0;
-	background-color: rgba(0, 0, 0, 0.0);
-	text-align: center;
-	justify-self: center;
-	align-self: center;
-	cursor: pointer;
-	height: 500px;
-	width: 11%;
-	border-radius: 1px;
-	z-index: 3;
-	outline: none;
-	-webkit-transition: all 1000ms ease-in-out;
-	-moz-transition: all 1000ms ease-in-out;
-	-o-transition: all 1000ms ease-in-out;
-	transition: all 1000ms ease-in-out;
+.call-to-action {
+  position: relative;
+  background-color: #343a40;
+  background: url("../img/bg-masthead.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 7rem;
+  padding-bottom: 7rem;
 }
 
-#hooks_container {
-	grid-area: hooks;
-	margin: 8px;
-	background-color: rgba(27, 82, 153, .75);
-	border: 2px solid rgba(9, 4, 70, .75);
+.call-to-action .overlay {
+  position: absolute;
+  background-color: #212529;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
 }
 
-@media screen and (max-width: 767px) {
-	.sidenav {
-		height: auto;
-		padding: 15px;
-	}
-	.row_content {
-		height: auto;
-	}
-}
-
-.fod_foot {
-	height:100%;
-	width: 100%;
-	grid-area: foot;
-	align-self: center;
-	justify-self: center;
-	text-align: center;
-	background-color: rgba(185, 214, 242, .75);
-}
-
-.fod_site {
-	height: 100%;
-	width: 100%;
-	background: image_url("background_img.jpg") no-repeat center center fixed;
-	background-size: 100%;
-	transform: translateZ(0);
-}
-
-button {
-	background: rgba(0, 0, 0, 0.0);
-}
-
-/* unhighlightable text */
-.noselect {
-	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none; /* Safari */
-	-khtml-user-select: none; /* Konqueror HTML */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-	user-select: none; /* Non-prefixed version, currently
-	supported by Chrome and Opera */
+footer.footer {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }

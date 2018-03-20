@@ -24,11 +24,13 @@ module Fod
 
 		# config.active_record.raise_in_transactional_callbacks = true		#deprecated
 
-		config.browserify_rails.paths << /vendor\/assets\/javascripts\/module\.js/
-		config.browserify_rails.source_map_environments << "production"
-		config.browserify_rails.evaluate_node_modules = true
-		config.browserify_rails.force = ->(file) { File.extname(file) == ".ts" }
-		config.browserify_rails.node_env = "production"
+
+		# config.browserify_rails.paths << /vendor\/assets\/javascripts\/module\.js/
+		# config.browserify_rails.source_map_environments << "production"
+		# config.browserify_rails.evaluate_node_modules = true
+		# config.browserify_rails.force = ->(file) { File.extname(file) == ".ts" }
+		# config.browserify_rails.node_env = "production"
+
 		config.sass.preferred_syntax = :scss
 		config.sass.line_comments = false
 		config.sass.cache = false
@@ -38,5 +40,7 @@ module Fod
 		config.assets.paths << Rails.root.join('node_modules', 'popper.js', 'dist')
 		config.active_job.queue_adapter = :sidekiq
 		config.autoload_paths += Dir[Rails.root.join("app", "models", "achievements")]
+
+		# config.browserify_rails.commandline_options = "-t babelify"
 	end
 end

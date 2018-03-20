@@ -1,105 +1,203 @@
-<body class="fod_site">
-	<div class="local home_temp">
-		<div class="title">
-			<p>Font of Data</p>
-		</div>
-		<div class="greeting_container">
-			<div class="greeting primary Neutral">
-				<h1 style="text-align: center;">Welcome to Font of Data!</h1>
-				<p>Thank you for joining us during our playtesting phase! Please bear in mind that this game is still
-					very much in development, and as you play or look around the site you are sure to run into things
-					which aren't implemented, aren't finished, or are just placeholders for something better down the
-					line. If you do encounter any issues whose scope seems to extend beyond what's mentioned above, please
-					feel free to let us know! We have bug report links and social media pages coming, but for now you can
-					drop a message on slack to @mwooden or @palatorr explaining the issue you found and we'll look into it.
-					We appreciate your patience as we build this game and site, and thank you again for participating in
-					this important stage of development.
-				</p>
-			</div>
-			<div class="tips primary Neutral">
-			<h1 style="text-align: center;">Getting Started:</h1>
-			<p>• For this first playtest, the three factions are mechanically identical. The special abilities are coming in later builds.</p>
-			<p>• Click the question mark in the top right to activate tutorial mode.</p>
-			<p>• Spend your data on connections between the nodes to increase the speed they expand your territory.</p>
-			<p>• Spend your keys to begin new clusters from any unclaimed node.</p>
-			<p>• The developers will be walking around answering questions and taking feedback, so feel free to flag one of us down.</p>
-			</div>
-		</div>
-		<div class="alerts secondary Neutral">
-			<h1 style="text-align: center">Alerts</h1>
-			<p>The next patch is not currently scheduled. Patches and maintinence will be announced here a week
-				in advance, barring an issue which requires an immediate fix.
-			</p>
-		</div>
-	</div>
-	<!--
-	<div class="local grid_home">
-		<div id="hooks_container">
-		</div>
-		<div class="page_content" id="content_list">
-			<div class="content_item" style="height: 500px;">
-				<ul id="news_slider">
-					<li class="slide showing">Test 1</li>
-					<li class="slide">Test 2</li>
-					<li class="slide">Test 3</li>
-					<li class="slide">Test 4</li>
-				</ul>
-				<button id="prev_slide" class="slider_button left" onclick="this.blur();">
-					<img src="assets/icons/030-left-chevron.svg" style="width: 30px;"></img></button>
-				<button id="next_slide" class="slider_button right" onclick="this.blur();">
-				<img src="assets/icons/031-right-chevron.svg" style="width: 30px;"></img></button>
-			</div>
-			<div class="content_item drop">
-				<img class="content_img" src="/assets/FoD_img.png"></img>
-				<div class="content_grid">
-					<div class='content_title'>
-						<br><h1>Welcome to Font of Data</h1><br><br>
-						<h2>Stake your claim in the Font of Data, blurb blurb</h2>
-					</div>
-					<div class="content_text">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-					</div>
-					<div class='bg_1'></div>
-					<div class='bg_2'></div>
-					<div class='bg_3'></div>
-					<div class="chev_container"><img class="chev_img" src="assets/icons/028-down-chevron.svg" style="width: 30px;"></img></div>
-					<div class='content_dropper noselect'></div>
-				</div>
-			</div>
-			<div class="content_item drop">
-				<img class="content_img" src="/assets/kyle-gregory-devaras-241280.jpg"></img>
-				<div class="content_grid">
-					<div class='content_title'>
-						<br><h1>Font of Data</h1><br><br>
-					</div>
-					<div class="content_text">
-						<p>Welcome to Font of Data, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-					</div>
-					<div class='bg_1'></div>
-					<div class='bg_2'></div>
-					<div class='bg_3'></div>
-					<div class="chev_container"><img class="chev_img" src="assets/icons/028-down-chevron.svg" style="width: 30px;"></img></div>
-					<div class='content_dropper noselect'></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	-->
-	<div class="fod_foot"></div>
-</body>
+<body>
 
-<!--
-<div class="sidenav">
-<% @news_posts.each do |news_post| %>
-<%= link_to news_post.title, news_post %><br>
-<%= news_post.body %><br>
-<% if current_user.try(:admin?) %>
-<%= link_to 'Delete Post', news_post, method: :delete, data: { confirm: 'Are you sure?' } %><br>
-<% end %>
-<hr>
-<% end %>
-<% if current_user.try(:admin?) %>
-<%= link_to 'New Post', new_news_post_path %>
-<% end %>
-</div>
--->
+<!-- Navigation -->
+<nav class="navbar navbar-light bg-light static-top">
+  <div class="container">
+    <!--<a class="navbar-brand" href="#">Start Bootstrap</a>-->
+    <!--<a class="btn btn-primary" href="#">Sign In</a>-->
+  </div>
+</nav>
+
+<!-- Masthead -->
+<header class="masthead text-white text-center">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-9 mx-auto">
+        <h1 class="mb-5">Build a landing page for your business or project and generate more leads!</h1>
+      </div>
+      <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+        <form>
+          <div class="form-row">
+            <div class="col-12 col-md-9 mb-2 mb-md-0">
+              <input type="email" class="form-control form-control-lg" placeholder="Enter your email...">
+            </div>
+            <div class="col-12 col-md-3">
+              <button type="submit" class="btn btn-block btn-lg btn-primary">Sign up!</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Icons Grid -->
+<section class="features-icons bg-light text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="features-icons-icon d-flex">
+            <i class="icon-screen-desktop m-auto text-primary"></i>
+          </div>
+          <h3>Fully Responsive</h3>
+          <p class="lead mb-0">This theme will look great on any device, no matter the size!</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="features-icons-icon d-flex">
+            <i class="icon-layers m-auto text-primary"></i>
+          </div>
+          <h3>Bootstrap 4 Ready</h3>
+          <p class="lead mb-0">Featuring the latest build of the new Bootstrap 4 framework!</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+          <div class="features-icons-icon d-flex">
+            <i class="icon-check m-auto text-primary"></i>
+          </div>
+          <h3>Easy to Use</h3>
+          <p class="lead mb-0">Ready to use with your own content, or customize the source files!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Image Showcases -->
+<section class="showcase">
+  <div class="container-fluid p-0">
+    <div class="row no-gutters">
+
+      <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/bg-showcase-1.jpg');"></div>
+      <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+        <h2>Fully Responsive Design</h2>
+        <p class="lead mb-0">When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!</p>
+      </div>
+    </div>
+    <div class="row no-gutters">
+      <div class="col-lg-6 text-white showcase-img" style="background-image: url('img/bg-showcase-2.jpg');"></div>
+      <div class="col-lg-6 my-auto showcase-text">
+        <h2>Updated For Bootstrap 4</h2>
+        <p class="lead mb-0">Newly improved, and full of great utility classes, Bootstrap 4 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 4!</p>
+      </div>
+    </div>
+    <div class="row no-gutters">
+      <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/bg-showcase-3.jpg');"></div>
+      <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+        <h2>Easy to Use &amp; Customize</h2>
+        <p class="lead mb-0">Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials text-center bg-light">
+  <div class="container">
+    <h2 class="mb-5">What people are saying...</h2>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+          <img class="img-fluid rounded-circle mb-3" src="img/testimonials-1.jpg" alt="">
+          <h5>Margaret E.</h5>
+          <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+          <img class="img-fluid rounded-circle mb-3" src="img/testimonials-2.jpg" alt="">
+          <h5>Fred S.</h5>
+          <p class="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of super nice landing pages."</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+          <img class="img-fluid rounded-circle mb-3" src="img/testimonials-3.jpg" alt="">
+          <h5>Sarah	W.</h5>
+          <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to us!"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="call-to-action text-white text-center">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-9 mx-auto">
+        <h2 class="mb-4">Ready to get started? Sign up now!</h2>
+      </div>
+      <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+        <form>
+          <div class="form-row">
+            <div class="col-12 col-md-9 mb-2 mb-md-0">
+              <input type="email" class="form-control form-control-lg" placeholder="Enter your email...">
+            </div>
+            <div class="col-12 col-md-3">
+              <button type="submit" class="btn btn-block btn-lg btn-primary">Sign up!</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+        <ul class="list-inline mb-2">
+          <li class="list-inline-item">
+            <a href="#">About</a>
+          </li>
+          <li class="list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a href="#">Contact</a>
+          </li>
+          <li class="list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a href="#">Terms of Use</a>
+          </li>
+          <li class="list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a href="#">Privacy Policy</a>
+          </li>
+        </ul>
+        <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2018. All Rights Reserved.</p>
+      </div>
+      <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item mr-3">
+            <a href="#">
+              <i class="fa fa-facebook fa-2x fa-fw"></i>
+            </a>
+          </li>
+          <li class="list-inline-item mr-3">
+            <a href="#">
+              <i class="fa fa-twitter fa-2x fa-fw"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">
+              <i class="fa fa-instagram fa-2x fa-fw"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<!--<script src="vendor/jquery/jquery.min.js"></script>-->
+<!--<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+
+</body>
