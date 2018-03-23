@@ -12,9 +12,11 @@
  *
  * require_tree .
  */
+@import "bootstrap";
 @import "play";
-@import "home";
+
 @import "nav";
 @import "chat_rooms";
 
-@import "bootstrap";
+
+@import "home";
