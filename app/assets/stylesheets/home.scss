@@ -48,7 +48,11 @@ header.masthead h1 {
   }
 }
 
+.showcase {
+  background-color: #1B466B;
+}
 .showcase .showcase-text {
+  color: #BCDEFF;
   padding: 3rem;
 }
 
@@ -85,6 +89,7 @@ header.masthead h1 {
 }
 
 .testimonials {
+  background-color: #BCDEFF;
   padding-top: 7rem;
   padding-bottom: 7rem;
 }
@@ -147,7 +152,6 @@ footer.footer {
 
 .btn-outline:hover, .btn-outline:focus, .btn-outline:active, .btn-outline.active {
   color: white;
-  border-color: #fdcc52;
-  background-color: #fdcc52;
+  border-color: #004299;
+  background-color: #004299;
 }
-
