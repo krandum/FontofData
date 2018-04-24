@@ -95,7 +95,6 @@ class DataNodesController < ApplicationController
 			end
 		end
 
-
 		activeNodes = DataNode.includes(:connections).where(value: ranges).where.not(value: 1..15).order(:value)
 		unless activeNodes.nil?
 			activeNodes.each do |node|
@@ -140,73 +139,6 @@ class DataNodesController < ApplicationController
 			format.json
 		end
 	end
-
-	# def request_nodes_old
-	# 	# p 'REQUEST STARTED'
-	# 	out = {'nodes' => {}}
-	# 	ranges = params['ranges']
-	# 	num = ranges.values.count
-	# 	iter = 0
-	# 	while (iter < num)
-	# 		range = ranges[iter.to_s]
-	# 		# p "RANGE #{range[:from]} TO #{range[:to]}"
-	# 		cur = range[:from].to_i
-	# 		claimedNodes = DataNode.includes(:connections).where(value: range[:from].to_i..range[:to].to_i).order(:value)
-	# 		# p 'NODES GRABBED'
-	# 		i = 0
-	# 		i_max = claimedNodes.count
-	# 		while cur <= range[:to].to_i
-	# 			if i < i_max && cur == claimedNodes[i].value
-	# 				# p "NODE VALUE #{cur}"
-	# 				out['nodes'][cur] = {
-	# 					'value' => cur,
-	# 					'faction_id' => claimedNodes[i].faction_id,
-	# 					'owner' => claimedNodes[i].user&.username,
-	# 					'teir' => 1,
-	# 					'worth' => 1000,
-	# 					'contention' => 0,
-	# 					'cluster_name' => claimedNodes[i].cluster.try(:cluster_name),
-	# 					'last_captured' => claimedNodes[i].last_change
-	# 				}
-	# 				if out['nodes'][cur]['cluster_name'].nil?
-	# 					out['nodes'][cur]['cluster_name'] = 'none'
-	# 				end
-	# 				# out['nodes'][cur]['bro'] = claimedNodes[i].connections.select{|x| x.value == cur - 1}.first.try(:value)
-	# 				# out['nodes'][cur]['dad'] = claimedNodes[i].connections.select{|x| x.value == cur >> 1}.first.try(:value)
-	#
-	# 				out['nodes'][cur]['dad'] = get_connection_info(claimedNodes[i].connected_nodes.where(i_value: cur >> 1).first)
-	# 				out['nodes'][cur]['bro'] = get_connection_info(claimedNodes[i].connected_nodes.where(i_value: cur - 1).first)
-	# 				# out['nodes'][cur]['dad'] = {
-	# 				# 	'value' => claimedNodes[i].connections.select{ |x| x.value == cur >> 1 }.first.try(:value),
-	# 				# 	'completions' => []
-	# 				# }
-	# 				# out['nodes'][cur]['dad'] = {
-	# 				# 	'value' => claimedNodes[i].connections.select{ |x| x.value == cur - 1 }.first.try(:value),
-	# 				#   'completions' => []
-	# 				# }
-	# 				i += 1
-	# 			else
-	# 				out['nodes'][cur] = {
-	# 					'value' => cur,
-	# 					'faction_id' => 1,
-	# 					'owner' => 'unclaimed',
-	# 					'teir' => 1,
-	# 					'worth' => 0,
-	# 					'contention' => 0
-	# 				}
-	# 				out['nodes'][cur]['bro'] = nil
-	# 				out['nodes'][cur]['dad'] = nil
-	# 			end
-	# 			cur += 1
-	# 		end
-	# 		iter += 1
-	# 	end
-	# 	# p 'REQUEST FINISHED'
-	# 	respond_to do |format|
-	# 		format.html { render json: out }
-	# 		format.json
-	# 	end
-	# end
 
 	private
 	# Use callbacks to share common setup or constraints between actions.

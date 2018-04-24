@@ -7,7 +7,7 @@ mount ActionCable.server => '/cable'
 
 resources :news_posts
 resources :interactions
-resources :effects
+# resources :effects
 resources :factions
 resources :data_nodes
 resources :play, only: [:index]
@@ -23,22 +23,22 @@ devise_scope :user do
 	put 'users/make_admin', to: 'users/registrations#make_admin', as: 'make_user_admin'
 end
 
-# get 'errors/e404'
-# get 'errors/e500'
-# get 'home/index'
-# get 'about/index'
-# get 'story/index'
-# get 'faq/index'
 get '/take_action', to: 'interactions#take_action'
 get '/request_nodes', to: 'data_nodes#request_nodes'
 get 'clusters/info'
+
+##Static Pages##
+
 get 'home', to: 'pages#home'
 get 'about', to: 'pages#about'
 get 'story', to: 'pages#story'
-# get 'play', to: 'pages#play'
 get 'faq', to: 'pages#faq'
 get 'e404', to: 'pages#e404'
 get 'e500', to: 'pages#e500'
+
+
+##Home Page##
+
 root 'pages#home'
 
 # The priority is based upon order of creation: first created -> highest priority.
