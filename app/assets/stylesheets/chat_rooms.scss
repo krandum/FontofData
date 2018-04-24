@@ -13,10 +13,15 @@
 
 #messages {
 	height: 100%;
+	width: 100%;
 	overflow-y: scroll;
+	overflow-x: hidden;
 	.avatar {
 		margin: 0.5rem;
 	}
+}
+#messages::-webkit-scrollbar {
+	display: none;
 }
 
 #new_message {
