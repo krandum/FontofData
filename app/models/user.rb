@@ -192,7 +192,7 @@ class User < ActiveRecord::Base
 	end
 
 	def receive_daily_keys(time)
-		self.gems += [3, time.day - self.last_login.day].min
+		self.gems += [3, (time.day - self.last_login.day).abs].min
 	end
 
 	def receive_offline_resources(time)
