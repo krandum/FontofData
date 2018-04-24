@@ -40,6 +40,22 @@ class User < ActiveRecord::Base
 		where(conditions).where(['lower(username) = :value OR lower(email) = :value', { value: login.strip.downcase }]).first
 	end
 
+	##Status##
+
+	def logon
+		time = Time.now
+		self.status = 'online'
+		receive_daily_keys(time)
+		receive_offline_resources(time)
+		self.last_login = time
+		self.save
+	end
+
+	def logoff
+		self.status = 'offline'
+		self.receive_resources
+	end
+
 	def self.receive_resources
 		User.includes(:data_nodes).all.each do |user|
 			user.receive_resources
@@ -94,13 +110,7 @@ class User < ActiveRecord::Base
 		self.save
 	end
 
-	def can_claim(node_val)
-		if node_val == 1 || self.proved.where("val_b = #{node_val} OR val_a = #{node_val}").count >= 3
-			true
-		else
-			false
-		end
-	end
+	##Actions##
 
 	def claim_node(node, cluster_name)
 		cluster = self.owned_clusters.create(owner_type: 'Player', cluster_name: cluster_name)
@@ -114,6 +124,14 @@ class User < ActiveRecord::Base
 		)
 		self.gold_per_min += node.resource_generator
 		self.save
+	end
+
+	def can_claim(node_val)
+		if node_val == 1 || self.proved.where("val_b = #{node_val} OR val_a = #{node_val}").count >= 3
+			true
+		else
+			false
+		end
 	end
 
 	def can_capture(node_val)
@@ -136,6 +154,8 @@ class User < ActiveRecord::Base
 			true
 		end
 	end
+
+	##Achievements##
 
 	def award(achievement, rewards = {})
 		achievements << achievement.new
@@ -169,6 +189,15 @@ class User < ActiveRecord::Base
 		parent = self.data_nodes.find_by(value: node.value / 2)
 		return false unless parent
 		connected_to_root?(parent)
+	end
+
+	def receive_daily_keys(time)
+		self.gems += [3, time.day - self.last_login.day].min
+	end
+
+	def receive_offline_resources(time)
+		self.gold += [6000, ((time - self.last_income) / 1.minute) * self.gold_per_min].min
+		self.last_income = time
 	end
 
 end

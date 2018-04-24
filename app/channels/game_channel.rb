@@ -2,12 +2,12 @@ class GameChannel < ApplicationCable::Channel
 	def subscribed
 		stream_from "game"
 		stream_from "user#{current_user.id}"
-		current_user.receive_resources
+		current_user.logon
 	end
 
 	def unsubscribed
 		# Any cleanup needed when channel is unsubscribed
-		current_user.receive_resources
+		current_user.logoff
 	end
 
 	# variables: origin, target, action_index
